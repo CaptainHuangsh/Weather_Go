@@ -1,0 +1,110 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/hsh_weather_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/toolBarBG"
+        android:minHeight="?attr/actionBarSize"></android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/hsh_weather_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/hsh_weather_toolbar"
+        android:layout_margin="16dp">
+
+        <ImageView
+            android:id="@+id/hsh_weather_img"
+            android:src="@drawable/hsh_weather"
+            android:layout_width="135dp"
+            android:layout_height="135dp" />
+
+
+
+        <TextView
+            android:gravity="right"
+            android:id="@+id/hsh_weather_temp_max"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/hsh_temp_max"
+            android:textSize="16dp" />
+        <TextView
+            android:id="@+id/hsh_weather_temp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/hsh_weather_temp_max"
+            android:text="@string/hsh_temperature"
+            android:textSize="48dp" />
+        <TextView
+            android:gravity="right"
+            android:id="@+id/hsh_weather_temp_min"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/hsh_weather_temp_max"
+            android:layout_marginTop="30dp"
+            android:text="@string/hsh_temp_min"
+            android:textSize="16dp" />
+
+        <LinearLayout
+            android:id="@+id/hsh_weather_country_wind"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/hsh_weather_temp_min"
+            android:orientation="horizontal">
+            <TextView
+
+                android:id="@+id/hsh_weather_wind_speed"
+                android:text="@string/hsh_wind_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+            <TextView
+                android:layout_marginLeft="16dp"
+                android:id="@+id/hsh_weather_country"
+                android:text="@string/hsh_country"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </RelativeLayout>
+
+
+    <EditText
+        android:id="@+id/hsh_weather_city_editview"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/hsh_weather_info"
+        android:ems="10"
+        android:hint="城市" />
+
+
+
+
+
+
+    <Button
+        android:id="@+id/hsh_search_weather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/hsh_weather_info"
+        android:layout_toRightOf="@id/hsh_weather_city_editview"
+        android:text="@string/weather" />
+    <!--<android.support.design.widget.FloatingActionButton
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="16dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:context=".MyActivity"/>-->
+
+</RelativeLayout>

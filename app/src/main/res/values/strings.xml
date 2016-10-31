@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name">Weather Go</string>
+
+    <string name="hsh_day">天</string>
+    <string name="hsh_num0">0</string>
+    <string name="hsh_num00">00</string>
+    <string name="hsh_num3">3</string>
+    <string name="hsh_num6">6</string>
+    <string name="hsh_num9">9</string>
+    <string name="hsh_num5">5</string>
+    <string name="hsh_num11">11</string>
+    <string name="hsh_num17">17</string>
+    <string name="hsh_num15">15</string>
+    <string name="hsh_num30">30</string>
+    <string name="hsh_num45">45</string>
+    <string name="hsh_shaui">shuai</string>
+    <string name="hsh_title">标题：</string>
+    <string name="hsh_content">内容：</string>
+    <string name="hsh_text_title">标题</string>
+    <string name="hsh_text_content">内容</string>
+    <string name="hsh_text_time">时间</string>
+    <string name="hsh_mytitle">My Title</string>
+    <string name="hsh_add">添加</string>
+    <string name="hsh_OK">OK</string>
+    <string name="hsh_CANCLE">CANCEL</string>
+    <string name="DATABASES">Events.db</string>
+    <string name="hsh_TITLE">title</string>
+    <string name="hsh_TIME">time</string>
+    <string name="hsh_CONTENT">content</string>
+    <string name="hsh_EVENT">Event</string>
+    <string name="hsh_deleteDone">已删除</string>
+    <string name="hsh_0s">0秒前</string>
+    <string name="hsh_hms">%1$,d时%2$,d分%3$,d秒前</string>
+    <string name="hsh_ms">%1$,d分%2$,d秒前</string>
+    <string name="hsh_s">%1$,d秒前</string>
+    <string name="hsh_delete">title = ? and content = ?</string>
+    <string name="hsh_databaseVersion">1</string>
+    <string name="hsh_location">Location</string>
+    <string name="hsh_country0">Country:</string>
+    <string name="hsh_temperature">Temp</string>
+    <string name="hsh_humidity">Humidity:</string>
+    <string name="hsh_pressure">Pressure:</string>
+    <string name="hsh_weather">Weather</string>
+    <string name="hsh_country">国家</string>
+    <string name="hsh_temp_min">↓</string>
+    <string name="hsh_temp_max">↑</string>
+    <string name="hsh_city">城市</string>
+    <string name="hsh_wind_speed">风速</string>
+    <string name="weather">Weather</string>
+    <string name="c">℃</string>
+    <string name="m_s">m/s</string>
+    <string name="hsh_weather_app_name">☼最丑天气</string>
+
+</resources>

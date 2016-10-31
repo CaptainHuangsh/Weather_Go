@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <!--LC-->
+    <color name="lc_defaultLineColor">#1abc9c</color>
+    <color name="lc_defaultSubLineColor">#7f8c8d</color>
+
+    <!--HSH-->
+    <color name="hsh_background">#3d85c6</color>
+    <color name="hsh_black">#000000</color>
+    <color name="hsh_green">#01740F</color>
+    <color name="hsh_yellow">#FFF40F</color>
+    <color name="hsh_white">#FFFFFF</color>
+    <color name="hsh_gray">#999999</color>
+    <color name="hsh_titlebg">#CCCCCC</color>
+    <color name="hsh_toolbarbg">#ff0f6c97</color>
+    <color name="toolBarBG">#ff0f6c97</color>
+
+    <!--JC-->
+    <color name="jc_background">#3F84C7</color>
+    <color name="jc_titlebarcolor">#cccccc</color>
+
+    <!--SPJ-->
+    <color name="spj_selected">#0E6DB0</color>
+    <color name="spj_not_selection">#71D0FF</color>
+    <color name="spj_time_not_selected">#BBBBBB</color>
+    <color name="spj_time_selected">#FFFFFF</color>
+    <color name="spj_blue">#3F84C7</color>
+    <color name="spj_bg">#3F84C7</color>
+    <!--LWL-->
+    <color name="colorFont">#FFFFFF</color>
+
+    <!--dlx-->
+    <color name="defaultLineColor">#7f8c8d</color>
+    <color name="defaultLineColor2">#FFFFFF</color>
+    <color name="bgcolor">#4169E1</color>
+    <color name="defaultSubLineColor">#7f8c8d</color>
+    <color name="lc_bule">#f03f51b5</color>
+    <color name="lc_white">#fff</color>
+    <color name="lc_gray">#424242</color>
+    <color name="lc_black1">#000</color>
+    <color name="lc_black2">#212121</color>
+
+</resources>
