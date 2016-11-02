@@ -6,6 +6,9 @@ package com.example.owen.weathergo;
  * 需在AndroidMainifest.xml中申请inter权限，否则崩溃
  */
 
+import android.util.Log;
+import android.widget.Toast;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,7 +17,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 
-public class Hsh_JSONFetcher {
+public class JSONFetcher {
 
 
     private String jsonText = "";
@@ -69,7 +72,9 @@ public class Hsh_JSONFetcher {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        Log.d("jsonf",jsonText);
         return jsonText;
+        //Log.v("asda","asdsa");
     }
 
 }

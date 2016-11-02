@@ -49,6 +49,6 @@
     <string name="weather">Weather</string>
     <string name="c">℃</string>
     <string name="m_s">m/s</string>
-    <string name="hsh_weather_app_name">☼最丑天气</string>
+    <string name="weather_app_name">☼最丑天气</string>
 
 </resources>
