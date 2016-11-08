@@ -13,7 +13,7 @@
     <color name="hsh_black">#000000</color>
     <color name="hsh_green">#01740F</color>
     <color name="hsh_yellow">#FFF40F</color>
-    <color name="hsh_white">#FFFFFF</color>
+    <color name="white">#FFFFFF</color>
     <color name="hsh_gray">#999999</color>
     <color name="hsh_titlebg">#CCCCCC</color>
     <color name="hsh_toolbarbg">#ff0f6c97</color>
@@ -43,5 +43,12 @@
     <color name="lc_gray">#424242</color>
     <color name="lc_black1">#000</color>
     <color name="lc_black2">#212121</color>
+
+
+
+
+    <color name="Indigo_colorPrimaryDark">#303f9f</color>
+    <color name="Indigo_colorPrimary">#3f51b5</color>
+    <color name="Indigo_nav_color">#4675FF</color>
 
 </resources>

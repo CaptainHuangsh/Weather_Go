@@ -1,4 +1,4 @@
-package com.example.owen.weathergo;
+package com.example.owen.weathergo.util;
 
 /**
  * Created by owenh on 2016/5/17.
@@ -9,7 +9,8 @@ import android.content.Context;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
-import android.widget.Toast;
+
+import com.example.owen.weathergo.WeatherBean;
 
 import org.json.JSONArray;
 import org.json.JSONException;
