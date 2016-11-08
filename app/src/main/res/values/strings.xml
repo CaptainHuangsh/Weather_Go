@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Weather Go</string>
-
+    <string name="open">open</string>
+    <string name="close">close</string>
     <string name="hsh_day">天</string>
     <string name="hsh_num0">0</string>
     <string name="hsh_num00">00</string>

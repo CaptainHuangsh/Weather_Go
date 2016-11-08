@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +15,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,7 +32,6 @@ import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.WeatherBean;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 public class WeatherMain extends AppCompatActivity {
@@ -41,17 +40,22 @@ public class WeatherMain extends AppCompatActivity {
      * 程序入口，主Activity类
      */
 
-    private Toolbar mToolbar;//自定义的ToolBar
+    //private Toolbar mToolbar;//自定义的ToolBar
     private String URL1 = "https://api.heweather.com/x3/weather?city=";
     private String APIKEY1 = "&key=b2a628bc1de942dc869fcbe524c65313";
-    private String URL0 = "http://api.openweathermap.org/data/2.5/weather?q=";
-    private String APIKEY = "&APPID=66f4ecb005a3075769bb414c65a95dd8";
     private EditText mCity;//城市名称输入框，通过城市名称进行查询，大陆地区城市不全且支持拼音
     private TextView mCountry, mTemp_min, mTemp_max, mWind_speed,mTemp;
     private TextView mSugg;
-    private ListView mLv;
+    private Toolbar mToolBar;
     private DrawerLayout mDrawerLayout;
-    private String str[] = new String[] { "item1", "item2", "item3"};
+    private ActionBarDrawerToggle mDrawerToggle;
+    private ListView lvLeftMenu;
+    private String[] lvs = {"List Item 01", "List Item 02", "List Item 03", "List Item 04"};
+    private ArrayAdapter arrayAdapter;
+    private String mCityStr = "kaifeng";
+    //private ListView mLv;
+    //private DrawerLayout mDrawerLayout;
+    //private String str[] = new String[] { "item1", "item2", "item3"};
     public LocationClient mLocationClient = null;
     public BDLocationListener myListener = new MyLocationListener();
     private ListView mListView;
@@ -60,6 +64,7 @@ public class WeatherMain extends AppCompatActivity {
     //分别为查询结果国家，最低温度，最高温度，当前温度，风速
     private Button mSearchWeather;
     //查询按钮，触发查询事件
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +73,8 @@ public class WeatherMain extends AppCompatActivity {
         findView();
         init();
         setListener();
+        getWeather();
+
     }
 
     public void findView() {
@@ -78,11 +85,14 @@ public class WeatherMain extends AppCompatActivity {
         mTemp_min = (TextView) findViewById(R.id.weather_temp_min);
         mTemp_max = (TextView) findViewById(R.id.weather_temp_max);
         mWind_speed = (TextView) findViewById(R.id.weather_wind_speed);
-        mToolbar = (Toolbar) findViewById(R.id.weather_toolbar);
-        mLv = (ListView) findViewById(R.id.id_lv);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.id_drawerlayout);
+        //mToolbar = (Toolbar) findViewById(R.id.weather_toolbar);
+        //mLv = (ListView) findViewById(R.id.id_lv);
+        //mDrawerLayout = (DrawerLayout) findViewById(R.id.id_drawerlayout);
         mListView = (ListView)findViewById(R.id.weather_suggesstion);
         mSugg = (TextView)findViewById(R.id.weather_suggesstions);
+        mToolBar = (Toolbar) findViewById(R.id.tl_custom);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.dl_left);
+        lvLeftMenu = (ListView) findViewById(R.id.lv_left_menu);
     }
 
     public void setListener(){
@@ -100,47 +110,54 @@ public class WeatherMain extends AppCompatActivity {
                     Log.d("LocSDK_2.0_Demo1", "locClient is null or not started");}
                 //Toast.makeText(WeatherMain.this,mLocationClient.getLastKnownLocation()+"",Toast.LENGTH_LONG).show();
                 //mLocationClient.stop();
-                try {
-                    Log.e("JSONF","shishi");
-                    //URL url = new URL(URL0 + mCity.getText().toString() + APIKEY);
-                    URL url = new URL(URL1 + mCity.getText().toString() + APIKEY1);
-                    //Toast.makeText(view.getContext(),""+url,Toast.LENGTH_SHORT).show();
-                    //生成完整的url
-                    WeatherBean weatherBean = JSONUtil.getWeatherBeans(view.getContext(), url);
-                    mCountry.setText(getResources().getString(R.string.hsh_country)
-                            +weatherBean.getCnty());
-                    mTemp_min.setText(getResources().getString(R.string.hsh_temp_min)
-                            +weatherBean.getNow_tmp()
-                            + getResources().getString(R.string.c));
-                    mTemp_max.setText(getResources().getString(R.string.hsh_temp_max)
-                            +weatherBean.getNow_tmp()
-                            + getResources().getString(R.string.c));
-                    mWind_speed.setText(getResources().getString(R.string.hsh_wind_speed)
-                            +weatherBean.getNow_dir()+weatherBean.getNow_sc()
-                            + getResources().getString(R.string.m_s));
-                    mTemp.setText(weatherBean.getNow_tmp()
-                            + getResources().getString(R.string.c));
-                    mSugg.setText(weatherBean.getComf_brf()+"\n"+weatherBean.getComf_txt()+"\n"
-                            +weatherBean.getCw_brf()+"\n"+weatherBean.getCw_txt()+"\n"
-                            +weatherBean.getDrsg_brf()+"\n"+weatherBean.getDrsg_txt()+"\n"
-                            +weatherBean.getComf_brf()+"\n"+weatherBean.getComf_txt()+"\n"
-                            +weatherBean.getFlu_brf()+"\n"+weatherBean.getFlu_txt()+"\n"
-                            +weatherBean.getSport_brf()+"\n"+weatherBean.getSport_txt()+"\n"
-                            +weatherBean.getTrav_brf()+"\n"+weatherBean.getTrav_txt()+"\n"
-                            +weatherBean.getUv_brf()+"\n"+weatherBean.getUv_txt()+"\n");
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                mCityStr = mCity.getText().toString();
+                getWeather();
+
             }
         });
-        mLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*mLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
             }
         });
-    }
+*/    }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void getWeather(){
+        try {
+            Log.e("JSONF","shishi");
+            //URL url = new URL(URL0 + mCity.getText().toString() + APIKEY);
+            URL url = new URL(URL1 + mCityStr + APIKEY1);
+            //Toast.makeText(view.getContext(),""+url,Toast.LENGTH_SHORT).show();
+            //生成完整的url
+            WeatherBean weatherBean = JSONUtil.getWeatherBeans(this, url);
+            mCountry.setText(getResources().getString(R.string.hsh_country)
+                    +weatherBean.getCnty());
+            mTemp_min.setText(getResources().getString(R.string.hsh_temp_min)
+                    +weatherBean.getNow_tmp()
+                    + getResources().getString(R.string.c));
+            mTemp_max.setText(getResources().getString(R.string.hsh_temp_max)
+                    +weatherBean.getNow_tmp()
+                    + getResources().getString(R.string.c));
+            mWind_speed.setText(getResources().getString(R.string.hsh_wind_speed)
+                    +weatherBean.getNow_dir()+weatherBean.getNow_sc()
+                    + getResources().getString(R.string.m_s));
+            mTemp.setText(weatherBean.getNow_tmp()
+                    + getResources().getString(R.string.c));
+            mSugg.setText(weatherBean.getComf_brf()+"\n"+weatherBean.getComf_txt()+"\n"
+                    +weatherBean.getCw_brf()+"\n"+weatherBean.getCw_txt()+"\n"
+                    +weatherBean.getDrsg_brf()+"\n"+weatherBean.getDrsg_txt()+"\n"
+                    +weatherBean.getComf_brf()+"\n"+weatherBean.getComf_txt()+"\n"
+                    +weatherBean.getFlu_brf()+"\n"+weatherBean.getFlu_txt()+"\n"
+                    +weatherBean.getSport_brf()+"\n"+weatherBean.getSport_txt()+"\n"
+                    +weatherBean.getTrav_brf()+"\n"+weatherBean.getTrav_txt()+"\n"
+                    +weatherBean.getUv_brf()+"\n"+weatherBean.getUv_txt()+"\n");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
     //@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //自定义toobar Menu
@@ -163,13 +180,16 @@ public class WeatherMain extends AppCompatActivity {
     }
 
     public void toSearchDialog(){
-        Toast.makeText(this,"ssssssssssss",Toast.LENGTH_SHORT).show();
+        final EditText et = new EditText(this);
+        //Toast.makeText(this,"ssssssssssss",Toast.LENGTH_SHORT).show();
         new AlertDialog.Builder(this).setTitle("请输入")
-                .setView(new EditText(this))
+                .setView(et)
                 .setPositiveButton("搜索", new DialogInterface.OnClickListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        //toSearch();
+                        mCityStr = et.getText().toString();
+                        getWeather();
                     }
                 })
                 .setNegativeButton("取消", null).show();
@@ -230,11 +250,34 @@ public class WeatherMain extends AppCompatActivity {
         /**
          * 初始化各个变量
          */
-        mToolbar.setTitle(getResources().getString(R.string.weather_app_name));
-        setSupportActionBar(mToolbar);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, str);
-        mLv.setAdapter(adapter);
+        mToolBar.setTitle(getResources().getString(R.string.weather_app_name));
+        setSupportActionBar(mToolBar);
+        getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //创建返回键，并实现打开关/闭监听
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolBar, R.string.open, R.string.close) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                //mAnimationDrawable.stop();
+            }
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                //mAnimationDrawable.start();
+            }
+        };
+        mDrawerToggle.syncState();
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        //设置菜单列表
+        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, lvs);
+        lvLeftMenu.setAdapter(arrayAdapter);
+
+
+        /*ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1, str);*/
+        //mLv.setAdapter(adapter);
+/*
         mDrawerLayout.setDrawerListener(new DrawerLayout.SimpleDrawerListener() {
             @Override
             public void onDrawerClosed(View drawerView) {
@@ -245,6 +288,7 @@ public class WeatherMain extends AppCompatActivity {
                 super.onDrawerOpened(drawerView);
             }
         });
+*/
         mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
         mLocationClient.registerLocationListener( myListener );    //注册监听函数
         initLocation();
