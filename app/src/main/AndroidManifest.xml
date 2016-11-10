@@ -15,6 +15,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".activity.LoginActivity"/>
+        <activity android:name=".activity.LogingActivity"/>
         <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote">
         </service>
         <meta-data

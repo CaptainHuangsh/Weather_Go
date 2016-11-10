@@ -1,6 +1,7 @@
 package com.example.owen.weathergo.activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v4.widget.DrawerLayout;
@@ -197,6 +198,9 @@ public class WeatherMain extends AppCompatActivity {
             case R.id.action_edit:
                 toSearchDialog();
                 break;
+            case R.id.action_settings:
+                Intent intent  = new Intent(WeatherMain.this, LoginActivity.class);
+                startActivity(intent);
             default:
                 break;
         }
