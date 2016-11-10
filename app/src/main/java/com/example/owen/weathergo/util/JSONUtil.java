@@ -10,13 +10,15 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
 
-import com.example.owen.weathergo.WeatherBean;
+import com.example.owen.weathergo.dao.DailyForecast;
+import com.example.owen.weathergo.dao.WeatherBean;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URL;
+import java.util.ArrayList;
 
 public class JSONUtil {
     /**
@@ -25,7 +27,7 @@ public class JSONUtil {
      * @return
      */
 
-
+    static ArrayList<DailyForecast> dfLists = new ArrayList<DailyForecast>();
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public static WeatherBean getWeatherBeans(Context context, URL url){
@@ -35,6 +37,8 @@ public class JSONUtil {
         String jsonText = new JSONFetcher().getJSONText(url);
         //System.out.println(jsonText);
         WeatherBean weather = new WeatherBean();
+        ArrayList<DailyForecast> dfList = new ArrayList<DailyForecast>();
+        DailyForecast mDailyForecast = new DailyForecast();
         //Toast.makeText(context,jsonText,Toast.LENGTH_LONG).show();
         try {
             JSONObject weatherJSONObject = new JSONObject(jsonText);//first grade
@@ -165,8 +169,89 @@ public class JSONUtil {
 
 
 
+            //dailyforecast
+            JSONArray dfJSONObject = OJSONObject.getJSONArray("daily_forecast");//fouth grade;
+
+            for(int i = 0; i < dfJSONObject.length(); i++ ){
+                Log.e("JSON df_sr",""+i);
+                JSONObject df0JSONObject = dfJSONObject.getJSONObject(i);//fifth:"0"
+                mDailyForecast.setUv(df0JSONObject.getInt("uv"));
+                Log.e("JSONF df_uv"+i,""+mDailyForecast.getUv());
+                mDailyForecast.setVis(df0JSONObject.getInt("vis"));
+                Log.e("JSONF df_vis"+i,""+mDailyForecast.getVis());
+                mDailyForecast.setDate(df0JSONObject.getString("date"));
+                Log.e("JSONF df_date"+i,""+mDailyForecast.getDate());
+                mDailyForecast.setHum(df0JSONObject.getInt("hum"));
+                Log.e("JSONF df_hum"+i,""+mDailyForecast.getHum());
+                mDailyForecast.setPcpn(df0JSONObject.getString("pcpn"));
+                Log.e("JSONF df_pcpn"+i,""+mDailyForecast.getPcpn());
+                mDailyForecast.setPop(df0JSONObject.getInt("pop"));
+                Log.e("JSONF df_pop"+i,""+mDailyForecast.getPop());
+                mDailyForecast.setPres(df0JSONObject.getInt("pres"));
+                Log.e("JSONF df_pres"+i,""+mDailyForecast.getPres());
+                //"astro"
+                JSONObject dfAstroJSONObject = df0JSONObject.getJSONObject("astro");//sixth
+                mDailyForecast.setSr(dfAstroJSONObject.getString("sr"));
+                Log.e("JSONF df_sr"+i,""+mDailyForecast.getSr());
+                mDailyForecast.setSs(dfAstroJSONObject.getString("ss"));
+                Log.e("JSONF df_ss"+i,""+mDailyForecast.getSs());
+                //"cond"
+                JSONObject dfCondJSONObject = df0JSONObject.getJSONObject("cond");//sixth
+                mDailyForecast.setCode_d(dfCondJSONObject.getInt("code_d"));
+                Log.e("JSONF df_code_d"+i,""+mDailyForecast.getCode_d());
+                mDailyForecast.setCode_n(dfCondJSONObject.getInt("code_n"));
+                Log.e("JSONF df_code_n"+i,""+mDailyForecast.getCode_n());
+                mDailyForecast.setTxt_d(dfCondJSONObject.getString("txt_d"));
+                Log.e("JSONF df_txt_d"+i,""+mDailyForecast.getTxt_d());
+                mDailyForecast.setTxt_n(dfCondJSONObject.getString("txt_n"));
+                Log.e("JSONF df_txt_n"+i,""+mDailyForecast.getTxt_n());
+                //"tmp"
+                JSONObject dfTmpJSONObject = df0JSONObject.getJSONObject("tmp");//sixth
+                mDailyForecast.setMax(dfTmpJSONObject.getInt("max"));
+                Log.e("JSONF df_max"+i,""+mDailyForecast.getMax());
+                mDailyForecast.setMin(dfTmpJSONObject.getInt("min"));
+                Log.e("JSONF df_min"+i,""+mDailyForecast.getMin());
+
+                //"wind"
+                JSONObject dfWindJSONObject = df0JSONObject.getJSONObject("wind");//sixth
+                mDailyForecast.setDeg(dfWindJSONObject.getInt("deg"));
+                Log.e("JSONF df_deg"+i,""+mDailyForecast.getDeg());
+                mDailyForecast.setDir(dfWindJSONObject.getString("dir"));
+                Log.e("JSONF df_dir"+i,""+mDailyForecast.getDir());
+                mDailyForecast.setSc(dfWindJSONObject.getString("sc"));
+                Log.e("JSONF df_sc"+i,""+mDailyForecast.getSc());
+                mDailyForecast.setSpd(dfWindJSONObject.getInt("spd"));
+                Log.e("JSONF df_spd"+i,""+mDailyForecast.getSpd());
+                /*
+                //dfList.add()
+                JSONObject df0JSONObject = dfJSONObject.getJSONObject(i);//fifth:"0"
+                //"astro"
+                JSONObject dfAstroJSONObject = df0JSONObject.getJSONObject("astro");//sixth:"0"
+                dailyForecastss[i].setSr(dfAstroJSONObject.getString("sr"));
+                Log.e("JSON df_sr",""+dailyForecastss[i].getSr());
+                dailyForecastss[i].setSs(dfAstroJSONObject.getString("ss"));
+                Log.e("JSON df_sr",""+dailyForecastss[i].getSr());
+                //dailyForecastss[i].setSr();
+*/
+
+            dfList.add(mDailyForecast);
+            }
+
+            dfLists = dfList;
+            for (DailyForecast md : dfList
+                 ) {
+                //Log.e("kakan","sssss");
+
+            }
 
 
+            /*//"0"
+            JSONObject df0JSONObject = dfJSONObject.getJSONObject(0);//third:"0"
+                //"astro"
+                JSONObject dfAstroJSONObject = df0JSONObject.getJSONObject("astro");//third:"0"
+                    mDailyForecast.setSr(dfAstroJSONObject.getString("sr"));
+                    Log.e("JSON df_sr","");
+*/
 
 
 
@@ -182,6 +267,11 @@ public class JSONUtil {
         }
 
         return weather;//返回weatherBean类型对象
+    }
+
+    public static ArrayList<DailyForecast> getDForecast(){
+        ArrayList<DailyForecast> rdfList = dfLists;
+        return rdfList;
     }
 }
 

@@ -27,11 +27,13 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.Poi;
+import com.example.owen.weathergo.dao.DailyForecast;
 import com.example.owen.weathergo.util.JSONUtil;
 import com.example.owen.weathergo.R;
-import com.example.owen.weathergo.WeatherBean;
+import com.example.owen.weathergo.dao.WeatherBean;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 public class WeatherMain extends AppCompatActivity {
@@ -53,12 +55,14 @@ public class WeatherMain extends AppCompatActivity {
     private String[] lvs = {"List Item 01", "List Item 02", "List Item 03", "List Item 04"};
     private ArrayAdapter arrayAdapter;
     private String mCityStr = "kaifeng";
+    private String mGCityStr = "";
     //private ListView mLv;
     //private DrawerLayout mDrawerLayout;
     //private String str[] = new String[] { "item1", "item2", "item3"};
     public LocationClient mLocationClient = null;
     public BDLocationListener myListener = new MyLocationListener();
     private ListView mListView;
+    private ArrayList<DailyForecast> mDFList = new ArrayList<>();
 
 
     //分别为查询结果国家，最低温度，最高温度，当前温度，风速
@@ -113,6 +117,7 @@ public class WeatherMain extends AppCompatActivity {
                 mCityStr = mCity.getText().toString();
                 getWeather();
 
+
             }
         });
         /*mLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -132,6 +137,8 @@ public class WeatherMain extends AppCompatActivity {
             //Toast.makeText(view.getContext(),""+url,Toast.LENGTH_SHORT).show();
             //生成完整的url
             WeatherBean weatherBean = JSONUtil.getWeatherBeans(this, url);
+            mGCityStr = weatherBean.getCity();
+            mToolBar.setTitle(""+mGCityStr);
             mCountry.setText(getResources().getString(R.string.hsh_country)
                     +weatherBean.getCnty());
             mTemp_min.setText(getResources().getString(R.string.hsh_temp_min)
@@ -153,6 +160,23 @@ public class WeatherMain extends AppCompatActivity {
                     +weatherBean.getSport_brf()+"\n"+weatherBean.getSport_txt()+"\n"
                     +weatherBean.getTrav_brf()+"\n"+weatherBean.getTrav_txt()+"\n"
                     +weatherBean.getUv_brf()+"\n"+weatherBean.getUv_txt()+"\n");
+            mDFList = JSONUtil.getDForecast();
+            int i = 0;
+            for (DailyForecast df:mDFList
+                 ) {
+                DailyForecast dfs = mDFList.get(i);
+                Log.e("wtf","hh"+i);
+                if(i == 0)
+                {
+                    mTemp_min.setText(getResources().getString(R.string.hsh_temp_min)
+                            +dfs.getMin()
+                            + getResources().getString(R.string.c));
+                    mTemp_max.setText(getResources().getString(R.string.hsh_temp_max)
+                            +dfs.getMax()
+                            + getResources().getString(R.string.c));
+                }
+                i ++;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -162,7 +186,7 @@ public class WeatherMain extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         //自定义toobar Menu
         MenuInflater menuInflater = new MenuInflater(this);
-        menuInflater.inflate(R.menu.weather_toolnar_menu, menu);
+        menuInflater.inflate(R.menu.weather_toolbar_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -251,6 +275,7 @@ public class WeatherMain extends AppCompatActivity {
          * 初始化各个变量
          */
         mToolBar.setTitle(getResources().getString(R.string.weather_app_name));
+        //mToolBar.setTitle(""+mGCityStr);
         setSupportActionBar(mToolBar);
         getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

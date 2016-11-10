@@ -1,10 +1,10 @@
-package com.example.owen.weathergo;
+package com.example.owen.weathergo.dao;
 
 /**
  * Created by root on 16-11-2.
  */
 
-public class forcast {
+public class DailyForecast {
     //"daily_forecast"
     //"astro"
     private String sr,ss;
@@ -17,9 +17,13 @@ public class forcast {
     private String pcpn;
     //"tmp"
     private int max,min;
-    private int vis;
+    private int vis,uv;
     //"wind"
-    private int deg,apd;
+    public  int  getUv() {
+        return uv;
+    }public void setUv(int uv) {
+        this.uv = uv;
+    }private int deg, spd;
     private String dir,sc;
     public String getSr() {
         return sr;
@@ -141,12 +145,12 @@ public class forcast {
         this.deg = deg;
     }
 
-    public int getApd() {
-        return apd;
+    public int getSpd() {
+        return spd;
     }
 
-    public void setApd(int apd) {
-        this.apd = apd;
+    public void setSpd(int spd) {
+        this.spd = spd;
     }
 
     public String getDir() {

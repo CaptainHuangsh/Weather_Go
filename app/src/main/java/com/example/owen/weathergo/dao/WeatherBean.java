@@ -1,4 +1,4 @@
-package com.example.owen.weathergo;
+package com.example.owen.weathergo.dao;
 
 /**
  * Created by owenh on 2016/5/17.
