@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -11,14 +13,18 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,7 +34,10 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.baidu.location.Poi;
+import com.example.owen.weathergo.adapter.DLForecastAdapter;
+import com.example.owen.weathergo.compent.DLForecast;
 import com.example.owen.weathergo.dao.DailyForecast;
+import com.example.owen.weathergo.util.IconGet;
 import com.example.owen.weathergo.util.JSONUtil;
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.dao.WeatherBean;
@@ -53,7 +62,7 @@ public class WeatherMain extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private ListView lvLeftMenu;
-    private String[] lvs = {"List Item 01", "List Item 02", "List Item 03", "List Item 04"};
+    private String[] lvs = {"设置", "选择城市", "关于","建议"};
     private ArrayAdapter arrayAdapter;
     private String mCityStr = "kaifeng";
     private String mGCityStr = "";
@@ -62,9 +71,15 @@ public class WeatherMain extends AppCompatActivity {
     //private String str[] = new String[] { "item1", "item2", "item3"};
     public LocationClient mLocationClient = null;
     public BDLocationListener myListener = new MyLocationListener();
-    private ListView mListView;
+    private ListView mForecastList;
     private ArrayList<DailyForecast> mDFList = new ArrayList<>();
-
+    private ImageView mLogImg;
+    private List<DLForecast> dlForecastList = new ArrayList<DLForecast>();
+    private ImageView ToImg;
+    private ViewPager viewPager;  //对应的viewPager
+    private View view1, view2;
+    private List<View> viewList;//view数组
+    private boolean isSugg = false;
 
     //分别为查询结果国家，最低温度，最高温度，当前温度，风速
     private Button mSearchWeather;
@@ -77,10 +92,51 @@ public class WeatherMain extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         findView();
         init();
+
         setListener();
         getWeather();
+        LayoutInflater inflater=getLayoutInflater();
+        view1 = inflater.inflate(R.layout.daily_7_forecast, null);
+        view2 = inflater.inflate(R.layout.suggestion,null);
+        viewList = new ArrayList<View>();// 将要分页显示的View装入数组中
+        viewList.add(view1);
+        viewList.add(view2);
+        PagerAdapter pagerAdapter = new PagerAdapter() {
 
-    }
+            @Override
+            public boolean isViewFromObject(View arg0, Object arg1) {
+                // TODO Auto-generated method stub
+                return arg0 == arg1;
+            }
+
+            @Override
+            public int getCount() {
+                // TODO Auto-generated method stub
+                return viewList.size();
+            }
+
+            @Override
+            public void destroyItem(ViewGroup container, int position,
+                                    Object object) {
+                // TODO Auto-generated method stub
+                container.removeView(viewList.get(position));
+            }
+
+            @Override
+            public Object instantiateItem(ViewGroup container, int position) {
+                // TODO Auto-generated method stub
+                container.addView(viewList.get(position));
+
+
+                return viewList.get(position);
+            }
+        };
+
+
+//        viewPager.setAdapter(pagerAdapter);
+
+
+}
 
     public void findView() {
         mTemp = (TextView)findViewById(R.id.weather_temp);
@@ -93,11 +149,14 @@ public class WeatherMain extends AppCompatActivity {
         //mToolbar = (Toolbar) findViewById(R.id.weather_toolbar);
         //mLv = (ListView) findViewById(R.id.id_lv);
         //mDrawerLayout = (DrawerLayout) findViewById(R.id.id_drawerlayout);
-        mListView = (ListView)findViewById(R.id.weather_suggesstion);
+        mForecastList = (ListView)findViewById(R.id.weather_forecast);
         mSugg = (TextView)findViewById(R.id.weather_suggesstions);
         mToolBar = (Toolbar) findViewById(R.id.tl_custom);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.dl_left);
         lvLeftMenu = (ListView) findViewById(R.id.lv_left_menu);
+        mLogImg = (ImageView)findViewById(R.id.weather_touxiang);
+        ToImg = (ImageView)findViewById(R.id.weather_img);
+        viewPager = (ViewPager)findViewById(R.id.viewPager);
     }
 
     public void setListener(){
@@ -127,7 +186,36 @@ public class WeatherMain extends AppCompatActivity {
 
             }
         });
-*/    }
+*/
+    mLogImg.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent  = new Intent(WeatherMain.this, LoginActivity.class);
+            startActivity(intent);
+        }
+    });
+        lvLeftMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    switch (lvs[position]){
+
+                        case "设置":
+                            break;
+                        case "选择城市":
+                            break;
+                        case "关于":
+                            break;
+                        case "建议":
+                            showSugg(isSugg);
+                            break;
+
+                    }
+//                String sp = lvs[position];
+//                Toast.makeText(WeatherMain.this,sp+"",Toast.LENGTH_LONG).show();
+            }
+        });
+
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void getWeather(){
@@ -162,11 +250,12 @@ public class WeatherMain extends AppCompatActivity {
                     +weatherBean.getTrav_brf()+"\n"+weatherBean.getTrav_txt()+"\n"
                     +weatherBean.getUv_brf()+"\n"+weatherBean.getUv_txt()+"\n");
             mDFList = JSONUtil.getDForecast();
+            Log.i("wtfs",mDFList.toString());
             int i = 0;
             for (DailyForecast df:mDFList
                  ) {
                 DailyForecast dfs = mDFList.get(i);
-                Log.e("wtf","hh"+i);
+                Log.e("wtf",dfs.getDate());
                 if(i == 0)
                 {
                     mTemp_min.setText(getResources().getString(R.string.hsh_temp_min)
@@ -175,13 +264,25 @@ public class WeatherMain extends AppCompatActivity {
                     mTemp_max.setText(getResources().getString(R.string.hsh_temp_max)
                             +dfs.getMax()
                             + getResources().getString(R.string.c));
+                    ToImg.setImageResource(IconGet.getWeaIcon(dfs.getTxt_d()));
+                    mCountry.setText(dfs.getTxt_d()+"转"+dfs.getTxt_n());
                 }
+                DLForecast dls = new DLForecast(dfs.getDate()+"",getResources().getString(R.string.hsh_temp_min)
+                        +dfs.getMin()
+                        + getResources().getString(R.string.c)+getResources().getString(R.string.hsh_temp_max)
+                        +dfs.getMax()
+                        + getResources().getString(R.string.c),dfs.getDir()+dfs.getSc()+dfs.getTxt_d()+dfs.getTxt_n(), IconGet.getWeaIcon(dfs.getTxt_d()));
+                dlForecastList.add(dls);
                 i ++;
             }
+
+            DLForecastAdapter adapter = new DLForecastAdapter(WeatherMain.this,R.layout.item_forecast_line,dlForecastList);
+            mForecastList.setAdapter(adapter);
         } catch (Exception e) {
             e.printStackTrace();
+            Toast.makeText(this,"    定位失败,请手动输入城市",Toast.LENGTH_LONG).show();
         }
-
+        Toast.makeText(this,"加载完毕，✺◟(∗❛ัᴗ❛ั∗)◞✺,",Toast.LENGTH_LONG).show();
     }
     //@Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -273,7 +374,18 @@ public class WeatherMain extends AppCompatActivity {
         mLocationClient.setLocOption(option);
     }
 
+    public void showSugg(boolean isSugg){
+        if(!isSugg){
+            mSugg.setVisibility(View.VISIBLE);
+            mForecastList.setVisibility(View.GONE);
 
+        }else{
+            mSugg.setVisibility(View.GONE);
+            mForecastList.setVisibility(View.VISIBLE);
+        }
+        isSugg = !isSugg;
+
+    }
     public void init(){
         /**
          * 初始化各个变量

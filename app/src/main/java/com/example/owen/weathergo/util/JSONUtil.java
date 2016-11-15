@@ -38,7 +38,7 @@ public class JSONUtil {
         //System.out.println(jsonText);
         WeatherBean weather = new WeatherBean();
         ArrayList<DailyForecast> dfList = new ArrayList<DailyForecast>();
-        DailyForecast mDailyForecast = new DailyForecast();
+//        DailyForecast mDailyForecast = new DailyForecast();
         //Toast.makeText(context,jsonText,Toast.LENGTH_LONG).show();
         try {
             JSONObject weatherJSONObject = new JSONObject(jsonText);//first grade
@@ -173,6 +173,7 @@ public class JSONUtil {
             JSONArray dfJSONObject = OJSONObject.getJSONArray("daily_forecast");//fouth grade;
 
             for(int i = 0; i < dfJSONObject.length(); i++ ){
+                DailyForecast mDailyForecast = new DailyForecast();
                 Log.e("JSON df_sr",""+i);
                 JSONObject df0JSONObject = dfJSONObject.getJSONObject(i);//fifth:"0"
                 mDailyForecast.setUv(df0JSONObject.getInt("uv"));
@@ -240,7 +241,7 @@ public class JSONUtil {
             dfLists = dfList;
             for (DailyForecast md : dfList
                  ) {
-                //Log.e("kakan","sssss");
+                Log.e("kakan",""+md.getDate());
 
             }
 

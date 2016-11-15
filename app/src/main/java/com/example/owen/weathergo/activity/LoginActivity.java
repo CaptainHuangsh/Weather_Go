@@ -71,14 +71,14 @@ public class LoginActivity extends Activity {
             }
         }
 
-        // 登录监听事件  现在默认为用户名为：admin 密码：123456
+        // 登录监听事件  现在默认为用户名为：huang 密码：123456
         btn_login.setOnClickListener(new OnClickListener() {
 
             public void onClick(View v) {
                 userNameValue = userName.getText().toString();
                 passwordValue = password.getText().toString();
 
-                if(userNameValue.equals("admin")&&passwordValue.equals("123456"))
+                if(userNameValue.equals("huang")&&passwordValue.equals("123456"))
                 {
                     Toast.makeText(LoginActivity.this,"登录成功", Toast.LENGTH_SHORT).show();
                     //登录成功和记住密码框为选中状态才保存用户信息

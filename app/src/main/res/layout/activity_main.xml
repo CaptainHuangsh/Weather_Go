@@ -25,8 +25,8 @@
         <ImageView
             android:id="@+id/weather_img"
             android:src="@drawable/weather"
-            android:layout_width="135dp"
-            android:layout_height="135dp" />
+            android:layout_width="106dp"
+            android:layout_height="106dp" />
 
 
 
@@ -78,6 +78,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" />
         </LinearLayout>
+        <android.support.v4.view.ViewPager
+            android:visibility="gone"
+            android:layout_below="@id/weather_country_wind"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/viewPager">
+
+        </android.support.v4.view.ViewPager>
 
     </RelativeLayout>
 
@@ -115,13 +123,17 @@
         tools:context=".MyActivity"/>-->
 
     <TextView
+        android:visibility="gone"
         android:id="@+id/weather_suggesstions"
         android:layout_margin="16dp"
         android:layout_below="@+id/hsh_search_weather"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
+
     <ListView
-        android:id="@+id/weather_suggesstion"
+        android:divider="#FFCC00"
+        android:id="@+id/weather_forecast"
         android:layout_below="@+id/hsh_search_weather"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -132,25 +144,29 @@
 
 
     <LinearLayout
-            android:backgroundTint="@color/bgcolor"
+            android:backgroundTint="@color/cardview_light_background"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="#fff"
             android:layout_gravity="start">
 
             <ImageView
+                android:id="@+id/weather_touxiang"
+                android:clickable="true"
                 android:layout_gravity="center"
-                android:src="@drawable/touxiang"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:src="@drawable/snowman"
+                android:layout_width="192dp"
+                android:layout_height="192dp" />
             <TextView
+
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
-                android:textSize="36dp"
-                android:text="最帅的人"
+                android:textSize="16dp"
+                android:text="切换登陆"
                 android:layout_height="wrap_content" />
             <ListView
+                android:layout_marginTop="64dp"
                 android:id="@+id/lv_left_menu"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

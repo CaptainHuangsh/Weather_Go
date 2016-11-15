@@ -7,17 +7,17 @@
     <item
         android:id="@+id/action_edit"
         android:orderInCategory="80"
-        android:title="edit"
+        android:title="选择城市"
         app:showAsAction="always" />
     <item
         app:showAsAction="always"
         android:id="@+id/action_share"
         android:orderInCategory="90"
-        android:title="share" />
+        android:title="分享天气" />
 
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
-        android:title="hh"
+        android:title="登陆"
         app:showAsAction="never" />
 </menu>
