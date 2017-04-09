@@ -1,4 +1,4 @@
-package com.example.owen.weathergo.activity;
+package com.example.owen.weathergo.modules.main.activity;
 
 /**
  * Created by root on 16-11-10.
@@ -6,13 +6,11 @@ package com.example.owen.weathergo.activity;
 
 
         import android.app.Activity;
-        import android.app.backup.SharedPreferencesBackupHelper;
         import android.content.Context;
         import android.content.Intent;
         import android.content.SharedPreferences;
         import android.content.SharedPreferences.Editor;
         import android.os.Bundle;
-        import android.text.Spannable;
         import android.view.View;
         import android.view.View.OnClickListener;
         import android.view.Window;

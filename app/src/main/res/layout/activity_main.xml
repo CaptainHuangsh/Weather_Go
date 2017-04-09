@@ -8,7 +8,7 @@
             xmlns:app="http://schemas.android.com/apk/res/com.example.owen.weathergo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".activity.WeatherMain">
+            tools:context=".modules.main.activity.WeatherMain">
     <!--Toolbar-->
     <include layout="@layout/custom_toolbar"
         android:id="@+id/tl_custom"
