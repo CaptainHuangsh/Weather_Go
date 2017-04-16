@@ -53,13 +53,13 @@ public class WeatherMain extends AppCompatActivity {
     private String URL1 = "https://api.heweather.com/x3/weather?city=";
     private String APIKEY1 = "&key=b2a628bc1de942dc869fcbe524c65313";
     private EditText mCity;//城市名称输入框，通过城市名称进行查询，大陆地区城市不全且支持拼音
-    private TextView mCountry, mTemp_min, mTemp_max, mWind_speed,mTemp;
+    private TextView mCountry, mTemp_min, mTemp_max, mWind_speed, mTemp;
     private TextView mSugg;
     private Toolbar mToolBar;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private ListView lvLeftMenu;
-    private String[] lvs = {"设置", "选择城市", "关于","建议"};
+    private String[] lvs = {"设置", "选择城市", "关于", "建议"};
     private ArrayAdapter arrayAdapter;
     private String mCityStr = "kaifeng";
     private String mGCityStr = "";
@@ -79,6 +79,7 @@ public class WeatherMain extends AppCompatActivity {
 
     //分别为查询结果国家，最低温度，最高温度，当前温度，风速
     private Button mSearchWeather;
+
     //查询按钮，触发查询事件
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -91,9 +92,9 @@ public class WeatherMain extends AppCompatActivity {
 
         setListener();
         getWeather();
-        LayoutInflater inflater=getLayoutInflater();
+        LayoutInflater inflater = getLayoutInflater();
         view1 = inflater.inflate(R.layout.daily_7_forecast, null);
-        view2 = inflater.inflate(R.layout.suggestion,null);
+        view2 = inflater.inflate(R.layout.suggestion, null);
         viewList = new ArrayList<View>();// 将要分页显示的View装入数组中
         viewList.add(view1);
         viewList.add(view2);
@@ -132,11 +133,11 @@ public class WeatherMain extends AppCompatActivity {
 //        viewPager.setAdapter(pagerAdapter);
 
 
-}
+    }
 
     public void findView() {
-        mTemp = (TextView)findViewById(R.id.weather_temp);
-        mSearchWeather = (Button)findViewById(R.id.hsh_search_weather);
+        mTemp = (TextView) findViewById(R.id.weather_temp);
+        mSearchWeather = (Button) findViewById(R.id.hsh_search_weather);
         mCity = (EditText) findViewById(R.id.hsh_weather_city_editview);
         mCountry = (TextView) findViewById(R.id.weather_country);
         mTemp_min = (TextView) findViewById(R.id.weather_temp_min);
@@ -145,17 +146,17 @@ public class WeatherMain extends AppCompatActivity {
         //mToolbar = (Toolbar) findViewById(R.id.weather_toolbar);
         //mLv = (ListView) findViewById(R.id.id_lv);
         //mDrawerLayout = (DrawerLayout) findViewById(R.id.id_drawerlayout);
-        mForecastList = (ListView)findViewById(R.id.weather_forecast);
-        mSugg = (TextView)findViewById(R.id.weather_suggesstions);
+        mForecastList = (ListView) findViewById(R.id.weather_forecast);
+        mSugg = (TextView) findViewById(R.id.weather_suggesstions);
         mToolBar = (Toolbar) findViewById(R.id.tl_custom);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.dl_left);
         lvLeftMenu = (ListView) findViewById(R.id.lv_left_menu);
-        mLogImg = (ImageView)findViewById(R.id.weather_touxiang);
+        mLogImg = (ImageView) findViewById(R.id.weather_touxiang);
 //        ToImg = (ImageView)findViewById(R.id.weather_img);
-        viewPager = (ViewPager)findViewById(R.id.viewPager);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
     }
 
-    public void setListener(){
+    public void setListener() {
         /**
          * 绑定监听事件
          */
@@ -179,29 +180,30 @@ public class WeatherMain extends AppCompatActivity {
             }
         });
 */
-    mLogImg.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent intent  = new Intent(WeatherMain.this, LoginActivity.class);
-            startActivity(intent);
-        }
-    });
+        mLogImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(WeatherMain.this, Stud.class);
+//            Intent intent  = new Intent(WeatherMain.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });
         lvLeftMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    switch (lvs[position]){
+                switch (lvs[position]) {
 
-                        case "设置":
-                            break;
-                        case "选择城市":
-                            break;
-                        case "关于":
-                            break;
-                        case "建议":
-                            showSugg(isSugg);
-                            break;
+                    case "设置":
+                        break;
+                    case "选择城市":
+                        break;
+                    case "关于":
+                        break;
+                    case "建议":
+                        showSugg(isSugg);
+                        break;
 
-                    }
+                }
 //                String sp = lvs[position];
 //                Toast.makeText(WeatherMain.this,sp+"",Toast.LENGTH_LONG).show();
             }
@@ -210,72 +212,72 @@ public class WeatherMain extends AppCompatActivity {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void getWeather(){
+    public void getWeather() {
         try {
-            Log.e("JSONF","shishi");
+            Log.e("JSONF", "shishi");
             //URL url = new URL(URL0 + mCity.getText().toString() + APIKEY);
             URL url = new URL(URL1 + mCityStr + APIKEY1);
             //Toast.makeText(view.getContext(),""+url,Toast.LENGTH_SHORT).show();
             //生成完整的url
             WeatherBean weatherBean = JSONUtil.getWeatherBeans(this, url);
             mGCityStr = weatherBean.getCity();
-            mToolBar.setTitle(""+mGCityStr);
+            mToolBar.setTitle("" + mGCityStr);
             mCountry.setText(getResources().getString(R.string.hsh_country)
-                    +weatherBean.getCnty());
+                    + weatherBean.getCnty());
             mTemp_min.setText(getResources().getString(R.string.hsh_temp_min)
-                    +weatherBean.getNow_tmp()
+                    + weatherBean.getNow_tmp()
                     + getResources().getString(R.string.c));
             mTemp_max.setText(getResources().getString(R.string.hsh_temp_max)
-                    +weatherBean.getNow_tmp()
+                    + weatherBean.getNow_tmp()
                     + getResources().getString(R.string.c));
             mWind_speed.setText(getResources().getString(R.string.hsh_wind_speed)
-                    +weatherBean.getNow_dir()+weatherBean.getNow_sc()
+                    + weatherBean.getNow_dir() + weatherBean.getNow_sc()
                     + getResources().getString(R.string.m_s));
             mTemp.setText(weatherBean.getNow_tmp()
                     + getResources().getString(R.string.c));
-            mSugg.setText(weatherBean.getComf_brf()+"\n"+weatherBean.getComf_txt()+"\n"
-                    +weatherBean.getCw_brf()+"\n"+weatherBean.getCw_txt()+"\n"
-                    +weatherBean.getDrsg_brf()+"\n"+weatherBean.getDrsg_txt()+"\n"
-                    +weatherBean.getComf_brf()+"\n"+weatherBean.getComf_txt()+"\n"
-                    +weatherBean.getFlu_brf()+"\n"+weatherBean.getFlu_txt()+"\n"
-                    +weatherBean.getSport_brf()+"\n"+weatherBean.getSport_txt()+"\n"
-                    +weatherBean.getTrav_brf()+"\n"+weatherBean.getTrav_txt()+"\n"
-                    +weatherBean.getUv_brf()+"\n"+weatherBean.getUv_txt()+"\n");
+            mSugg.setText(weatherBean.getComf_brf() + "\n" + weatherBean.getComf_txt() + "\n"
+                    + weatherBean.getCw_brf() + "\n" + weatherBean.getCw_txt() + "\n"
+                    + weatherBean.getDrsg_brf() + "\n" + weatherBean.getDrsg_txt() + "\n"
+                    + weatherBean.getComf_brf() + "\n" + weatherBean.getComf_txt() + "\n"
+                    + weatherBean.getFlu_brf() + "\n" + weatherBean.getFlu_txt() + "\n"
+                    + weatherBean.getSport_brf() + "\n" + weatherBean.getSport_txt() + "\n"
+                    + weatherBean.getTrav_brf() + "\n" + weatherBean.getTrav_txt() + "\n"
+                    + weatherBean.getUv_brf() + "\n" + weatherBean.getUv_txt() + "\n");
             mDFList = JSONUtil.getDForecast();
-            Log.i("wtfs",mDFList.toString());
+            Log.i("wtfs", mDFList.toString());
             int i = 0;
-            for (DailyForecast df:mDFList
-                 ) {
+            for (DailyForecast df : mDFList
+                    ) {
                 DailyForecast dfs = mDFList.get(i);
-                Log.e("wtf",dfs.getDate());
-                if(i == 0)
-                {
+                Log.e("wtf", dfs.getDate());
+                if (i == 0) {
                     mTemp_min.setText(getResources().getString(R.string.hsh_temp_min)
-                            +dfs.getMin()
+                            + dfs.getMin()
                             + getResources().getString(R.string.c));
                     mTemp_max.setText(getResources().getString(R.string.hsh_temp_max)
-                            +dfs.getMax()
+                            + dfs.getMax()
                             + getResources().getString(R.string.c));
-                    ToImg.setImageResource(IconGet.getWeaIcon(dfs.getTxt_d()));
-                    mCountry.setText(dfs.getTxt_d()+"转"+dfs.getTxt_n());
+//                    ToImg.setImageResource(IconGet.getWeaIcon(dfs.getTxt_d()));
+                    mCountry.setText(dfs.getTxt_d() + "转" + dfs.getTxt_n());
                 }
-                DLForecast dls = new DLForecast(dfs.getDate()+"",getResources().getString(R.string.hsh_temp_min)
-                        +dfs.getMin()
-                        + getResources().getString(R.string.c)+getResources().getString(R.string.hsh_temp_max)
-                        +dfs.getMax()
-                        + getResources().getString(R.string.c),dfs.getDir()+dfs.getSc()+dfs.getTxt_d()+dfs.getTxt_n(), IconGet.getWeaIcon(dfs.getTxt_d()));
+                DLForecast dls = new DLForecast(dfs.getDate() + "", getResources().getString(R.string.hsh_temp_min)
+                        + dfs.getMin()
+                        + getResources().getString(R.string.c) + getResources().getString(R.string.hsh_temp_max)
+                        + dfs.getMax()
+                        + getResources().getString(R.string.c), dfs.getDir() + dfs.getSc() + dfs.getTxt_d() + dfs.getTxt_n(), IconGet.getWeaIcon(dfs.getTxt_d()));
                 dlForecastList.add(dls);
-                i ++;
+                i++;
             }
 
-            DLForecastAdapter adapter = new DLForecastAdapter(WeatherMain.this,R.layout.item_forecast_line,dlForecastList);
+            DLForecastAdapter adapter = new DLForecastAdapter(WeatherMain.this, R.layout.item_forecast_line, dlForecastList);
             mForecastList.setAdapter(adapter);
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(this,"    定位失败,请手动输入城市",Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "    定位失败,请手动输入城市", Toast.LENGTH_LONG).show();
         }
-        Toast.makeText(this,"加载完毕，✺◟(∗❛ัᴗ❛ั∗)◞✺,",Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "加载完毕，✺◟(∗❛ัᴗ❛ั∗)◞✺,", Toast.LENGTH_LONG).show();
     }
+
     //@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         //自定义toobar Menu
@@ -292,7 +294,7 @@ public class WeatherMain extends AppCompatActivity {
                 toSearchDialog();
                 break;
             case R.id.action_settings:
-                Intent intent  = new Intent(WeatherMain.this, LoginActivity.class);
+                Intent intent = new Intent(WeatherMain.this, LoginActivity.class);
                 startActivity(intent);
             default:
                 break;
@@ -300,7 +302,7 @@ public class WeatherMain extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void toSearchDialog(){
+    public void toSearchDialog() {
         final EditText et = new EditText(this);
         //Toast.makeText(this,"ssssssssssss",Toast.LENGTH_SHORT).show();
         new AlertDialog.Builder(this).setTitle("请输入")
@@ -345,19 +347,20 @@ public class WeatherMain extends AppCompatActivity {
     }
 
 
-    public void showSugg(boolean isSugg){
-        if(!isSugg){
+    public void showSugg(boolean isSugg) {
+        if (!isSugg) {
             mSugg.setVisibility(View.VISIBLE);
             mForecastList.setVisibility(View.GONE);
 
-        }else{
+        } else {
             mSugg.setVisibility(View.GONE);
             mForecastList.setVisibility(View.VISIBLE);
         }
         isSugg = !isSugg;
 
     }
-    public void init(){
+
+    public void init() {
         /**
          * 初始化各个变量
          */
@@ -373,6 +376,7 @@ public class WeatherMain extends AppCompatActivity {
                 super.onDrawerOpened(drawerView);
                 //mAnimationDrawable.stop();
             }
+
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
@@ -406,7 +410,9 @@ public class WeatherMain extends AppCompatActivity {
         //Toast.makeText(this,mLocationClient.getLastKnownLocation()+"",Toast.LENGTH_LONG).show();
 
 
-
+        //测试
+        /*Stud st = new Stud();
+        st.getR();*/
 
     }
 

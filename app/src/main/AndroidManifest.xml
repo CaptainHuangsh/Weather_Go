@@ -16,10 +16,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".modules.main.activity.Stud"/>
         <activity android:name=".modules.main.activity.LoginActivity"/>
         <activity android:name=".modules.main.activity.LogingActivity"/>
-        <service android:name="com.baidu.location.f" android:enabled="true" android:process=":remote">
-        </service>
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="H689bzDre7wsQ4qSR5EAx9t1ZN9dltkm" />       //key:开发者申请的Key
