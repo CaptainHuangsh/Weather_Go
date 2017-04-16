@@ -1,4 +1,4 @@
-package com.example.owen.weathergo.compent;
+package com.example.owen.weathergo.component;
 
 import android.media.Image;
 

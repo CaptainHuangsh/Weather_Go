@@ -30,14 +30,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.owen.weathergo.adapter.DLForecastAdapter;
-import com.example.owen.weathergo.compent.DLForecast;
-import com.example.owen.weathergo.dao.DailyForecast;
-import com.example.owen.weathergo.util.IconGet;
-import com.example.owen.weathergo.util.JSONUtil;
+import com.example.owen.weathergo.component.DLForecast;
+import com.example.owen.weathergo.modules.dao.DailyForecast;
+import com.example.owen.weathergo.common.util.IconGet;
+import com.example.owen.weathergo.common.util.JSONUtil;
 import com.example.owen.weathergo.R;
-import com.example.owen.weathergo.dao.WeatherBean;
+import com.example.owen.weathergo.modules.dao.WeatherBean;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,8 +49,8 @@ public class WeatherMain extends AppCompatActivity {
      */
 
     //private Toolbar mToolbar;//自定义的ToolBar
-    private String URL1 = "https://api.heweather.com/x3/weather?city=";
-    private String APIKEY1 = "&key=b2a628bc1de942dc869fcbe524c65313";
+//    private String URL1 = "https://api.heweather.com/x3/weather?city=";
+//    private String APIKEY1 = "&key=b2a628bc1de942dc869fcbe524c65313";
     private EditText mCity;//城市名称输入框，通过城市名称进行查询，大陆地区城市不全且支持拼音
     private TextView mCountry, mTemp_min, mTemp_max, mWind_speed, mTemp;
     private TextView mSugg;
@@ -214,12 +213,12 @@ public class WeatherMain extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void getWeather() {
         try {
-            Log.e("JSONF", "shishi");
+//            Log.e("JSONF", "shishi");
             //URL url = new URL(URL0 + mCity.getText().toString() + APIKEY);
-            URL url = new URL(URL1 + mCityStr + APIKEY1);
+//            URL url = new URL(URL1 + mCityStr + APIKEY1);
             //Toast.makeText(view.getContext(),""+url,Toast.LENGTH_SHORT).show();
             //生成完整的url
-            WeatherBean weatherBean = JSONUtil.getWeatherBeans(this, url);
+            WeatherBean weatherBean = JSONUtil.getWeatherBeans(this, mCityStr);
             mGCityStr = weatherBean.getCity();
             mToolBar.setTitle("" + mGCityStr);
             mCountry.setText(getResources().getString(R.string.hsh_country)

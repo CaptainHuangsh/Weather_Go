@@ -1,13 +1,4 @@
-package com.example.owen.weathergo.util;
-
-import android.util.Log;
-
-import com.example.owen.weathergo.base.BaseApplication;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+package com.example.owen.weathergo.common.util;
 
 /**
  * Created by owen on 2017/4/8.

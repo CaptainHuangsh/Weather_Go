@@ -1,4 +1,4 @@
-package com.example.owen.weathergo.util;
+package com.example.owen.weathergo.common.util;
 
 /**
  * Created by owenh on 2016/5/17.
@@ -7,7 +7,6 @@ package com.example.owen.weathergo.util;
  */
 
 import android.util.Log;
-import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;

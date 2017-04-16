@@ -1,4 +1,4 @@
-package com.example.owen.weathergo.util;
+package com.example.owen.weathergo.common.util;
 
 import android.widget.Toast;
 

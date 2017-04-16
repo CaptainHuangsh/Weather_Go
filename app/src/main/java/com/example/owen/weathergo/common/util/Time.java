@@ -1,10 +1,9 @@
-package com.example.owen.weathergo.util;
+package com.example.owen.weathergo.common.util;
 
 import android.annotation.SuppressLint;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.SimpleTimeZone;
 
 /**
  * Created by owen on 2017/4/8.

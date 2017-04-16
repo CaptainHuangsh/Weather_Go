@@ -1,4 +1,4 @@
-package com.example.owen.weathergo.util;
+package com.example.owen.weathergo.common.util;
 
 /**
  * Created by owenh on 2016/5/17.
@@ -7,20 +7,17 @@ package com.example.owen.weathergo.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import com.example.owen.weathergo.component.ApiInterface;
-import com.example.owen.weathergo.dao.DailyForecast;
-import com.example.owen.weathergo.dao.WeatherBean;
+import com.example.owen.weathergo.modules.dao.DailyForecast;
+import com.example.owen.weathergo.modules.dao.WeatherBean;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 
 import okhttp3.ResponseBody;
@@ -40,7 +37,7 @@ public class JSONUtil {
 
     static ArrayList<DailyForecast> dfLists = new ArrayList<DailyForecast>();
 
-    public static WeatherBean getWeatherBeans(final Context context, URL url) {
+    public static WeatherBean getWeatherBeans(final Context context, String sCity) {
         /**
          * 处理从heweather网站上获取的json代码，进行解析赋值操作的静态方法
          */

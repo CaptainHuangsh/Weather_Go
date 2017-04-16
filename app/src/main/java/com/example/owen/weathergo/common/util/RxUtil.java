@@ -1,4 +1,4 @@
-package com.example.owen.weathergo.util;
+package com.example.owen.weathergo.common.util;
 
 /**
  * Created by owen on 2017/4/8.

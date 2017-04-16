@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.owen.weathergo.R;
-import com.example.owen.weathergo.compent.DLForecast;
+import com.example.owen.weathergo.component.DLForecast;
 
 import java.util.List;
 
