@@ -40,7 +40,8 @@ import com.example.owen.weathergo.modules.dao.WeatherBean;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class WeatherMain extends AppCompatActivity {
 
@@ -51,13 +52,27 @@ public class WeatherMain extends AppCompatActivity {
     //private Toolbar mToolbar;//自定义的ToolBar
 //    private String URL1 = "https://api.heweather.com/x3/weather?city=";
 //    private String APIKEY1 = "&key=b2a628bc1de942dc869fcbe524c65313";
-    private EditText mCity;//城市名称输入框，通过城市名称进行查询，大陆地区城市不全且支持拼音
-    private TextView mCountry, mTemp_min, mTemp_max, mWind_speed, mTemp;
-    private TextView mSugg;
-    private Toolbar mToolBar;
-    private DrawerLayout mDrawerLayout;
+    @BindView(R.id.hsh_weather_city_editview)
+    EditText mCity;//城市名称输入框，通过城市名称进行查询，大陆地区城市不全且支持拼音
+    @BindView(R.id.weather_country)
+    TextView mCountry;
+    @BindView(R.id.weather_temp_min)
+    TextView mTemp_min;
+    @BindView(R.id.weather_temp_max)
+    TextView mTemp_max;
+    @BindView(R.id.weather_wind_speed)
+    TextView mWind_speed;
+    @BindView(R.id.weather_temp)
+    TextView mTemp;
+    @BindView(R.id.weather_suggesstions)
+    TextView mSugg;
+    @BindView(R.id.tl_custom)
+    Toolbar mToolBar;
+    @BindView(R.id.dl_left)
+    DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-    private ListView lvLeftMenu;
+    @BindView(R.id.lv_left_menu)
+    ListView lvLeftMenu;
     private String[] lvs = {"设置", "选择城市", "关于", "建议"};
     private ArrayAdapter arrayAdapter;
     private String mCityStr = "kaifeng";
@@ -65,28 +80,33 @@ public class WeatherMain extends AppCompatActivity {
     //private ListView mLv;
     //private DrawerLayout mDrawerLayout;
     //private String str[] = new String[] { "item1", "item2", "item3"};
-    private ListView mForecastList;
+    @BindView(R.id.weather_forecast)
+    ListView mForecastList;
     private ArrayList<DailyForecast> mDFList = new ArrayList<>();
-    private ImageView mLogImg;
+    @BindView(R.id.weather_touxiang)
+    ImageView mLogImg;
     private List<DLForecast> dlForecastList = new ArrayList<DLForecast>();
-    @Bind(R.id.weather_img)
+    @BindView(R.id.weather_img)
     ImageView ToImg;
-    private ViewPager viewPager;  //对应的viewPager
+    @BindView(R.id.viewPager)
+    ViewPager viewPager;  //对应的viewPager
     private View view1, view2;
     private List<View> viewList;//view数组
     private boolean isSugg = false;
-
     //分别为查询结果国家，最低温度，最高温度，当前温度，风速
-    private Button mSearchWeather;
-
+    @BindView(R.id.hsh_search_weather)
+    Button mSearchWeather;
     //查询按钮，触发查询事件
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-        findView();
+        ButterKnife.bind(this);
+
+//        findView();
         init();
 
         setListener();
@@ -142,16 +162,12 @@ public class WeatherMain extends AppCompatActivity {
         mTemp_min = (TextView) findViewById(R.id.weather_temp_min);
         mTemp_max = (TextView) findViewById(R.id.weather_temp_max);
         mWind_speed = (TextView) findViewById(R.id.weather_wind_speed);
-        //mToolbar = (Toolbar) findViewById(R.id.weather_toolbar);
-        //mLv = (ListView) findViewById(R.id.id_lv);
-        //mDrawerLayout = (DrawerLayout) findViewById(R.id.id_drawerlayout);
         mForecastList = (ListView) findViewById(R.id.weather_forecast);
         mSugg = (TextView) findViewById(R.id.weather_suggesstions);
         mToolBar = (Toolbar) findViewById(R.id.tl_custom);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.dl_left);
         lvLeftMenu = (ListView) findViewById(R.id.lv_left_menu);
         mLogImg = (ImageView) findViewById(R.id.weather_touxiang);
-//        ToImg = (ImageView)findViewById(R.id.weather_img);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
     }
 
