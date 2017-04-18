@@ -9,7 +9,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import com.example.owen.weathergo.component.ApiInterface;
+import com.example.owen.weathergo.component.WgClient;
 import com.example.owen.weathergo.modules.dao.DailyForecast;
 import com.example.owen.weathergo.modules.dao.WeatherBean;
 
@@ -48,7 +48,7 @@ public class JSONUtil {
                 .baseUrl("https://api.heweather.com/x3/")
                 .build();
         //Retrofit创建一个BlogService的代理对象
-        ApiInterface service = retrofit.create(ApiInterface.class);
+        WgClient service = retrofit.create(WgClient.class);
         Call<ResponseBody> call = service.mWeatherAPI("kaifeng", "b2a628bc1de942dc869fcbe524c65313");
         String jss = "";
         call.enqueue(new Callback<ResponseBody>() {

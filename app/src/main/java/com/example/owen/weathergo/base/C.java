@@ -11,7 +11,8 @@ import java.util.Stack;
 
 public class C {
 
-    public static final String  KEY = "";
+    public static final String  KEY = "b2a628bc1de942dc869fcbe524c65313";
     public static final String AUTHER = "Owen.H";
+    public static final String HOST = "https://api.heweather.com/x3/";
 
 }

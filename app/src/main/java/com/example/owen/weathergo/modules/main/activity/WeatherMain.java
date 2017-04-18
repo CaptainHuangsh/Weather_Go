@@ -30,11 +30,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.owen.weathergo.adapter.DLForecastAdapter;
-import com.example.owen.weathergo.component.DLForecast;
-import com.example.owen.weathergo.modules.dao.DailyForecast;
 import com.example.owen.weathergo.common.util.IconGet;
 import com.example.owen.weathergo.common.util.JSONUtil;
+import com.example.owen.weathergo.component.DLForecast;
 import com.example.owen.weathergo.R;
+import com.example.owen.weathergo.modules.dao.DailyForecast;
 import com.example.owen.weathergo.modules.dao.WeatherBean;
 
 import java.util.ArrayList;
@@ -210,6 +210,8 @@ public class WeatherMain extends AppCompatActivity {
 
     }
 
+    //的给 Android 开发者的 RxJava 详解 https://gank.io/post/560e15be2dca930e00da1083
+    //大头鬼Bruce的译文 深入浅出RxJava系列 http://blog.csdn.net/lzyzsd/article/category/2767743
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void getWeather() {
         try {
