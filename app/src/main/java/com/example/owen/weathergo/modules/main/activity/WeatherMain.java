@@ -40,7 +40,8 @@ import com.example.owen.weathergo.modules.dao.WeatherBean;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class WeatherMain extends AppCompatActivity {
 
@@ -48,45 +49,58 @@ public class WeatherMain extends AppCompatActivity {
      * 程序入口，主Activity类
      */
 
-    //private Toolbar mToolbar;//自定义的ToolBar
-//    private String URL1 = "https://api.heweather.com/x3/weather?city=";
-//    private String APIKEY1 = "&key=b2a628bc1de942dc869fcbe524c65313";
-    private EditText mCity;//城市名称输入框，通过城市名称进行查询，大陆地区城市不全且支持拼音
-    private TextView mCountry, mTemp_min, mTemp_max, mWind_speed, mTemp;
-    private TextView mSugg;
-    private Toolbar mToolBar;
-    private DrawerLayout mDrawerLayout;
+    @BindView(R.id.hsh_weather_city_editview)
+    EditText mCity;//城市名称输入框，通过城市名称进行查询，大陆地区城市不全且支持拼音
+    @BindView(R.id.weather_country)
+    TextView mCountry;
+    @BindView(R.id.weather_temp_min)
+    TextView mTemp_min;
+    @BindView(R.id.weather_temp_max)
+    TextView mTemp_max;
+    @BindView(R.id.weather_wind_speed)
+    TextView mWind_speed;
+    @BindView(R.id.weather_temp)
+    TextView mTemp;
+    @BindView(R.id.weather_suggesstions)
+    TextView mSugg;
+    @BindView(R.id.tl_custom)
+    Toolbar mToolBar;
+    @BindView(R.id.dl_left)
+    DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-    private ListView lvLeftMenu;
+    @BindView(R.id.lv_left_menu)
+    ListView lvLeftMenu;
     private String[] lvs = {"设置", "选择城市", "关于", "建议"};
     private ArrayAdapter arrayAdapter;
     private String mCityStr = "kaifeng";
     private String mGCityStr = "";
-    //private ListView mLv;
-    //private DrawerLayout mDrawerLayout;
-    //private String str[] = new String[] { "item1", "item2", "item3"};
-    private ListView mForecastList;
+    @BindView(R.id.weather_forecast)
+    ListView mForecastList;
     private ArrayList<DailyForecast> mDFList = new ArrayList<>();
-    private ImageView mLogImg;
+    @BindView(R.id.weather_touxiang)
+    ImageView mLogImg;
     private List<DLForecast> dlForecastList = new ArrayList<DLForecast>();
-    @Bind(R.id.weather_img)
+    @BindView(R.id.weather_img)
     ImageView ToImg;
-    private ViewPager viewPager;  //对应的viewPager
+    @BindView(R.id.viewPager)
+    ViewPager viewPager;  //对应的viewPager
     private View view1, view2;
     private List<View> viewList;//view数组
     private boolean isSugg = false;
-
     //分别为查询结果国家，最低温度，最高温度，当前温度，风速
-    private Button mSearchWeather;
-
+    @BindView(R.id.hsh_search_weather)
+    Button mSearchWeather;
     //查询按钮，触发查询事件
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-        findView();
+        ButterKnife.bind(this);
+
+//        findView();
         init();
 
         setListener();
@@ -129,11 +143,9 @@ public class WeatherMain extends AppCompatActivity {
         };
 
 
-//        viewPager.setAdapter(pagerAdapter);
-
-
     }
 
+/*
     public void findView() {
         mTemp = (TextView) findViewById(R.id.weather_temp);
         mSearchWeather = (Button) findViewById(R.id.hsh_search_weather);
@@ -142,18 +154,15 @@ public class WeatherMain extends AppCompatActivity {
         mTemp_min = (TextView) findViewById(R.id.weather_temp_min);
         mTemp_max = (TextView) findViewById(R.id.weather_temp_max);
         mWind_speed = (TextView) findViewById(R.id.weather_wind_speed);
-        //mToolbar = (Toolbar) findViewById(R.id.weather_toolbar);
-        //mLv = (ListView) findViewById(R.id.id_lv);
-        //mDrawerLayout = (DrawerLayout) findViewById(R.id.id_drawerlayout);
         mForecastList = (ListView) findViewById(R.id.weather_forecast);
         mSugg = (TextView) findViewById(R.id.weather_suggesstions);
         mToolBar = (Toolbar) findViewById(R.id.tl_custom);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.dl_left);
         lvLeftMenu = (ListView) findViewById(R.id.lv_left_menu);
         mLogImg = (ImageView) findViewById(R.id.weather_touxiang);
-//        ToImg = (ImageView)findViewById(R.id.weather_img);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
     }
+*/
 
     public void setListener() {
         /**
@@ -164,26 +173,17 @@ public class WeatherMain extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                //Toast.makeText(WeatherMain.this,mLocationClient.getLastKnownLocation()+"",Toast.LENGTH_LONG).show();
-                //mLocationClient.stop();
                 mCityStr = mCity.getText().toString();
                 getWeather();
 
 
             }
         });
-        /*mLv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-            }
-        });
-*/
         mLogImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(WeatherMain.this, Stud.class);
-//            Intent intent  = new Intent(WeatherMain.this, LoginActivity.class);
                 startActivity(intent);
             }
         });
@@ -203,8 +203,6 @@ public class WeatherMain extends AppCompatActivity {
                         break;
 
                 }
-//                String sp = lvs[position];
-//                Toast.makeText(WeatherMain.this,sp+"",Toast.LENGTH_LONG).show();
             }
         });
 
@@ -215,11 +213,6 @@ public class WeatherMain extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void getWeather() {
         try {
-//            Log.e("JSONF", "shishi");
-            //URL url = new URL(URL0 + mCity.getText().toString() + APIKEY);
-//            URL url = new URL(URL1 + mCityStr + APIKEY1);
-            //Toast.makeText(view.getContext(),""+url,Toast.LENGTH_SHORT).show();
-            //生成完整的url
             WeatherBean weatherBean = JSONUtil.getWeatherBeans(this, mCityStr);
             mGCityStr = weatherBean.getCity();
             mToolBar.setTitle("" + mGCityStr);
@@ -258,7 +251,6 @@ public class WeatherMain extends AppCompatActivity {
                     mTemp_max.setText(getResources().getString(R.string.hsh_temp_max)
                             + dfs.getMax()
                             + getResources().getString(R.string.c));
-//                    ToImg.setImageResource(IconGet.getWeaIcon(dfs.getTxt_d()));
                     mCountry.setText(dfs.getTxt_d() + "转" + dfs.getTxt_n());
                 }
                 DLForecast dls = new DLForecast(dfs.getDate() + "", getResources().getString(R.string.hsh_temp_min)
@@ -305,7 +297,6 @@ public class WeatherMain extends AppCompatActivity {
 
     public void toSearchDialog() {
         final EditText et = new EditText(this);
-        //Toast.makeText(this,"ssssssssssss",Toast.LENGTH_SHORT).show();
         new AlertDialog.Builder(this).setTitle("请输入")
                 .setView(et)
                 .setPositiveButton("搜索", new DialogInterface.OnClickListener() {
@@ -317,30 +308,7 @@ public class WeatherMain extends AppCompatActivity {
                     }
                 })
                 .setNegativeButton("取消", null).show();
-    }/*
-    public void toSearch(){
-        try {
-            URL url = new URL(URL0 + mCity.getText().toString() + APIKEY);
-//                    Toast.makeText(view.getContext(),""+url,Toast.LENGTH_SHORT).show();
-            //生成完整的url
-            WeatherBean weatherBean = JSONUtil.getWeatherBean(this, url);
-            mCountry.setText(getResources().getString(R.string.hsh_country)
-                    +weatherBean.getCountry());
-            mTemp_min.setText(getResources().getString(R.string.hsh_temp_min)
-                    +weatherBean.getTemp_min()
-                    + getResources().getString(R.string.c));
-            mTemp_max.setText(getResources().getString(R.string.hsh_temp_max)
-                    +weatherBean.getTemp_max()
-                    + getResources().getString(R.string.c));
-            mWind_speed.setText(getResources().getString(R.string.hsh_wind_speed)
-                    +weatherBean.getWind_speed()
-                    + getResources().getString(R.string.m_s));
-            mTemp.setText(weatherBean.getTemp()
-                    + getResources().getString(R.string.c));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
+    }
 
     @Override
     protected void onDestroy() {
@@ -366,7 +334,6 @@ public class WeatherMain extends AppCompatActivity {
          * 初始化各个变量
          */
         mToolBar.setTitle(getResources().getString(R.string.weather_app_name));
-        //mToolBar.setTitle(""+mGCityStr);
         setSupportActionBar(mToolBar);
         getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -375,7 +342,6 @@ public class WeatherMain extends AppCompatActivity {
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                //mAnimationDrawable.stop();
             }
 
             @Override
@@ -391,29 +357,7 @@ public class WeatherMain extends AppCompatActivity {
         lvLeftMenu.setAdapter(arrayAdapter);
 
 
-        /*ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_1, str);*/
-        //mLv.setAdapter(adapter);
-/*
-        mDrawerLayout.setDrawerListener(new DrawerLayout.SimpleDrawerListener() {
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-            }
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-            }
-        });
-*/
-        //mLocationClient.start();
-//        mBDll = mLocationClient.getLastKnownLocation();
-        //Toast.makeText(this,mLocationClient.getLastKnownLocation()+"",Toast.LENGTH_LONG).show();
 
-
-        //测试
-        /*Stud st = new Stud();
-        st.getR();*/
 
     }
 

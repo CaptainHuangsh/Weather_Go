@@ -13,7 +13,7 @@ import com.example.owen.weathergo.stud.GitHubRepoAdapter;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,7 +28,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Stud extends Activity {
 
 
-    @Bind(R.id.stud)
+    @BindView(R.id.stud)
     ListView listView;
 
     @Override
