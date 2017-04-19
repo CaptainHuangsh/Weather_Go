@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.NavigationView;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -43,7 +44,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class WeatherMain extends AppCompatActivity {
+public class WeatherMain extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     /**
      * 程序入口，主Activity类
@@ -68,16 +70,16 @@ public class WeatherMain extends AppCompatActivity {
     Toolbar mToolBar;
     @BindView(R.id.dl_left)
     DrawerLayout mDrawerLayout;
-    @BindView(R.id.lv_left_menu)
-    ListView lvLeftMenu;
+    /*@BindView(R.id.lv_left_menu)
+    ListView lvLeftMenu;*/
     @BindView(R.id.weather_forecast)
     ListView mForecastList;
-    @BindView(R.id.weather_touxiang)
-    ImageView mLogImg;
+    /*@BindView(R.id.weather_touxiang)
+    ImageView mLogImg;*/
     @BindView(R.id.weather_img)
     ImageView ToImg;
-    @BindView(R.id.viewPager)
-    ViewPager viewPager;  //对应的viewPager
+    /*@BindView(R.id.viewPager)
+    ViewPager viewPager;  //对应的viewPager*/
     @BindView(R.id.hsh_search_weather)
     Button mSearchWeather;
     //查询按钮，触发查询事件
@@ -182,31 +184,31 @@ public class WeatherMain extends AppCompatActivity {
             }
         });
 
-        mLogImg.setOnClickListener(new View.OnClickListener() {
+        /*mLogImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(WeatherMain.this, Stud.class);
                 startActivity(intent);
             }
-        });
-        lvLeftMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch (lvs[position]) {
-
-                    case "设置":
-                        break;
-                    case "选择城市":
-                        break;
-                    case "关于":
-                        break;
-                    case "建议":
-                        showSugg(isSugg);
-                        break;
-
-                }
-            }
-        });
+        });*/
+//        lvLeftMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                switch (lvs[position]) {
+//
+//                    case "设置":
+//                        break;
+//                    case "选择城市":
+//                        break;
+//                    case "关于":
+//                        break;
+//                    case "建议":
+//                        showSugg(isSugg);
+//                        break;
+//
+//                }
+//            }
+//        });
 
     }
 
@@ -356,8 +358,12 @@ public class WeatherMain extends AppCompatActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         //设置菜单列表
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, lvs);
-        lvLeftMenu.setAdapter(arrayAdapter);
+//        lvLeftMenu.setAdapter(arrayAdapter);
     }
 
 
+    @Override
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
+        return false;
+    }
 }
