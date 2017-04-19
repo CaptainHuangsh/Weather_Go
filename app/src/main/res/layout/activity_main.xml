@@ -4,89 +4,103 @@
     android:id="@+id/dl_left"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:openDrawer="start">
-
+    android:fitsSystemWindows="true">
+    <!--tools:openDrawer="start"-->
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/coord"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/tl_custom"
-            layout="@layout/custom_toolbar" />
-
-
-        <RelativeLayout
-            android:id="@+id/weather_info"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tl_custom"
-            android:layout_margin="16dp">
+            android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/weather_img"
-                android:layout_width="106dp"
-                android:layout_height="106dp"
-                android:src="@drawable/weather" />
+            <include
+                android:id="@+id/tl_custom"
+                layout="@layout/custom_toolbar" />
 
-
-            <TextView
-                android:id="@+id/weather_temp_max"
-                android:layout_width="80dp"
+            <RelativeLayout
+                android:id="@+id/weather_info"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:gravity="right"
-                android:text="@string/hsh_temp_max"
-                android:textSize="16dp" />
+                android:layout_below="@+id/tl_custom"
+                android:layout_margin="16dp">
 
-            <TextView
-                android:id="@+id/weather_temp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/weather_temp_max"
-                android:text="@string/hsh_temperature"
-                android:textSize="48dp" />
+                <ImageView
+                    android:id="@+id/weather_img"
+                    android:layout_width="106dp"
+                    android:layout_height="106dp"
+                    android:layout_below="@+id/tl_custom"
+                    android:src="@drawable/weather" />
 
-            <TextView
-                android:id="@+id/weather_temp_min"
-                android:layout_width="80dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/weather_temp_max"
-                android:layout_marginTop="30dp"
-                android:gravity="right"
-                android:text="@string/hsh_temp_min"
-                android:textSize="16dp" />
-
-            <LinearLayout
-                android:id="@+id/weather_country_wind"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/weather_temp_min"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal">
 
                 <TextView
-
-                    android:id="@+id/weather_wind_speed"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="@string/hsh_wind_speed" />
+                    android:id="@+id/weather_temp_max"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:gravity="right"
+                    android:text="@string/hsh_temp_max"
+                    android:textSize="16dp" />
 
                 <TextView
-                    android:id="@+id/weather_country"
+                    android:id="@+id/weather_temp"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="16dp"
-                    android:text="@string/hsh_country" />
-            </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@id/weather_temp_max"
+                    android:text="@string/hsh_temperature"
+                    android:textSize="48dp" />
 
+                <TextView
+                    android:id="@+id/weather_temp_min"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/weather_temp_max"
+                    android:layout_marginTop="30dp"
+                    android:gravity="right"
+                    android:text="@string/hsh_temp_min"
+                    android:textSize="16dp" />
 
-        </RelativeLayout>
+                <LinearLayout
+                    android:id="@+id/weather_country_wind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/weather_temp_min"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal">
 
+                    <TextView
+
+                        android:id="@+id/weather_wind_speed"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:text="@string/hsh_wind_speed" />
+
+                    <TextView
+                        android:id="@+id/weather_country"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="16dp"
+                        android:text="@string/hsh_country" />
+                </LinearLayout>
+
+                <ListView
+
+                    android:id="@+id/weather_forecast"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/weather_country_wind"
+                    android:divider="#FFCC00">
+
+                </ListView>
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res/com.example.owen.weathergo"
@@ -94,10 +108,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context=".modules.main.activity.WeatherMain">
-            <!--Toolbar-->
-            <include
-                android:id="@+id/tl_custom"
-                layout="@layout/custom_toolbar" />
 
 
             <EditText
@@ -136,15 +146,6 @@
                 android:layout_margin="16dp"
                 android:visibility="gone" />
 
-
-            <ListView
-                android:id="@+id/weather_forecast"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/hsh_search_weather"
-                android:divider="#FFCC00">
-
-            </ListView>
 
         </RelativeLayout>
     </android.support.design.widget.CoordinatorLayout>
