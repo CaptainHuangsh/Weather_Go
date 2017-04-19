@@ -49,6 +49,7 @@ public class WeatherMain extends AppCompatActivity {
      * 程序入口，主Activity类
      */
 
+    //http://jakewharton.github.io/butterknife/
     @BindView(R.id.hsh_weather_city_editview)
     EditText mCity;//城市名称输入框，通过城市名称进行查询，大陆地区城市不全且支持拼音
     @BindView(R.id.weather_country)
@@ -67,30 +68,31 @@ public class WeatherMain extends AppCompatActivity {
     Toolbar mToolBar;
     @BindView(R.id.dl_left)
     DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
     @BindView(R.id.lv_left_menu)
     ListView lvLeftMenu;
-    private String[] lvs = {"设置", "选择城市", "关于", "建议"};
-    private ArrayAdapter arrayAdapter;
-    private String mCityStr = "kaifeng";
-    private String mGCityStr = "";
     @BindView(R.id.weather_forecast)
     ListView mForecastList;
-    private ArrayList<DailyForecast> mDFList = new ArrayList<>();
     @BindView(R.id.weather_touxiang)
     ImageView mLogImg;
-    private List<DLForecast> dlForecastList = new ArrayList<DLForecast>();
     @BindView(R.id.weather_img)
     ImageView ToImg;
     @BindView(R.id.viewPager)
     ViewPager viewPager;  //对应的viewPager
+    @BindView(R.id.hsh_search_weather)
+    Button mSearchWeather;
+    //查询按钮，触发查询事件
+
+    private ActionBarDrawerToggle mDrawerToggle;
+    private ArrayList<DailyForecast> mDFList = new ArrayList<>();
+    private String[] lvs = {"设置", "选择城市", "关于", "建议"};
+    private ArrayAdapter arrayAdapter;
+    private String mCityStr = "kaifeng";
+    private String mGCityStr = "";
+    private List<DLForecast> dlForecastList = new ArrayList<DLForecast>();
     private View view1, view2;
     private List<View> viewList;//view数组
     private boolean isSugg = false;
     //分别为查询结果国家，最低温度，最高温度，当前温度，风速
-    @BindView(R.id.hsh_search_weather)
-    Button mSearchWeather;
-    //查询按钮，触发查询事件
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -355,10 +357,6 @@ public class WeatherMain extends AppCompatActivity {
         //设置菜单列表
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, lvs);
         lvLeftMenu.setAdapter(arrayAdapter);
-
-
-
-
     }
 
 

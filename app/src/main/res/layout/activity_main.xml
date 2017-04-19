@@ -3,178 +3,180 @@
     android:id="@+id/dl_left"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            xmlns:app="http://schemas.android.com/apk/res/com.example.owen.weathergo"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context=".modules.main.activity.WeatherMain">
-    <!--Toolbar-->
-    <include layout="@layout/custom_toolbar"
-        android:id="@+id/tl_custom"
-        />
 
-
-    <RelativeLayout
-        android:layout_below="@+id/tl_custom"
-        android:id="@+id/weather_info"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res/com.example.owen.weathergo"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp">
-
-        <ImageView
-            android:id="@+id/weather_img"
-            android:src="@drawable/weather"
-            android:layout_width="106dp"
-            android:layout_height="106dp" />
+        android:layout_height="match_parent"
+        tools:context=".modules.main.activity.WeatherMain">
+        <!--Toolbar-->
+        <include
+            android:id="@+id/tl_custom"
+            layout="@layout/custom_toolbar" />
 
 
-
-        <TextView
-            android:gravity="right"
-            android:id="@+id/weather_temp_max"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:text="@string/hsh_temp_max"
-            android:textSize="16dp" />
-        <TextView
-            android:id="@+id/weather_temp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/weather_temp_max"
-            android:text="@string/hsh_temperature"
-            android:textSize="48dp" />
-        <TextView
-            android:gravity="right"
-            android:id="@+id/weather_temp_min"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/weather_temp_max"
-            android:layout_marginTop="30dp"
-            android:text="@string/hsh_temp_min"
-            android:textSize="16dp" />
-
-        <LinearLayout
-            android:id="@+id/weather_country_wind"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/weather_temp_min"
-            android:orientation="horizontal">
-            <TextView
-
-                android:id="@+id/weather_wind_speed"
-                android:text="@string/hsh_wind_speed"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
-            <TextView
-                android:layout_marginLeft="16dp"
-                android:id="@+id/weather_country"
-                android:text="@string/hsh_country"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" />
-        </LinearLayout>
-        <android.support.v4.view.ViewPager
-            android:visibility="gone"
-            android:layout_below="@id/weather_country_wind"
+        <RelativeLayout
+            android:id="@+id/weather_info"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/viewPager">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tl_custom"
+            android:layout_margin="16dp">
 
-        </android.support.v4.view.ViewPager>
+            <ImageView
+                android:id="@+id/weather_img"
+                android:layout_width="106dp"
+                android:layout_height="106dp"
+                android:src="@drawable/weather" />
+
+
+            <TextView
+                android:id="@+id/weather_temp_max"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:gravity="right"
+                android:text="@string/hsh_temp_max"
+                android:textSize="16dp" />
+
+            <TextView
+                android:id="@+id/weather_temp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/weather_temp_max"
+                android:text="@string/hsh_temperature"
+                android:textSize="48dp" />
+
+            <TextView
+                android:id="@+id/weather_temp_min"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/weather_temp_max"
+                android:layout_marginTop="30dp"
+                android:gravity="right"
+                android:text="@string/hsh_temp_min"
+                android:textSize="16dp" />
+
+            <LinearLayout
+                android:id="@+id/weather_country_wind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/weather_temp_min"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
+
+                <TextView
+
+                    android:id="@+id/weather_wind_speed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="@string/hsh_wind_speed" />
+
+                <TextView
+                    android:id="@+id/weather_country"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="16dp"
+                    android:text="@string/hsh_country" />
+            </LinearLayout>
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/weather_country_wind"
+                android:visibility="gone">
+
+            </android.support.v4.view.ViewPager>
+
+        </RelativeLayout>
+
+
+        <EditText
+            android:id="@+id/hsh_weather_city_editview"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/weather_info"
+            android:layout_margin="16dp"
+            android:ems="10"
+            android:hint="城市"
+            android:visibility="gone" />
+
+
+        <Button
+            android:id="@+id/hsh_search_weather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/weather_info"
+            android:layout_toRightOf="@id/hsh_weather_city_editview"
+            android:text="@string/weather"
+            android:visibility="gone" />
+        <!--<android.support.design.widget.FloatingActionButton
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:context=".MyActivity"/>-->
+
+        <TextView
+            android:id="@+id/weather_suggesstions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/hsh_search_weather"
+            android:layout_margin="16dp"
+            android:visibility="gone" />
+
+
+        <ListView
+            android:id="@+id/weather_forecast"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/hsh_search_weather"
+            android:divider="#FFCC00">
+
+        </ListView>
 
     </RelativeLayout>
 
 
-    <EditText
-        android:layout_margin="16dp"
-        android:id="@+id/hsh_weather_city_editview"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/weather_info"
-        android:ems="10"
-        android:visibility="gone"
-        android:hint="城市" />
-
-
-
-
-
-
-    <Button
-        android:visibility="gone"
-        android:id="@+id/hsh_search_weather"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/weather_info"
-        android:layout_toRightOf="@id/hsh_weather_city_editview"
-        android:text="@string/weather" />
-    <!--<android.support.design.widget.FloatingActionButton
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="16dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:context=".MyActivity"/>-->
-
-    <TextView
-        android:visibility="gone"
-        android:id="@+id/weather_suggesstions"
-        android:layout_margin="16dp"
-        android:layout_below="@+id/hsh_search_weather"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-
-    <ListView
-        android:divider="#FFCC00"
-        android:id="@+id/weather_forecast"
-        android:layout_below="@+id/hsh_search_weather"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </ListView>
-
-</RelativeLayout>
-
-
     <LinearLayout
-            android:backgroundTint="@color/cardview_light_background"
-            android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:background="#fff"
+        android:backgroundTint="@color/cardview_light_background"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/weather_touxiang"
+            android:layout_width="192dp"
+            android:layout_height="192dp"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:src="@drawable/snowman" />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="切换登陆"
+            android:textSize="16dp" />
+
+        <ListView
+            android:id="@+id/lv_left_menu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#fff"
-            android:layout_gravity="start">
+            android:layout_marginTop="64dp"
+            android:divider="@null"
+            android:text="DrawerLayout" />
 
-            <ImageView
-                android:id="@+id/weather_touxiang"
-                android:clickable="true"
-                android:layout_gravity="center"
-                android:src="@drawable/snowman"
-                android:layout_width="192dp"
-                android:layout_height="192dp" />
-            <TextView
+    </LinearLayout>
 
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:textSize="16dp"
-                android:text="切换登陆"
-                android:layout_height="wrap_content" />
-            <ListView
-                android:layout_marginTop="64dp"
-                android:id="@+id/lv_left_menu"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:divider="@null"
-                android:text="DrawerLayout" />
-
-        </LinearLayout>
-
-    </android.support.v4.widget.DrawerLayout>
-    <!--DrawerLayout-->
+</android.support.v4.widget.DrawerLayout><!--DrawerLayout-->
 
