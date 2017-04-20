@@ -37,6 +37,7 @@ import com.example.owen.weathergo.component.DLForecast;
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.modules.dao.DailyForecast;
 import com.example.owen.weathergo.modules.dao.WeatherBean;
+import com.example.owen.weathergo.modules.main.adapter.HomePageAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +46,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class WeatherMain extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     /**
      * 程序入口，主Activity类
@@ -79,7 +80,7 @@ public class WeatherMain extends AppCompatActivity
     @BindView(R.id.weather_img)
     ImageView ToImg;
     /*@BindView(R.id.viewPager)
-    ViewPager viewPager;  //对应的viewPager*/
+    ViewPager mViewPager;  //对应的viewPager*/
     @BindView(R.id.hsh_search_weather)
     Button mSearchWeather;
     //查询按钮，触发查询事件
@@ -104,7 +105,6 @@ public class WeatherMain extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-//        findView();
         init();
 
         setListener();
@@ -145,28 +145,10 @@ public class WeatherMain extends AppCompatActivity
                 return viewList.get(position);
             }
         };
-
+        /*mViewPager.setAdapter(pagerAdapter);*/
 
     }
 
-/*
-    public void findView() {
-        mTemp = (TextView) findViewById(R.id.weather_temp);
-        mSearchWeather = (Button) findViewById(R.id.hsh_search_weather);
-        mCity = (EditText) findViewById(R.id.hsh_weather_city_editview);
-        mCountry = (TextView) findViewById(R.id.weather_country);
-        mTemp_min = (TextView) findViewById(R.id.weather_temp_min);
-        mTemp_max = (TextView) findViewById(R.id.weather_temp_max);
-        mWind_speed = (TextView) findViewById(R.id.weather_wind_speed);
-        mForecastList = (ListView) findViewById(R.id.weather_forecast);
-        mSugg = (TextView) findViewById(R.id.weather_suggesstions);
-        mToolBar = (Toolbar) findViewById(R.id.tl_custom);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.dl_left);
-        lvLeftMenu = (ListView) findViewById(R.id.lv_left_menu);
-        mLogImg = (ImageView) findViewById(R.id.weather_touxiang);
-        viewPager = (ViewPager) findViewById(R.id.viewPager);
-    }
-*/
 
     public void setListener() {
         /**
@@ -184,31 +166,7 @@ public class WeatherMain extends AppCompatActivity
             }
         });
 
-        /*mLogImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(WeatherMain.this, Stud.class);
-                startActivity(intent);
-            }
-        });*/
-//        lvLeftMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                switch (lvs[position]) {
-//
-//                    case "设置":
-//                        break;
-//                    case "选择城市":
-//                        break;
-//                    case "关于":
-//                        break;
-//                    case "建议":
-//                        showSugg(isSugg);
-//                        break;
-//
-//                }
-//            }
-//        });
+
 
     }
 
@@ -359,6 +317,9 @@ public class WeatherMain extends AppCompatActivity
         //设置菜单列表
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, lvs);
 //        lvLeftMenu.setAdapter(arrayAdapter);
+
+        HomePageAdapter mHomePageAdapter = new HomePageAdapter(getSupportFragmentManager());
+//        mHomePageAdapter.addTab();
     }
 
 
