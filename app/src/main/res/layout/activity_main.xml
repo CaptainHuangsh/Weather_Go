@@ -4,8 +4,9 @@
     android:id="@+id/dl_left"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
-    <!--tools:openDrawer="start"-->
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
+
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/coord"
         android:layout_width="match_parent"
