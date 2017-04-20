@@ -52,4 +52,10 @@
     <string name="m_s">m/s</string>
     <string name="weather_app_name">☼最丑天气</string>
 
+    <!--nav-->
+    <string name="nav_city">选择城市</string>
+    <string name="nav_multi_cities">多城市管理</string>
+    <string name="nav_setting">设置</string>
+    <string name="nav_about">关于</string>
+
 </resources>
