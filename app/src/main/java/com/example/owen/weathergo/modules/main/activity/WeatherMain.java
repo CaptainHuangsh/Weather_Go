@@ -171,7 +171,6 @@ public class WeatherMain extends AppCompatActivity
         });
 
 
-
     }
 
     //的给 Android 开发者的 RxJava 详解 https://gank.io/post/560e15be2dca930e00da1083
@@ -325,6 +324,7 @@ public class WeatherMain extends AppCompatActivity
 
         HomePageAdapter mHomePageAdapter = new HomePageAdapter(getSupportFragmentManager());
 //        mHomePageAdapter.addTab();
+        //下拉刷新 http://www.jianshu.com/p/d23b42b6360b
         mRefreshLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);
         // 设置下拉进度的主题颜色
         mRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary, R.color.colorPrimaryDark);
@@ -346,6 +346,7 @@ public class WeatherMain extends AppCompatActivity
                     @Override
                     public void run() {
 
+                        adapter.clear();
                         getWeather();
                         adapter.notifyDataSetChanged();
 
