@@ -14,6 +14,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,6 +42,8 @@ import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.modules.dao.DailyForecast;
 import com.example.owen.weathergo.modules.dao.WeatherBean;
 import com.example.owen.weathergo.modules.main.adapter.HomePageAdapter;
+import com.example.owen.weathergo.modules.main.adapter.WeatherAdapter;
+import com.example.owen.weathergo.modules.main.domain.WeatherAPI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,6 +92,10 @@ public class WeatherMain extends AppCompatActivity
     Button mSearchWeather; //查询按钮，触发查询事件
     @BindView(R.id.main_swipe)
     SwipeRefreshLayout mRefreshLayout;
+    @BindView(R.id.recycle_view)
+    RecyclerView mRecycleView;
+
+    WeatherAdapter mWeatherAdapter;
 
     private ActionBarDrawerToggle mDrawerToggle;
     private ArrayList<DailyForecast> mDFList = new ArrayList<>();
@@ -364,6 +372,11 @@ public class WeatherMain extends AppCompatActivity
             }
         });
 
+        mRecycleView.setLayoutManager(new LinearLayoutManager(this));
+        //获取当前Activity的View
+        mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView()));
+
+
     }
 
 
@@ -371,4 +384,6 @@ public class WeatherMain extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem menuItem) {
         return false;
     }
+
+
 }
