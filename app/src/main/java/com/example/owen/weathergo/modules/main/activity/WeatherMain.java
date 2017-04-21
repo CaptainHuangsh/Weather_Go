@@ -3,11 +3,13 @@ package com.example.owen.weathergo.modules.main.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
@@ -41,6 +43,7 @@ import com.example.owen.weathergo.modules.main.adapter.HomePageAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -82,8 +85,9 @@ public class WeatherMain extends AppCompatActivity
     /*@BindView(R.id.viewPager)
     ViewPager mViewPager;  //对应的viewPager*/
     @BindView(R.id.hsh_search_weather)
-    Button mSearchWeather;
-    //查询按钮，触发查询事件
+    Button mSearchWeather; //查询按钮，触发查询事件
+    @BindView(R.id.main_swipe)
+    SwipeRefreshLayout mRefreshLayout;
 
     private ActionBarDrawerToggle mDrawerToggle;
     private ArrayList<DailyForecast> mDFList = new ArrayList<>();
@@ -295,6 +299,7 @@ public class WeatherMain extends AppCompatActivity
         /**
          * 初始化各个变量
          */
+        final DLForecastAdapter adapter = new DLForecastAdapter(WeatherMain.this, R.layout.item_forecast_line, dlForecastList);
         mToolBar.setTitle(getResources().getString(R.string.weather_app_name));
         setSupportActionBar(mToolBar);
         getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
@@ -320,6 +325,44 @@ public class WeatherMain extends AppCompatActivity
 
         HomePageAdapter mHomePageAdapter = new HomePageAdapter(getSupportFragmentManager());
 //        mHomePageAdapter.addTab();
+        mRefreshLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);
+        // 设置下拉进度的主题颜色
+        mRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary, R.color.colorPrimaryDark);
+
+        // 下拉时触发SwipeRefreshLayout的下拉动画，动画完毕之后就会回调这个方法
+        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                // 开始刷新，设置当前为刷新状态
+                //swipeRefreshLayout.setRefreshing(true);
+
+                // 这里是主线程
+                // 一些比较耗时的操作，比如联网获取数据，需要放到子线程去执行
+                // TODO 获取数据
+//                final Random random = new Random();
+                new Handler().postDelayed(new Runnable() {
+                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                    @Override
+                    public void run() {
+
+                        getWeather();
+                        adapter.notifyDataSetChanged();
+
+                        Toast.makeText(WeatherMain.this, "刷新了数据", Toast.LENGTH_SHORT).show();
+
+                        // 加载完数据设置为不刷新状态，将下拉进度收起来
+                        mRefreshLayout.setRefreshing(false);
+                    }
+                }, 1200);
+
+                // System.out.println(Thread.currentThread().getName());
+
+                // 这个不能写在外边，不然会直接收起来
+                //swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
     }
 
 

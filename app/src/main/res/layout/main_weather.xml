@@ -11,7 +11,9 @@
         android:layout_below="@+id/tl_custom"
         android:layout_margin="16dp">
 
+
         <ImageView
+
             android:id="@+id/weather_img"
             android:layout_width="106dp"
             android:layout_height="106dp"
@@ -72,16 +74,21 @@
                 android:text="@string/hsh_country" />
         </LinearLayout>
 
-        <ListView
-
-            android:id="@+id/weather_forecast"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+        <android.support.v4.widget.SwipeRefreshLayout
             android:layout_below="@+id/weather_country_wind"
-            android:divider="#FFCC00">
+            android:id="@+id/main_swipe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        </ListView>
+            <ListView
 
+                android:id="@+id/weather_forecast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="#FFCC00">
+
+            </ListView>
+        </android.support.v4.widget.SwipeRefreshLayout>
     </RelativeLayout>
 
 
