@@ -3,16 +3,14 @@ package com.example.owen.weathergo.modules.main.activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,31 +21,22 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.owen.weathergo.adapter.DLForecastAdapter;
+import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.util.IconGet;
 import com.example.owen.weathergo.common.util.JSONUtil;
 import com.example.owen.weathergo.component.DLForecast;
-import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.modules.dao.DailyForecast;
 import com.example.owen.weathergo.modules.dao.WeatherBean;
-import com.example.owen.weathergo.modules.main.adapter.HomePageAdapter;
 import com.example.owen.weathergo.modules.main.adapter.WeatherAdapter;
-import com.example.owen.weathergo.modules.main.domain.WeatherAPI;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -78,19 +67,10 @@ public class WeatherMain extends AppCompatActivity
     Toolbar mToolBar;
     @BindView(R.id.dl_left)
     DrawerLayout mDrawerLayout;
-    /*@BindView(R.id.lv_left_menu)
-    ListView lvLeftMenu;*/
-    /*@BindView(R.id.weather_forecast)
-    ListView mForecastList;*/
-    /*@BindView(R.id.weather_touxiang)
-    ImageView mLogImg;*/
-    @BindView(R.id.weather_img)
-    ImageView ToImg;
-    /*@BindView(R.id.viewPager)
-    ViewPager mViewPager;  //对应的viewPager*/
+
     @BindView(R.id.hsh_search_weather)
     Button mSearchWeather; //查询按钮，触发查询事件
-    @BindView(R.id.main_swipe)
+    @BindView(R.id.main_swipe)//下拉刷新控件
     SwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.recycle_view)
     RecyclerView mRecycleView;
@@ -99,8 +79,6 @@ public class WeatherMain extends AppCompatActivity
 
     private ActionBarDrawerToggle mDrawerToggle;
     private ArrayList<DailyForecast> mDFList = new ArrayList<>();
-    private String[] lvs = {"设置", "选择城市", "关于", "建议"};
-    private ArrayAdapter arrayAdapter;
     private String mCityStr = "kaifeng";
     private String mGCityStr = "";
     private List<DLForecast> dlForecastList = new ArrayList<DLForecast>();
@@ -127,37 +105,6 @@ public class WeatherMain extends AppCompatActivity
         viewList = new ArrayList<View>();// 将要分页显示的View装入数组中
         viewList.add(view1);
         viewList.add(view2);
-        PagerAdapter pagerAdapter = new PagerAdapter() {
-
-            @Override
-            public boolean isViewFromObject(View arg0, Object arg1) {
-                // TODO Auto-generated method stub
-                return arg0 == arg1;
-            }
-
-            @Override
-            public int getCount() {
-                // TODO Auto-generated method stub
-                return viewList.size();
-            }
-
-            @Override
-            public void destroyItem(ViewGroup container, int position,
-                                    Object object) {
-                // TODO Auto-generated method stub
-                container.removeView(viewList.get(position));
-            }
-
-            @Override
-            public Object instantiateItem(ViewGroup container, int position) {
-                // TODO Auto-generated method stub
-                container.addView(viewList.get(position));
-
-
-                return viewList.get(position);
-            }
-        };
-        /*mViewPager.setAdapter(pagerAdapter);*/
 
     }
 
@@ -235,8 +182,6 @@ public class WeatherMain extends AppCompatActivity
                 i++;
             }
 
-//            DLForecastAdapter adapter = new DLForecastAdapter(WeatherMain.this, R.layout.item_forecast_line, dlForecastList);
-//            mForecastList.setAdapter(adapter);
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, "    定位失败,请手动输入城市", Toast.LENGTH_LONG).show();
@@ -289,24 +234,12 @@ public class WeatherMain extends AppCompatActivity
     }
 
 
-    public void showSugg(boolean isSugg) {
-        if (!isSugg) {
-            mSugg.setVisibility(View.VISIBLE);
-//            mForecastList.setVisibility(View.GONE);
 
-        } else {
-            mSugg.setVisibility(View.GONE);
-//            mForecastList.setVisibility(View.VISIBLE);
-        }
-        isSugg = !isSugg;
-
-    }
 
     public void init() {
         /**
          * 初始化各个变量
          */
-        final DLForecastAdapter adapter = new DLForecastAdapter(WeatherMain.this, R.layout.item_forecast_line, dlForecastList);
         mToolBar.setTitle(getResources().getString(R.string.weather_app_name));
         setSupportActionBar(mToolBar);
         getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
@@ -327,11 +260,9 @@ public class WeatherMain extends AppCompatActivity
         mDrawerToggle.syncState();
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         //设置菜单列表
-        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, lvs);
+//        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, lvs);
 //        lvLeftMenu.setAdapter(arrayAdapter);
 
-        HomePageAdapter mHomePageAdapter = new HomePageAdapter(getSupportFragmentManager());
-//        mHomePageAdapter.addTab();
         //下拉刷新 http://www.jianshu.com/p/d23b42b6360b
         mRefreshLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);
         // 设置下拉进度的主题颜色
@@ -377,7 +308,7 @@ public class WeatherMain extends AppCompatActivity
 
         mRecycleView.setLayoutManager(new LinearLayoutManager(this));
         //获取当前Activity的View
-        mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(),dlForecastList));
+        mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(), dlForecastList));
 
 
     }
