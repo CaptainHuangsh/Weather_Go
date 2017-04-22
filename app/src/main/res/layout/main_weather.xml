@@ -109,7 +109,7 @@
             android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@id/weather_info"
+
             android:layout_margin="16dp"
             android:ems="10"
             android:hint="城市"
@@ -120,7 +120,7 @@
             android:id="@+id/hsh_search_weather"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/weather_info"
+
             android:layout_toRightOf="@id/hsh_weather_city_editview"
             android:text="@string/weather"
             android:visibility="gone" />
