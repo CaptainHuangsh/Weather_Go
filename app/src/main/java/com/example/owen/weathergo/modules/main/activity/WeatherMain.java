@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -48,6 +49,8 @@ public class WeatherMain extends AppCompatActivity
      * 程序入口，主Activity类
      */
 
+    private static final String TAG = "WeatherMain.c";
+
     //http://jakewharton.github.io/butterknife/
     @BindView(R.id.hsh_weather_city_editview)
     EditText mCity;//城市名称输入框，通过城市名称进行查询，大陆地区城市不全且支持拼音
@@ -67,6 +70,8 @@ public class WeatherMain extends AppCompatActivity
     Toolbar mToolBar;
     @BindView(R.id.dl_left)
     DrawerLayout mDrawerLayout;
+    @BindView(R.id.nav_view)
+    NavigationView mNavigationView;
 
     @BindView(R.id.hsh_search_weather)
     Button mSearchWeather; //查询按钮，触发查询事件
@@ -94,17 +99,9 @@ public class WeatherMain extends AppCompatActivity
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
         init();
-
         setListener();
         getWeather();
-        LayoutInflater inflater = getLayoutInflater();
-        view1 = inflater.inflate(R.layout.daily_7_forecast, null);
-        view2 = inflater.inflate(R.layout.suggestion, null);
-        viewList = new ArrayList<View>();// 将要分页显示的View装入数组中
-        viewList.add(view1);
-        viewList.add(view2);
 
     }
 
@@ -246,7 +243,7 @@ public class WeatherMain extends AppCompatActivity
 
         initDrawer();
         initRecycleView();
-
+        initNavigationView();
     }
 
 
@@ -261,17 +258,54 @@ public class WeatherMain extends AppCompatActivity
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
+                Log.i(TAG,"opened");
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
                 //mAnimationDrawable.start();
+                Log.i(TAG,"closed");
+            }
+
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, slideOffset);
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+                super.onDrawerStateChanged(newState);
             }
         };
         mDrawerToggle.syncState();
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         //设置菜单列表
+    }
+
+    //初始化navigationView
+    public void initNavigationView(){
+        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Log.d("onSelected", "id=" + item.getItemId());
+                switch (item.getItemId()){
+                    case R.id.nav_city:
+                        Log.i(TAG+"navigation","nav_city");
+                        break;
+                    case R.id.nav_multi_cities:
+                        Log.i(TAG+"navigation","nav_multi_cities");
+                        break;
+                    case R.id.nav_setting:
+                        Log.i(TAG+"navigation","nav_setting");
+                        break;
+                    case R.id.nav_about:
+                        Log.i(TAG+"navigation","nav_about");
+                        break;
+                }
+                return false;
+            }
+        });
     }
 
     //初始化下拉刷新控件
