@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.owen.weathergo.R;
+import com.example.owen.weathergo.component.DLForecast;
+import com.example.owen.weathergo.modules.dao.DailyForecast;
 import com.example.owen.weathergo.modules.dao.WeatherHolder;
 
 import java.util.ArrayList;
@@ -19,11 +21,18 @@ import java.util.List;
 public class WeatherAdapter extends RecyclerView.Adapter<WeatherHolder> {
     Context context;
     View view;
+    List<DLForecast> dlForecastList;
     private List<String> mDatas;
-    public WeatherAdapter(View inflate) {
-        view = inflate;
+    private DLForecast dls;
+
+    public WeatherAdapter(View inflate,List<DLForecast> dlForecastList) {
+        this.view = inflate;
+        this.dlForecastList = dlForecastList;
+//        this.dls = dls;
         initData();
     }
+
+
 
     @Override
     public WeatherHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -34,13 +43,22 @@ public class WeatherAdapter extends RecyclerView.Adapter<WeatherHolder> {
 
     @Override
     public void onBindViewHolder(WeatherHolder holder, int position) {
-        holder.dayView.setText("huang"+mDatas.get(position));
+//        holder.img.setImageResource();
+
+//        DailyForecast dfs = mDFList.get(position);
+        holder.dayView.setText("huang" + mDatas.get(position));
+        holder.img.setImageResource(dlForecastList.get(position).getImageId());
+        holder.dayView.setText(dlForecastList.get(position).getDay());
+        holder.temprView.setText(dlForecastList.get(position).getTempr());
+        holder.weamoreView.setText(dlForecastList.get(position).getWeamore());
     }
 
     @Override
     public int getItemCount() {
-        return mDatas.size();
+        return dlForecastList.size();
     }
+
+
     protected void initData() {
         mDatas = new ArrayList<String>();
         for (int i = 'A'; i < 'z'; i++) {

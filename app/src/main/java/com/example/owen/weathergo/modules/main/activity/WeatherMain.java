@@ -80,8 +80,8 @@ public class WeatherMain extends AppCompatActivity
     DrawerLayout mDrawerLayout;
     /*@BindView(R.id.lv_left_menu)
     ListView lvLeftMenu;*/
-    @BindView(R.id.weather_forecast)
-    ListView mForecastList;
+    /*@BindView(R.id.weather_forecast)
+    ListView mForecastList;*/
     /*@BindView(R.id.weather_touxiang)
     ImageView mLogImg;*/
     @BindView(R.id.weather_img)
@@ -235,8 +235,8 @@ public class WeatherMain extends AppCompatActivity
                 i++;
             }
 
-            DLForecastAdapter adapter = new DLForecastAdapter(WeatherMain.this, R.layout.item_forecast_line, dlForecastList);
-            mForecastList.setAdapter(adapter);
+//            DLForecastAdapter adapter = new DLForecastAdapter(WeatherMain.this, R.layout.item_forecast_line, dlForecastList);
+//            mForecastList.setAdapter(adapter);
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, "    定位失败,请手动输入城市", Toast.LENGTH_LONG).show();
@@ -292,11 +292,11 @@ public class WeatherMain extends AppCompatActivity
     public void showSugg(boolean isSugg) {
         if (!isSugg) {
             mSugg.setVisibility(View.VISIBLE);
-            mForecastList.setVisibility(View.GONE);
+//            mForecastList.setVisibility(View.GONE);
 
         } else {
             mSugg.setVisibility(View.GONE);
-            mForecastList.setVisibility(View.VISIBLE);
+//            mForecastList.setVisibility(View.VISIBLE);
         }
         isSugg = !isSugg;
 
@@ -354,9 +354,12 @@ public class WeatherMain extends AppCompatActivity
                     @Override
                     public void run() {
 
-                        adapter.clear();
+//                        mWeatherAdapter.;
+                        dlForecastList.clear();
+                        mRecycleView.removeAllViews();
+
                         getWeather();
-                        adapter.notifyDataSetChanged();
+                        mWeatherAdapter.notifyDataSetChanged();
 
                         Toast.makeText(WeatherMain.this, "刷新了数据", Toast.LENGTH_SHORT).show();
 
@@ -374,7 +377,7 @@ public class WeatherMain extends AppCompatActivity
 
         mRecycleView.setLayoutManager(new LinearLayoutManager(this));
         //获取当前Activity的View
-        mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView()));
+        mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(),dlForecastList));
 
 
     }

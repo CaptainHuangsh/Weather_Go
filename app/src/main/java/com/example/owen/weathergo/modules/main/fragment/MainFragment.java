@@ -52,8 +52,8 @@ public class MainFragment extends BaseFragment {
     DrawerLayout mDrawerLayout;
     /*@BindView(R.id.lv_left_menu)
     ListView lvLeftMenu;*/
-    @BindView(R.id.weather_forecast)
-    ListView mForecastList;
+    /*@BindView(R.id.weather_forecast)
+    ListView mForecastList;*/
     /*@BindView(R.id.weather_touxiang)
     ImageView mLogImg;*/
     @BindView(R.id.weather_img)

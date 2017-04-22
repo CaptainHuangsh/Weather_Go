@@ -73,24 +73,25 @@
                 android:layout_marginLeft="16dp"
                 android:text="@string/hsh_country" />
         </LinearLayout>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycle_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/main_swipe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/weather_country_wind">
 
-            <ListView
+            <!--<ListView
 
                 android:id="@+id/weather_forecast"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:divider="#FFCC00">
 
-            </ListView>
+            </ListView>-->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycle_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
         </android.support.v4.widget.SwipeRefreshLayout>
     </RelativeLayout>
 
