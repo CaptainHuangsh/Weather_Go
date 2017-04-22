@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -29,8 +30,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.owen.weathergo.R;
+import com.example.owen.weathergo.common.DoubleClickExit;
 import com.example.owen.weathergo.common.util.IconGet;
 import com.example.owen.weathergo.common.util.JSONUtil;
+import com.example.owen.weathergo.common.util.ToastUtil;
 import com.example.owen.weathergo.component.DLForecast;
 import com.example.owen.weathergo.modules.dao.DailyForecast;
 import com.example.owen.weathergo.modules.dao.WeatherBean;
@@ -358,6 +361,20 @@ public class WeatherMain extends AppCompatActivity
         mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(), dlForecastList));
 
 
+    }
+
+    //设置双击推出
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            if (!DoubleClickExit.check()) {
+                ToastUtil.showShort(getString(R.string.double_exit));
+            } else {
+                finish();
+            }
+        }
     }
 
 
