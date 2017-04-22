@@ -16,7 +16,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".modules.main.activity.Stud"/>
         <activity android:name=".modules.main.activity.LoginActivity"/>
         <activity android:name=".modules.main.activity.LogingActivity"/>
         <meta-data
