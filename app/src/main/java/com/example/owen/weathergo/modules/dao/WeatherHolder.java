@@ -1,6 +1,5 @@
 package com.example.owen.weathergo.modules.dao;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,10 +29,6 @@ public class WeatherHolder extends BaseViewHolder {
     public WeatherHolder(View view) {
         super(view);
         ButterKnife.bind(this, view);
-//        /*img = (ImageView) view.findViewById(R.id.forecast_icon);
-//        dayView = (TextView) view.findViewById(R.id.forecast_date);
-//        temprView = (TextView) view.findViewById(R.id.forecast_temp);
-//        weamoreView = (TextView) view.findViewById(R.id.forecast_txt);*/
     }
 
     @Override

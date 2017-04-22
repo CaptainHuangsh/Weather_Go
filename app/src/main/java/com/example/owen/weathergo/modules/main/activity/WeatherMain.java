@@ -71,7 +71,7 @@ public class WeatherMain extends AppCompatActivity
     @BindView(R.id.hsh_search_weather)
     Button mSearchWeather; //查询按钮，触发查询事件
     @BindView(R.id.main_swipe)//下拉刷新控件
-    SwipeRefreshLayout mRefreshLayout;
+            SwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.recycle_view)
     RecyclerView mRecycleView;
 
@@ -234,8 +234,6 @@ public class WeatherMain extends AppCompatActivity
     }
 
 
-
-
     public void init() {
         /**
          * 初始化各个变量
@@ -245,6 +243,20 @@ public class WeatherMain extends AppCompatActivity
         getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //创建返回键，并实现打开关/闭监听
+
+        initDrawer();
+        initRecycleView();
+
+    }
+
+
+    @Override
+    public boolean onNavigationItemSelected(MenuItem menuItem) {
+        return false;
+    }
+
+    //初始化抽屉
+    public void initDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolBar, R.string.open, R.string.close) {
             @Override
             public void onDrawerOpened(View drawerView) {
@@ -260,9 +272,10 @@ public class WeatherMain extends AppCompatActivity
         mDrawerToggle.syncState();
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         //设置菜单列表
-//        arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, lvs);
-//        lvLeftMenu.setAdapter(arrayAdapter);
+    }
 
+    //初始化下拉刷新控件
+    public void initRecycleView() {
         //下拉刷新 http://www.jianshu.com/p/d23b42b6360b
         mRefreshLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);
         // 设置下拉进度的主题颜色
@@ -311,12 +324,6 @@ public class WeatherMain extends AppCompatActivity
         mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(), dlForecastList));
 
 
-    }
-
-
-    @Override
-    public boolean onNavigationItemSelected(MenuItem menuItem) {
-        return false;
     }
 
 
