@@ -4,12 +4,12 @@
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="8dp"
-    android:layout_marginRight="8dp"
+    android:layout_marginLeft="0dp"
+    android:layout_marginRight="0dp"
     android:layout_marginTop="10dp"
     android:elevation="10dp"
     card_view:cardBackgroundColor="#abcdef"
-    card_view:cardCornerRadius="15dp">
+    card_view:cardCornerRadius="5dp">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
