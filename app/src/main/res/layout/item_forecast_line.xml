@@ -8,7 +8,6 @@
     android:layout_marginRight="0dp"
     android:layout_marginTop="10dp"
     android:elevation="10dp"
-    card_view:cardBackgroundColor="#abcdef"
     card_view:cardCornerRadius="5dp">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"

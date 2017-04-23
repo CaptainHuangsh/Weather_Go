@@ -35,6 +35,7 @@ import com.example.owen.weathergo.common.util.IconGet;
 import com.example.owen.weathergo.common.util.JSONUtil;
 import com.example.owen.weathergo.common.util.ToastUtil;
 import com.example.owen.weathergo.component.DLForecast;
+import com.example.owen.weathergo.modules.about.About;
 import com.example.owen.weathergo.modules.dao.DailyForecast;
 import com.example.owen.weathergo.modules.dao.WeatherBean;
 import com.example.owen.weathergo.modules.main.adapter.WeatherAdapter;
@@ -300,9 +301,11 @@ public class WeatherMain extends AppCompatActivity
                         Log.i(TAG+"navigation","nav_multi_cities");
                         break;
                     case R.id.nav_setting:
+                        SettingsActivity.launch(WeatherMain.this);
                         Log.i(TAG+"navigation","nav_setting");
                         break;
                     case R.id.nav_about:
+                        About.launch(WeatherMain.this);
                         Log.i(TAG+"navigation","nav_about");
                         break;
                 }

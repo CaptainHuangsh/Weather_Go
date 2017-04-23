@@ -20,6 +20,7 @@ android {
         versionCode 1
         versionName '1.0.1'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
@@ -36,28 +37,27 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    // Rx
+    // If you want to bind to Android-specific lifecycles
+    // If you want pre-written Activities and Fragments you can subclass as providers
+    // If you want to use Navi for providers
+    // If you want to use Kotlin syntax
+    // network
+    // Retrofit & OkHttp
+    //butterknife http://jakewharton.github.io/butterknife/
     compile 'com.android.support:appcompat-v7:25.0.0'
     compile 'com.android.support:design:25.0.0'
-    compile 'com.android.support:recyclerview-v7:21.+'
-    compile 'com.android.support:cardview-v7:21.+'
-    compile 'com.android.support:appcompat-v7:22.0.0'
-    testCompile 'junit:junit:4.12'
-    // Rx
+    compile 'com.android.support:recyclerview-v7:21.0.3'
+    compile 'com.android.support:cardview-v7:21.0.3'
     compile 'io.reactivex:rxjava:1.1.0'
     compile 'io.reactivex:rxandroid:1.1.0'
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar'
     compile 'com.trello:rxlifecycle:1.0'
-    // If you want to bind to Android-specific lifecycles
     compile 'com.trello:rxlifecycle-android:1.0'
-    // If you want pre-written Activities and Fragments you can subclass as providers
     compile 'com.trello:rxlifecycle-components:1.0'
-    // If you want to use Navi for providers
     compile 'com.trello:rxlifecycle-navi:1.0'
-    // If you want to use Kotlin syntax
     compile 'com.trello:rxlifecycle-kotlin:1.0'
-    // network
     compile 'com.google.code.gson:gson:2.4'
-    // Retrofit & OkHttp
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
@@ -65,11 +65,13 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
-    //butterknife http://jakewharton.github.io/butterknife/
     compile 'com.jakewharton:butterknife:8.5.1'
+    compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.android.support:support-vector-drawable:24.2.1'
+    testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     debugCompile 'com.github.moduth:blockcanary-android:1.2.1'
-    releaseCompile 'com.github.moduth:blockcanary-no-op:1.2.1'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
+    releaseCompile 'com.github.moduth:blockcanary-no-op:1.2.1'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'
 }
