@@ -2,7 +2,7 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/about_coord"
+    android:id="@+id/coord"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <android.support.design.widget.AppBarLayout
@@ -40,6 +40,7 @@
 
                 <TextView
                     android:id="@+id/tv_version"
+                    android:text="Weather_Go"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
@@ -47,16 +48,24 @@
                     android:layout_marginBottom="8dp"
                     style="@style/textToolbarContent"/>
             </RelativeLayout>
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
         </android.support.design.widget.CollapsingToolbarLayout>
         <!-- contentScrim 这个属性是设置折叠后Toolbar的颜色-->
 
     </android.support.design.widget.AppBarLayout>
-    <TextView
-        android:id="@+id/about_txt"
-        android:layout_width="match_parent"
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="about"
-        android:textSize="66dp" />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <!--<include layout="@layout/part_about"/>-->
+
+    </android.support.v4.widget.NestedScrollView>
 
 </android.support.design.widget.CoordinatorLayout>
