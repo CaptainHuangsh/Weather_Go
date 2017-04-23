@@ -15,7 +15,7 @@ package com.example.owen.weathergo.modules.main.activity;
         import android.widget.ProgressBar;
 
         import com.example.owen.weathergo.R;
-
+//发布release版本 http://blog.csdn.net/to_perfect/article/details/69048419
 public class LogingActivity extends Activity {
     private ProgressBar progressBar;
     private Button backButton;
