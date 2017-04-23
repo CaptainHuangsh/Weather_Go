@@ -65,6 +65,11 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <!--<include layout="@layout/part_about"/>-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="96dp"
+            android:text="about"/>
 
     </android.support.v4.widget.NestedScrollView>
 
