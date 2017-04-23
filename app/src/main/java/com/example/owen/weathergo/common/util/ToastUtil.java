@@ -6,6 +6,7 @@ import com.example.owen.weathergo.base.BaseApplication;
 
 /**
  * Created by owen on 2017/4/8.
+ * commit at least 10 times per day from 4.23
  */
 
 public class ToastUtil {
