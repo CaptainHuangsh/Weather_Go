@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.component.DLForecast;
 import com.example.owen.weathergo.modules.dao.DailyWeatherHolder;
+import com.example.owen.weathergo.modules.dao.HourlyWeatherHolder;
 import com.example.owen.weathergo.modules.dao.SuggestionWeatherHolder;
 import com.example.owen.weathergo.modules.dao.TodayWeatherHolder;
 import com.example.owen.weathergo.modules.dao.WeatherBean;
@@ -52,7 +53,9 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 Log.i("WeatherAdapteroncreateView", "" + WeatherAdapter.TYPE_TWO);
                 return new DailyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.weekly_forecast, parent, false), dlForecastList);
             case WeatherAdapter.TYPE_THREE:
-                return new SuggestionWeatherHolder(LayoutInflater.from(context).inflate(R.layout.suggestion,parent,false),weatherBean);
+                return new SuggestionWeatherHolder(LayoutInflater.from(context).inflate(R.layout.suggestion, parent, false), weatherBean);
+            case WeatherAdapter.TYPE_FORE:
+                return new HourlyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.hourly_forecast,parent,false));
         }
         return null;
     }
@@ -70,13 +73,16 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             case WeatherAdapter.TYPE_THREE:
                 ((SuggestionWeatherHolder) holder).bind(weatherBean);
                 break;
+            case WeatherAdapter.TYPE_FORE:
+                ((HourlyWeatherHolder) holder).bind(null);
+                break;
         }
     }
 
 
     @Override
     public int getItemCount() {
-        return weatherBean != null ? 3 : 0;
+        return weatherBean != null ? 4 : 0;
     }
 
     @Override
