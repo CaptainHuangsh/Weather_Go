@@ -18,7 +18,7 @@ import java.util.List;
  */
 
 public class DailyWeatherHolder extends BaseViewHolder<List<DLForecast>> {
-
+    private final String TAG = DailyWeatherHolder.class.getSimpleName();
     private Context mContext;
     private List<DLForecast> dlForecastsList;
     private LinearLayout dailyWeather;
@@ -27,24 +27,14 @@ public class DailyWeatherHolder extends BaseViewHolder<List<DLForecast>> {
     private TextView temprView[] = new TextView[7];
     private TextView weamoreView[] = new TextView[7];
 
-/*
 
-    @BindView(R.id.forecast_icon)
-    public ImageView img;
-    @BindView(R.id.forecast_date)
-    public TextView dayView;
-    @BindView(R.id.forecast_temp)
-    public TextView temprView;
-    @BindView(R.id.forecast_txt)
-    public TextView weamoreView;
-*/
 
 
     public DailyWeatherHolder(View view, List<DLForecast> dlForecastsList) {
         super(view);
         mContext = view.getContext();
         this.dlForecastsList = dlForecastsList;
-        Log.i("DailyWeatherHolderConstr",""+dlForecastsList.size());
+        Log.i(TAG+"Constr",""+dlForecastsList.size());
         dailyWeather = (LinearLayout) itemView.findViewById(R.id.forecast_linear);
         for (int i = 0; i < dlForecastsList.size(); i++) {
             View v = View.inflate(mContext, R.layout.weeklyforecast_items, null);

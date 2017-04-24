@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.component.DLForecast;
 import com.example.owen.weathergo.modules.dao.DailyWeatherHolder;
+import com.example.owen.weathergo.modules.dao.TodayWeatherHolder;
 import com.example.owen.weathergo.modules.dao.WeatherBean;
-import com.example.owen.weathergo.modules.dao.WeatherHolder;
 
 import java.util.List;
 
@@ -46,7 +46,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             case WeatherAdapter.TYPE_ONE:
 //                dHolder = new DailyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.main_forecast, parent, false));
                 Log.i("WeatherAdapteroncreateView",""+WeatherAdapter.TYPE_ONE);
-                return new WeatherHolder(LayoutInflater.from(context).inflate(R.layout.main_forecast,parent,false),weatherBean);
+                return new TodayWeatherHolder(LayoutInflater.from(context).inflate(R.layout.main_forecast,parent,false),weatherBean);
             case WeatherAdapter.TYPE_TWO:
                 Log.i("WeatherAdapteroncreateView",""+WeatherAdapter.TYPE_TWO);
                 return new DailyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.weekly_forecast, parent, false), dlForecastList);
@@ -60,7 +60,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         int itemType = getItemViewType(position);
         switch (itemType) {
             case WeatherAdapter.TYPE_ONE:
-                ((WeatherHolder)holder).bind(weatherBean);
+                ((TodayWeatherHolder)holder).bind(weatherBean);
                 break;
             case WeatherAdapter.TYPE_TWO:
                 ((DailyWeatherHolder)holder).bind(dlForecastList);
