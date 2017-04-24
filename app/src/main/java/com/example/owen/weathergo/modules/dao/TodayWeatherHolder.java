@@ -28,11 +28,11 @@ public class TodayWeatherHolder extends BaseViewHolder<WeatherBean> {
         this.weatherBean = weatherBean;
         mContext = view.getContext();
         Log.i(TAG + "Constr", "haha" + "");
-        TextView mTemp_min = (TextView) view.findViewById(R.id.weather_temp_min);
-        TextView mTemp_max = (TextView) view.findViewById(R.id.weather_temp_max);
-        TextView mCountry = (TextView) view.findViewById(R.id.weather_country);
-        TextView mWind_speed = (TextView) view.findViewById(R.id.weather_wind_speed);
-        TextView mTemp = (TextView) view.findViewById(R.id.weather_temp);
+        mTemp_min = (TextView) view.findViewById(R.id.weather_temp_min);
+        mTemp_max = (TextView) view.findViewById(R.id.weather_temp_max);
+        mCountry = (TextView) view.findViewById(R.id.weather_country);
+        mWind_speed = (TextView) view.findViewById(R.id.weather_wind_speed);
+        mTemp = (TextView) view.findViewById(R.id.weather_temp);
     }
 
     @Override
@@ -44,7 +44,8 @@ public class TodayWeatherHolder extends BaseViewHolder<WeatherBean> {
             Log.i(TAG + "bind", "到了2");
             mTemp_min.setText(mContext.getResources().getString(R.string.hsh_temp_min)
                     + weatherBean.getNow_tmp()
-                    + mContext.getResources().getString(R.string.c));
+                   + mContext.getResources().getString(R.string.c));
+            Log.i(TAG + "bind", "" + weatherBean.getNow_sc());
             mTemp_max.setText(mContext.getResources().getString(R.string.hsh_temp_max)
                     + weatherBean.getNow_tmp()
                     + mContext.getResources().getString(R.string.c));

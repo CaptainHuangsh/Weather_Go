@@ -57,10 +57,8 @@ public class WeatherMain extends AppCompatActivity
     private static final String TAG = WeatherMain.class.getSimpleName();
 
     //http://jakewharton.github.io/butterknife/
-    @BindView(R.id.hsh_weather_city_editview)
-    EditText mCity;//城市名称输入框，通过城市名称进行查询，大陆地区城市不全且支持拼音
-    @BindView(R.id.weather_suggesstions)
-    TextView mSugg;
+
+
     @BindView(R.id.tl_custom)
     Toolbar mToolBar;
     @BindView(R.id.dl_left)
@@ -68,8 +66,6 @@ public class WeatherMain extends AppCompatActivity
     @BindView(R.id.nav_view)
     NavigationView mNavigationView;
 
-    @BindView(R.id.hsh_search_weather)
-    Button mSearchWeather; //查询按钮，触发查询事件
     @BindView(R.id.main_swipe)//下拉刷新控件
             SwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.recycle_view)
@@ -88,7 +84,6 @@ public class WeatherMain extends AppCompatActivity
     private WeatherBean weatherBean;
     private View view1, view2;
     private List<View> viewList;//view数组
-    private boolean isSugg = false;
     //分别为查询结果国家，最低温度，最高温度，当前温度，风速
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -109,17 +104,6 @@ public class WeatherMain extends AppCompatActivity
         /**
          * 绑定监听事件
          */
-        mSearchWeather.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-            @Override
-            public void onClick(View view) {
-
-                mCityStr = mCity.getText().toString();
-                getWeather();
-
-
-            }
-        });
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

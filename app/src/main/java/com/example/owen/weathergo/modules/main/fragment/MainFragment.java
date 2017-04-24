@@ -32,8 +32,7 @@ import butterknife.BindView;
  */
 
 public class MainFragment extends BaseFragment {
-    @BindView(R.id.hsh_weather_city_editview)
-    EditText mCity;//城市名称输入框，通过城市名称进行查询，大陆地区城市不全且支持拼音
+
     @BindView(R.id.weather_country)
     TextView mCountry;
     @BindView(R.id.weather_temp_min)

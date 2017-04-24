@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.component.DLForecast;
 import com.example.owen.weathergo.modules.dao.DailyWeatherHolder;
+import com.example.owen.weathergo.modules.dao.SuggestionWeatherHolder;
 import com.example.owen.weathergo.modules.dao.TodayWeatherHolder;
 import com.example.owen.weathergo.modules.dao.WeatherBean;
 
@@ -50,7 +51,8 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             case WeatherAdapter.TYPE_TWO:
                 Log.i("WeatherAdapteroncreateView", "" + WeatherAdapter.TYPE_TWO);
                 return new DailyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.weekly_forecast, parent, false), dlForecastList);
-
+            case WeatherAdapter.TYPE_THREE:
+                return new SuggestionWeatherHolder(LayoutInflater.from(context).inflate(R.layout.suggestion,parent,false),weatherBean);
         }
         return null;
     }
@@ -65,22 +67,16 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             case WeatherAdapter.TYPE_TWO:
                 ((DailyWeatherHolder) holder).bind(dlForecastList);
                 break;
+            case WeatherAdapter.TYPE_THREE:
+                ((SuggestionWeatherHolder) holder).bind(weatherBean);
+                break;
         }
     }
 
-/*
-    @Override
-    public void onBindViewHolder(DailyWeatherHolder holder, int position) {
-        holder.img.setImageResource(dlForecastList.get(position).getImageId());
-        holder.dayView.setText(dlForecastList.get(position).getDay());
-        holder.temprView.setText(dlForecastList.get(position).getTempr());
-        holder.weamoreView.setText(dlForecastList.get(position).getWeamore());
-    }
-*/
 
     @Override
     public int getItemCount() {
-        return weatherBean != null ? 2 : 0;
+        return weatherBean != null ? 3 : 0;
     }
 
     @Override

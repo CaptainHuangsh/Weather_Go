@@ -5,6 +5,12 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/weather_suggesstions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:visibility="gone" />
+    <TextView
         android:id="@+id/sugg_brf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
