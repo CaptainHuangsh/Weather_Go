@@ -222,6 +222,7 @@ public class JSONUtil {
             JSONArray dfJSONObject = OJSONObject.getJSONArray("daily_forecast");//fouth grade;
 
             for (int i = 0; i < dfJSONObject.length(); i++) {
+
                 DailyForecast mDailyForecast = new DailyForecast();
                 Log.e("JSON df_sr", "" + i);
                 JSONObject df0JSONObject = dfJSONObject.getJSONObject(i);//fifth:"0"
@@ -257,6 +258,10 @@ public class JSONUtil {
                 Log.e("JSONF df_txt_n" + i, "" + mDailyForecast.getTxt_n());
                 //"tmp"
                 JSONObject dfTmpJSONObject = df0JSONObject.getJSONObject("tmp");//sixth
+                if(i==0){
+                    weather.setNow_max(dfTmpJSONObject.getInt("max"));
+                    weather.setNow_min(dfTmpJSONObject.getInt("min"));
+                }
                 mDailyForecast.setMax(dfTmpJSONObject.getInt("max"));
                 Log.e("JSONF df_max" + i, "" + mDailyForecast.getMax());
                 mDailyForecast.setMin(dfTmpJSONObject.getInt("min"));

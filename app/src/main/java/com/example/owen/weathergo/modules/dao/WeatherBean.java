@@ -31,6 +31,25 @@ public class WeatherBean {
     //"tmp"
     private int[] max, min;
     private int[] vis;
+    private int now_max;
+
+    public int getNow_max() {
+        return now_max;
+    }
+
+    public void setNow_max(int now_max) {
+        this.now_max = now_max;
+    }
+
+    public int getNow_min() {
+        return now_min;
+    }
+
+    public void setNow_min(int now_min) {
+        this.now_min = now_min;
+    }
+
+    private int now_min;
     //"wind"
     private int[] deg, apd;
     private String[] dir, sc;

@@ -7,6 +7,9 @@ import android.widget.TextView;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.base.BaseViewHolder;
+import com.example.owen.weathergo.component.DLForecast;
+
+import java.util.List;
 
 /**
  * Created by owen on 2017/4/24.
@@ -16,6 +19,7 @@ public class TodayWeatherHolder extends BaseViewHolder<WeatherBean> {
 
     private final String TAG = TodayWeatherHolder.class.getSimpleName();
     private Context mContext;
+    private List<DLForecast> dlForecasts;
     TextView mTemp_min;
     TextView mTemp_max;
     TextView mCountry;
@@ -26,8 +30,9 @@ public class TodayWeatherHolder extends BaseViewHolder<WeatherBean> {
     public TodayWeatherHolder(View view, WeatherBean weatherBean) {
         super(view);
         this.weatherBean = weatherBean;
+//        this.dlForecasts = dlForecasts;
         mContext = view.getContext();
-        Log.i(TAG + "Constr", "haha" + "");
+        Log.i(TAG + "Constr", "haha" + ""+weatherBean.getMin());
         mTemp_min = (TextView) view.findViewById(R.id.weather_temp_min);
         mTemp_max = (TextView) view.findViewById(R.id.weather_temp_max);
         mCountry = (TextView) view.findViewById(R.id.weather_country);
@@ -43,11 +48,11 @@ public class TodayWeatherHolder extends BaseViewHolder<WeatherBean> {
             Log.i(TAG + "bind", "" + weatherBean.getNow_tmp());
             Log.i(TAG + "bind", "到了2");
             mTemp_min.setText(mContext.getResources().getString(R.string.hsh_temp_min)
-                    + weatherBean.getNow_tmp()
+                    + weatherBean.getNow_min()
                    + mContext.getResources().getString(R.string.c));
             Log.i(TAG + "bind", "" + weatherBean.getNow_sc());
             mTemp_max.setText(mContext.getResources().getString(R.string.hsh_temp_max)
-                    + weatherBean.getNow_tmp()
+                    + weatherBean.getNow_max()
                     + mContext.getResources().getString(R.string.c));
             mWind_speed.setText(mContext.getResources().getString(R.string.hsh_wind_speed)
                     + weatherBean.getNow_dir() + weatherBean.getNow_sc()
