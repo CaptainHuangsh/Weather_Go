@@ -60,7 +60,7 @@ public class WeatherMain extends AppCompatActivity
     //http://jakewharton.github.io/butterknife/
     @BindView(R.id.hsh_weather_city_editview)
     EditText mCity;//城市名称输入框，通过城市名称进行查询，大陆地区城市不全且支持拼音
-    @BindView(R.id.weather_country)
+    /*@BindView(R.id.weather_country)
     TextView mCountry;
     @BindView(R.id.weather_temp_min)
     TextView mTemp_min;
@@ -70,7 +70,7 @@ public class WeatherMain extends AppCompatActivity
     TextView mWind_speed;
     @BindView(R.id.weather_temp)
     TextView mTemp;
-    @BindView(R.id.weather_suggesstions)
+    */@BindView(R.id.weather_suggesstions)
     TextView mSugg;
     @BindView(R.id.tl_custom)
     Toolbar mToolBar;
@@ -96,6 +96,7 @@ public class WeatherMain extends AppCompatActivity
     private String mCityStr = "kaifeng";
     private String mGCityStr = "";
     private List<DLForecast> dlForecastList = new ArrayList<DLForecast>();
+    private WeatherBean weatherBean;
     private View view1, view2;
     private List<View> viewList;//view数组
     private boolean isSugg = false;
@@ -155,7 +156,7 @@ public class WeatherMain extends AppCompatActivity
             WeatherBean weatherBean = JSONUtil.getWeatherBeans(this, mCityStr);
             mGCityStr = weatherBean.getCity();
             mToolBar.setTitle("" + mGCityStr);
-            mCountry.setText(getResources().getString(R.string.hsh_country)
+            /*mCountry.setText(getResources().getString(R.string.hsh_country)
                     + weatherBean.getCnty());
             mTemp_min.setText(getResources().getString(R.string.hsh_temp_min)
                     + weatherBean.getNow_tmp()
@@ -200,7 +201,7 @@ public class WeatherMain extends AppCompatActivity
                 dlForecastList.add(dls);
                 i++;
             }
-
+*/
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, "    定位失败,请手动输入城市", Toast.LENGTH_LONG).show();
@@ -379,7 +380,7 @@ public class WeatherMain extends AppCompatActivity
 
         mRecycleView.setLayoutManager(new LinearLayoutManager(this));
         //获取当前Activity的View
-        mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(), dlForecastList));
+        mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(), dlForecastList,weatherBean));
 
 
     }
