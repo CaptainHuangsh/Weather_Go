@@ -34,9 +34,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
-            android:src="@drawable/ic_favorite"
+            app:srcCompat="@drawable/ic_favorite"
             app:borderWidth="0dp"
             tools:context=".MyActivity" />
+        <!--what's the diff between app:srcCompat and android:src
+        http://stackoverflow.com/questions/40624554/android-what-is-the-difference-between-appsrccompat-and-androidsrc-->
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView
