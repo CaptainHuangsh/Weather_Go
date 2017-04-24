@@ -178,6 +178,7 @@ public class WeatherMain extends AppCompatActivity
                     + weatherBean.getSport_brf() + "\n" + weatherBean.getSport_txt() + "\n"
                     + weatherBean.getTrav_brf() + "\n" + weatherBean.getTrav_txt() + "\n"
                     + weatherBean.getUv_brf() + "\n" + weatherBean.getUv_txt() + "\n");
+            */
             mDFList = JSONUtil.getDForecast();
             Log.i("wtfs", mDFList.toString());
             int i = 0;
@@ -185,6 +186,7 @@ public class WeatherMain extends AppCompatActivity
                     ) {
                 DailyForecast dfs = mDFList.get(i);
                 Log.e("wtf", dfs.getDate());
+/*
                 if (i == 0) {
                     mTemp_min.setText(getResources().getString(R.string.hsh_temp_min)
                             + dfs.getMin()
@@ -194,6 +196,7 @@ public class WeatherMain extends AppCompatActivity
                             + getResources().getString(R.string.c));
                     mCountry.setText(dfs.getTxt_d() + "转" + dfs.getTxt_n());
                 }
+*/
                 DLForecast dls = new DLForecast(dfs.getDate() + "", getResources().getString(R.string.hsh_temp_min)
                         + dfs.getMin()
                         + getResources().getString(R.string.c) + getResources().getString(R.string.hsh_temp_max)
@@ -202,7 +205,6 @@ public class WeatherMain extends AppCompatActivity
                 dlForecastList.add(dls);
                 i++;
             }
-*/
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, "    定位失败,请手动输入城市", Toast.LENGTH_LONG).show();

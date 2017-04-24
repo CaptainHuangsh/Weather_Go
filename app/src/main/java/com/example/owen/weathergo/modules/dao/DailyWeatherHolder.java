@@ -25,10 +25,10 @@ public class DailyWeatherHolder extends BaseViewHolder<List<DLForecast>> {
     private Context mContext;
     private List<DLForecast> dlForecastsList;
     private LinearLayout dailyWeather;
-    private ImageView img[] = new ImageView[dlForecastsList.size()];
-    private TextView dayView[] = new TextView[dlForecastsList.size()];
-    private TextView temprView[] = new TextView[dlForecastsList.size()];
-    private TextView weamoreView[] = new TextView[dlForecastsList.size()];
+    private ImageView img[] = new ImageView[7];
+    private TextView dayView[] = new TextView[7];
+    private TextView temprView[] = new TextView[7];
+    private TextView weamoreView[] = new TextView[7];
 
 /*
 
