@@ -13,9 +13,6 @@ import com.example.owen.weathergo.component.DLForecast;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Created by owen on 2017/4/21.
  */
@@ -50,7 +47,7 @@ public class DailyWeatherHolder extends BaseViewHolder<List<DLForecast>> {
         Log.i("DailyWeatherHolderConstr",""+dlForecastsList.size());
         dailyWeather = (LinearLayout) itemView.findViewById(R.id.forecast_linear);
         for (int i = 0; i < dlForecastsList.size(); i++) {
-            View v = View.inflate(mContext, R.layout.item_forecast_lines, null);
+            View v = View.inflate(mContext, R.layout.weeklyforecast_items, null);
             img[i] = (ImageView) v.findViewById(R.id.forecast_icon);
             dayView[i] = (TextView) v.findViewById(R.id.forecast_date);
             temprView[i] = (TextView) v.findViewById(R.id.forecast_temp);

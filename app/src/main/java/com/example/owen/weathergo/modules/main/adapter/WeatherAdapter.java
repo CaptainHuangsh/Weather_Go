@@ -44,12 +44,12 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         switch (viewType) {
             case WeatherAdapter.TYPE_ONE:
-//                dHolder = new DailyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.item_forecast, parent, false));
+//                dHolder = new DailyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.main_forecast, parent, false));
                 Log.i("WeatherAdapteroncreateView",""+WeatherAdapter.TYPE_ONE);
-                return new WeatherHolder(LayoutInflater.from(context).inflate(R.layout.item_forecast,parent,false),weatherBean);
+                return new WeatherHolder(LayoutInflater.from(context).inflate(R.layout.main_forecast,parent,false),weatherBean);
             case WeatherAdapter.TYPE_TWO:
                 Log.i("WeatherAdapteroncreateView",""+WeatherAdapter.TYPE_TWO);
-                return new DailyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.item_forecast_line, parent, false), dlForecastList);
+                return new DailyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.weekly_forecast, parent, false), dlForecastList);
 
         }
         return null;
