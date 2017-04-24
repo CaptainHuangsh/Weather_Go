@@ -14,43 +14,62 @@ public class WeatherBean {
     private String qlty;
 
     //"basic"
-    private String city,cnty,id;//city,country,cityId
-    private double lat,lon;//
-        //"update"
-            private String loc,utc;
+    private String city, cnty, id;//city,country,cityId
+    private double lat, lon;//
+    //"update"
+    private String loc, utc;
 
     //"daily_forecast"
-        //"astro"
-            private String[] sr,ss;
-        //"cond"
-            private int[] code_d,code_n;
-            private String[] txt_d,txt_n;
-        private String[] date;
-        private int[] hum,pop,pres;
-        private String[] pcpn;
-        //"tmp"
-            private int[] max,min;
-        private int[] vis;
-        //"wind"
-            private int[] deg,apd;
-            private String[] dir,sc;
+    //"astro"
+    private String[] sr, ss;
+    //"cond"
+    private int[] code_d, code_n;
+    private String[] txt_d, txt_n;
+    private String[] date;
+    private int[] hum, pop, pres;
+    private String[] pcpn;
+    //"tmp"
+    private int[] max, min;
+    private int[] vis;
+    private int now_max;
+
+    public int getNow_max() {
+        return now_max;
+    }
+
+    public void setNow_max(int now_max) {
+        this.now_max = now_max;
+    }
+
+    public int getNow_min() {
+        return now_min;
+    }
+
+    public void setNow_min(int now_min) {
+        this.now_min = now_min;
+    }
+
+    private int now_min;
+    //"wind"
+    private int[] deg, apd;
+    private String[] dir, sc;
     //"now"
-        //"cond"
-            private int code;
-            private String txt;
-        private int now_fl,now_hum,now_pcpn,now_pres,now_tmp,now_vis;
-        //"wind"
-        private int now_deg;
-        private String now_dir,now_sc,now_spd;
+    //"cond"
+    private int code;
+    private String txt;
+    private int now_fl, now_hum, now_pcpn, now_pres, now_tmp, now_vis;
+    //"wind"
+    private int now_deg;
+    private String now_dir, now_sc, now_spd;
     private String status;
     //"suggestion"
-    private String comf_brf,comf_txt;
-    private String cw_brf,cw_txt;
-    private String drsg_brf,drsg_txt;
-    private String flu_brf,flu_txt;
-    private String sport_brf,sport_txt;
-    private String trav_brf,trav_txt;
-    private String uv_brf,uv_txt;
+    private String comf_brf, comf_txt;
+    private String cw_brf, cw_txt;
+    private String drsg_brf, drsg_txt;
+    private String flu_brf, flu_txt;
+    private String sport_brf, sport_txt;
+    private String trav_brf, trav_txt;
+    private String uv_brf, uv_txt;
 
 
     public int getAqi() {

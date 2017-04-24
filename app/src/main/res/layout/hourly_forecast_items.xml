@@ -4,12 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ListView
-        android:id="@+id/stud"
+    <TextView
+        android:id="@+id/hourly_forecast_i1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </ListView>
-
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

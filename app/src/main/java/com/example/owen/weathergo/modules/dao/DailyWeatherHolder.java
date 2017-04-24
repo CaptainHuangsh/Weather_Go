@@ -13,15 +13,12 @@ import com.example.owen.weathergo.component.DLForecast;
 
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 /**
  * Created by owen on 2017/4/21.
  */
 
 public class DailyWeatherHolder extends BaseViewHolder<List<DLForecast>> {
-
+    private final String TAG = DailyWeatherHolder.class.getSimpleName();
     private Context mContext;
     private List<DLForecast> dlForecastsList;
     private LinearLayout dailyWeather;
@@ -30,27 +27,15 @@ public class DailyWeatherHolder extends BaseViewHolder<List<DLForecast>> {
     private TextView temprView[] = new TextView[7];
     private TextView weamoreView[] = new TextView[7];
 
-/*
-
-    @BindView(R.id.forecast_icon)
-    public ImageView img;
-    @BindView(R.id.forecast_date)
-    public TextView dayView;
-    @BindView(R.id.forecast_temp)
-    public TextView temprView;
-    @BindView(R.id.forecast_txt)
-    public TextView weamoreView;
-*/
-
 
     public DailyWeatherHolder(View view, List<DLForecast> dlForecastsList) {
         super(view);
         mContext = view.getContext();
         this.dlForecastsList = dlForecastsList;
-        Log.i("DailyWeatherHolderConstr",""+dlForecastsList.size());
+        Log.i(TAG + "Constr", "" + dlForecastsList.size());
         dailyWeather = (LinearLayout) itemView.findViewById(R.id.forecast_linear);
         for (int i = 0; i < dlForecastsList.size(); i++) {
-            View v = View.inflate(mContext, R.layout.item_forecast_lines, null);
+            View v = View.inflate(mContext, R.layout.weeklyforecast_items, null);
             img[i] = (ImageView) v.findViewById(R.id.forecast_icon);
             dayView[i] = (TextView) v.findViewById(R.id.forecast_date);
             temprView[i] = (TextView) v.findViewById(R.id.forecast_temp);
@@ -61,18 +46,18 @@ public class DailyWeatherHolder extends BaseViewHolder<List<DLForecast>> {
 
     @Override
     public void bind(List<DLForecast> dlForecasts) {
-        try{
+        try {
             dayView[0].setText("今日");
             dayView[1].setText("明日");
-            for(int i=0;i<dlForecasts.size();i++){
-                if(i>1){
+            for (int i = 0; i < dlForecasts.size(); i++) {
+                if (i > 1) {
                     dayView[i].setText(dlForecasts.get(i).getDay());
                 }
                 img[i].setImageResource(dlForecasts.get(i).getImageId());
                 temprView[i].setText(dlForecasts.get(i).getTempr());
                 weamoreView[i].setText(dlForecasts.get(i).getWeamore());
             }
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 

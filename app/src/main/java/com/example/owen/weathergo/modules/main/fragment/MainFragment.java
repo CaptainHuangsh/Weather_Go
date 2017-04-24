@@ -32,8 +32,7 @@ import butterknife.BindView;
  */
 
 public class MainFragment extends BaseFragment {
-    @BindView(R.id.hsh_weather_city_editview)
-    EditText mCity;//城市名称输入框，通过城市名称进行查询，大陆地区城市不全且支持拼音
+
     @BindView(R.id.weather_country)
     TextView mCountry;
     @BindView(R.id.weather_temp_min)
@@ -60,7 +59,6 @@ public class MainFragment extends BaseFragment {
     ImageView ToImg;
 
 
-
     private ActionBarDrawerToggle mDrawerToggle;
     private ArrayList<DailyForecast> mDFList = new ArrayList<>();
     private ArrayAdapter arrayAdapter;
@@ -74,7 +72,7 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("MAINFRAGMENT","onCreate");
+        Log.i("MAINFRAGMENT", "onCreate");
     }
 
     @Override

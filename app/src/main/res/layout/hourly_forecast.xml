@@ -2,7 +2,7 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/card_view"
+    android:id="@+id/hourly_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="0dp"
@@ -11,10 +11,11 @@
     android:elevation="10dp"
     card_view:cardCornerRadius="5dp"
     tools:targetApi="lollipop">
+
     <LinearLayout
-        android:id="@+id/forecast_linear"
+        android:id="@+id/hourly_forecast_linear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"/>
+        android:orientation="vertical" />
 
 </android.support.v7.widget.CardView>

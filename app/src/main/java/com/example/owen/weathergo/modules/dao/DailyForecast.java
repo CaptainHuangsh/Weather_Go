@@ -7,24 +7,30 @@ package com.example.owen.weathergo.modules.dao;
 public class DailyForecast {
     //"daily_forecast"
     //"astro"
-    private String sr,ss;
+    private String sr, ss;
     //"cond"
-    private int code_d,code_n;
-    private String txt_d,txt_n;
+    private int code_d, code_n;
+    private String txt_d, txt_n;
     private String date;
-    private int hum,pop,pres;
+    private int hum, pop, pres;
 
     private String pcpn;
     //"tmp"
-    private int max,min;
-    private int vis,uv;
+    private int max, min;
+    private int vis, uv;
+
     //"wind"
-    public  int  getUv() {
+    public int getUv() {
         return uv;
-    }public void setUv(int uv) {
+    }
+
+    public void setUv(int uv) {
         this.uv = uv;
-    }private int deg, spd;
-    private String dir,sc;
+    }
+
+    private int deg, spd;
+    private String dir, sc;
+
     public String getSr() {
         return sr;
     }

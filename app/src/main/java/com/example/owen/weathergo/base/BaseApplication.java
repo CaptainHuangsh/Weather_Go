@@ -17,9 +17,11 @@ public class BaseApplication extends Application {
         super.onCreate();
         sAppContext = getApplicationContext();
     }
+
     public static Context getAppContext() {
         return sAppContext;
     }
+
     public static String getAppCacheDir() {
         return sCacheDir;
     }

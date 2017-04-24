@@ -20,7 +20,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -55,23 +54,11 @@ public class WeatherMain extends AppCompatActivity
      * 程序入口，主Activity类
      */
 
-    private static final String TAG = "WeatherMain.c";
+    private static final String TAG = WeatherMain.class.getSimpleName();
 
     //http://jakewharton.github.io/butterknife/
-    @BindView(R.id.hsh_weather_city_editview)
-    EditText mCity;//城市名称输入框，通过城市名称进行查询，大陆地区城市不全且支持拼音
-    /*@BindView(R.id.weather_country)
-    TextView mCountry;
-    @BindView(R.id.weather_temp_min)
-    TextView mTemp_min;
-    @BindView(R.id.weather_temp_max)
-    TextView mTemp_max;
-    @BindView(R.id.weather_wind_speed)
-    TextView mWind_speed;
-    @BindView(R.id.weather_temp)
-    TextView mTemp;
-    */@BindView(R.id.weather_suggesstions)
-    TextView mSugg;
+
+
     @BindView(R.id.tl_custom)
     Toolbar mToolBar;
     @BindView(R.id.dl_left)
@@ -79,8 +66,6 @@ public class WeatherMain extends AppCompatActivity
     @BindView(R.id.nav_view)
     NavigationView mNavigationView;
 
-    @BindView(R.id.hsh_search_weather)
-    Button mSearchWeather; //查询按钮，触发查询事件
     @BindView(R.id.main_swipe)//下拉刷新控件
             SwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.recycle_view)
@@ -99,7 +84,6 @@ public class WeatherMain extends AppCompatActivity
     private WeatherBean weatherBean;
     private View view1, view2;
     private List<View> viewList;//view数组
-    private boolean isSugg = false;
     //分别为查询结果国家，最低温度，最高温度，当前温度，风速
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -120,17 +104,6 @@ public class WeatherMain extends AppCompatActivity
         /**
          * 绑定监听事件
          */
-        mSearchWeather.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-            @Override
-            public void onClick(View view) {
-
-                mCityStr = mCity.getText().toString();
-                getWeather();
-
-
-            }
-        });
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,31 +127,10 @@ public class WeatherMain extends AppCompatActivity
     public void getWeather() {
         try {
             WeatherBean weatherBean = JSONUtil.getWeatherBeans(this, mCityStr);
-            mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(), dlForecastList,weatherBean));
+            mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(), dlForecastList, weatherBean));
             mGCityStr = weatherBean.getCity();
             mToolBar.setTitle("" + mGCityStr);
-            /*mCountry.setText(getResources().getString(R.string.hsh_country)
-                    + weatherBean.getCnty());
-            mTemp_min.setText(getResources().getString(R.string.hsh_temp_min)
-                    + weatherBean.getNow_tmp()
-                    + getResources().getString(R.string.c));
-            mTemp_max.setText(getResources().getString(R.string.hsh_temp_max)
-                    + weatherBean.getNow_tmp()
-                    + getResources().getString(R.string.c));
-            mWind_speed.setText(getResources().getString(R.string.hsh_wind_speed)
-                    + weatherBean.getNow_dir() + weatherBean.getNow_sc()
-                    + getResources().getString(R.string.m_s));
-            mTemp.setText(weatherBean.getNow_tmp()
-                    + getResources().getString(R.string.c));
-            mSugg.setText(weatherBean.getComf_brf() + "\n" + weatherBean.getComf_txt() + "\n"
-                    + weatherBean.getCw_brf() + "\n" + weatherBean.getCw_txt() + "\n"
-                    + weatherBean.getDrsg_brf() + "\n" + weatherBean.getDrsg_txt() + "\n"
-                    + weatherBean.getComf_brf() + "\n" + weatherBean.getComf_txt() + "\n"
-                    + weatherBean.getFlu_brf() + "\n" + weatherBean.getFlu_txt() + "\n"
-                    + weatherBean.getSport_brf() + "\n" + weatherBean.getSport_txt() + "\n"
-                    + weatherBean.getTrav_brf() + "\n" + weatherBean.getTrav_txt() + "\n"
-                    + weatherBean.getUv_brf() + "\n" + weatherBean.getUv_txt() + "\n");
-            */
+
             mDFList = JSONUtil.getDForecast();
             Log.i("wtfs", mDFList.toString());
             int i = 0;
@@ -186,17 +138,7 @@ public class WeatherMain extends AppCompatActivity
                     ) {
                 DailyForecast dfs = mDFList.get(i);
                 Log.e("wtf", dfs.getDate());
-/*
-                if (i == 0) {
-                    mTemp_min.setText(getResources().getString(R.string.hsh_temp_min)
-                            + dfs.getMin()
-                            + getResources().getString(R.string.c));
-                    mTemp_max.setText(getResources().getString(R.string.hsh_temp_max)
-                            + dfs.getMax()
-                            + getResources().getString(R.string.c));
-                    mCountry.setText(dfs.getTxt_d() + "转" + dfs.getTxt_n());
-                }
-*/
+
                 DLForecast dls = new DLForecast(dfs.getDate() + "", getResources().getString(R.string.hsh_temp_min)
                         + dfs.getMin()
                         + getResources().getString(R.string.c) + getResources().getString(R.string.hsh_temp_max)
@@ -284,14 +226,14 @@ public class WeatherMain extends AppCompatActivity
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                Log.i(TAG,"opened");
+                Log.i(TAG, "opened");
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
                 //mAnimationDrawable.start();
-                Log.i(TAG,"closed");
+                Log.i(TAG, "closed");
             }
 
             @Override
@@ -310,25 +252,25 @@ public class WeatherMain extends AppCompatActivity
     }
 
     //初始化navigationView
-    public void initNavigationView(){
+    public void initNavigationView() {
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Log.d("onSelected", "id=" + item.getItemId());
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.nav_city:
-                        Log.i(TAG+"navigation","nav_city");
+                        Log.i(TAG + "navigation", "nav_city");
                         break;
                     case R.id.nav_multi_cities:
-                        Log.i(TAG+"navigation","nav_multi_cities");
+                        Log.i(TAG + "navigation", "nav_multi_cities");
                         break;
                     case R.id.nav_setting:
                         SettingsActivity.launch(WeatherMain.this);
-                        Log.i(TAG+"navigation","nav_setting");
+                        Log.i(TAG + "navigation", "nav_setting");
                         break;
                     case R.id.nav_about:
                         About.launch(WeatherMain.this);
-                        Log.i(TAG+"navigation","nav_about");
+                        Log.i(TAG + "navigation", "nav_about");
                         break;
                 }
                 return false;
@@ -354,13 +296,11 @@ public class WeatherMain extends AppCompatActivity
                 // 这里是主线程
                 // 一些比较耗时的操作，比如联网获取数据，需要放到子线程去执行
                 // TODO 获取数据
-//                final Random random = new Random();
                 new Handler().postDelayed(new Runnable() {
                     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                     @Override
                     public void run() {
 
-//                        mWeatherAdapter.;
                         dlForecastList.clear();
                         mRecycleView.removeAllViews();
 
@@ -373,8 +313,6 @@ public class WeatherMain extends AppCompatActivity
                         mRefreshLayout.setRefreshing(false);
                     }
                 }, 1200);
-
-                // System.out.println(Thread.currentThread().getName());
 
                 // 这个不能写在外边，不然会直接收起来
                 //swipeRefreshLayout.setRefreshing(false);
