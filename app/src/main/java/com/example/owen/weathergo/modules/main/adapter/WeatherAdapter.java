@@ -33,6 +33,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.view = inflate;
         this.dlForecastList = dlForecastList;
         this.weatherBean = weatherBean;
+        Log.i("WeatherAdapterConstr",""+weatherBean.getCity());
     }
 
 
@@ -79,7 +80,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-        return 0;
+        return weatherBean != null ?  1:0;
     }
 
     @Override

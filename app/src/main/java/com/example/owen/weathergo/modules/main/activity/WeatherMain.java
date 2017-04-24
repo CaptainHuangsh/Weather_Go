@@ -154,6 +154,7 @@ public class WeatherMain extends AppCompatActivity
     public void getWeather() {
         try {
             WeatherBean weatherBean = JSONUtil.getWeatherBeans(this, mCityStr);
+            mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(), dlForecastList,weatherBean));
             mGCityStr = weatherBean.getCity();
             mToolBar.setTitle("" + mGCityStr);
             /*mCountry.setText(getResources().getString(R.string.hsh_country)
@@ -380,7 +381,7 @@ public class WeatherMain extends AppCompatActivity
 
         mRecycleView.setLayoutManager(new LinearLayoutManager(this));
         //获取当前Activity的View
-        mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(), dlForecastList,weatherBean));
+//        mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(), dlForecastList,weatherBean));
 
 
     }

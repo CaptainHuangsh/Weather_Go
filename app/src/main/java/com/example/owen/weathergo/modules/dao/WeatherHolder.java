@@ -1,6 +1,7 @@
 package com.example.owen.weathergo.modules.dao;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -40,11 +41,23 @@ public class WeatherHolder extends BaseViewHolder<WeatherBean> {
     public WeatherHolder(View view, WeatherBean weatherBean) {
         super(view);
         this.weatherBean = weatherBean;
+        mContext = view.getContext();
+//        ButterKnife.bind(view);
+        Log.i("WeatherHolderConstr","haha"+"");
+        TextView mTemp_min = (TextView) view.findViewById(R.id.weather_temp_min);
+        TextView mTemp_max = (TextView) view.findViewById(R.id.weather_temp_max);
+        TextView mCountry = (TextView) view.findViewById(R.id.weather_country);
+        TextView mWind_speed = (TextView) view.findViewById(R.id.weather_wind_speed);
+        TextView mTemp = (TextView) view.findViewById(R.id.weather_temp);
     }
 
     @Override
     public void bind(WeatherBean weatherBean) {
+
         try {
+            Log.i("WeatherHolderbind","到了");
+            Log.i("WeatherHolderbind",""+weatherBean.getNow_tmp());
+            Log.i("WeatherHolderbind","到了2");
             mTemp_min.setText(mContext.getResources().getString(R.string.hsh_temp_min)
                     + weatherBean.getNow_tmp()
                     + mContext.getResources().getString(R.string.c));
