@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -58,7 +60,7 @@ public class WeatherMain extends AppCompatActivity
     //http://jakewharton.github.io/butterknife/
     @BindView(R.id.hsh_weather_city_editview)
     EditText mCity;//城市名称输入框，通过城市名称进行查询，大陆地区城市不全且支持拼音
-    @BindView(R.id.weather_country)
+    /*@BindView(R.id.weather_country)
     TextView mCountry;
     @BindView(R.id.weather_temp_min)
     TextView mTemp_min;
@@ -68,7 +70,7 @@ public class WeatherMain extends AppCompatActivity
     TextView mWind_speed;
     @BindView(R.id.weather_temp)
     TextView mTemp;
-    @BindView(R.id.weather_suggesstions)
+    */@BindView(R.id.weather_suggesstions)
     TextView mSugg;
     @BindView(R.id.tl_custom)
     Toolbar mToolBar;
@@ -84,6 +86,9 @@ public class WeatherMain extends AppCompatActivity
     @BindView(R.id.recycle_view)
     RecyclerView mRecycleView;
 
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
+
     WeatherAdapter mWeatherAdapter;
 
     private ActionBarDrawerToggle mDrawerToggle;
@@ -91,6 +96,7 @@ public class WeatherMain extends AppCompatActivity
     private String mCityStr = "kaifeng";
     private String mGCityStr = "";
     private List<DLForecast> dlForecastList = new ArrayList<DLForecast>();
+    private WeatherBean weatherBean;
     private View view1, view2;
     private List<View> viewList;//view数组
     private boolean isSugg = false;
@@ -126,6 +132,19 @@ public class WeatherMain extends AppCompatActivity
             }
         });
 
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Snackbar.make(v, "fab等待绑定的活动", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).setAction("取消", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                }).show();
+            }
+        });
+
 
     }
 
@@ -135,9 +154,10 @@ public class WeatherMain extends AppCompatActivity
     public void getWeather() {
         try {
             WeatherBean weatherBean = JSONUtil.getWeatherBeans(this, mCityStr);
+            mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(), dlForecastList,weatherBean));
             mGCityStr = weatherBean.getCity();
             mToolBar.setTitle("" + mGCityStr);
-            mCountry.setText(getResources().getString(R.string.hsh_country)
+            /*mCountry.setText(getResources().getString(R.string.hsh_country)
                     + weatherBean.getCnty());
             mTemp_min.setText(getResources().getString(R.string.hsh_temp_min)
                     + weatherBean.getNow_tmp()
@@ -158,6 +178,7 @@ public class WeatherMain extends AppCompatActivity
                     + weatherBean.getSport_brf() + "\n" + weatherBean.getSport_txt() + "\n"
                     + weatherBean.getTrav_brf() + "\n" + weatherBean.getTrav_txt() + "\n"
                     + weatherBean.getUv_brf() + "\n" + weatherBean.getUv_txt() + "\n");
+            */
             mDFList = JSONUtil.getDForecast();
             Log.i("wtfs", mDFList.toString());
             int i = 0;
@@ -165,6 +186,7 @@ public class WeatherMain extends AppCompatActivity
                     ) {
                 DailyForecast dfs = mDFList.get(i);
                 Log.e("wtf", dfs.getDate());
+/*
                 if (i == 0) {
                     mTemp_min.setText(getResources().getString(R.string.hsh_temp_min)
                             + dfs.getMin()
@@ -174,6 +196,7 @@ public class WeatherMain extends AppCompatActivity
                             + getResources().getString(R.string.c));
                     mCountry.setText(dfs.getTxt_d() + "转" + dfs.getTxt_n());
                 }
+*/
                 DLForecast dls = new DLForecast(dfs.getDate() + "", getResources().getString(R.string.hsh_temp_min)
                         + dfs.getMin()
                         + getResources().getString(R.string.c) + getResources().getString(R.string.hsh_temp_max)
@@ -182,7 +205,6 @@ public class WeatherMain extends AppCompatActivity
                 dlForecastList.add(dls);
                 i++;
             }
-
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, "    定位失败,请手动输入城市", Toast.LENGTH_LONG).show();
@@ -361,7 +383,7 @@ public class WeatherMain extends AppCompatActivity
 
         mRecycleView.setLayoutManager(new LinearLayoutManager(this));
         //获取当前Activity的View
-        mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(), dlForecastList));
+//        mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(), dlForecastList,weatherBean));
 
 
     }
