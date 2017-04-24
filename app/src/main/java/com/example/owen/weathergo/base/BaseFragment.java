@@ -9,7 +9,7 @@ import com.trello.rxlifecycle.components.support.RxFragment;
 
 /**
  * Created by HugoXie on 16/7/9.
- *
+ * <p>
  * Email: Hugo3641@gamil.com
  * GitHub: https://github.com/xcc3641
  * Info:

@@ -254,6 +254,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             return super.onOptionsItemSelected(item);
         }
     }
+
     //启动Activity方法
     public static void launch(Context context) {
         context.startActivity(new Intent(context, SettingsActivity.class));

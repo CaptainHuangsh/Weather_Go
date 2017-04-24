@@ -39,9 +39,9 @@ public class TodayWeatherHolder extends BaseViewHolder<WeatherBean> {
     public void bind(WeatherBean weatherBean) {
 
         try {
-            Log.i(TAG+"bind", "到了");
-            Log.i(TAG+"bind", "" + weatherBean.getNow_tmp());
-            Log.i(TAG+"bind", "到了2");
+            Log.i(TAG + "bind", "到了");
+            Log.i(TAG + "bind", "" + weatherBean.getNow_tmp());
+            Log.i(TAG + "bind", "到了2");
             mTemp_min.setText(mContext.getResources().getString(R.string.hsh_temp_min)
                     + weatherBean.getNow_tmp()
                     + mContext.getResources().getString(R.string.c));

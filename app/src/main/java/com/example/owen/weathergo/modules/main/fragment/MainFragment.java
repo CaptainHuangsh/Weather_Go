@@ -60,7 +60,6 @@ public class MainFragment extends BaseFragment {
     ImageView ToImg;
 
 
-
     private ActionBarDrawerToggle mDrawerToggle;
     private ArrayList<DailyForecast> mDFList = new ArrayList<>();
     private ArrayAdapter arrayAdapter;
@@ -74,7 +73,7 @@ public class MainFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("MAINFRAGMENT","onCreate");
+        Log.i("MAINFRAGMENT", "onCreate");
     }
 
     @Override

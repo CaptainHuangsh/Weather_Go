@@ -9,22 +9,22 @@ import android.view.WindowManager;
  * Created by owen on 2017/4/8.
  */
 
-public class BaseActivity  {
+public class BaseActivity {
 /*
     private static String TAG = BaseActivity.class.getSimpleName();
 
     */
 /**
-     * 设置状态栏颜色
-     * 也就是所谓沉浸式状态栏
-     *//*
+ * 设置状态栏颜色
+ * 也就是所谓沉浸式状态栏
+ *//*
 
     @Deprecated
     public void setStatusBarColor(int color) {
         */
 /**
-         * Android4.4以上  但是抽屉有点冲突，目前就重写一个方法暂时解决4.4的问题
-         *//*
+ * Android4.4以上  但是抽屉有点冲突，目前就重写一个方法暂时解决4.4的问题
+ *//*
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -37,8 +37,8 @@ public class BaseActivity  {
     public void setStatusBarColorForKitkat(int color) {
         */
 /**
-         * Android4.4
-         *//*
+ * Android4.4
+ *//*
 
         if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
             this.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -90,7 +90,6 @@ public class BaseActivity  {
         activity.recreate();
     }
 */
-
 
 
 }

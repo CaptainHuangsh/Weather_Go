@@ -33,7 +33,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.view = inflate;
         this.dlForecastList = dlForecastList;
         this.weatherBean = weatherBean;
-        Log.i("WeatherAdapterConstr",""+dlForecastList.size());
+        Log.i("WeatherAdapterConstr", "" + dlForecastList.size());
     }
 
 
@@ -45,10 +45,10 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         switch (viewType) {
             case WeatherAdapter.TYPE_ONE:
 //                dHolder = new DailyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.main_forecast, parent, false));
-                Log.i("WeatherAdapteroncreateView",""+WeatherAdapter.TYPE_ONE);
-                return new TodayWeatherHolder(LayoutInflater.from(context).inflate(R.layout.main_forecast,parent,false),weatherBean);
+                Log.i("WeatherAdapteroncreateView", "" + WeatherAdapter.TYPE_ONE);
+                return new TodayWeatherHolder(LayoutInflater.from(context).inflate(R.layout.main_forecast, parent, false), weatherBean);
             case WeatherAdapter.TYPE_TWO:
-                Log.i("WeatherAdapteroncreateView",""+WeatherAdapter.TYPE_TWO);
+                Log.i("WeatherAdapteroncreateView", "" + WeatherAdapter.TYPE_TWO);
                 return new DailyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.weekly_forecast, parent, false), dlForecastList);
 
         }
@@ -60,10 +60,10 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         int itemType = getItemViewType(position);
         switch (itemType) {
             case WeatherAdapter.TYPE_ONE:
-                ((TodayWeatherHolder)holder).bind(weatherBean);
+                ((TodayWeatherHolder) holder).bind(weatherBean);
                 break;
             case WeatherAdapter.TYPE_TWO:
-                ((DailyWeatherHolder)holder).bind(dlForecastList);
+                ((DailyWeatherHolder) holder).bind(dlForecastList);
                 break;
         }
     }
@@ -80,7 +80,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-        return weatherBean != null ?  2:0;
+        return weatherBean != null ? 2 : 0;
     }
 
     @Override

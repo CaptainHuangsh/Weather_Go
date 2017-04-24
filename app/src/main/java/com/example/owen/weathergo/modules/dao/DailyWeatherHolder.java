@@ -28,13 +28,11 @@ public class DailyWeatherHolder extends BaseViewHolder<List<DLForecast>> {
     private TextView weamoreView[] = new TextView[7];
 
 
-
-
     public DailyWeatherHolder(View view, List<DLForecast> dlForecastsList) {
         super(view);
         mContext = view.getContext();
         this.dlForecastsList = dlForecastsList;
-        Log.i(TAG+"Constr",""+dlForecastsList.size());
+        Log.i(TAG + "Constr", "" + dlForecastsList.size());
         dailyWeather = (LinearLayout) itemView.findViewById(R.id.forecast_linear);
         for (int i = 0; i < dlForecastsList.size(); i++) {
             View v = View.inflate(mContext, R.layout.weeklyforecast_items, null);
@@ -48,18 +46,18 @@ public class DailyWeatherHolder extends BaseViewHolder<List<DLForecast>> {
 
     @Override
     public void bind(List<DLForecast> dlForecasts) {
-        try{
+        try {
             dayView[0].setText("今日");
             dayView[1].setText("明日");
-            for(int i=0;i<dlForecasts.size();i++){
-                if(i>1){
+            for (int i = 0; i < dlForecasts.size(); i++) {
+                if (i > 1) {
                     dayView[i].setText(dlForecasts.get(i).getDay());
                 }
                 img[i].setImageResource(dlForecasts.get(i).getImageId());
                 temprView[i].setText(dlForecasts.get(i).getTempr());
                 weamoreView[i].setText(dlForecasts.get(i).getWeamore());
             }
-        }catch (Exception e){
+        } catch (Exception e) {
 
         }
 

@@ -10,10 +10,10 @@
         android:title="选择城市"
         app:showAsAction="always" />
     <item
-        app:showAsAction="always"
         android:id="@+id/action_share"
         android:orderInCategory="90"
-        android:title="分享天气" />
+        android:title="分享天气"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_settings"

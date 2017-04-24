@@ -15,6 +15,6 @@ public interface GitHubClient {
 
     @GET("/user/{user}/repos")
     Call<List<GitHubRepo>> reposForUser(
-        @Path("user") String user);
+            @Path("user") String user);
 
 }

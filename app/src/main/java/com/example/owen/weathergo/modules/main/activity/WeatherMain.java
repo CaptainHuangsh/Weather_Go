@@ -52,7 +52,7 @@ public class WeatherMain extends AppCompatActivity
 
     /**
      * 程序入口，主Activity类
-    */
+     */
 
     private static final String TAG = WeatherMain.class.getSimpleName();
 
@@ -143,7 +143,7 @@ public class WeatherMain extends AppCompatActivity
     public void getWeather() {
         try {
             WeatherBean weatherBean = JSONUtil.getWeatherBeans(this, mCityStr);
-            mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(), dlForecastList,weatherBean));
+            mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(), dlForecastList, weatherBean));
             mGCityStr = weatherBean.getCity();
             mToolBar.setTitle("" + mGCityStr);
 
@@ -242,14 +242,14 @@ public class WeatherMain extends AppCompatActivity
             @Override
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                Log.i(TAG,"opened");
+                Log.i(TAG, "opened");
             }
 
             @Override
             public void onDrawerClosed(View drawerView) {
                 super.onDrawerClosed(drawerView);
                 //mAnimationDrawable.start();
-                Log.i(TAG,"closed");
+                Log.i(TAG, "closed");
             }
 
             @Override
@@ -268,25 +268,25 @@ public class WeatherMain extends AppCompatActivity
     }
 
     //初始化navigationView
-    public void initNavigationView(){
+    public void initNavigationView() {
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Log.d("onSelected", "id=" + item.getItemId());
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.nav_city:
-                        Log.i(TAG+"navigation","nav_city");
+                        Log.i(TAG + "navigation", "nav_city");
                         break;
                     case R.id.nav_multi_cities:
-                        Log.i(TAG+"navigation","nav_multi_cities");
+                        Log.i(TAG + "navigation", "nav_multi_cities");
                         break;
                     case R.id.nav_setting:
                         SettingsActivity.launch(WeatherMain.this);
-                        Log.i(TAG+"navigation","nav_setting");
+                        Log.i(TAG + "navigation", "nav_setting");
                         break;
                     case R.id.nav_about:
                         About.launch(WeatherMain.this);
-                        Log.i(TAG+"navigation","nav_about");
+                        Log.i(TAG + "navigation", "nav_about");
                         break;
                 }
                 return false;
