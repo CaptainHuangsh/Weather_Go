@@ -25,9 +25,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.owen.weathergo.R;
@@ -259,7 +257,7 @@ public class WeatherMain extends AppCompatActivity
                 Log.d("onSelected", "id=" + item.getItemId());
                 switch (item.getItemId()) {
                     case R.id.nav_city:
-                        ChoiseCityActivity.launch(WeatherMain.this);
+                        ChoiceCityActivity.launch(WeatherMain.this);
                         Log.i(TAG + "navigation", "nav_city");
                         break;
                     case R.id.nav_multi_cities:

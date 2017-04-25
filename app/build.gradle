@@ -21,6 +21,10 @@ android {
         versionName '1.0.1'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+        jackOptions {
+            enabled true
+        }
+//        适用java8属性
     }
     buildTypes {
         release {
@@ -30,6 +34,10 @@ android {
         }
     }
     productFlavors {
+    }
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
     }
 }
 dependencies {

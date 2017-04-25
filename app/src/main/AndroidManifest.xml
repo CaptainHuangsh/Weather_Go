@@ -50,7 +50,7 @@
             android:name=".modules.main.activity.SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity android:name=".modules.about.About" />
-        <activity android:name=".modules.main.activity.ChoiseCityActivity"></activity>
+        <activity android:name=".modules.main.activity.ChoiceCityActivity"></activity>
     </application>
 
 </manifest>
