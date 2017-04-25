@@ -259,6 +259,7 @@ public class WeatherMain extends AppCompatActivity
                 Log.d("onSelected", "id=" + item.getItemId());
                 switch (item.getItemId()) {
                     case R.id.nav_city:
+                        ChoiseCityActivity.launch(WeatherMain.this);
                         Log.i(TAG + "navigation", "nav_city");
                         break;
                     case R.id.nav_multi_cities:
