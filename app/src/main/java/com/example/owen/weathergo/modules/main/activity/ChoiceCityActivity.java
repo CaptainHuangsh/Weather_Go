@@ -44,6 +44,7 @@ public class ChoiceCityActivity extends AppCompatActivity {
         dataList.add("开封");
         dataList.add("北京");
 
+
         /*Observable.defer(() -> {
             //mDBManager = new DBManager(ChoiceCityActivity.this);
             DBManager.getInstance().openDatabase();
