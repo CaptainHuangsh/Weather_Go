@@ -24,6 +24,7 @@ public class WeatherDB {
 
         List<Province> list = new ArrayList<>();
 
+        //DMBManager类复制数据库操作已再设备商验证成功（coolpad8297 API19）
         Cursor cursor = db.query("T_Province", null, null, null, null, null, null);
 
         if (cursor.moveToFirst()) {
