@@ -19,7 +19,7 @@ import java.io.InputStream;
  * Created by owen on 2017/4/25.
  */
 
-/*public class DBManager {
+public class DBManager {
 
     private static String TAG = DBManager.class.getSimpleName();
     public static final String DB_NAME = "china_city.db"; //数据库名字
@@ -85,4 +85,4 @@ import java.io.InputStream;
             this.database.close();
         }
     }
-}*/
+}

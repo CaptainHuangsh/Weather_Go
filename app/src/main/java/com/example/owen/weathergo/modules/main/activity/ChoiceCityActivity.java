@@ -2,12 +2,16 @@ package com.example.owen.weathergo.modules.main.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.owen.weathergo.R;
+import com.example.owen.weathergo.common.util.DBManager;
+import com.example.owen.weathergo.common.util.WeatherDB;
 import com.example.owen.weathergo.modules.dao.City;
 import com.example.owen.weathergo.modules.dao.Province;
 import com.example.owen.weathergo.modules.main.adapter.CityAdapter;
@@ -35,16 +39,17 @@ public class ChoiceCityActivity extends AppCompatActivity {
 
     private boolean isChecked = false;
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choise_city);
         ButterKnife.bind(this);
-        dataList.add("洛阳");
+        /*dataList.add("洛阳");
         dataList.add("开封");
-        dataList.add("北京");
+        dataList.add("北京");*/
 
-
+        queryProvince();
         /*Observable.defer(() -> {
             //mDBManager = new DBManager(ChoiceCityActivity.this);
             DBManager.getInstance().openDatabase();
@@ -55,6 +60,7 @@ public class ChoiceCityActivity extends AppCompatActivity {
                     initRecyclerView();
                     queryProvinces();
                 });*/
+        DBManager.getInstance().openDatabase();
         initRecycleView();
 
     }
@@ -94,6 +100,19 @@ public class ChoiceCityActivity extends AppCompatActivity {
 
     public void queryCities() {
 
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    public void queryProvince(){
+        if (provincesList.isEmpty()) {
+            provincesList.addAll(WeatherDB.loadProvinces(DBManager.getInstance().getDatabase()));
+        }
+        dataList.clear();
+
+        for(Province province : provincesList){
+            dataList.add(province.ProName);
+        }
+//        dataList.addAll(provincesList);
     }
 
     //启动Activity方法
