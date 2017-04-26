@@ -8,6 +8,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.util.DBManager;
@@ -105,6 +106,8 @@ public class ChoiceCityActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void queryProvince(){
         if (provincesList.isEmpty()) {
+            DBManager.getInstance().openDatabase();
+            Log.i("ChoiceCityActivityQP",""+DBManager.getInstance().getDatabase());
             provincesList.addAll(WeatherDB.loadProvinces(DBManager.getInstance().getDatabase()));
         }
         dataList.clear();

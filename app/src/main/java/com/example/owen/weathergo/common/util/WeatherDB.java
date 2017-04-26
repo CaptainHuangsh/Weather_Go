@@ -8,10 +8,12 @@ import android.support.annotation.RequiresApi;
 import com.example.owen.weathergo.modules.dao.City;
 import com.example.owen.weathergo.modules.dao.Province;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.internal.Util;
+//import okhttp3.internal.Util;
 
 public class WeatherDB {
 
@@ -24,7 +26,7 @@ public class WeatherDB {
 
         List<Province> list = new ArrayList<>();
 
-        //DMBManager类复制数据库操作已再设备商验证成功（coolpad8297 API19）
+        //DMBManager类复制数据库操作已再设备上验证成功（coolpad8297 API19）
         Cursor cursor = db.query("T_Province", null, null, null, null, null, null);
 
         if (cursor.moveToFirst()) {
@@ -35,7 +37,7 @@ public class WeatherDB {
                 list.add(province);
             } while (cursor.moveToNext());
         }
-        Util.closeQuietly(cursor);
+        closeQuietly(cursor);
         return list;
     }
 
@@ -52,7 +54,18 @@ public class WeatherDB {
                 list.add(city);
             } while (cursor.moveToNext());
         }
-        Util.closeQuietly(cursor);
+        closeQuietly(cursor);
         return list;
+    }
+
+
+    public static void closeQuietly(Closeable closeable) {
+        if (null != closeable) {
+            try {
+                closeable.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
