@@ -29,6 +29,7 @@ public class ChoiceCityActivity extends AppCompatActivity {
 
     private ArrayList<String> dataList = new ArrayList<>();
     private Province selectedProvince;
+    private int proNum;
     private City selectedCity;
     private List<Province> provincesList = new ArrayList<>();
     private List<City> cityList;
@@ -71,6 +72,8 @@ public class ChoiceCityActivity extends AppCompatActivity {
         mCityRecy.setHasFixedSize(true);
         mAdapter = new CityAdapter(this, dataList);
         mCityRecy.setAdapter(mAdapter);
+
+
         /*mAdapter.setOnItemClickListener(new CityAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int pos) {
@@ -99,8 +102,14 @@ public class ChoiceCityActivity extends AppCompatActivity {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void queryCities() {
-
+        if(cityList.isEmpty()){
+            DBManager.getInstance().openDatabase();
+            Log.i("ChoiceCityActivityQP",""+DBManager.getInstance().getDatabase());
+            cityList.addAll(WeatherDB.loadCities(DBManager.getInstance().getDatabase(),1));
+            DBManager.getInstance().closeDatabase();
+        }
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -109,6 +118,7 @@ public class ChoiceCityActivity extends AppCompatActivity {
             DBManager.getInstance().openDatabase();
             Log.i("ChoiceCityActivityQP",""+DBManager.getInstance().getDatabase());
             provincesList.addAll(WeatherDB.loadProvinces(DBManager.getInstance().getDatabase()));
+            DBManager.getInstance().closeDatabase();
         }
         dataList.clear();
 

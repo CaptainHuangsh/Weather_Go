@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.owen.weathergo.R;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 public class CityAdapter extends RecyclerView.Adapter<CityViewHolder> {
     private Context mContext;
     private ArrayList<String> mDataList;
-//    private OnRecyclerViewItemClickListener mOnItemClickListener = null;
+    private OnRecyclerViewItemClickListener mOnItemClickListener = null;
 
     public CityAdapter(Context context, ArrayList<String> dataList) {
         Log.i("CityAdapter","con");
@@ -46,12 +47,12 @@ public class CityAdapter extends RecyclerView.Adapter<CityViewHolder> {
         return mDataList.size();
     }
 
-   /* public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
+    public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
         this.mOnItemClickListener = listener;
-    }*/
+    }
 
 
-   /* public interface OnRecyclerViewItemClickListener {
+    public interface OnRecyclerViewItemClickListener {
         void onItemClick(View view, int pos);
-    }*/
+    }
 }
