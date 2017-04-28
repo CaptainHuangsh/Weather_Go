@@ -5,7 +5,25 @@ package com.example.owen.weathergo.modules.dao;
  */
 
 public class Province {
-    public String ProName;
-    public int ProSort;
+    private String ProName;
+    private int ProSort;
+
+    public String getProName() {
+        return ProName;
+    }
+
+    public void setProName(String proName) {
+        ProName = proName;
+    }
+
+    public int getProSort() {
+        return ProSort;
+    }
+
+    public void setProSort(int proSort) {
+        ProSort = proSort;
+    }
+
+
 
 }

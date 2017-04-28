@@ -52,6 +52,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityViewHolder> implements
         return mDataList.size();
     }
 
+    //绑定recycleView点击事件参考自 http://www.jcodecraeer.com/a/anzhuokaifa/androidkaifa/2015/0327/2647.html
     public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
         this.mOnItemClickListener = listener;
     }

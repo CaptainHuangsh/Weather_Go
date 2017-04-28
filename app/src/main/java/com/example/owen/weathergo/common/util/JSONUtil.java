@@ -49,7 +49,7 @@ public class JSONUtil {
                 .build();
         //Retrofit创建一个BlogService的代理对象
         WgClient service = retrofit.create(WgClient.class);
-        Call<ResponseBody> call = service.mWeatherAPI("kaifeng", "b2a628bc1de942dc869fcbe524c65313");
+        Call<ResponseBody> call = service.mWeatherAPI(sCity, "b2a628bc1de942dc869fcbe524c65313");
         String jss = "";
         call.enqueue(new Callback<ResponseBody>() {
             String jsonText = "";

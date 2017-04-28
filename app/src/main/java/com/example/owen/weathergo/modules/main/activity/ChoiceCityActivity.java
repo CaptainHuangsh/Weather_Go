@@ -33,7 +33,8 @@ public class ChoiceCityActivity extends AppCompatActivity {
     private int proNum;
     private City selectedCity;
     private List<Province> provincesList = new ArrayList<>();
-    private List<City> cityList;
+    private List<City> cityList = new ArrayList<>();
+    ;
     private CityAdapter mAdapter;
 
     public static final int LEVEL_PROVINCE = 1;
@@ -48,6 +49,7 @@ public class ChoiceCityActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choise_city);
         ButterKnife.bind(this);
+        currentLevel = 0;
         /*dataList.add("洛阳");
         dataList.add("开封");
         dataList.add("北京");*/
@@ -73,35 +75,44 @@ public class ChoiceCityActivity extends AppCompatActivity {
         mCityRecy.setHasFixedSize(true);
         mAdapter = new CityAdapter(this, dataList);
         mCityRecy.setAdapter(mAdapter);
-        Log.i("ChoiceCityActivityOnItc","ready to bind");
+        Log.i("ChoiceCityActivityOnItc", "ready to bind");
         mAdapter.setOnItemClickListener(new CityAdapter.OnRecyclerViewItemClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onItemClick(View view, int pos) {
-                    Log.i("ChoiceCityActivityOnItc",""+dataList.get(pos));
+                Log.i("ChoiceCityActivityOnItc", "" + dataList.get(pos) + pos);
+                if (currentLevel == 0) {
+//                    selectedProvince.setProName(dataList.get(pos));
+//                    selectedProvince.setProSort(pos + 1);
+                    queryCities(pos + 1);
+                } else if (currentLevel == 1) {
+                    //TODO 替代WeatherMain的主查询城市，并直接跳转到WeatherMain界面，传递值为城市名
+
+                    //http://www.cnblogs.com/shaocm/archive/2013/01/08/2851248.html
+//                    selectedCity.setCityName(dataList.get(pos) + "");
+//                    selectedCity.setCitySort(0);//暂时没有用到所以没有去查询
+//                    selectedCity.setProID(selectedProvince.getProSort());
+//                    Intent intent = new Intent();
+//                    intent.setClass(ChoiceCityActivity.this, WeatherMain.class);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putSerializable("city", selectedCity);
+//                    intent.putExtras(bundle);
+//                    startActivity(intent);
+
+                    Log.i("ChoiceCityActivityOnItcC", "" + dataList.get(pos) + pos);
+                    Intent intent = new Intent();
+                    intent.setClass(ChoiceCityActivity.this, WeatherMain.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("city", dataList.get(pos));
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+
+                }
+                //暂时没有从数据库中读取ProId而是从排列顺序中+1而得，有点走钢丝，后面deltWeek测试再考虑
             }
         });
-        Log.i("ChoiceCityActivityOnItc","has binded");
+        Log.i("ChoiceCityActivityOnItc", "has binded");
 
-        /*mAdapter.setOnItemClickListener(new CityAdapter.OnRecyclerViewItemClickListener() {
-            @Override
-            public void onItemClick(View view, int pos) {
-                if (currentLevel == LEVEL_PROVINCE) {
-                    selectedProvince = provincesList.get(pos);
-                    mCityRecy.smoothScrollToPosition(0);
-                    queryCities();
-                }
-                else if (currentLevel == LEVEL_CITY) {
-                    String city = Util.replaceCity(cityList.get(pos).CityName);
-                    if (isChecked) {
-
-                    } else {
-
-                    }
-                    quit();
-                }
-
-            }
-        })*/;
     }
 
     private void quit() {
@@ -111,29 +122,39 @@ public class ChoiceCityActivity extends AppCompatActivity {
 
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    public void queryCities() {
-        if(cityList.isEmpty()){
+    public void queryCities(int ProId) {
+        if (cityList.isEmpty()) {
             DBManager.getInstance().openDatabase();
-            Log.i("ChoiceCityActivityQP",""+DBManager.getInstance().getDatabase());
-            cityList.addAll(WeatherDB.loadCities(DBManager.getInstance().getDatabase(),1));
+            Log.i("ChoiceCityActivityQP", "" + DBManager.getInstance().getDatabase());
+            cityList.addAll(WeatherDB.loadCities(DBManager.getInstance().getDatabase(), ProId));
             DBManager.getInstance().closeDatabase();
         }
+        dataList.clear();
+        for (City city : cityList) {
+            dataList.add(city.getCityName());
+        }
+        currentLevel = 1;//城市级
+        mAdapter.notifyDataSetChanged();
+//        dataList.clear();
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    public void queryProvince(){
+    public void queryProvince() {
         if (provincesList.isEmpty()) {
             DBManager.getInstance().openDatabase();
-            Log.i("ChoiceCityActivityQP",""+DBManager.getInstance().getDatabase());
+            Log.i("ChoiceCityActivityQP", "" + DBManager.getInstance().getDatabase());
             provincesList.addAll(WeatherDB.loadProvinces(DBManager.getInstance().getDatabase()));
             DBManager.getInstance().closeDatabase();
         }
         dataList.clear();
 
-        for(Province province : provincesList){
-            dataList.add(province.ProName);
+        for (Province province : provincesList) {
+            dataList.add(province.getProName());
         }
+//        mAdapter.notifyDataSetChanged();
 //        dataList.addAll(provincesList);
+        currentLevel = 0;//省级
     }
 
     //启动Activity方法

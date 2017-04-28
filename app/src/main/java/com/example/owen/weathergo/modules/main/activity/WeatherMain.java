@@ -35,6 +35,7 @@ import com.example.owen.weathergo.common.util.JSONUtil;
 import com.example.owen.weathergo.common.util.ToastUtil;
 import com.example.owen.weathergo.component.DLForecast;
 import com.example.owen.weathergo.modules.about.About;
+import com.example.owen.weathergo.modules.dao.City;
 import com.example.owen.weathergo.modules.dao.DailyForecast;
 import com.example.owen.weathergo.modules.dao.WeatherBean;
 import com.example.owen.weathergo.modules.main.adapter.WeatherAdapter;
@@ -76,8 +77,8 @@ public class WeatherMain extends AppCompatActivity
 
     private ActionBarDrawerToggle mDrawerToggle;
     private ArrayList<DailyForecast> mDFList = new ArrayList<>();
-    private String mCityStr = "kaifeng";
-    private String mGCityStr = "";
+    private String mCityStr = "开封市";//设置的CityName
+    private String mGCityStr = "";//从和风天气查询到的城市名称CityName，理论上和设置的一样
     private List<DLForecast> dlForecastList = new ArrayList<DLForecast>();
     private WeatherBean weatherBean;
     private View view1, view2;
@@ -93,10 +94,28 @@ public class WeatherMain extends AppCompatActivity
         ButterKnife.bind(this);
         init();
         setListener();
-        getWeather();
+//        getWeather();
+        Log.i("WeatherMainOncr","");
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    protected void onStart() {
+        super.onStart();
+        try{Intent intent = this.getIntent();//接收传来的city信息
+        String Ccity = (String)intent.getSerializableExtra("city");
+            if (Ccity != "") {
+                mCityStr = Ccity;
+                Log.i("huangshaohau",""+Ccity);
+            }
+            getWeather();
+        }catch (Exception e){
+
+        }
+//        City city = (City) intent.getSerializableExtra("city");
+
+    }
 
     public void setListener() {
         /**
@@ -124,6 +143,7 @@ public class WeatherMain extends AppCompatActivity
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void getWeather() {
         try {
+            Log.i("huangshoahua2",""+mCityStr);
             WeatherBean weatherBean = JSONUtil.getWeatherBeans(this, mCityStr);
             mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(), dlForecastList, weatherBean));
             mGCityStr = weatherBean.getCity();
@@ -196,11 +216,11 @@ public class WeatherMain extends AppCompatActivity
         super.onDestroy();
     }
 
-
+    /**
+     * 初始化各个变量
+     */
     public void init() {
-        /**
-         * 初始化各个变量
-         */
+
         mToolBar.setTitle(getResources().getString(R.string.weather_app_name));
         setSupportActionBar(mToolBar);
         getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
