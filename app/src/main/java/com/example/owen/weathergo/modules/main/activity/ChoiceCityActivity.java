@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.util.DBManager;
@@ -72,7 +73,14 @@ public class ChoiceCityActivity extends AppCompatActivity {
         mCityRecy.setHasFixedSize(true);
         mAdapter = new CityAdapter(this, dataList);
         mCityRecy.setAdapter(mAdapter);
-
+        Log.i("ChoiceCityActivityOnItc","ready to bind");
+        mAdapter.setOnItemClickListener(new CityAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, int pos) {
+                    Log.i("ChoiceCityActivityOnItc",""+dataList.get(pos));
+            }
+        });
+        Log.i("ChoiceCityActivityOnItc","has binded");
 
         /*mAdapter.setOnItemClickListener(new CityAdapter.OnRecyclerViewItemClickListener() {
             @Override

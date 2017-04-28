@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * Created by owen on 2017/4/25.
  */
 
-public class CityAdapter extends RecyclerView.Adapter<CityViewHolder> {
+public class CityAdapter extends RecyclerView.Adapter<CityViewHolder> implements View.OnClickListener {
     private Context mContext;
     private ArrayList<String> mDataList;
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
@@ -30,7 +30,10 @@ public class CityAdapter extends RecyclerView.Adapter<CityViewHolder> {
 
     @Override
     public CityViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new CityViewHolder(LayoutInflater.from(mContext).inflate(R.layout.city_items, parent, false));
+        View view = LayoutInflater.from(mContext).inflate(R.layout.city_items,parent,false);
+        CityViewHolder cvh = new CityViewHolder(view);
+        view.setOnClickListener(this);
+        return cvh;
     }
 
     @Override
@@ -39,6 +42,8 @@ public class CityAdapter extends RecyclerView.Adapter<CityViewHolder> {
         Log.i("CityAdaptergetItem",""+mDataList.get(position));
         holder.bind(mDataList.get(position));
 //        holder.mCardView.setOnClickListener(v -> mOnItemClickListener.onItemClick(v, position));
+//        holder.mCardView.setOnClickListener(mOnItemClickListener.onItemClick(v,position));
+        holder.mCardView.setTag(position);
     }
 
     @Override
@@ -49,6 +54,13 @@ public class CityAdapter extends RecyclerView.Adapter<CityViewHolder> {
 
     public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
         this.mOnItemClickListener = listener;
+    }
+
+    @Override
+    public void onClick(View v) {
+        if(mOnItemClickListener != null){
+            mOnItemClickListener.onItemClick(v,(int)v.getTag());
+        }
     }
 
 
