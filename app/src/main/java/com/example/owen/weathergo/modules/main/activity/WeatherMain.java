@@ -105,14 +105,15 @@ public class WeatherMain extends AppCompatActivity
         super.onStart();
         try{Intent intent = this.getIntent();//接收传来的city信息
         String Ccity = (String)intent.getSerializableExtra("city");
-            if (Ccity != "") {
+            if (Ccity != null) {
                 mCityStr = Ccity;
-                Log.i("huangshaohau",""+Ccity);
+                Log.i("huangshaohua",""+Ccity);
             }
-            getWeather();
+
         }catch (Exception e){
 
         }
+        getWeather();
 //        City city = (City) intent.getSerializableExtra("city");
 
     }
@@ -143,7 +144,7 @@ public class WeatherMain extends AppCompatActivity
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void getWeather() {
         try {
-            Log.i("huangshoahua2",""+mCityStr);
+            Log.i("huangshaohua2",""+mCityStr);
             WeatherBean weatherBean = JSONUtil.getWeatherBeans(this, mCityStr);
             mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(), dlForecastList, weatherBean));
             mGCityStr = weatherBean.getCity();
