@@ -103,6 +103,7 @@ public class WeatherMain extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
+        Log.i("huangshaohua","onstart");
         try{Intent intent = this.getIntent();//接收传来的city信息
         String Ccity = (String)intent.getSerializableExtra("city");
             if (Ccity != null) {
@@ -114,6 +115,8 @@ public class WeatherMain extends AppCompatActivity
 
         }
         getWeather();
+        refresh();
+//        initRecycleView();
 //        City city = (City) intent.getSerializableExtra("city");
 
     }
@@ -171,6 +174,7 @@ public class WeatherMain extends AppCompatActivity
             Toast.makeText(this, "    定位失败,请手动输入城市", Toast.LENGTH_LONG).show();
         }
         Toast.makeText(this, "加载完毕，✺◟(∗❛ัᴗ❛ั∗)◞✺,", Toast.LENGTH_LONG).show();
+
     }
 
     //@Override
@@ -309,33 +313,7 @@ public class WeatherMain extends AppCompatActivity
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-
-                // 开始刷新，设置当前为刷新状态
-                //swipeRefreshLayout.setRefreshing(true);
-
-                // 这里是主线程
-                // 一些比较耗时的操作，比如联网获取数据，需要放到子线程去执行
-                // TODO 获取数据
-                new Handler().postDelayed(new Runnable() {
-                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                    @Override
-                    public void run() {
-
-                        dlForecastList.clear();
-                        mRecycleView.removeAllViews();
-
-                        getWeather();
-                        mWeatherAdapter.notifyDataSetChanged();
-
-                        Toast.makeText(WeatherMain.this, "刷新了数据", Toast.LENGTH_SHORT).show();
-
-                        // 加载完数据设置为不刷新状态，将下拉进度收起来
-                        mRefreshLayout.setRefreshing(false);
-                    }
-                }, 1200);
-
-                // 这个不能写在外边，不然会直接收起来
-                //swipeRefreshLayout.setRefreshing(false);
+                refresh();
             }
         });
 
@@ -344,6 +322,38 @@ public class WeatherMain extends AppCompatActivity
 //        mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(), dlForecastList,weatherBean));
 
 
+    }
+
+    public void refresh(){
+        {
+
+            // 开始刷新，设置当前为刷新状态
+            //swipeRefreshLayout.setRefreshing(true);
+
+            // 这里是主线程
+            // 一些比较耗时的操作，比如联网获取数据，需要放到子线程去执行
+            // TODO 获取数据
+            new Handler().postDelayed(new Runnable() {
+                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                @Override
+                public void run() {
+
+                    dlForecastList.clear();
+                    mRecycleView.removeAllViews();
+
+                    getWeather();
+                    mWeatherAdapter.notifyDataSetChanged();
+
+//                    Toast.makeText(WeatherMain.this, "刷新了数据", Toast.LENGTH_SHORT).show();
+
+                    // 加载完数据设置为不刷新状态，将下拉进度收起来
+                    mRefreshLayout.setRefreshing(false);
+                }
+            }, 1200);
+
+            // 这个不能写在外边，不然会直接收起来
+            //swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     //设置双击推出
