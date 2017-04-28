@@ -32,7 +32,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme0">
-        <activity android:name=".modules.main.activity.WeatherMain">
+        <activity android:name=".modules.main.activity.WeatherMain"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -50,7 +51,8 @@
             android:name=".modules.main.activity.SettingsActivity"
             android:label="@string/title_activity_settings" />
         <activity android:name=".modules.about.About" />
-        <activity android:name=".modules.main.activity.ChoiceCityActivity"></activity>
+        <activity android:name=".modules.main.activity.ChoiceCityActivity"
+            android:launchMode="singleTask"></activity>
     </application>
 
 </manifest>

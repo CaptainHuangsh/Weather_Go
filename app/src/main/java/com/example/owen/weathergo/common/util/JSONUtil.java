@@ -38,6 +38,7 @@ public class JSONUtil {
     static ArrayList<DailyForecast> dfLists = new ArrayList<DailyForecast>();
 
     public static WeatherBean getWeatherBeans(final Context context, String sCity) {
+        dfLists = null;
         /**
          * 处理从heweather网站上获取的json代码，进行解析赋值操作的静态方法
          */

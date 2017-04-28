@@ -101,28 +101,20 @@ public class ChoiceCityActivity extends AppCompatActivity {
 //                    intent.putExtras(bundle);
 //                    startActivity(intent);
 
-                    Log.i("ChoiceCityActivityOnItcC", "" + dataList.get(pos) + pos);
                     SharedPreferences preferences;
-                    Log.i("ChoiceCityActivityOnItcC", "1" );
                     preferences = getApplicationContext().getSharedPreferences("huang", MODE_PRIVATE);
-                    Log.i("ChoiceCityActivityOnItcC", "2" );
                     SharedPreferences.Editor editor = preferences.edit();
-                    Log.i("ChoiceCityActivityOnItcC", "3" );
                     editor.remove("city");
-                    Log.i("ChoiceCityActivityOnItcC", "4" );
                     editor.putString("city", dataList.get(pos));
-                    Log.i("ChoiceCityActivityOnItcC", "5" );
                     editor.commit();
-                    Log.i("ChoiceCityActivityOnItcC", "6" );
                     finish();
-                    Log.i("ChoiceCityActivityOnItcC", "7" );
+
 //                    Intent intent = new Intent();
 //                    intent.setClass(ChoiceCityActivity.this, WeatherMain.class);
 //                    Bundle bundle = new Bundle();
 //                    bundle.putSerializable("city", dataList.get(pos));
 //                    intent.putExtras(bundle);
 //                    startActivity(intent);
-
                 }
                 //暂时没有从数据库中读取ProId而是从排列顺序中+1而得，有点走钢丝，后面deltWeek测试再考虑
             }

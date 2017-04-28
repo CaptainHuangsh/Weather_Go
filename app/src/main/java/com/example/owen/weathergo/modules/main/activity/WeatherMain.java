@@ -36,7 +36,6 @@ import com.example.owen.weathergo.common.util.JSONUtil;
 import com.example.owen.weathergo.common.util.ToastUtil;
 import com.example.owen.weathergo.component.DLForecast;
 import com.example.owen.weathergo.modules.about.About;
-import com.example.owen.weathergo.modules.dao.City;
 import com.example.owen.weathergo.modules.dao.DailyForecast;
 import com.example.owen.weathergo.modules.dao.WeatherBean;
 import com.example.owen.weathergo.modules.main.adapter.WeatherAdapter;
@@ -58,7 +57,6 @@ public class WeatherMain extends AppCompatActivity
 
     //http://jakewharton.github.io/butterknife/
 
-
     @BindView(R.id.tl_custom)
     Toolbar mToolBar;
     @BindView(R.id.dl_left)
@@ -77,13 +75,13 @@ public class WeatherMain extends AppCompatActivity
     WeatherAdapter mWeatherAdapter;
 
     private ActionBarDrawerToggle mDrawerToggle;
-    private ArrayList<DailyForecast> mDFList = new ArrayList<>();
-    private String mCityStr = "开封市";//设置的CityName
+    //    private ArrayList<DailyForecast> mDFList = new ArrayList<>();
+    private String mCityStr = "";//设置的CityName
     private String mGCityStr = "";//从和风天气查询到的城市名称CityName，理论上和设置的一样
     private List<DLForecast> dlForecastList = new ArrayList<DLForecast>();
-    private WeatherBean weatherBean;
     private View view1, view2;
     private List<View> viewList;//view数组
+    Bundle savedInstanceState;
     //分别为查询结果国家，最低温度，最高温度，当前温度，风速
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -95,23 +93,24 @@ public class WeatherMain extends AppCompatActivity
         ButterKnife.bind(this);
         init();
         setListener();
-//        getWeather();
+        getWeather();
 
-        Log.i("WeatherMainOncr","");
+        Log.i("WeatherMainOncr", "");
 
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
-    protected void onStart() {
-        super.onStart();
-        Log.i("ChoiceCityActivityOnItcC", "8" );
+    protected void onRestart() {
+        super.onRestart();
+
+        Log.i("ChoiceCityActivityOnItcC", "8");
         SharedPreferences preferences;
         preferences = getApplicationContext().getSharedPreferences("huang", MODE_PRIVATE);
 //        SharedPreferences.Editor editor = preferences.edit();
-        String Ccity = preferences.getString("city","");
+        String Ccity = preferences.getString("city", "");
         mCityStr = Ccity;
-        Log.i("huangshaohua","onstart"+Ccity);
+        Log.i("huangshaohua", "onstart" + Ccity);
 /*
         try{Intent intent = this.getIntent();//接收传来的city信息
         String Ccity = (String)intent.getSerializableExtra("city");
@@ -125,10 +124,12 @@ public class WeatherMain extends AppCompatActivity
         }
 */
 
-        /*getWeather();
-        Log.i("ChoiceCityActivityOnItcC", "9" );*/
+//        getWeather();
+//        Log.i("ChoiceCityActivityOnItcC", "9" );
+//        getWeather();
+        initRecycleView();
         refresh();
-        Log.i("ChoiceCityActivityOnItcC", "10" );
+//        Log.i("ChoiceCityActivityOnItcC", "10" + mCityStr);
 //        City city = (City) intent.getSerializableExtra("city");
 
     }
@@ -158,15 +159,14 @@ public class WeatherMain extends AppCompatActivity
     //大头鬼Bruce的译文 深入浅出RxJava系列 http://blog.csdn.net/lzyzsd/article/category/2767743
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void getWeather() {
+        Log.i("huangshaohau4", mCityStr);
+        mRecycleView.setLayoutManager(new LinearLayoutManager(this));
         try {
-            Log.i("ChoiceCityActivityOnItcC", "8.1" );
-            Log.i("huangshaohua2",""+mCityStr);
-            WeatherBean weatherBean = JSONUtil.getWeatherBeans(this, mCityStr);
-            mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(), dlForecastList, weatherBean));
-            mGCityStr = weatherBean.getCity();
-            mToolBar.setTitle("" + mGCityStr);
-
-            mDFList = JSONUtil.getDForecast();
+            Log.i("huangshaohua5", "" + mCityStr);
+            WeatherBean weatherBean = null;
+            weatherBean = JSONUtil.getWeatherBeans(this, mCityStr);
+            Log.i("huangshaohau6", weatherBean.getCity());
+            ArrayList<DailyForecast> mDFList = JSONUtil.getDForecast();
             Log.i("wtfs", mDFList.toString());
             int i = 0;
             for (DailyForecast df : mDFList
@@ -182,6 +182,13 @@ public class WeatherMain extends AppCompatActivity
                 dlForecastList.add(dls);
                 i++;
             }
+            Log.i("huangshaohau7", weatherBean.getCity());
+            mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(), dlForecastList, weatherBean));
+            mGCityStr = weatherBean.getCity();
+            Log.i("huangshaohua8", "" + weatherBean.getCity());
+            mToolBar.setTitle("" + mGCityStr);
+
+
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, "    定位失败,请手动输入城市", Toast.LENGTH_LONG).show();
@@ -238,7 +245,13 @@ public class WeatherMain extends AppCompatActivity
      * 初始化各个变量
      */
     public void init() {
-
+        Log.i("ChoiceCityActivityOnItcC", "8");
+        SharedPreferences preferences;
+        preferences = getApplicationContext().getSharedPreferences("huang", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = preferences.edit();
+        String Ccity = preferences.getString("city", "");
+        mCityStr = Ccity;
+        Log.i("huangshaohua", "onstart" + Ccity);
         mToolBar.setTitle(getResources().getString(R.string.weather_app_name));
         setSupportActionBar(mToolBar);
         getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
@@ -339,9 +352,10 @@ public class WeatherMain extends AppCompatActivity
 
     }
 
-    public void refresh(){
+    public void refresh() {
         {
 
+            Log.i("huangshaohau1", mCityStr);
             // 开始刷新，设置当前为刷新状态
             //swipeRefreshLayout.setRefreshing(true);
 
@@ -351,17 +365,16 @@ public class WeatherMain extends AppCompatActivity
             new Handler().postDelayed(new Runnable() {
                 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                 @Override
-                public void run() {
-                    Log.i("ChoiceCityActivityOnItcC", "11" );
-                    dlForecastList.clear();
-                    Log.i("ChoiceCityActivityOnItcC", "12" );
-                    mRecycleView.removeAllViews();
-                    Log.i("ChoiceCityActivityOnItcC", "13" );
-                    getWeather();
-                    Log.i("ChoiceCityActivityOnItcC", "14" );
-                    mWeatherAdapter.notifyDataSetChanged();
-                    Log.i("ChoiceCityActivityOnItcC", "15" );
 
+                public void run() {
+                    Log.i("huangshaohau2", mCityStr);
+                    dlForecastList.clear();
+                    mRecycleView.removeAllViews();
+                    Log.i("huangshaohau3", mCityStr);
+                    getWeather();
+                    Log.i("huangshaohau9", mGCityStr);
+                    mWeatherAdapter.notifyDataSetChanged();
+                    Log.i("huangshaohau10", mGCityStr);
 //                    Toast.makeText(WeatherMain.this, "刷新了数据", Toast.LENGTH_SHORT).show();
 
                     // 加载完数据设置为不刷新状态，将下拉进度收起来
