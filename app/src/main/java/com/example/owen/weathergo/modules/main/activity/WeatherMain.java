@@ -2,6 +2,7 @@ package com.example.owen.weathergo.modules.main.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,9 +26,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.owen.weathergo.R;
@@ -58,7 +57,6 @@ public class WeatherMain extends AppCompatActivity
 
     //http://jakewharton.github.io/butterknife/
 
-
     @BindView(R.id.tl_custom)
     Toolbar mToolBar;
     @BindView(R.id.dl_left)
@@ -77,13 +75,13 @@ public class WeatherMain extends AppCompatActivity
     WeatherAdapter mWeatherAdapter;
 
     private ActionBarDrawerToggle mDrawerToggle;
-    private ArrayList<DailyForecast> mDFList = new ArrayList<>();
-    private String mCityStr = "kaifeng";
-    private String mGCityStr = "";
+    //    private ArrayList<DailyForecast> mDFList = new ArrayList<>();
+    private String mCityStr = "";//设置的CityName
+    private String mGCityStr = "";//从和风天气查询到的城市名称CityName，理论上和设置的一样
     private List<DLForecast> dlForecastList = new ArrayList<DLForecast>();
-    private WeatherBean weatherBean;
     private View view1, view2;
     private List<View> viewList;//view数组
+    Bundle savedInstanceState;
     //分别为查询结果国家，最低温度，最高温度，当前温度，风速
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -97,8 +95,44 @@ public class WeatherMain extends AppCompatActivity
         setListener();
         getWeather();
 
+        Log.i("WeatherMainOncr", "");
+
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+
+        Log.i("ChoiceCityActivityOnItcC", "8");
+        SharedPreferences preferences;
+        preferences = getApplicationContext().getSharedPreferences("huang", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = preferences.edit();
+        String Ccity = preferences.getString("city", "");
+        mCityStr = Ccity;
+        Log.i("huangshaohua", "onstart" + Ccity);
+/*
+        try{Intent intent = this.getIntent();//接收传来的city信息
+        String Ccity = (String)intent.getSerializableExtra("city");
+            if (Ccity != null) {
+                mCityStr = Ccity;
+                Log.i("huangshaohua",""+Ccity);
+            }
+
+        }catch (Exception e){
+
+        }
+*/
+
+//        getWeather();
+//        Log.i("ChoiceCityActivityOnItcC", "9" );
+//        getWeather();
+        initRecycleView();
+        refresh();
+//        Log.i("ChoiceCityActivityOnItcC", "10" + mCityStr);
+//        City city = (City) intent.getSerializableExtra("city");
+
+    }
 
     public void setListener() {
         /**
@@ -125,13 +159,14 @@ public class WeatherMain extends AppCompatActivity
     //大头鬼Bruce的译文 深入浅出RxJava系列 http://blog.csdn.net/lzyzsd/article/category/2767743
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void getWeather() {
+        Log.i("huangshaohau4", mCityStr);
+        mRecycleView.setLayoutManager(new LinearLayoutManager(this));
         try {
-            WeatherBean weatherBean = JSONUtil.getWeatherBeans(this, mCityStr);
-            mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(), dlForecastList, weatherBean));
-            mGCityStr = weatherBean.getCity();
-            mToolBar.setTitle("" + mGCityStr);
-
-            mDFList = JSONUtil.getDForecast();
+            Log.i("huangshaohua5", "" + mCityStr);
+            WeatherBean weatherBean = null;
+            weatherBean = JSONUtil.getWeatherBeans(this, mCityStr);
+            Log.i("huangshaohau6", weatherBean.getCity());
+            ArrayList<DailyForecast> mDFList = JSONUtil.getDForecast();
             Log.i("wtfs", mDFList.toString());
             int i = 0;
             for (DailyForecast df : mDFList
@@ -147,11 +182,19 @@ public class WeatherMain extends AppCompatActivity
                 dlForecastList.add(dls);
                 i++;
             }
+            Log.i("huangshaohau7", weatherBean.getCity());
+            mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(), dlForecastList, weatherBean));
+            mGCityStr = weatherBean.getCity();
+            Log.i("huangshaohua8", "" + weatherBean.getCity());
+            mToolBar.setTitle("" + mGCityStr);
+
+
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, "    定位失败,请手动输入城市", Toast.LENGTH_LONG).show();
         }
-        Toast.makeText(this, "加载完毕，✺◟(∗❛ัᴗ❛ั∗)◞✺,", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "加载完毕，✺◟(∗❛ัᴗ❛ั∗)◞✺,", Toast.LENGTH_SHORT).show();
+
     }
 
     //@Override
@@ -198,11 +241,17 @@ public class WeatherMain extends AppCompatActivity
         super.onDestroy();
     }
 
-
+    /**
+     * 初始化各个变量
+     */
     public void init() {
-        /**
-         * 初始化各个变量
-         */
+        Log.i("ChoiceCityActivityOnItcC", "8");
+        SharedPreferences preferences;
+        preferences = getApplicationContext().getSharedPreferences("huang", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = preferences.edit();
+        String Ccity = preferences.getString("city", "");
+        mCityStr = Ccity;
+        Log.i("huangshaohua", "onstart" + Ccity);
         mToolBar.setTitle(getResources().getString(R.string.weather_app_name));
         setSupportActionBar(mToolBar);
         getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
@@ -259,6 +308,7 @@ public class WeatherMain extends AppCompatActivity
                 Log.d("onSelected", "id=" + item.getItemId());
                 switch (item.getItemId()) {
                     case R.id.nav_city:
+                        ChoiceCityActivity.launch(WeatherMain.this);
                         Log.i(TAG + "navigation", "nav_city");
                         break;
                     case R.id.nav_multi_cities:
@@ -287,35 +337,11 @@ public class WeatherMain extends AppCompatActivity
 
         // 下拉时触发SwipeRefreshLayout的下拉动画，动画完毕之后就会回调这个方法
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onRefresh() {
-
-                // 开始刷新，设置当前为刷新状态
-                //swipeRefreshLayout.setRefreshing(true);
-
-                // 这里是主线程
-                // 一些比较耗时的操作，比如联网获取数据，需要放到子线程去执行
-                // TODO 获取数据
-                new Handler().postDelayed(new Runnable() {
-                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                    @Override
-                    public void run() {
-
-                        dlForecastList.clear();
-                        mRecycleView.removeAllViews();
-
-                        getWeather();
-                        mWeatherAdapter.notifyDataSetChanged();
-
-                        Toast.makeText(WeatherMain.this, "刷新了数据", Toast.LENGTH_SHORT).show();
-
-                        // 加载完数据设置为不刷新状态，将下拉进度收起来
-                        mRefreshLayout.setRefreshing(false);
-                    }
-                }, 1200);
-
-                // 这个不能写在外边，不然会直接收起来
-                //swipeRefreshLayout.setRefreshing(false);
+//                getWeather();
+                refresh();
             }
         });
 
@@ -324,6 +350,41 @@ public class WeatherMain extends AppCompatActivity
 //        mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(), dlForecastList,weatherBean));
 
 
+    }
+
+    public void refresh() {
+        {
+
+            Log.i("huangshaohau1", mCityStr);
+            // 开始刷新，设置当前为刷新状态
+            //swipeRefreshLayout.setRefreshing(true);
+
+            // 这里是主线程
+            // 一些比较耗时的操作，比如联网获取数据，需要放到子线程去执行
+            // TODO 获取数据
+            new Handler().postDelayed(new Runnable() {
+                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                @Override
+
+                public void run() {
+                    Log.i("huangshaohau2", mCityStr);
+                    dlForecastList.clear();
+                    mRecycleView.removeAllViews();
+                    Log.i("huangshaohau3", mCityStr);
+                    getWeather();
+                    Log.i("huangshaohau9", mGCityStr);
+                    mWeatherAdapter.notifyDataSetChanged();
+                    Log.i("huangshaohau10", mGCityStr);
+//                    Toast.makeText(WeatherMain.this, "刷新了数据", Toast.LENGTH_SHORT).show();
+
+                    // 加载完数据设置为不刷新状态，将下拉进度收起来
+                    mRefreshLayout.setRefreshing(false);
+                }
+            }, 1200);
+
+            // 这个不能写在外边，不然会直接收起来
+            //swipeRefreshLayout.setRefreshing(false);
+        }
     }
 
     //设置双击推出

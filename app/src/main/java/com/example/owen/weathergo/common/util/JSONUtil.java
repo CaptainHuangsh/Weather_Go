@@ -38,6 +38,7 @@ public class JSONUtil {
     static ArrayList<DailyForecast> dfLists = new ArrayList<DailyForecast>();
 
     public static WeatherBean getWeatherBeans(final Context context, String sCity) {
+        dfLists = null;
         /**
          * 处理从heweather网站上获取的json代码，进行解析赋值操作的静态方法
          */
@@ -49,7 +50,7 @@ public class JSONUtil {
                 .build();
         //Retrofit创建一个BlogService的代理对象
         WgClient service = retrofit.create(WgClient.class);
-        Call<ResponseBody> call = service.mWeatherAPI("kaifeng", "b2a628bc1de942dc869fcbe524c65313");
+        Call<ResponseBody> call = service.mWeatherAPI(sCity, "b2a628bc1de942dc869fcbe524c65313");
         String jss = "";
         call.enqueue(new Callback<ResponseBody>() {
             String jsonText = "";
