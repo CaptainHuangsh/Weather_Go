@@ -2,6 +2,7 @@ package com.example.owen.weathergo.modules.main.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -100,11 +101,17 @@ public class ChoiceCityActivity extends AppCompatActivity {
 //                    startActivity(intent);
 
                     Log.i("ChoiceCityActivityOnItcC", "" + dataList.get(pos) + pos);
+                    SharedPreferences preferences;
+                    preferences = getApplicationContext().getSharedPreferences("huang", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("city", dataList.get(pos));
+                    editor.commit();
+
                     Intent intent = new Intent();
                     intent.setClass(ChoiceCityActivity.this, WeatherMain.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("city", dataList.get(pos));
-                    intent.putExtras(bundle);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putSerializable("city", dataList.get(pos));
+//                    intent.putExtras(bundle);
                     startActivity(intent);
 
                 }

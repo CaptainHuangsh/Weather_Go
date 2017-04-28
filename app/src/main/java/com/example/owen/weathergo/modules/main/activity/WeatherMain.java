@@ -2,6 +2,7 @@ package com.example.owen.weathergo.modules.main.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -103,7 +104,13 @@ public class WeatherMain extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-        Log.i("huangshaohua","onstart");
+        SharedPreferences preferences;
+        preferences = getApplicationContext().getSharedPreferences("huang", MODE_PRIVATE);
+//        SharedPreferences.Editor editor = preferences.edit();
+        String Ccity = preferences.getString("city","");
+        mCityStr = Ccity;
+        Log.i("huangshaohua","onstart"+Ccity);
+/*
         try{Intent intent = this.getIntent();//接收传来的city信息
         String Ccity = (String)intent.getSerializableExtra("city");
             if (Ccity != null) {
@@ -114,6 +121,7 @@ public class WeatherMain extends AppCompatActivity
         }catch (Exception e){
 
         }
+*/
         getWeather();
         refresh();
 //        initRecycleView();
