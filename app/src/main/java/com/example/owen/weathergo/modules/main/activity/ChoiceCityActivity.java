@@ -35,7 +35,7 @@ public class ChoiceCityActivity extends AppCompatActivity {
     private City selectedCity;
     private List<Province> provincesList = new ArrayList<>();
     private List<City> cityList = new ArrayList<>();
-    ;
+
     private CityAdapter mAdapter;
 
     public static final int LEVEL_PROVINCE = 1;
@@ -85,6 +85,7 @@ public class ChoiceCityActivity extends AppCompatActivity {
                 if (currentLevel == 0) {
 //                    selectedProvince.setProName(dataList.get(pos));
 //                    selectedProvince.setProSort(pos + 1);
+                    Log.i("ChoiceCityActivityOnItcP", "" + dataList.get(pos) + pos);
                     queryCities(pos + 1);
                 } else if (currentLevel == 1) {
                     //TODO 替代WeatherMain的主查询城市，并直接跳转到WeatherMain界面，传递值为城市名
@@ -102,17 +103,25 @@ public class ChoiceCityActivity extends AppCompatActivity {
 
                     Log.i("ChoiceCityActivityOnItcC", "" + dataList.get(pos) + pos);
                     SharedPreferences preferences;
+                    Log.i("ChoiceCityActivityOnItcC", "1" );
                     preferences = getApplicationContext().getSharedPreferences("huang", MODE_PRIVATE);
+                    Log.i("ChoiceCityActivityOnItcC", "2" );
                     SharedPreferences.Editor editor = preferences.edit();
+                    Log.i("ChoiceCityActivityOnItcC", "3" );
+                    editor.remove("city");
+                    Log.i("ChoiceCityActivityOnItcC", "4" );
                     editor.putString("city", dataList.get(pos));
+                    Log.i("ChoiceCityActivityOnItcC", "5" );
                     editor.commit();
-
-                    Intent intent = new Intent();
-                    intent.setClass(ChoiceCityActivity.this, WeatherMain.class);
+                    Log.i("ChoiceCityActivityOnItcC", "6" );
+                    finish();
+                    Log.i("ChoiceCityActivityOnItcC", "7" );
+//                    Intent intent = new Intent();
+//                    intent.setClass(ChoiceCityActivity.this, WeatherMain.class);
 //                    Bundle bundle = new Bundle();
 //                    bundle.putSerializable("city", dataList.get(pos));
 //                    intent.putExtras(bundle);
-                    startActivity(intent);
+//                    startActivity(intent);
 
                 }
                 //暂时没有从数据库中读取ProId而是从排列顺序中+1而得，有点走钢丝，后面deltWeek测试再考虑

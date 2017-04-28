@@ -96,6 +96,7 @@ public class WeatherMain extends AppCompatActivity
         init();
         setListener();
 //        getWeather();
+
         Log.i("WeatherMainOncr","");
 
     }
@@ -104,6 +105,7 @@ public class WeatherMain extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
+        Log.i("ChoiceCityActivityOnItcC", "8" );
         SharedPreferences preferences;
         preferences = getApplicationContext().getSharedPreferences("huang", MODE_PRIVATE);
 //        SharedPreferences.Editor editor = preferences.edit();
@@ -122,9 +124,11 @@ public class WeatherMain extends AppCompatActivity
 
         }
 */
-        getWeather();
+
+        /*getWeather();
+        Log.i("ChoiceCityActivityOnItcC", "9" );*/
         refresh();
-//        initRecycleView();
+        Log.i("ChoiceCityActivityOnItcC", "10" );
 //        City city = (City) intent.getSerializableExtra("city");
 
     }
@@ -155,6 +159,7 @@ public class WeatherMain extends AppCompatActivity
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void getWeather() {
         try {
+            Log.i("ChoiceCityActivityOnItcC", "8.1" );
             Log.i("huangshaohua2",""+mCityStr);
             WeatherBean weatherBean = JSONUtil.getWeatherBeans(this, mCityStr);
             mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(), dlForecastList, weatherBean));
@@ -181,7 +186,7 @@ public class WeatherMain extends AppCompatActivity
             e.printStackTrace();
             Toast.makeText(this, "    定位失败,请手动输入城市", Toast.LENGTH_LONG).show();
         }
-        Toast.makeText(this, "加载完毕，✺◟(∗❛ัᴗ❛ั∗)◞✺,", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "加载完毕，✺◟(∗❛ัᴗ❛ั∗)◞✺,", Toast.LENGTH_SHORT).show();
 
     }
 
@@ -319,8 +324,10 @@ public class WeatherMain extends AppCompatActivity
 
         // 下拉时触发SwipeRefreshLayout的下拉动画，动画完毕之后就会回调这个方法
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onRefresh() {
+//                getWeather();
                 refresh();
             }
         });
@@ -345,12 +352,15 @@ public class WeatherMain extends AppCompatActivity
                 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                 @Override
                 public void run() {
-
+                    Log.i("ChoiceCityActivityOnItcC", "11" );
                     dlForecastList.clear();
+                    Log.i("ChoiceCityActivityOnItcC", "12" );
                     mRecycleView.removeAllViews();
-
+                    Log.i("ChoiceCityActivityOnItcC", "13" );
                     getWeather();
+                    Log.i("ChoiceCityActivityOnItcC", "14" );
                     mWeatherAdapter.notifyDataSetChanged();
+                    Log.i("ChoiceCityActivityOnItcC", "15" );
 
 //                    Toast.makeText(WeatherMain.this, "刷新了数据", Toast.LENGTH_SHORT).show();
 
