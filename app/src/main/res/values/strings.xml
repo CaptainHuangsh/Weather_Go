@@ -49,7 +49,7 @@
     <string name="weather">Weather</string>
     <string name="c">℃</string>
     <string name="m_s">m/s</string>
-    <string name="weather_app_name">☼最丑天气</string>
+    <string name="weather_app_name">☼WeatherGo</string>
 
     <!--nav-->
     <string name="nav_city">选择城市</string>

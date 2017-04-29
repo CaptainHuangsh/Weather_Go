@@ -80,7 +80,7 @@ public class WeatherMain extends AppCompatActivity
     private List<DLForecast> dlForecastList = new ArrayList<DLForecast>();
     private View view1, view2;
     private List<View> viewList;//view数组
-    Bundle savedInstanceState;
+    SharedPreferences preferences;
     //分别为查询结果国家，最低温度，最高温度，当前温度，风速
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -93,9 +93,6 @@ public class WeatherMain extends AppCompatActivity
         init();
         setListener();
         getWeather();
-
-        Log.i("WeatherMainOncr", "");
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -103,33 +100,20 @@ public class WeatherMain extends AppCompatActivity
     protected void onRestart() {
         super.onRestart();
 
-        Log.i("ChoiceCityActivityOnItcC", "8");
-        SharedPreferences preferences;
+        Log.i("huangshaohua1", mCityStr);
         preferences = getApplicationContext().getSharedPreferences("huang", MODE_PRIVATE);
-//        SharedPreferences.Editor editor = preferences.edit();
         String Ccity = preferences.getString("city", "");
         mCityStr = Ccity;
-        Log.i("huangshaohua", "onstart" + Ccity);
-/*
-        try{Intent intent = this.getIntent();//接收传来的city信息
-        String Ccity = (String)intent.getSerializableExtra("city");
-            if (Ccity != null) {
-                mCityStr = Ccity;
-                Log.i("huangshaohua",""+Ccity);
-            }
-
-        }catch (Exception e){
-
-        }
-*/
-
-//        getWeather();
-//        Log.i("ChoiceCityActivityOnItcC", "9" );
+        Log.i("huangshaohua2", "onstart" + Ccity+mCityStr);
 //        getWeather();
         initRecycleView();
-        refresh();
-//        Log.i("ChoiceCityActivityOnItcC", "10" + mCityStr);
-//        City city = (City) intent.getSerializableExtra("city");
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                refresh();
+            }
+        });
+//        refresh();
 
     }
 
@@ -158,13 +142,15 @@ public class WeatherMain extends AppCompatActivity
     //大头鬼Bruce的译文 深入浅出RxJava系列 http://blog.csdn.net/lzyzsd/article/category/2767743
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void getWeather() {
-        Log.i("huangshaohau4", mCityStr);
         mRecycleView.setLayoutManager(new LinearLayoutManager(this));
         try {
-            Log.i("huangshaohua5", "" + mCityStr);
+            Log.i("huangshaohua4", "" + mCityStr);
             WeatherBean weatherBean = null;
+//            Log.i("huangshaohua5", weatherBean.getCity());
             weatherBean = JSONUtil.getWeatherBeans(this, mCityStr);
-            Log.i("huangshaohau6", weatherBean.getCity());
+            //问题在这里，新更改的mCityStr但weatherBena仍然返回前一个值
+            Log.i("huangshaohua6", weatherBean.getCity());
+            Log.i("huangshaohua7", mCityStr);
             ArrayList<DailyForecast> mDFList = JSONUtil.getDForecast();
             Log.i("wtfs", mDFList.toString());
             int i = 0;
@@ -181,10 +167,11 @@ public class WeatherMain extends AppCompatActivity
                 dlForecastList.add(dls);
                 i++;
             }
-            Log.i("huangshaohau7", weatherBean.getCity());
+            Log.i("huangshaohua8", mCityStr);
             mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(), dlForecastList, weatherBean));
             mGCityStr = weatherBean.getCity();
-            Log.i("huangshaohua8", "" + weatherBean.getCity());
+            Log.i("huangshaohua9", mGCityStr);
+            Log.i("huangshaohua10", "" + weatherBean.getCity());
             mToolBar.setTitle("" + mGCityStr);
 
 
@@ -244,13 +231,10 @@ public class WeatherMain extends AppCompatActivity
      * 初始化各个变量
      */
     public void init() {
-        Log.i("ChoiceCityActivityOnItcC", "8");
-        SharedPreferences preferences;
         preferences = getApplicationContext().getSharedPreferences("huang", MODE_PRIVATE);
-//        SharedPreferences.Editor editor = preferences.edit();
         String Ccity = preferences.getString("city", "");
         mCityStr = Ccity;
-        Log.i("huangshaohua", "onstart" + Ccity);
+        Log.i("huangshaohua", "init" + Ccity);
         mToolBar.setTitle(getResources().getString(R.string.weather_app_name));
         setSupportActionBar(mToolBar);
         getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
@@ -333,13 +317,12 @@ public class WeatherMain extends AppCompatActivity
         mRefreshLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);
         // 设置下拉进度的主题颜色
         mRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary, R.color.colorPrimaryDark);
-
+        mRecycleView.removeAllViews();
         // 下拉时触发SwipeRefreshLayout的下拉动画，动画完毕之后就会回调这个方法
         mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onRefresh() {
-//                getWeather();
                 refresh();
             }
         });
@@ -354,7 +337,6 @@ public class WeatherMain extends AppCompatActivity
     public void refresh() {
         {
 
-            Log.i("huangshaohau1", mCityStr);
             // 开始刷新，设置当前为刷新状态
             //swipeRefreshLayout.setRefreshing(true);
 
@@ -365,14 +347,12 @@ public class WeatherMain extends AppCompatActivity
                 @Override
 
                 public void run() {
-                    Log.i("huangshaohau2", mCityStr);
+                    Log.i("huangshaohua3", mCityStr);
                     dlForecastList.clear();
                     mRecycleView.removeAllViews();
-                    Log.i("huangshaohau3", mCityStr);
                     getWeather();
-                    Log.i("huangshaohau9", mGCityStr);
                     mWeatherAdapter.notifyDataSetChanged();
-                    Log.i("huangshaohau10", mGCityStr);
+                    Log.i("huangshaohua11", mCityStr);
 //                    Toast.makeText(WeatherMain.this, "刷新了数据", Toast.LENGTH_SHORT).show();
 
                     // 加载完数据设置为不刷新状态，将下拉进度收起来

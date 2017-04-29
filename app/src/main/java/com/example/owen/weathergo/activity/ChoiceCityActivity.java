@@ -42,7 +42,7 @@ public class ChoiceCityActivity extends AppCompatActivity {
     public static final int LEVEL_PROVINCE = 0;
     public static final int LEVEL_CITY = 1;
     private int currentLevel;
-
+    SharedPreferences preferences;
     private boolean isChecked = false;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -52,23 +52,9 @@ public class ChoiceCityActivity extends AppCompatActivity {
         setContentView(R.layout.activity_choise_city);
         ButterKnife.bind(this);
         currentLevel = 0;
-        /*dataList.add("洛阳");
-        dataList.add("开封");
-        dataList.add("北京");*/
         DBManager.getInstance().openDatabase();
         initRecycleView();
         queryProvince();
-        /*Observable.defer(() -> {
-            //mDBManager = new DBManager(ChoiceCityActivity.this);
-            DBManager.getInstance().openDatabase();
-            return Observable.just(1);
-        }).compose(RxUtils.rxSchedulerHelper())
-                .compose(this.bindToLifecycle())
-                .subscribe(integer -> {
-                    initRecyclerView();
-                    queryProvinces();
-                });*/
-
 
     }
 
@@ -77,48 +63,23 @@ public class ChoiceCityActivity extends AppCompatActivity {
         mCityRecy.setHasFixedSize(true);
         mAdapter = new CityAdapter(this, dataList);
         mCityRecy.setAdapter(mAdapter);
-        Log.i("ChoiceCityActivityOnItc", "ready to bind");
         mAdapter.setOnItemClickListener(new CityAdapter.OnRecyclerViewItemClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public void onItemClick(View view, int pos) {
-                Log.i("ChoiceCityActivityOnItc", "" + dataList.get(pos) + pos);
                 if (currentLevel == LEVEL_PROVINCE) {
-//                    selectedProvince.setProName(dataList.get(pos));
-//                    selectedProvince.setProSort(pos + 1);
                     selectedProvince = provincesList.get(pos);
-                    Log.i("ChoiceCityActivityOnItcP", "" + dataList.get(pos) + pos);
                     queryCities(selectedProvince.getProSort());
                 } else if (currentLevel == LEVEL_CITY) {
-                    //TODO 替代WeatherMain的主查询城市，并直接跳转到WeatherMain界面，传递值为城市名
-
-                    //http://www.cnblogs.com/shaocm/archive/2013/01/08/2851248.html
-//                    selectedCity.setCityName(dataList.get(pos) + "");
-//                    selectedCity.setCitySort(0);//暂时没有用到所以没有去查询
-//                    selectedCity.setProID(selectedProvince.getProSort());
-//                    Intent intent = new Intent();
-//                    intent.setClass(ChoiceCityActivity.this, WeatherMain.class);
-//                    Bundle bundle = new Bundle();
-//                    bundle.putSerializable("city", selectedCity);
-//                    intent.putExtras(bundle);
-//                    startActivity(intent);
-
-                    SharedPreferences preferences;
+                    selectedCity = cityList.get(pos);
                     preferences = getApplicationContext().getSharedPreferences("huang", MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.remove("city");
-                    editor.putString("city", dataList.get(pos));
+                    editor.putString("city", selectedCity.getCityName());
                     editor.commit();
                     finish();
-
-//                    Intent intent = new Intent();
-//                    intent.setClass(ChoiceCityActivity.this, WeatherMain.class);
-//                    Bundle bundle = new Bundle();
-//                    bundle.putSerializable("city", dataList.get(pos));
-//                    intent.putExtras(bundle);
-//                    startActivity(intent);
                 }
-                //暂时没有从数据库中读取ProId而是从排列顺序中+1而得，有点走钢丝，后面deltWeek测试再考虑
+
             }
         });
         Log.i("ChoiceCityActivityOnItc", "has binded");
@@ -134,17 +95,16 @@ public class ChoiceCityActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void queryCities(int ProId) {
         cityList.clear();
-            DBManager.getInstance().openDatabase();
-            Log.i("ChoiceCityActivityQP", "" + DBManager.getInstance().getDatabase());
-            cityList.addAll(WeatherDB.loadCities(DBManager.getInstance().getDatabase(), ProId));
-            DBManager.getInstance().closeDatabase();
+        DBManager.getInstance().openDatabase();
+        Log.i("ChoiceCityActivityQP", "" + DBManager.getInstance().getDatabase());
+        cityList.addAll(WeatherDB.loadCities(DBManager.getInstance().getDatabase(), ProId));
+        DBManager.getInstance().closeDatabase();
         dataList.clear();
         for (City city : cityList) {
             dataList.add(city.getCityName());
         }
         currentLevel = LEVEL_CITY;//城市级
         mAdapter.notifyDataSetChanged();
-//        dataList.clear();
 
     }
 
@@ -162,7 +122,6 @@ public class ChoiceCityActivity extends AppCompatActivity {
             dataList.add(province.getProName());
         }
         mAdapter.notifyDataSetChanged();
-//        dataList.addAll(provincesList);
         currentLevel = LEVEL_PROVINCE;//省级
     }
 
@@ -173,20 +132,16 @@ public class ChoiceCityActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBackPressed() {
-        Log.i("Choiceonbackpress", "" + currentLevel);
 //        super.onBackPressed();
         //重写onBackPressed()方法需要将super.onBackPressed()注释掉，不然无论执行什么都会默认执行这一句而退出
         if (currentLevel == LEVEL_PROVINCE) {
-            Log.i("Choiceonbackpress2", "" + currentLevel);
             finish();
-            Log.i("Choiceonbackpress3", "" + currentLevel);
         } else if (currentLevel == LEVEL_CITY) {
-            Log.i("Choiceonbackpress4", "" + currentLevel);
             queryProvince();
             selectedProvince = null;
-            Log.i("Choiceonbackpress5", "" + currentLevel);
         }
     }
+
 
     //启动Activity方法
     public static void launch(Context context) {
