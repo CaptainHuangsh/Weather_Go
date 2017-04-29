@@ -38,8 +38,8 @@ public class ChoiceCityActivity extends AppCompatActivity {
 
     private CityAdapter mAdapter;
 
-    public static final int LEVEL_PROVINCE = 1;
-    public static final int LEVEL_CITY = 2;
+    public static final int LEVEL_PROVINCE = 0;
+    public static final int LEVEL_CITY = 1;
     private int currentLevel;
 
     private boolean isChecked = false;
@@ -54,7 +54,8 @@ public class ChoiceCityActivity extends AppCompatActivity {
         /*dataList.add("洛阳");
         dataList.add("开封");
         dataList.add("北京");*/
-
+        DBManager.getInstance().openDatabase();
+        initRecycleView();
         queryProvince();
         /*Observable.defer(() -> {
             //mDBManager = new DBManager(ChoiceCityActivity.this);
@@ -66,8 +67,7 @@ public class ChoiceCityActivity extends AppCompatActivity {
                     initRecyclerView();
                     queryProvinces();
                 });*/
-        DBManager.getInstance().openDatabase();
-        initRecycleView();
+
 
     }
 
@@ -82,12 +82,12 @@ public class ChoiceCityActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, int pos) {
                 Log.i("ChoiceCityActivityOnItc", "" + dataList.get(pos) + pos);
-                if (currentLevel == 0) {
+                if (currentLevel == LEVEL_PROVINCE) {
 //                    selectedProvince.setProName(dataList.get(pos));
 //                    selectedProvince.setProSort(pos + 1);
                     Log.i("ChoiceCityActivityOnItcP", "" + dataList.get(pos) + pos);
                     queryCities(pos + 1);
-                } else if (currentLevel == 1) {
+                } else if (currentLevel == LEVEL_CITY) {
                     //TODO 替代WeatherMain的主查询城市，并直接跳转到WeatherMain界面，传递值为城市名
 
                     //http://www.cnblogs.com/shaocm/archive/2013/01/08/2851248.html
@@ -141,7 +141,7 @@ public class ChoiceCityActivity extends AppCompatActivity {
         for (City city : cityList) {
             dataList.add(city.getCityName());
         }
-        currentLevel = 1;//城市级
+        currentLevel = LEVEL_CITY;//城市级
         mAdapter.notifyDataSetChanged();
 //        dataList.clear();
 
@@ -160,13 +160,35 @@ public class ChoiceCityActivity extends AppCompatActivity {
         for (Province province : provincesList) {
             dataList.add(province.getProName());
         }
-//        mAdapter.notifyDataSetChanged();
+        mAdapter.notifyDataSetChanged();
 //        dataList.addAll(provincesList);
-        currentLevel = 0;//省级
+        currentLevel = LEVEL_PROVINCE;//省级
+    }
+
+    /*
+    * 捕获Back键，根据当前的级别来判断，此时应该返回省列表还是直接退出
+    *
+    * */
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+    @Override
+    public void onBackPressed() {
+        Log.i("Choiceonbackpress", "" + currentLevel);
+//        super.onBackPressed();
+        //重写onBackPressed()方法需要将super.onBackPressed()注释掉，不然无论执行什么都会默认执行这一句而退出
+        if (currentLevel == LEVEL_PROVINCE) {
+            Log.i("Choiceonbackpress2", "" + currentLevel);
+            finish();
+            Log.i("Choiceonbackpress3", "" + currentLevel);
+        } else if (currentLevel == LEVEL_CITY) {
+            Log.i("Choiceonbackpress4", "" + currentLevel);
+            queryProvince();
+            Log.i("Choiceonbackpress5", "" + currentLevel);
+        }
     }
 
     //启动Activity方法
     public static void launch(Context context) {
         context.startActivity(new Intent(context, ChoiceCityActivity.class));
     }
+
 }

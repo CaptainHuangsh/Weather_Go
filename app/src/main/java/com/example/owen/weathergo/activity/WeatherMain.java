@@ -360,7 +360,6 @@ public class WeatherMain extends AppCompatActivity
 
             // 这里是主线程
             // 一些比较耗时的操作，比如联网获取数据，需要放到子线程去执行
-            // TODO 获取数据
             new Handler().postDelayed(new Runnable() {
                 @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                 @Override
