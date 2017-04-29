@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.owen.weathergo.modules.main.activity.ChoiceCityActivity">
+    tools:context=".activity.ChoiceCityActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"

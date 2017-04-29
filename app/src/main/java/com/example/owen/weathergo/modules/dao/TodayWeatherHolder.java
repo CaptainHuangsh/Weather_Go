@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.owen.weathergo.R;
-import com.example.owen.weathergo.base.BaseViewHolder;
+import com.example.owen.weathergo.common.base.BaseViewHolder;
 import com.example.owen.weathergo.component.DLForecast;
 
 import java.util.List;
