@@ -26,6 +26,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ChoiceCityActivity extends AppCompatActivity {
+
     @BindView(R.id.city_recycle)
     RecyclerView mCityRecy;
 
@@ -85,8 +86,9 @@ public class ChoiceCityActivity extends AppCompatActivity {
                 if (currentLevel == LEVEL_PROVINCE) {
 //                    selectedProvince.setProName(dataList.get(pos));
 //                    selectedProvince.setProSort(pos + 1);
+                    selectedProvince = provincesList.get(pos);
                     Log.i("ChoiceCityActivityOnItcP", "" + dataList.get(pos) + pos);
-                    queryCities(pos + 1);
+                    queryCities(selectedProvince.getProSort());
                 } else if (currentLevel == LEVEL_CITY) {
                     //TODO 替代WeatherMain的主查询城市，并直接跳转到WeatherMain界面，传递值为城市名
 
@@ -131,12 +133,11 @@ public class ChoiceCityActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void queryCities(int ProId) {
-        if (cityList.isEmpty()) {
+        cityList.clear();
             DBManager.getInstance().openDatabase();
             Log.i("ChoiceCityActivityQP", "" + DBManager.getInstance().getDatabase());
             cityList.addAll(WeatherDB.loadCities(DBManager.getInstance().getDatabase(), ProId));
             DBManager.getInstance().closeDatabase();
-        }
         dataList.clear();
         for (City city : cityList) {
             dataList.add(city.getCityName());
@@ -149,12 +150,12 @@ public class ChoiceCityActivity extends AppCompatActivity {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void queryProvince() {
-        if (provincesList.isEmpty()) {
-            DBManager.getInstance().openDatabase();
-            Log.i("ChoiceCityActivityQP", "" + DBManager.getInstance().getDatabase());
-            provincesList.addAll(WeatherDB.loadProvinces(DBManager.getInstance().getDatabase()));
-            DBManager.getInstance().closeDatabase();
-        }
+        provincesList.clear();
+        DBManager.getInstance().openDatabase();
+        Log.i("ChoiceCityActivityQP", "" + DBManager.getInstance().getDatabase());
+        provincesList.addAll(WeatherDB.loadProvinces(DBManager.getInstance().getDatabase()));
+        DBManager.getInstance().closeDatabase();
+
         dataList.clear();
 
         for (Province province : provincesList) {
@@ -182,6 +183,7 @@ public class ChoiceCityActivity extends AppCompatActivity {
         } else if (currentLevel == LEVEL_CITY) {
             Log.i("Choiceonbackpress4", "" + currentLevel);
             queryProvince();
+            selectedProvince = null;
             Log.i("Choiceonbackpress5", "" + currentLevel);
         }
     }
