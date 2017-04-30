@@ -54,33 +54,28 @@ public class WeatherMain extends AppCompatActivity
 
     private static final String TAG = WeatherMain.class.getSimpleName();
 
-    //http://jakewharton.github.io/butterknife/
-
+    //ButterKnife参考http://jakewharton.github.io/butterknife/
     @BindView(R.id.tl_custom)
     Toolbar mToolBar;
     @BindView(R.id.dl_left)
     DrawerLayout mDrawerLayout;
     @BindView(R.id.nav_view)
     NavigationView mNavigationView;
-
     @BindView(R.id.main_swipe)//下拉刷新控件
             SwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.recycle_view)
     RecyclerView mRecycleView;
-
     @BindView(R.id.fab)
     FloatingActionButton fab;
 
     WeatherAdapter mWeatherAdapter;
-
     private ActionBarDrawerToggle mDrawerToggle;
-    //    private ArrayList<DailyForecast> mDFList = new ArrayList<>();
     private String mCityStr = "开封市";//设置的CityName
     private String mGCityStr = "";//从和风天气查询到的城市名称CityName，理论上和设置的一样
     private List<DLForecast> dlForecastList = new ArrayList<DLForecast>();
     private View view1, view2;
     private List<View> viewList;//view数组
-    SharedPreferences preferences;
+    private SharedPreferences preferences;
     //分别为查询结果国家，最低温度，最高温度，当前温度，风速
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -148,7 +143,8 @@ public class WeatherMain extends AppCompatActivity
             WeatherBean weatherBean = null;
 //            Log.i("huangshaohua5", weatherBean.getCity());
             weatherBean = JSONUtil.getWeatherBeans(this, mCityStr);
-            //问题在这里，新更改的mCityStr但weatherBena仍然返回前一个值
+            //问题在这里，新更改的mCityStr但weatherBean仍然返回前一个值
+            //TODO 解决实时刷新天气
             Log.i("huangshaohua6", weatherBean.getCity());
             Log.i("huangshaohua7", mCityStr);
             ArrayList<DailyForecast> mDFList = JSONUtil.getDForecast();
@@ -234,13 +230,13 @@ public class WeatherMain extends AppCompatActivity
     public void init() {
         preferences = getApplicationContext().getSharedPreferences("huang", MODE_PRIVATE);
         String Ccity = preferences.getString("city", "");
-        if (!Ccity.equals(""))//判断sharedpreference中存储的是否为空，即如果第一次执行程序不会变为空值
+        if (!Ccity.equals(""))//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值
             mCityStr = Ccity;
         Log.i("huangshaohua", "init" + Ccity);
         mToolBar.setTitle(getResources().getString(R.string.weather_app_name));
         setSupportActionBar(mToolBar);
-        getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //创建返回键，并实现打开关/闭监听
 
         initDrawer();

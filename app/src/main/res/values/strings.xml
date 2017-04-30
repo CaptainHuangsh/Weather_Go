@@ -132,5 +132,8 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
-
+    <string name="sugg_clothes">穿衣指数---</string>
+    <string name="sugg_flu">感冒指数---</string>
+    <string name="sugg_travel">旅游指数---</string>
+    <string name="sugg_sports">运动指数---</string>
 </resources>

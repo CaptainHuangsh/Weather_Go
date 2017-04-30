@@ -26,31 +26,26 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     View view;
     List<DLForecast> dlForecastList;
     WeatherBean weatherBean;
-    private static final int TYPE_ONE = 0;
-    private static final int TYPE_TWO = 1;
-    private static final int TYPE_THREE = 2;
-    private static final int TYPE_FORE = 3;
+    private static final int TYPE_ONE = 0;//今日天气
+    private static final int TYPE_TWO = 1;//七日天气
+    private static final int TYPE_THREE = 2;//生活建议
+    private static final int TYPE_FORE = 3;//分时预报
 
     public WeatherAdapter(View inflate, List<DLForecast> dlForecastList, WeatherBean weatherBean) {
         this.view = inflate;
         this.dlForecastList = dlForecastList;
         this.weatherBean = weatherBean;
-        Log.i("WeatherAdapterConstr", "" + dlForecastList.size());
     }
 
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
-//        RecyclerView.ViewHolder holder = null;
 
         switch (viewType) {
             case WeatherAdapter.TYPE_ONE:
-//                dHolder = new DailyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.main_forecast, parent, false));
-                Log.i("WeatherAdapteroncreateView", "" + WeatherAdapter.TYPE_ONE);
                 return new TodayWeatherHolder(LayoutInflater.from(context).inflate(R.layout.main_forecast, parent, false), weatherBean);
             case WeatherAdapter.TYPE_TWO:
-                Log.i("WeatherAdapteroncreateView", "" + WeatherAdapter.TYPE_TWO);
                 return new DailyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.weekly_forecast, parent, false), dlForecastList);
             case WeatherAdapter.TYPE_THREE:
                 return new SuggestionWeatherHolder(LayoutInflater.from(context).inflate(R.layout.suggestion, parent, false), weatherBean);
