@@ -104,7 +104,7 @@ public class WeatherMain extends AppCompatActivity
         preferences = getApplicationContext().getSharedPreferences("huang", MODE_PRIVATE);
         String Ccity = preferences.getString("city", "");
         mCityStr = Ccity;
-        Log.i("huangshaohua2", "onstart" + Ccity+mCityStr);
+        Log.i("huangshaohua2", "onstart" + Ccity + mCityStr);
 //        getWeather();
         initRecycleView();
         runOnUiThread(new Runnable() {
@@ -233,7 +233,8 @@ public class WeatherMain extends AppCompatActivity
     public void init() {
         preferences = getApplicationContext().getSharedPreferences("huang", MODE_PRIVATE);
         String Ccity = preferences.getString("city", "");
-        mCityStr = Ccity;
+        if (!Ccity.equals(""))//判断sharedpreference中存储的是否为空，即如果第一次执行程序不会变为空值
+            mCityStr = Ccity;
         Log.i("huangshaohua", "init" + Ccity);
         mToolBar.setTitle(getResources().getString(R.string.weather_app_name));
         setSupportActionBar(mToolBar);
