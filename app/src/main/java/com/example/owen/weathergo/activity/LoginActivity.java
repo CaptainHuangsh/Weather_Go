@@ -38,7 +38,7 @@ public class LoginActivity extends Activity {
 
         //去除标题
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.login_activity);
+        setContentView(R.layout.activity_login);
 
         //获得实例对象
         sp = this.getSharedPreferences("userInfo", Context.MODE_WORLD_READABLE);

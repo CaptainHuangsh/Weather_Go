@@ -30,7 +30,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityViewHolder> implements
 
     @Override
     public CityViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.city_items,parent,false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.items_city,parent,false);
         CityViewHolder cvh = new CityViewHolder(view);
         view.setOnClickListener(this);
         return cvh;

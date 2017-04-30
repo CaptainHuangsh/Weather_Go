@@ -2,7 +2,6 @@ package com.example.owen.weathergo.modules.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +49,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             case WeatherAdapter.TYPE_THREE:
                 return new SuggestionWeatherHolder(LayoutInflater.from(context).inflate(R.layout.suggestion, parent, false), weatherBean);
             case WeatherAdapter.TYPE_FORE:
-                return new HourlyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.hourly_forecast,parent,false));
+                return new HourlyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.forecast_hourly,parent,false));
         }
         return null;
     }

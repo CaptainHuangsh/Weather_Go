@@ -25,7 +25,7 @@ public class LogingActivity extends Activity {
         super.onCreate(savedInstanceState);
         // 去除标题
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.loging_activity);
+        setContentView(R.layout.activity_loging);
 
         progressBar = (ProgressBar) findViewById(R.id.pgBar);
         backButton = (Button) findViewById(R.id.btn_back);
