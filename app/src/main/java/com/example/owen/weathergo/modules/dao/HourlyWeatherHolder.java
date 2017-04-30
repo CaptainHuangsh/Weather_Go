@@ -24,7 +24,7 @@ public class HourlyWeatherHolder extends BaseViewHolder {
         mContext = itemView.getContext();
         hourlyWeather = (LinearLayout) itemView.findViewById(R.id.hourly_forecast_linear);
         for (int i = 0; i < 3; i++) {
-            View v = View.inflate(mContext, R.layout.hourly_forecast_items, null);
+            View v = View.inflate(mContext, R.layout.items_hourly_forecast, null);
             Log.i("HourlyWeatherHolderConstr", "" + i);
             hourlytxt[i] = (TextView) v.findViewById(R.id.hourly_forecast_i1);
             hourlyWeather.addView(v);

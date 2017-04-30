@@ -35,7 +35,7 @@ public class DailyWeatherHolder extends BaseViewHolder<List<DLForecast>> {
         Log.i(TAG + "Constr", "" + dlForecastsList.size());
         dailyWeather = (LinearLayout) itemView.findViewById(R.id.forecast_linear);
         for (int i = 0; i < dlForecastsList.size(); i++) {
-            View v = View.inflate(mContext, R.layout.weeklyforecast_items, null);
+            View v = View.inflate(mContext, R.layout.items_weeklyforecast, null);
             img[i] = (ImageView) v.findViewById(R.id.forecast_icon);
             dayView[i] = (TextView) v.findViewById(R.id.forecast_date);
             temprView[i] = (TextView) v.findViewById(R.id.forecast_temp);

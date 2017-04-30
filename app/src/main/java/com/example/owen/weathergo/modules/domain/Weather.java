@@ -34,7 +34,7 @@ public class Weather {
     public List<DailyForecastEntity> dailyForecast;
 
 
-    @SerializedName("hourly_forecast")
+    @SerializedName("forecast_hourly")
     public List<HourlyForecastEntity> hourlyForecast;
 
     public static class AqiEntity implements Serializable {

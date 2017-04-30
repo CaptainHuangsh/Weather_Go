@@ -2,7 +2,6 @@ package com.example.owen.weathergo.modules.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,36 +25,31 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     View view;
     List<DLForecast> dlForecastList;
     WeatherBean weatherBean;
-    private static final int TYPE_ONE = 0;
-    private static final int TYPE_TWO = 1;
-    private static final int TYPE_THREE = 2;
-    private static final int TYPE_FORE = 3;
+    private static final int TYPE_ONE = 0;//今日天气
+    private static final int TYPE_TWO = 1;//七日天气
+    private static final int TYPE_THREE = 2;//生活建议
+    private static final int TYPE_FORE = 3;//分时预报
 
     public WeatherAdapter(View inflate, List<DLForecast> dlForecastList, WeatherBean weatherBean) {
         this.view = inflate;
         this.dlForecastList = dlForecastList;
         this.weatherBean = weatherBean;
-        Log.i("WeatherAdapterConstr", "" + dlForecastList.size());
     }
 
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         context = parent.getContext();
-//        RecyclerView.ViewHolder holder = null;
 
         switch (viewType) {
             case WeatherAdapter.TYPE_ONE:
-//                dHolder = new DailyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.main_forecast, parent, false));
-                Log.i("WeatherAdapteroncreateView", "" + WeatherAdapter.TYPE_ONE);
-                return new TodayWeatherHolder(LayoutInflater.from(context).inflate(R.layout.main_forecast, parent, false), weatherBean);
+                return new TodayWeatherHolder(LayoutInflater.from(context).inflate(R.layout.forecast_main, parent, false), weatherBean);
             case WeatherAdapter.TYPE_TWO:
-                Log.i("WeatherAdapteroncreateView", "" + WeatherAdapter.TYPE_TWO);
-                return new DailyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.weekly_forecast, parent, false), dlForecastList);
+                return new DailyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.forecast_weekly, parent, false), dlForecastList);
             case WeatherAdapter.TYPE_THREE:
                 return new SuggestionWeatherHolder(LayoutInflater.from(context).inflate(R.layout.suggestion, parent, false), weatherBean);
             case WeatherAdapter.TYPE_FORE:
-                return new HourlyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.hourly_forecast,parent,false));
+                return new HourlyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.forecast_hourly,parent,false));
         }
         return null;
     }
@@ -82,7 +76,9 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-        return weatherBean != null ? 4 : 0;
+//        return weatherBean != null ? 4 : 0; 暂时隐藏第四栏小时天气，发布1.1.1beta版；下一版本中加入小时天气信息
+        //TODO 加入小时天气
+        return weatherBean != null ? 3 : 0;
     }
 
     @Override
