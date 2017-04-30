@@ -12,7 +12,7 @@
         android:layout_margin="16dp">
 
         <!--<include android:id="@+id/main_card"
-            layout="@layout/main_forecast"/>-->
+            layout="@layout/forecast_main"/>-->
         <android.support.v4.widget.SwipeRefreshLayout
             android:id="@+id/main_swipe"
             android:layout_width="match_parent"
