@@ -33,15 +33,17 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="64dp"
-                android:layout_marginStart="64dp"
+                android:layout_marginLeft="36dp"
+                android:layout_marginStart="36dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/clothes_brief"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/sugg_clothes" />
+                    android:text="@string/sugg_clothes"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/clothes_txt"
@@ -66,15 +68,17 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="64dp"
-                android:layout_marginStart="64dp"
+                android:layout_marginLeft="36dp"
+                android:layout_marginStart="36dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/sports_brief"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/sugg_sports" />
+                    android:text="@string/sugg_sports"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/sports_txt"
@@ -99,15 +103,17 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="64dp"
-                android:layout_marginStart="64dp"
+                android:layout_marginLeft="36dp"
+                android:layout_marginStart="36dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/travel_brief"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/sugg_travel" />
+                    android:text="@string/sugg_travel"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/travel_txt"
@@ -132,15 +138,17 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="64dp"
-                android:layout_marginStart="64dp"
+                android:layout_marginLeft="36dp"
+                android:layout_marginStart="36dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/flu_brief"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/sugg_flu" />
+                    android:text="@string/sugg_flu"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/flu_txt"
