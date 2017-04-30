@@ -227,6 +227,7 @@ public class WeatherMain extends AppCompatActivity
         super.onDestroy();
     }
 
+
     /**
      * 初始化各个变量
      */
