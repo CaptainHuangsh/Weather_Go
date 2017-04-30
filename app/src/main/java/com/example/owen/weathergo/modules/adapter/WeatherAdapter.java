@@ -76,7 +76,9 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-        return weatherBean != null ? 4 : 0;
+//        return weatherBean != null ? 4 : 0; 暂时隐藏第四栏小时天气，发布1.1.1beta版；下一版本中加入小时天气信息
+        //TODO 加入小时天气
+        return weatherBean != null ? 3 : 0;
     }
 
     @Override
