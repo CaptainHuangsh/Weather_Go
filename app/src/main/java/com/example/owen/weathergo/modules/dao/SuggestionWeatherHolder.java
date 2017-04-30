@@ -37,7 +37,6 @@ public class SuggestionWeatherHolder extends BaseViewHolder<WeatherBean> {
         suggTravelTxt = (TextView) itemView.findViewById(R.id.travel_txt);
         suggFluBrief = (TextView) itemView.findViewById(R.id.flu_brief);
         suggFluTxt = (TextView) itemView.findViewById(R.id.flu_txt);
-        sugg = (TextView) itemView.findViewById(R.id.weather_suggesstions);
     }
 
     @Override
@@ -52,7 +51,6 @@ public class SuggestionWeatherHolder extends BaseViewHolder<WeatherBean> {
             suggTravelTxt.setText(weatherBean.getTrav_txt());
             suggFluBrief.setText(weatherBean.getFlu_brf());
             suggFluTxt.setText(weatherBean.getFlu_txt());
-            sugg.setText(weatherBean.getComf_brf() + weatherBean.getComf_txt());
         } catch (Exception e) {
 
         }
