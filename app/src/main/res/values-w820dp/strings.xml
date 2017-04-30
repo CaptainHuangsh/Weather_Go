@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="version_name">weather_go</string>
+    <string name="can_not_find_version_name">weather_go</string>
+    <string name="author">mstro</string>
+</resources>

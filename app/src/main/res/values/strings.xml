@@ -136,4 +136,8 @@
     <string name="sugg_flu">感冒指数---</string>
     <string name="sugg_travel">旅游指数---</string>
     <string name="sugg_sports">运动指数---</string>
+    <string name="version_name">weather_go</string>
+    <string name="can_not_find_version_name">weather_go</string>
+    <string name="author">mstro</string>
+    <string name="e_mail">mr@captainhuang.cn</string>
 </resources>
