@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
@@ -31,6 +32,7 @@ import android.widget.Toast;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.DoubleClickExit;
+import com.example.owen.weathergo.modules.domain.Weather;
 import com.example.owen.weathergo.util.IconGet;
 import com.example.owen.weathergo.util.JSONUtil;
 import com.example.owen.weathergo.util.ToastUtil;
@@ -77,6 +79,22 @@ public class WeatherMain extends AppCompatActivity
     private List<View> viewList;//view数组
     private SharedPreferences preferences;
     //分别为查询结果国家，最低温度，最高温度，当前温度，风速
+    private static final int UPDATE_WEATHER_DATA = 0;
+
+    private Handler handler = new Handler() {
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        public void handleMessage(Message msg){
+            switch (msg.what){
+                case UPDATE_WEATHER_DATA:
+                    Log.i("huangshaohua3.5",""+mCityStr);
+                    getWeather();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -88,28 +106,45 @@ public class WeatherMain extends AppCompatActivity
         init();
         setListener();
         getWeather();
+        /*new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Message message = new Message();
+                message.what = UPDATE_WEATHER_DATA;
+                handler.sendMessage(message);
+            }
+        });*/
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onRestart() {
         super.onRestart();
-
         Log.i("huangshaohua1", mCityStr);
         preferences = getApplicationContext().getSharedPreferences("huang", MODE_PRIVATE);
         String Ccity = preferences.getString("city", "");
+        if(!Ccity.equals(mCityStr)){
         mCityStr = Ccity;
         Log.i("huangshaohua2", "onstart" + Ccity + mCityStr);
 //        getWeather();
         initRecycleView();
-        runOnUiThread(new Runnable() {
+        /*runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 refresh();
             }
-        });
-//        refresh();
-
+        });*/
+        /*new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Log.i("huangshaohua3",""+mCityStr);
+                Message message = new Message();
+                message.what = UPDATE_WEATHER_DATA;
+                handler.sendMessage(message);
+            }
+        }).start();*/
+        refresh();
+        }
     }
 
     public void setListener() {
@@ -142,6 +177,12 @@ public class WeatherMain extends AppCompatActivity
             Log.i("huangshaohua4", "" + mCityStr);
             WeatherBean weatherBean = null;
 //            Log.i("huangshaohua5", weatherBean.getCity());
+            /*new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    JSONUtil.getWeatherBeans(WeatherMain.this, mCityStr);
+                }
+            }).start();*/
             weatherBean = JSONUtil.getWeatherBeans(this, mCityStr);
             //问题在这里，新更改的mCityStr但weatherBean仍然返回前一个值
             //TODO 解决实时刷新天气
@@ -178,6 +219,7 @@ public class WeatherMain extends AppCompatActivity
         Toast.makeText(this, "加载完毕，✺◟(∗❛ัᴗ❛ั∗)◞✺,", Toast.LENGTH_SHORT).show();
 
     }
+
 
     //@Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -235,9 +277,6 @@ public class WeatherMain extends AppCompatActivity
         Log.i("huangshaohua", "init" + Ccity);
         mToolBar.setTitle(getResources().getString(R.string.weather_app_name));
         setSupportActionBar(mToolBar);
-//        getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //创建返回键，并实现打开关/闭监听
 
         initDrawer();
         initRecycleView();
