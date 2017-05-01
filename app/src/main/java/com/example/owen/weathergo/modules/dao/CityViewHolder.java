@@ -13,7 +13,7 @@ import com.example.owen.weathergo.modules.adapter.CityAdapter;
  * Created by owen on 2017/4/25.
  */
 
-public class CityViewHolder extends BaseViewHolder<String> implements View.OnClickListener{
+public class CityViewHolder extends BaseViewHolder<String> implements View.OnClickListener {
 
     TextView mItemCity;
     public CardView mCardView;
@@ -24,23 +24,20 @@ public class CityViewHolder extends BaseViewHolder<String> implements View.OnCli
         super(itemView);
         mCardView = (CardView) itemView.findViewById(R.id.city_cardView);
         mItemCity = (TextView) itemView.findViewById(R.id.city_txt);
-        mCardView.setOnClickListener((View.OnClickListener) this);
+//        mCardView.setOnClickListener((View.OnClickListener) this);
 
     }
 
     @Override
     public void bind(String s) {
-        Log.i("CityViewHolderBind",""+s);
-//        mItemCity.setText("城市");
         mItemCity.setText(s);
     }
 
 
     @Override
     public void onClick(View v) {
-        if(mOnItemClickListener != null){
-            mOnItemClickListener.onItemClick(v,(Integer) itemView.getTag());
-            Log.i("CityViewHolderOnclivk","");
+        if (mOnItemClickListener != null) {
+            mOnItemClickListener.onItemClick(v, (Integer) itemView.getTag());
         }
     }
 

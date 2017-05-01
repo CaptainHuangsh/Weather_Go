@@ -30,9 +30,7 @@ public class TodayWeatherHolder extends BaseViewHolder<WeatherBean> {
     public TodayWeatherHolder(View view, WeatherBean weatherBean) {
         super(view);
         this.weatherBean = weatherBean;
-//        this.dlForecasts = dlForecasts;
         mContext = view.getContext();
-        Log.i(TAG + "Constr", "haha" + ""+weatherBean.getMin());
         mTemp_min = (TextView) view.findViewById(R.id.weather_temp_min);
         mTemp_max = (TextView) view.findViewById(R.id.weather_temp_max);
         mCountry = (TextView) view.findViewById(R.id.weather_country);
@@ -44,13 +42,9 @@ public class TodayWeatherHolder extends BaseViewHolder<WeatherBean> {
     public void bind(WeatherBean weatherBean) {
 
         try {
-            Log.i(TAG + "bind", "到了");
-            Log.i(TAG + "bind", "" + weatherBean.getNow_tmp());
-            Log.i(TAG + "bind", "到了2");
             mTemp_min.setText(mContext.getResources().getString(R.string.hsh_temp_min)
                     + weatherBean.getNow_min()
-                   + mContext.getResources().getString(R.string.c));
-            Log.i(TAG + "bind", "" + weatherBean.getNow_sc());
+                    + mContext.getResources().getString(R.string.c));
             mTemp_max.setText(mContext.getResources().getString(R.string.hsh_temp_max)
                     + weatherBean.getNow_max()
                     + mContext.getResources().getString(R.string.c));

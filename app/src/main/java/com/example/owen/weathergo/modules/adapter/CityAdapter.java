@@ -23,7 +23,6 @@ public class CityAdapter extends RecyclerView.Adapter<CityViewHolder> implements
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
 
     public CityAdapter(Context context, ArrayList<String> dataList) {
-        Log.i("CityAdapter","con");
         mContext = context;
         this.mDataList = dataList;
     }
@@ -39,16 +38,12 @@ public class CityAdapter extends RecyclerView.Adapter<CityViewHolder> implements
     @Override
     public void onBindViewHolder(final CityViewHolder holder, final int position) {
 
-        Log.i("CityAdaptergetItem",""+mDataList.get(position));
         holder.bind(mDataList.get(position));
-//        holder.mCardView.setOnClickListener(v -> mOnItemClickListener.onItemClick(v, position));
-//        holder.mCardView.setOnClickListener(mOnItemClickListener.onItemClick(v,position));
         holder.mCardView.setTag(position);
     }
 
     @Override
     public int getItemCount() {
-        Log.i("CityAdaptergetItem",""+mDataList.size());
         return mDataList.size();
     }
 

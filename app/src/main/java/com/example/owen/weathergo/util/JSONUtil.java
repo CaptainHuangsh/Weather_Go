@@ -42,10 +42,8 @@ public class JSONUtil {
         /**
          * 处理从heweather网站上获取的json代码，进行解析赋值操作的静态方法
          */
-//        String jsonText = "";
         WeatherBean weather = new WeatherBean();
         Retrofit retrofit = new Retrofit.Builder()
-//                .baseUrl("http://192.168.0.110:4567/")
                 .baseUrl("https://api.heweather.com/x3/")
                 .build();
         //Retrofit创建一个BlogService的代理对象
@@ -57,14 +55,9 @@ public class JSONUtil {
 
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                WeatherBean weather = new WeatherBean();
                 try {
-//                    weather.setApd(null);
                     jsonText = "" + response.body().string();
-                    Log.i("huangr", "" + jsonText);
-
                     SharedPreferences preferences;
-
                     preferences = context.getSharedPreferences("huang", MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("jsonText", jsonText);
@@ -85,14 +78,10 @@ public class JSONUtil {
         SharedPreferences.Editor editor = preferences.edit();
 
         String jsonText = preferences.getString("jsonText", "");
-//        String jsonText = new JSONFetcher().getJSONText(url);
 
         ArrayList<DailyForecast> dfList = new ArrayList<DailyForecast>();
-//        DailyForecast mDailyForecast = new DailyForecast();
-        //Toast.makeText(context,jsonText,Toast.LENGTH_LONG).show();
         try {
             JSONObject weatherJSONObject = new JSONObject(jsonText);//first grade
-            Log.i("chuanru", "" + jsonText);
             JSONArray allJSONObject = weatherJSONObject.getJSONArray("HeWeather data service 3.0");//second:HeWeather data service 3.0
             JSONObject OJSONObject = allJSONObject.getJSONObject(0);//third:"0"
 

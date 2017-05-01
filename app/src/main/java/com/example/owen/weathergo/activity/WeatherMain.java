@@ -106,14 +106,6 @@ public class WeatherMain extends AppCompatActivity
         init();
         setListener();
         getWeather();
-        /*new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Message message = new Message();
-                message.what = UPDATE_WEATHER_DATA;
-                handler.sendMessage(message);
-            }
-        });*/
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -126,23 +118,8 @@ public class WeatherMain extends AppCompatActivity
         if(!Ccity.equals(mCityStr)){
         mCityStr = Ccity;
         Log.i("huangshaohua2", "onstart" + Ccity + mCityStr);
-//        getWeather();
+
         initRecycleView();
-        /*runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                refresh();
-            }
-        });*/
-        /*new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Log.i("huangshaohua3",""+mCityStr);
-                Message message = new Message();
-                message.what = UPDATE_WEATHER_DATA;
-                handler.sendMessage(message);
-            }
-        }).start();*/
         refresh();
         }
     }
@@ -390,7 +367,6 @@ public class WeatherMain extends AppCompatActivity
                     getWeather();
                     mWeatherAdapter.notifyDataSetChanged();
                     Log.i("huangshaohua11", mCityStr);
-//                    Toast.makeText(WeatherMain.this, "刷新了数据", Toast.LENGTH_SHORT).show();
 
                     // 加载完数据设置为不刷新状态，将下拉进度收起来
                     mRefreshLayout.setRefreshing(false);
@@ -398,7 +374,6 @@ public class WeatherMain extends AppCompatActivity
             }, 1200);
 
             // 这个不能写在外边，不然会直接收起来
-            //swipeRefreshLayout.setRefreshing(false);
         }
     }
 
