@@ -32,6 +32,7 @@ import android.widget.Toast;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.DoubleClickExit;
+import com.example.owen.weathergo.service.AutoUpdateService;
 import com.example.owen.weathergo.util.IconGet;
 import com.example.owen.weathergo.util.JSONUtil;
 import com.example.owen.weathergo.util.ToastUtil;
@@ -40,6 +41,7 @@ import com.example.owen.weathergo.modules.dao.DailyForecast;
 import com.example.owen.weathergo.modules.dao.WeatherBean;
 import com.example.owen.weathergo.modules.adapter.WeatherAdapter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -82,10 +84,10 @@ public class WeatherMain extends AppCompatActivity
 
     private Handler handler = new Handler() {
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-        public void handleMessage(Message msg){
-            switch (msg.what){
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
                 case UPDATE_WEATHER_DATA:
-                    Log.i("huangshaohua3.5",""+mCityStr);
+                    Log.i("huangshaohua3.5", "" + mCityStr);
                     getWeather();
                     break;
                 default:
@@ -114,12 +116,12 @@ public class WeatherMain extends AppCompatActivity
         Log.i("huangshaohua1", mCityStr);
         preferences = getApplicationContext().getSharedPreferences("huang", MODE_PRIVATE);
         String Ccity = preferences.getString("city", "");
-        if(!Ccity.equals(mCityStr)){
-        mCityStr = Ccity;
-        Log.i("huangshaohua2", "onstart" + Ccity + mCityStr);
+        if (!Ccity.equals(mCityStr)) {
+            mCityStr = Ccity;
+            Log.i("huangshaohua2", "onstart" + Ccity + mCityStr);
 
-        initRecycleView();
-        refresh();
+            initRecycleView();
+            refresh();
         }
     }
 
@@ -185,8 +187,14 @@ public class WeatherMain extends AppCompatActivity
             mGCityStr = weatherBean.getCity();
             Log.i("huangshaohua9", mGCityStr);
             Log.i("huangshaohua10", "" + weatherBean.getCity());
+//            Log.i("WeatherMains","ReadyToStartService");
             mToolBar.setTitle("" + mGCityStr);
-
+            Log.i("WeatherMains","ReadyToStartService");
+            Intent intent = new Intent(WeatherMain.this, AutoUpdateService.class);
+//            Bundle bundle = new Bundle();
+            intent.putExtra("weather", weatherBean);
+            startService(intent);
+            Log.i("WeatherMains","startService");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -257,6 +265,8 @@ public class WeatherMain extends AppCompatActivity
         initDrawer();
         initRecycleView();
         initNavigationView();
+
+
     }
 
 

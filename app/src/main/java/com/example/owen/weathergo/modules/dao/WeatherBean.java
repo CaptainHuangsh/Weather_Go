@@ -1,11 +1,13 @@
 package com.example.owen.weathergo.modules.dao;
 
+import java.io.Serializable;
+
 /**
  * Created by owenh on 2016/5/17.
  * 一个weatherBean bean类
  */
 
-public class WeatherBean {
+public class WeatherBean implements Serializable {
 
     //"aqi"
     private int aqi;

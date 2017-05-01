@@ -54,6 +54,7 @@
         <activity
             android:name="com.example.owen.weathergo.activity.ChoiceCityActivity"
             android:launchMode="singleTask" />
+        <service android:name=".service.AutoUpdateService"/>
     </application>
 
 </manifest>
