@@ -32,11 +32,10 @@ import android.widget.Toast;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.DoubleClickExit;
-import com.example.owen.weathergo.modules.domain.Weather;
 import com.example.owen.weathergo.util.IconGet;
 import com.example.owen.weathergo.util.JSONUtil;
 import com.example.owen.weathergo.util.ToastUtil;
-import com.example.owen.weathergo.component.DLForecast;
+import com.example.owen.weathergo.modules.dao.DLForecast;
 import com.example.owen.weathergo.modules.dao.DailyForecast;
 import com.example.owen.weathergo.modules.dao.WeatherBean;
 import com.example.owen.weathergo.modules.adapter.WeatherAdapter;

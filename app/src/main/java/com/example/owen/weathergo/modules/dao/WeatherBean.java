@@ -71,6 +71,16 @@ public class WeatherBean {
     private String trav_brf, trav_txt;
     private String uv_brf, uv_txt;
 
+    public String getMain_weather_img() {
+        return main_weather_img;
+    }
+
+    public void setMain_weather_img(String main_weather_img) {
+        this.main_weather_img = main_weather_img;
+    }
+
+    private String main_weather_img;
+
 
     public int getAqi() {
         return aqi;

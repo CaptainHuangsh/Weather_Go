@@ -1,7 +1,6 @@
 package com.example.owen.weathergo.modules.dao;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -9,7 +8,6 @@ import android.widget.TextView;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.base.BaseViewHolder;
-import com.example.owen.weathergo.component.DLForecast;
 
 import java.util.List;
 

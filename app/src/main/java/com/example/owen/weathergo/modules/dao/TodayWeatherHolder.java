@@ -1,13 +1,13 @@
 package com.example.owen.weathergo.modules.dao;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.base.BaseViewHolder;
-import com.example.owen.weathergo.component.DLForecast;
+import com.example.owen.weathergo.util.IconGet;
 
 import java.util.List;
 
@@ -25,6 +25,7 @@ public class TodayWeatherHolder extends BaseViewHolder<WeatherBean> {
     TextView mCountry;
     TextView mWind_speed;
     TextView mTemp;
+    ImageView mImg;
     private WeatherBean weatherBean;
 
     public TodayWeatherHolder(View view, WeatherBean weatherBean) {
@@ -36,6 +37,7 @@ public class TodayWeatherHolder extends BaseViewHolder<WeatherBean> {
         mCountry = (TextView) view.findViewById(R.id.weather_country);
         mWind_speed = (TextView) view.findViewById(R.id.weather_wind_speed);
         mTemp = (TextView) view.findViewById(R.id.weather_temp);
+        mImg = (ImageView) view.findViewById(R.id.weather_img);
     }
 
     @Override
@@ -55,6 +57,7 @@ public class TodayWeatherHolder extends BaseViewHolder<WeatherBean> {
                     + mContext.getResources().getString(R.string.c));
             mCountry.setText(mContext.getResources().getString(R.string.hsh_country)
                     + weatherBean.getCnty());
+            mImg.setImageResource(IconGet.getWeaIcon(weatherBean.getMain_weather_img()));
         } catch (Exception e) {
 
         }

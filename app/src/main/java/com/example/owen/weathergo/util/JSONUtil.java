@@ -248,9 +248,10 @@ public class JSONUtil {
                 Log.e("JSONF df_txt_n" + i, "" + mDailyForecast.getTxt_n());
                 //"tmp"
                 JSONObject dfTmpJSONObject = df0JSONObject.getJSONObject("tmp");//sixth
-                if(i==0){
+                if (i == 0) {
                     weather.setNow_max(dfTmpJSONObject.getInt("max"));
                     weather.setNow_min(dfTmpJSONObject.getInt("min"));
+                    weather.setMain_weather_img(mDailyForecast.getTxt_d());
                 }
                 mDailyForecast.setMax(dfTmpJSONObject.getInt("max"));
                 Log.e("JSONF df_max" + i, "" + mDailyForecast.getMax());
