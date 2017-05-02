@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.base.BaseFragment;
-import com.example.owen.weathergo.component.DLForecast;
+import com.example.owen.weathergo.modules.dao.DLForecast;
 import com.example.owen.weathergo.modules.dao.DailyForecast;
 
 import java.util.ArrayList;

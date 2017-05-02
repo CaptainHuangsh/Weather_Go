@@ -19,20 +19,19 @@ import butterknife.BindView;
  * Created by owen on 2017/4/8.
  */
 
-public class About extends AppCompatActivity  implements NavigationView.OnNavigationItemSelectedListener {
+public class About extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.about_version)
     TextView mVersion;
 
 
     @Override
-    public void onCreate( Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
-        mVersion = (TextView)findViewById(R.id.about_version);
+        mVersion = (TextView) findViewById(R.id.about_version);
         mVersion.setText(getVersion());
     }
-
 
 
     public static void launch(Context context) {
@@ -47,6 +46,7 @@ public class About extends AppCompatActivity  implements NavigationView.OnNaviga
     /**
      * 获取版本号
      * http://www.cnblogs.com/yeahui/archive/2012/10/20/2732429.html
+     *
      * @return 当前应用的版本号
      */
     public String getVersion() {

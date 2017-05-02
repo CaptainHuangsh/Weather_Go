@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
@@ -31,14 +32,17 @@ import android.widget.Toast;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.DoubleClickExit;
+import com.example.owen.weathergo.service.AutoUpdateService;
 import com.example.owen.weathergo.util.IconGet;
 import com.example.owen.weathergo.util.JSONUtil;
+import com.example.owen.weathergo.util.SharedPreferenceUtil;
 import com.example.owen.weathergo.util.ToastUtil;
-import com.example.owen.weathergo.component.DLForecast;
+import com.example.owen.weathergo.modules.dao.DLForecast;
 import com.example.owen.weathergo.modules.dao.DailyForecast;
 import com.example.owen.weathergo.modules.dao.WeatherBean;
 import com.example.owen.weathergo.modules.adapter.WeatherAdapter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,6 +81,22 @@ public class WeatherMain extends AppCompatActivity
     private List<View> viewList;//view数组
     private SharedPreferences preferences;
     //分别为查询结果国家，最低温度，最高温度，当前温度，风速
+    private static final int UPDATE_WEATHER_DATA = 0;
+
+    private Handler handler = new Handler() {
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case UPDATE_WEATHER_DATA:
+                    Log.i("huangshaohua3.5", "" + mCityStr);
+                    getWeather();
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -94,22 +114,15 @@ public class WeatherMain extends AppCompatActivity
     @Override
     protected void onRestart() {
         super.onRestart();
-
         Log.i("huangshaohua1", mCityStr);
-        preferences = getApplicationContext().getSharedPreferences("huang", MODE_PRIVATE);
-        String Ccity = preferences.getString("city", "");
-        mCityStr = Ccity;
-        Log.i("huangshaohua2", "onstart" + Ccity + mCityStr);
-//        getWeather();
-        initRecycleView();
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                refresh();
-            }
-        });
-//        refresh();
+        String Ccity = SharedPreferenceUtil.getInstance().getCityName();
+        if (!Ccity.equals(mCityStr)) {
+            mCityStr = Ccity;
+            Log.i("huangshaohua2", "onstart" + Ccity + mCityStr);
 
+            initRecycleView();
+            refresh();
+        }
     }
 
     public void setListener() {
@@ -142,6 +155,12 @@ public class WeatherMain extends AppCompatActivity
             Log.i("huangshaohua4", "" + mCityStr);
             WeatherBean weatherBean = null;
 //            Log.i("huangshaohua5", weatherBean.getCity());
+            /*new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    JSONUtil.getWeatherBeans(WeatherMain.this, mCityStr);
+                }
+            }).start();*/
             weatherBean = JSONUtil.getWeatherBeans(this, mCityStr);
             //问题在这里，新更改的mCityStr但weatherBean仍然返回前一个值
             //TODO 解决实时刷新天气
@@ -168,8 +187,13 @@ public class WeatherMain extends AppCompatActivity
             mGCityStr = weatherBean.getCity();
             Log.i("huangshaohua9", mGCityStr);
             Log.i("huangshaohua10", "" + weatherBean.getCity());
+//            Log.i("WeatherMains","ReadyToStartService");
             mToolBar.setTitle("" + mGCityStr);
-
+            Log.i("WeatherMains", "ReadyToStartService");
+            Intent intent = new Intent(WeatherMain.this, AutoUpdateService.class);
+            intent.putExtra("weather", weatherBean);
+            startService(intent);
+            Log.i("WeatherMains", "startService");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -178,6 +202,7 @@ public class WeatherMain extends AppCompatActivity
         Toast.makeText(this, "加载完毕，✺◟(∗❛ัᴗ❛ั∗)◞✺,", Toast.LENGTH_SHORT).show();
 
     }
+
 
     //@Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -228,20 +253,18 @@ public class WeatherMain extends AppCompatActivity
      * 初始化各个变量
      */
     public void init() {
-        preferences = getApplicationContext().getSharedPreferences("huang", MODE_PRIVATE);
-        String Ccity = preferences.getString("city", "");
+        String Ccity = SharedPreferenceUtil.getInstance().getCityName();
         if (!Ccity.equals(""))//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值
             mCityStr = Ccity;
         Log.i("huangshaohua", "init" + Ccity);
         mToolBar.setTitle(getResources().getString(R.string.weather_app_name));
         setSupportActionBar(mToolBar);
-//        getSupportActionBar().setHomeButtonEnabled(true); //设置返回键可用
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        //创建返回键，并实现打开关/闭监听
 
         initDrawer();
         initRecycleView();
         initNavigationView();
+
+
     }
 
 
@@ -351,7 +374,6 @@ public class WeatherMain extends AppCompatActivity
                     getWeather();
                     mWeatherAdapter.notifyDataSetChanged();
                     Log.i("huangshaohua11", mCityStr);
-//                    Toast.makeText(WeatherMain.this, "刷新了数据", Toast.LENGTH_SHORT).show();
 
                     // 加载完数据设置为不刷新状态，将下拉进度收起来
                     mRefreshLayout.setRefreshing(false);
@@ -359,7 +381,6 @@ public class WeatherMain extends AppCompatActivity
             }, 1200);
 
             // 这个不能写在外边，不然会直接收起来
-            //swipeRefreshLayout.setRefreshing(false);
         }
     }
 

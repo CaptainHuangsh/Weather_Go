@@ -1,11 +1,13 @@
 package com.example.owen.weathergo.modules.dao;
 
+import java.io.Serializable;
+
 /**
  * Created by owenh on 2016/5/17.
  * 一个weatherBean bean类
  */
 
-public class WeatherBean {
+public class WeatherBean implements Serializable {
 
     //"aqi"
     private int aqi;
@@ -70,6 +72,16 @@ public class WeatherBean {
     private String sport_brf, sport_txt;
     private String trav_brf, trav_txt;
     private String uv_brf, uv_txt;
+
+    public String getMain_weather_img() {
+        return main_weather_img;
+    }
+
+    public void setMain_weather_img(String main_weather_img) {
+        this.main_weather_img = main_weather_img;
+    }
+
+    private String main_weather_img;
 
 
     public int getAqi() {

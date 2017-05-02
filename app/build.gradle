@@ -17,14 +17,14 @@ android {
         applicationId "com.example.owen.weathergo"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 2
-        versionName '1.1.03.20170428 dev'
+        versionCode 3
+        versionName '1.1.10.20170430 beta'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         /*jackOptions {
             enabled true
         }*/
-//        适用java8属性
+//        适用java8属性 As2.4之后不需要
     }
     buildTypes {
         release {

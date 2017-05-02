@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.owen.weathergo.R;
-import com.example.owen.weathergo.component.DLForecast;
+import com.example.owen.weathergo.modules.dao.DLForecast;
 import com.example.owen.weathergo.modules.dao.DailyWeatherHolder;
 import com.example.owen.weathergo.modules.dao.HourlyWeatherHolder;
 import com.example.owen.weathergo.modules.dao.SuggestionWeatherHolder;
