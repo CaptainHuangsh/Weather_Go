@@ -7,9 +7,9 @@
             android:icon="@drawable/ic_location"
             android:title="@string/nav_city" />
         <item
-            android:id="@+id/nav_multi_cities"
-            android:icon="@drawable/ic_multi_cities"
-            android:title="@string/nav_multi_cities" />
+            android:id="@+id/nav_edit_city"
+            android:icon="@drawable/ic_edit_location_black_24dp"
+            android:title="@string/nav_edit_city" />
 
     </group>
 

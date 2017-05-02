@@ -54,6 +54,7 @@
     <!--nav-->
     <string name="nav_city">选择城市</string>
     <string name="nav_multi_cities">多城市管理</string>
+    <string name="nav_edit_city">输入城市名</string>
     <string name="nav_setting">设置</string>
     <string name="nav_about">关于</string>
 

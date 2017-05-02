@@ -42,7 +42,6 @@ import com.example.owen.weathergo.modules.dao.DailyForecast;
 import com.example.owen.weathergo.modules.dao.WeatherBean;
 import com.example.owen.weathergo.modules.adapter.WeatherAdapter;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -216,12 +215,15 @@ public class WeatherMain extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         //为Toolbarmenu各个选项添加点击事件
         switch (item.getItemId()) {
-            case R.id.action_edit:
+            /*case R.id.action_edit:
                 toSearchDialog();
                 break;
             case R.id.action_settings:
                 Intent intent = new Intent(WeatherMain.this, LoginActivity.class);
                 startActivity(intent);
+                break;*/
+            case R.id.action_share:
+                break;
             default:
                 break;
         }
@@ -236,8 +238,12 @@ public class WeatherMain extends AppCompatActivity
                     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        mCityStr = et.getText().toString();
-                        getWeather();
+                        if (!et.getText().toString().equals("")) {
+                            mCityStr = et.getText().toString();
+                            SharedPreferenceUtil.getInstance().setCityName(mCityStr);
+                            initRecycleView();
+                            refresh();
+                        }
                     }
                 })
                 .setNegativeButton("取消", null).show();
@@ -315,7 +321,8 @@ public class WeatherMain extends AppCompatActivity
                         ChoiceCityActivity.launch(WeatherMain.this);
                         Log.i(TAG + "navigation", "nav_city");
                         break;
-                    case R.id.nav_multi_cities:
+                    case R.id.nav_edit_city:
+                        toSearchDialog();
                         Log.i(TAG + "navigation", "nav_multi_cities");
                         break;
                     case R.id.nav_setting:
