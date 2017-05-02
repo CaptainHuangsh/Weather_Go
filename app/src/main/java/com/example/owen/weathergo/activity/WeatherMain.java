@@ -35,6 +35,7 @@ import com.example.owen.weathergo.common.DoubleClickExit;
 import com.example.owen.weathergo.service.AutoUpdateService;
 import com.example.owen.weathergo.util.IconGet;
 import com.example.owen.weathergo.util.JSONUtil;
+import com.example.owen.weathergo.util.SharedPreferenceUtil;
 import com.example.owen.weathergo.util.ToastUtil;
 import com.example.owen.weathergo.modules.dao.DLForecast;
 import com.example.owen.weathergo.modules.dao.DailyForecast;
@@ -114,8 +115,7 @@ public class WeatherMain extends AppCompatActivity
     protected void onRestart() {
         super.onRestart();
         Log.i("huangshaohua1", mCityStr);
-        preferences = getApplicationContext().getSharedPreferences("huang", MODE_PRIVATE);
-        String Ccity = preferences.getString("city", "");
+        String Ccity = SharedPreferenceUtil.getInstance().getCityName();
         if (!Ccity.equals(mCityStr)) {
             mCityStr = Ccity;
             Log.i("huangshaohua2", "onstart" + Ccity + mCityStr);
@@ -253,8 +253,7 @@ public class WeatherMain extends AppCompatActivity
      * 初始化各个变量
      */
     public void init() {
-        preferences = getApplicationContext().getSharedPreferences("huang", MODE_PRIVATE);
-        String Ccity = preferences.getString("city", "");
+        String Ccity = SharedPreferenceUtil.getInstance().getCityName();
         if (!Ccity.equals(""))//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值
             mCityStr = Ccity;
         Log.i("huangshaohua", "init" + Ccity);

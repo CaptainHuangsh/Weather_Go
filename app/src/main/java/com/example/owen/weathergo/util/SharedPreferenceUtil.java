@@ -13,7 +13,7 @@ import com.example.owen.weathergo.common.base.BaseApplication;
 
 public class SharedPreferenceUtil {
 
-    public static final String CITY_NAME = "current_city";//选择城市
+    public static final String CITY_NAME = "city";//选择城市
     public static final String HOUR = "current_hour";//当前小时
     public static final String CHANG_ICONS = "change_icons";//切换图标
     public static final String AUTO_UPDATE = "auto_update_time";//自动更新时长

@@ -2,7 +2,6 @@ package com.example.owen.weathergo.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -14,6 +13,7 @@ import android.view.View;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.util.DBManager;
+import com.example.owen.weathergo.util.SharedPreferenceUtil;
 import com.example.owen.weathergo.util.WeatherDB;
 import com.example.owen.weathergo.modules.dao.City;
 import com.example.owen.weathergo.modules.dao.Province;
@@ -42,7 +42,6 @@ public class ChoiceCityActivity extends AppCompatActivity {
     public static final int LEVEL_PROVINCE = 0;
     public static final int LEVEL_CITY = 1;
     private int currentLevel;
-    SharedPreferences preferences;
     private boolean isChecked = false;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -72,11 +71,7 @@ public class ChoiceCityActivity extends AppCompatActivity {
                     queryCities(selectedProvince.getProSort());
                 } else if (currentLevel == LEVEL_CITY) {
                     selectedCity = cityList.get(pos);
-                    preferences = getApplicationContext().getSharedPreferences("huang", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = preferences.edit();
-                    editor.remove("city");
-                    editor.putString("city", selectedCity.getCityName());
-                    editor.commit();
+                    SharedPreferenceUtil.getInstance().setCityName(selectedCity.getCityName());
                     finish();
                 }
 
