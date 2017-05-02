@@ -4,14 +4,15 @@ import com.example.owen.weathergo.R;
 
 /**
  * Created by owen on 2016/11/15.
+ * 根据天气概况信息给出对应的天气概况图标
  */
 
 public class IconGet {
 
-    public static int getWeaIcon(String weatherType){
+    public static int getWeaIcon(String weatherType) {
 
         int ic = 0;
-        switch (weatherType){
+        switch (weatherType) {
             case "未知":
                 ic = R.mipmap.none;
                 break;

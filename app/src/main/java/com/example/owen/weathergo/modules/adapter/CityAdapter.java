@@ -29,7 +29,7 @@ public class CityAdapter extends RecyclerView.Adapter<CityViewHolder> implements
 
     @Override
     public CityViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.items_city,parent,false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.items_city, parent, false);
         CityViewHolder cvh = new CityViewHolder(view);
         view.setOnClickListener(this);
         return cvh;
@@ -54,8 +54,8 @@ public class CityAdapter extends RecyclerView.Adapter<CityViewHolder> implements
 
     @Override
     public void onClick(View v) {
-        if(mOnItemClickListener != null){
-            mOnItemClickListener.onItemClick(v,(int)v.getTag());
+        if (mOnItemClickListener != null) {
+            mOnItemClickListener.onItemClick(v, (int) v.getTag());
         }
     }
 
