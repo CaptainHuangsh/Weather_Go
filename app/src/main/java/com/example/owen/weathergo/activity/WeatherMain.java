@@ -28,6 +28,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.owen.weathergo.R;
@@ -70,6 +73,10 @@ public class WeatherMain extends AppCompatActivity
     RecyclerView mRecycleView;
     @BindView(R.id.fab)
     FloatingActionButton fab;
+    @BindView(R.id.no_data)//没有查询到城市天气信息或城市不存在时显示
+            LinearLayout mNoDataImg;
+    @BindView(R.id.weather_info)
+    RelativeLayout mWeatherInfo;
 
     WeatherAdapter mWeatherAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -142,6 +149,13 @@ public class WeatherMain extends AppCompatActivity
             }
         });
 
+        mNoDataImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initRecycleView();
+                refresh();
+            }
+        });
 
     }
 
@@ -149,6 +163,8 @@ public class WeatherMain extends AppCompatActivity
     //大头鬼Bruce的译文 深入浅出RxJava系列 http://blog.csdn.net/lzyzsd/article/category/2767743
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void getWeather() {
+        mWeatherInfo.setVisibility(View.VISIBLE);
+        mNoDataImg.setVisibility(View.GONE);
         mRecycleView.setLayoutManager(new LinearLayoutManager(this));
         try {
             Log.i("huangshaohua4", "" + mCityStr);
@@ -196,6 +212,8 @@ public class WeatherMain extends AppCompatActivity
 
         } catch (Exception e) {
             e.printStackTrace();
+            mWeatherInfo.setVisibility(View.GONE);
+            mNoDataImg.setVisibility(View.VISIBLE);
             Toast.makeText(this, "    定位失败,请手动输入城市", Toast.LENGTH_LONG).show();
         }
         Toast.makeText(this, "加载完毕，✺◟(∗❛ัᴗ❛ั∗)◞✺,", Toast.LENGTH_SHORT).show();
@@ -265,6 +283,7 @@ public class WeatherMain extends AppCompatActivity
         Log.i("huangshaohua", "init" + Ccity);
         mToolBar.setTitle(getResources().getString(R.string.weather_app_name));
         setSupportActionBar(mToolBar);
+        mNoDataImg.setVisibility(View.GONE);
 
         initDrawer();
         initRecycleView();

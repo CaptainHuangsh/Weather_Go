@@ -141,4 +141,6 @@
     <string name="can_not_find_version_name">weather_go</string>
     <string name="author">mstro</string>
     <string name="e_mail">mr@captainhuang.cn</string>
+    <string name="no_data_response"><![CDATA[没有查询到信息 ( >﹏<。)～]]></string>
+    <string name="tourch_to_refresh">轻触图片刷新</string>
 </resources>
