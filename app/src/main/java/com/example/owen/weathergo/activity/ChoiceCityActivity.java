@@ -82,7 +82,6 @@ public class ChoiceCityActivity extends AppCompatActivity {
 
             }
         });
-        Log.i("ChoiceCityActivityOnItc", "has binded");
 
     }
 
@@ -96,7 +95,6 @@ public class ChoiceCityActivity extends AppCompatActivity {
     public void queryCities(int ProId) {
         cityList.clear();
         DBManager.getInstance().openDatabase();
-        Log.i("ChoiceCityActivityQP", "" + DBManager.getInstance().getDatabase());
         cityList.addAll(WeatherDB.loadCities(DBManager.getInstance().getDatabase(), ProId));
         DBManager.getInstance().closeDatabase();
         dataList.clear();
@@ -112,7 +110,6 @@ public class ChoiceCityActivity extends AppCompatActivity {
     public void queryProvince() {
         provincesList.clear();
         DBManager.getInstance().openDatabase();
-        Log.i("ChoiceCityActivityQP", "" + DBManager.getInstance().getDatabase());
         provincesList.addAll(WeatherDB.loadProvinces(DBManager.getInstance().getDatabase()));
         DBManager.getInstance().closeDatabase();
 

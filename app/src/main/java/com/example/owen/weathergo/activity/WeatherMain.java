@@ -189,12 +189,11 @@ public class WeatherMain extends AppCompatActivity
             Log.i("huangshaohua10", "" + weatherBean.getCity());
 //            Log.i("WeatherMains","ReadyToStartService");
             mToolBar.setTitle("" + mGCityStr);
-            Log.i("WeatherMains","ReadyToStartService");
+            Log.i("WeatherMains", "ReadyToStartService");
             Intent intent = new Intent(WeatherMain.this, AutoUpdateService.class);
-//            Bundle bundle = new Bundle();
             intent.putExtra("weather", weatherBean);
             startService(intent);
-            Log.i("WeatherMains","startService");
+            Log.i("WeatherMains", "startService");
 
         } catch (Exception e) {
             e.printStackTrace();

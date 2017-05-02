@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.IBinder;
-import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
@@ -41,9 +40,9 @@ public class AutoUpdateService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        Log.i("autoUpdateService","onStartCommand()");
+        Log.i("autoUpdateService", "onStartCommand()");
         WeatherBean weatherBean = (WeatherBean) intent.getSerializableExtra("weather");
-        Log.i("autoUpdateService","onStartCommand()"+weatherBean.getCity());
+        Log.i("autoUpdateService", "onStartCommand()" + weatherBean.getCity());
         createNotification(weatherBean);
         return super.onStartCommand(intent, flags, startId);
     }
@@ -55,14 +54,14 @@ public class AutoUpdateService extends Service {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void createNotification(WeatherBean weatherBean) {
-        Log.i("autoUpdateService","createNotification()"+weatherBean.getCity());
+        Log.i("autoUpdateService", "createNotification()" + weatherBean.getCity());
         Intent autoServiceIntent
                 = new Intent(AutoUpdateService.this, WeatherMain.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 AutoUpdateService.this, 0, autoServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         Notification.Builder builder = new Notification.Builder(AutoUpdateService.this);
         Notification notification = builder.setContentIntent(pendingIntent)
-                .setContentTitle(weatherBean.getCity()+"   "+weatherBean.getNow_tmp()+getApplicationContext().getResources().getString(R.string.c))
+                .setContentTitle(weatherBean.getCity() + "   " + weatherBean.getNow_tmp() + getApplicationContext().getResources().getString(R.string.c))
                 .setContentText("" + weatherBean.getNow_dir() + weatherBean.getNow_sc()
                         + getApplicationContext().getResources().getString(R.string.m_s))
                 .setSmallIcon(IconGet.getWeaIcon(weatherBean.getMain_weather_img()))
