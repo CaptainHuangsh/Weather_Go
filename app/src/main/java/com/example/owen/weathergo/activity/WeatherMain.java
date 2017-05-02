@@ -28,6 +28,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.owen.weathergo.R;
@@ -42,7 +45,6 @@ import com.example.owen.weathergo.modules.dao.DailyForecast;
 import com.example.owen.weathergo.modules.dao.WeatherBean;
 import com.example.owen.weathergo.modules.adapter.WeatherAdapter;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,6 +73,10 @@ public class WeatherMain extends AppCompatActivity
     RecyclerView mRecycleView;
     @BindView(R.id.fab)
     FloatingActionButton fab;
+    @BindView(R.id.no_data)//没有查询到城市天气信息或城市不存在时显示
+            LinearLayout mNoDataImg;
+    @BindView(R.id.weather_info)
+    RelativeLayout mWeatherInfo;
 
     WeatherAdapter mWeatherAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -143,6 +149,13 @@ public class WeatherMain extends AppCompatActivity
             }
         });
 
+        mNoDataImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initRecycleView();
+                refresh();
+            }
+        });
 
     }
 
@@ -150,6 +163,8 @@ public class WeatherMain extends AppCompatActivity
     //大头鬼Bruce的译文 深入浅出RxJava系列 http://blog.csdn.net/lzyzsd/article/category/2767743
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void getWeather() {
+        mWeatherInfo.setVisibility(View.VISIBLE);
+        mNoDataImg.setVisibility(View.GONE);
         mRecycleView.setLayoutManager(new LinearLayoutManager(this));
         try {
             Log.i("huangshaohua4", "" + mCityStr);
@@ -197,6 +212,8 @@ public class WeatherMain extends AppCompatActivity
 
         } catch (Exception e) {
             e.printStackTrace();
+            mWeatherInfo.setVisibility(View.GONE);
+            mNoDataImg.setVisibility(View.VISIBLE);
             Toast.makeText(this, "    定位失败,请手动输入城市", Toast.LENGTH_LONG).show();
         }
         Toast.makeText(this, "加载完毕，✺◟(∗❛ัᴗ❛ั∗)◞✺,", Toast.LENGTH_SHORT).show();
@@ -216,12 +233,15 @@ public class WeatherMain extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         //为Toolbarmenu各个选项添加点击事件
         switch (item.getItemId()) {
-            case R.id.action_edit:
+            /*case R.id.action_edit:
                 toSearchDialog();
                 break;
             case R.id.action_settings:
                 Intent intent = new Intent(WeatherMain.this, LoginActivity.class);
                 startActivity(intent);
+                break;*/
+            case R.id.action_share:
+                break;
             default:
                 break;
         }
@@ -236,8 +256,12 @@ public class WeatherMain extends AppCompatActivity
                     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        mCityStr = et.getText().toString();
-                        getWeather();
+                        if (!et.getText().toString().equals("")) {
+                            mCityStr = et.getText().toString();
+                            SharedPreferenceUtil.getInstance().setCityName(mCityStr);
+                            initRecycleView();
+                            refresh();
+                        }
                     }
                 })
                 .setNegativeButton("取消", null).show();
@@ -259,6 +283,7 @@ public class WeatherMain extends AppCompatActivity
         Log.i("huangshaohua", "init" + Ccity);
         mToolBar.setTitle(getResources().getString(R.string.weather_app_name));
         setSupportActionBar(mToolBar);
+        mNoDataImg.setVisibility(View.GONE);
 
         initDrawer();
         initRecycleView();
@@ -315,7 +340,8 @@ public class WeatherMain extends AppCompatActivity
                         ChoiceCityActivity.launch(WeatherMain.this);
                         Log.i(TAG + "navigation", "nav_city");
                         break;
-                    case R.id.nav_multi_cities:
+                    case R.id.nav_edit_city:
+                        toSearchDialog();
                         Log.i(TAG + "navigation", "nav_multi_cities");
                         break;
                     case R.id.nav_setting:

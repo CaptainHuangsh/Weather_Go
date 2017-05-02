@@ -98,7 +98,7 @@ public class PLog {
         isExist(PATH);
         //isDel();
         String needWriteMessage = "\r\n"
-                + Time.getNowMDHMSTime()
+                + TimeMode.getNowMDHMSTime()
                 + "\r\n"
                 + mylogtype
                 + "    "

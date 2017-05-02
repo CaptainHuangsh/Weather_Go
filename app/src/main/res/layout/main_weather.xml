@@ -4,13 +4,45 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/no_data"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|center_horizontal"
+            android:layout_marginTop="80dp"
+            android:src="@drawable/no_response" />
+
+        <TextView
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:textColor="@color/gray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/no_data_response" />
+        <TextView
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:textColor="@color/gray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/tourch_to_refresh"/>
+    </LinearLayout>
+
     <RelativeLayout
         android:id="@+id/weather_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tl_custom"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp">
+        android:layout_marginRight="16dp"
+        android:visibility="visible">
 
         <!--<include android:id="@+id/main_card"
             layout="@layout/forecast_main"/>-->

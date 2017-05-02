@@ -49,7 +49,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             case WeatherAdapter.TYPE_THREE:
                 return new SuggestionWeatherHolder(LayoutInflater.from(context).inflate(R.layout.suggestion, parent, false), weatherBean);
             case WeatherAdapter.TYPE_FORE:
-                return new HourlyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.forecast_hourly,parent,false));
+                return new HourlyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.forecast_hourly, parent, false));
         }
         return null;
     }

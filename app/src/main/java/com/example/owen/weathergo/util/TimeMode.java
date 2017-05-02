@@ -10,7 +10,7 @@ import java.util.Date;
  * Info:获取不同格式时间的工具方法
  */
 
-public class Time {
+public class TimeMode {
 
     /**
     * yyyy-MM-dd HH:mm:ss
