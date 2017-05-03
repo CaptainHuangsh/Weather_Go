@@ -47,9 +47,6 @@
         </activity>
         <activity android:name="com.example.owen.weathergo.activity.LoginActivity" />
         <activity android:name="com.example.owen.weathergo.activity.LogingActivity" />
-        <activity
-            android:name="com.example.owen.weathergo.activity.SettingsActivity"
-            android:label="@string/title_activity_settings" />
         <activity android:name=".activity.About" />
         <activity
             android:name="com.example.owen.weathergo.activity.ChoiceCityActivity"
