@@ -48,6 +48,7 @@
         <activity android:name="com.example.owen.weathergo.activity.LoginActivity" />
         <activity android:name="com.example.owen.weathergo.activity.LogingActivity" />
         <activity android:name=".activity.About" />
+        <activity android:name=".activity.SettingsActivity"/>
         <activity
             android:name="com.example.owen.weathergo.activity.ChoiceCityActivity"
             android:launchMode="singleTask" />
