@@ -1,6 +1,7 @@
 package com.example.owen.weathergo.service;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
@@ -70,6 +71,12 @@ public class AutoUpdateService extends Service {
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 AutoUpdateService.this, 0, autoServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         Notification.Builder builder = new Notification.Builder(AutoUpdateService.this);
+        Log.d("AutoUpdateServiceCancel", "" + mNotificationMode);
+        /*if (!mNotificationMode) {
+            builder.setAutoCancel(true);
+            Log.d("AutoUpdateServiceCancel", "" + mNotificationMode);
+        }*/
+//        builder.setAutoCancel(true);
         builder.setContentIntent(pendingIntent)
                 .setContentTitle(weatherBean.getCity() + "   " + weatherBean.getNow_tmp() + getApplicationContext().getResources().getString(R.string.c))
                 .setContentText("" + weatherBean.getNow_dir() + weatherBean.getNow_sc()
@@ -77,11 +84,15 @@ public class AutoUpdateService extends Service {
                 .setSmallIcon(IconGet.getWeaIcon(weatherBean.getMain_weather_img()));
         builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),
                 IconGet.getWeaIcon(weatherBean.getMain_weather_img())));
-        Log.d("AutoUpdateServiceCancel", "" + mNotificationMode);
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(
+                        NOTIFICATION_SERVICE);
         if (!mNotificationMode) {
-            builder.setAutoCancel(true);
+            notificationManager.notify(1, builder.build());
             Log.d("AutoUpdateServiceCancel", "" + mNotificationMode);
-        }
+        }else {
         startForeground(1, builder.build());
+        }
+
     }
 }
