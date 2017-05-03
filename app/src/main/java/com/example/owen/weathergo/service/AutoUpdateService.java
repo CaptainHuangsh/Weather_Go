@@ -1,12 +1,15 @@
 package com.example.owen.weathergo.service;
 
 import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
@@ -22,8 +25,11 @@ import com.example.owen.weathergo.util.IconGet;
  */
 
 public class AutoUpdateService extends Service {
+    //http://www.jianshu.com/p/67c1d82b50b7
     private final String TAG = AutoUpdateService.class.getSimpleName();
     private SharedPreferences preferences;
+    private boolean mNotificationMode; //通知栏常驻
+    private boolean mVibrate; //天气推送震动
 
     @Nullable
     @Override
@@ -34,12 +40,17 @@ public class AutoUpdateService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
+        PreferenceManager.setDefaultValues(this, R.xml.pref_settings, false);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mNotificationMode = preferences.getBoolean("notification_mode", false);
+        mVibrate = preferences.getBoolean("vibrate", false);
         Log.i("autoUpdateService", "onStartCommand()");
         WeatherBean weatherBean = (WeatherBean) intent.getSerializableExtra("weather");
         Log.i("autoUpdateService", "onStartCommand()" + weatherBean.getCity());
@@ -60,12 +71,28 @@ public class AutoUpdateService extends Service {
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 AutoUpdateService.this, 0, autoServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         Notification.Builder builder = new Notification.Builder(AutoUpdateService.this);
-        Notification notification = builder.setContentIntent(pendingIntent)
+        Log.d("AutoUpdateServiceCancel", "" + mNotificationMode);
+        /*if (!mNotificationMode) {
+            builder.setAutoCancel(true);
+            Log.d("AutoUpdateServiceCancel", "" + mNotificationMode);
+        }*/
+//        builder.setAutoCancel(true);
+        builder.setContentIntent(pendingIntent)
                 .setContentTitle(weatherBean.getCity() + "   " + weatherBean.getNow_tmp() + getApplicationContext().getResources().getString(R.string.c))
                 .setContentText("" + weatherBean.getNow_dir() + weatherBean.getNow_sc()
                         + getApplicationContext().getResources().getString(R.string.m_s))
-                .setSmallIcon(IconGet.getWeaIcon(weatherBean.getMain_weather_img()))
-                .build();
-        startForeground(1, notification);
+                .setSmallIcon(IconGet.getWeaIcon(weatherBean.getMain_weather_img()));
+        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),
+                IconGet.getWeaIcon(weatherBean.getMain_weather_img())));
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(
+                        NOTIFICATION_SERVICE);
+        if (!mNotificationMode) {
+            notificationManager.notify(1, builder.build());
+            Log.d("AutoUpdateServiceCancel", "" + mNotificationMode);
+        }else {
+        startForeground(1, builder.build());
+        }
+
     }
 }

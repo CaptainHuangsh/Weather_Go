@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/pref_common" />
+    <Preference
+        android:defaultValue="3"
+        android:key="update_time"
+        android:title="@string/update_time" />
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="vibrate"
+        android:title="@string/pref_vibrate" />
+    <Preference
+        android:key="clear_cache"
+        android:title="@string/clear_cache" />
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="notification_mode"
+        android:switchTextOff="No"
+        android:switchTextOn="Yes"
+        android:title="@string/notification_mode" />
+</PreferenceScreen>
