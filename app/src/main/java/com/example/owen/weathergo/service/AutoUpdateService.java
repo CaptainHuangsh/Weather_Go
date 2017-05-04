@@ -84,9 +84,6 @@ public class AutoUpdateService extends Service {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(
                         NOTIFICATION_SERVICE);
-        /*notification.flags = mSharedPreferenceUtil.getInstance().getNotificationModel();
-        notificationManager.notify(1, builder.build());*/
-
         if (mNotificationMode) {
             //通知栏常驻
             notification.flags = Notification.FLAG_ONGOING_EVENT;
