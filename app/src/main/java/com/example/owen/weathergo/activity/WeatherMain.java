@@ -93,6 +93,7 @@ public class WeatherMain extends AppCompatActivity
             switch (msg.what) {
                 case UPDATE_WEATHER_DATA:
                     Log.i("huangshaohua3.5", "" + mCityStr);
+                    mDrawerLayout.closeDrawers();
                     initRecycleView();
                     refresh();
                     break;
@@ -119,6 +120,7 @@ public class WeatherMain extends AppCompatActivity
     @Override
     protected void onRestart() {
         super.onRestart();
+//        mDrawerLayout.closeDrawers();
         Log.i("huangshaohua1", mCityStr);
         String Ccity = SharedPreferenceUtil.getInstance().getCityName();
         if (!Ccity.equals(mCityStr)) {
@@ -266,8 +268,15 @@ public class WeatherMain extends AppCompatActivity
                         if (!et.getText().toString().equals("")) {
                             mCityStr = et.getText().toString();
                             SharedPreferenceUtil.getInstance().setCityName(mCityStr);
-                            initRecycleView();
-                            refresh();
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    JSONUtil.getWeatherBeans(WeatherMain.this, mCityStr);
+                                    Message message = new Message();
+                                    message.what = UPDATE_WEATHER_DATA;
+                                    handler.sendMessage(message);
+                                }
+                            }).start();
                         }
                     }
                 })
