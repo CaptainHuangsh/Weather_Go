@@ -18,6 +18,7 @@ import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.activity.WeatherMain;
 import com.example.owen.weathergo.modules.dao.WeatherBean;
 import com.example.owen.weathergo.util.IconGet;
+import com.example.owen.weathergo.util.SharedPreferenceUtil;
 
 /**
  * Created by owen on 2017/5/1.
@@ -30,6 +31,7 @@ public class AutoUpdateService extends Service {
     private SharedPreferences preferences;
     private boolean mNotificationMode; //通知栏常驻
     private boolean mVibrate; //天气推送震动
+    SharedPreferenceUtil mSharedPreferenceUtil;
 
     @Nullable
     @Override
@@ -72,27 +74,23 @@ public class AutoUpdateService extends Service {
                 AutoUpdateService.this, 0, autoServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         Notification.Builder builder = new Notification.Builder(AutoUpdateService.this);
         Log.d("AutoUpdateServiceCancel", "" + mNotificationMode);
-        /*if (!mNotificationMode) {
-            builder.setAutoCancel(true);
-            Log.d("AutoUpdateServiceCancel", "" + mNotificationMode);
-        }*/
-//        builder.setAutoCancel(true);
-        builder.setContentIntent(pendingIntent)
+        Notification notification = builder.setContentIntent(pendingIntent)
                 .setContentTitle(weatherBean.getCity() + "   " + weatherBean.getNow_tmp() + getApplicationContext().getResources().getString(R.string.c))
                 .setContentText("" + weatherBean.getNow_dir() + weatherBean.getNow_sc()
                         + getApplicationContext().getResources().getString(R.string.m_s))
-                .setSmallIcon(IconGet.getWeaIcon(weatherBean.getMain_weather_img()));
+                .setSmallIcon(IconGet.getWeaIcon(weatherBean.getMain_weather_img())).build();
         builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),
                 IconGet.getWeaIcon(weatherBean.getMain_weather_img())));
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(
                         NOTIFICATION_SERVICE);
-        if (!mNotificationMode) {
-            notificationManager.notify(1, builder.build());
-            Log.d("AutoUpdateServiceCancel", "" + mNotificationMode);
-        }else {
-        startForeground(1, builder.build());
+        if (mNotificationMode) {
+            //通知栏常驻
+            notification.flags = Notification.FLAG_ONGOING_EVENT;
+        } else {
+            notification.flags = Notification.FLAG_AUTO_CANCEL;
         }
+        notificationManager.notify(1, notification);
 
     }
 }

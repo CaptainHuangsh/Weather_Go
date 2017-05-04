@@ -18,7 +18,7 @@ public class SharedPreferenceUtil {
     public static final String CHANG_ICONS = "change_icons";//切换图标
     public static final String AUTO_UPDATE = "auto_update_time";//自动更新时长
     public static final String CLEAR_CACHE = "clear_cache";//清空缓存
-    public static final String NOTIFICATION_MODEL = "notification_model";//notification常开与否
+    public static final String NOTIFICATION_MODE = "notification_mode";//notification常开与否
 
     private SharedPreferences mSharedPreference;
 
@@ -101,10 +101,10 @@ public class SharedPreferenceUtil {
     //通知栏默认常驻
 
     public void setNotificationModel(int t){
-        mSharedPreference.edit().putInt(NOTIFICATION_MODEL,t).apply();
+        mSharedPreference.edit().putInt(NOTIFICATION_MODE,t).apply();
     }
 
     public int getNotificationModel(){
-        return mSharedPreference.getInt(NOTIFICATION_MODEL, Notification.FLAG_ONGOING_EVENT);
+        return mSharedPreference.getInt(NOTIFICATION_MODE, Notification.FLAG_ONGOING_EVENT);
     }
 }
