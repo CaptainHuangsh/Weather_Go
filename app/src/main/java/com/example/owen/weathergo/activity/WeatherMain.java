@@ -26,7 +26,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -58,6 +57,7 @@ public class WeatherMain extends AppCompatActivity
      */
 
     private static final String TAG = WeatherMain.class.getSimpleName();
+    private static final int UPDATE_WEATHER_DATA = 0;
 
     //ButterKnife参考http://jakewharton.github.io/butterknife/
     @BindView(R.id.tl_custom)
@@ -82,11 +82,10 @@ public class WeatherMain extends AppCompatActivity
     private String mCityStr = "开封市";//设置的CityName
     private String mGCityStr = "";//从和风天气查询到的城市名称CityName，理论上和设置的一样
     private List<DLForecast> dlForecastList = new ArrayList<DLForecast>();
-    private View view1, view2;
-    private List<View> viewList;//view数组
+    //    private View view1, view2;
+//    private List<View> viewList;//view数组
     private SharedPreferences preferences;
-    //分别为查询结果国家，最低温度，最高温度，当前温度，风速
-    private static final int UPDATE_WEATHER_DATA = 0;
+
 
     private Handler handler = new Handler() {
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -107,8 +106,8 @@ public class WeatherMain extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+
         ButterKnife.bind(this);
         init();
         setListener();
@@ -276,19 +275,16 @@ public class WeatherMain extends AppCompatActivity
      * 初始化各个变量
      */
     public void init() {
-        String Ccity = SharedPreferenceUtil.getInstance().getCityName();
-        if (!Ccity.equals(""))//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值
-            mCityStr = Ccity;
-        Log.i("huangshaohua", "init" + Ccity);
+        String cCity = SharedPreferenceUtil.getInstance().getCityName();
+        if (!cCity.equals(""))//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值进行初始赋值
+            mCityStr = cCity;
+        Log.i("huangshaohua", "init" + cCity);
         mToolBar.setTitle(getResources().getString(R.string.weather_app_name));
         setSupportActionBar(mToolBar);
         mNoData.setVisibility(View.GONE);
-
         initDrawer();
         initRecycleView();
         initNavigationView();
-
-
     }
 
 
@@ -333,23 +329,18 @@ public class WeatherMain extends AppCompatActivity
         mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Log.d("onSelected", "id=" + item.getItemId());
                 switch (item.getItemId()) {
                     case R.id.nav_city:
                         ChoiceCityActivity.launch(WeatherMain.this);
-                        Log.i(TAG + "navigation", "nav_city");
                         break;
                     case R.id.nav_edit_city:
                         toSearchDialog();
-                        Log.i(TAG + "navigation", "nav_multi_cities");
                         break;
                     case R.id.nav_setting:
                         SettingsActivity.launch(WeatherMain.this);
-                        Log.i(TAG + "navigation", "nav_setting");
                         break;
                     case R.id.nav_about:
                         About.launch(WeatherMain.this);
-                        Log.i(TAG + "navigation", "nav_about");
                         break;
                 }
                 return false;
