@@ -48,6 +48,7 @@ public class ScreenShoot {
         try {
             fileOutputStream.flush();
             fileOutputStream.close();
+            ToastUtil.showShort(""+file+"保存成功");
         } catch (IOException e) {
             e.printStackTrace();
         }
