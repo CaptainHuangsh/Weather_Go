@@ -1,8 +1,10 @@
 package com.example.owen.weathergo.activity;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,10 +36,11 @@ import android.widget.Toast;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.DoubleClickExit;
-import com.example.owen.weathergo.modules.domain.Weather;
 import com.example.owen.weathergo.service.AutoUpdateService;
+import com.example.owen.weathergo.util.FileUtil;
 import com.example.owen.weathergo.util.IconGet;
 import com.example.owen.weathergo.util.JSONUtil;
+import com.example.owen.weathergo.util.ScreenShoot;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
 import com.example.owen.weathergo.util.ToastUtil;
 import com.example.owen.weathergo.modules.dao.DLForecast;
@@ -45,6 +48,7 @@ import com.example.owen.weathergo.modules.dao.DailyForecast;
 import com.example.owen.weathergo.modules.dao.WeatherBean;
 import com.example.owen.weathergo.modules.adapter.WeatherAdapter;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,6 +64,7 @@ public class WeatherMain extends AppCompatActivity
 
     private static final String TAG = WeatherMain.class.getSimpleName();
     private static final int UPDATE_WEATHER_DATA = 0;
+    private String image;
 
     //ButterKnife参考http://jakewharton.github.io/butterknife/
     @BindView(R.id.tl_custom)
@@ -240,6 +245,13 @@ public class WeatherMain extends AppCompatActivity
         //为Toolbarmenu各个选项添加点击事件
         switch (item.getItemId()) {
             case R.id.action_share:
+                /**
+                 *
+                 * 动态获取权限，Android 6.0 新特性，一些保护权限，除了要在AndroidManifest中声明权限，还要使用如下代码动态获取
+                 */
+                FileUtil.getPermission(this);
+                Bitmap bitmap = ScreenShoot.convertViewBitmap(mRecycleView);
+                ScreenShoot.saveMyBitmap(bitmap, "sdcard/");
                 break;
             default:
                 break;
@@ -283,7 +295,7 @@ public class WeatherMain extends AppCompatActivity
      * 初始化各个变量
      */
     public void init() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
             //使状态栏透明
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             //使导航栏透明getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
