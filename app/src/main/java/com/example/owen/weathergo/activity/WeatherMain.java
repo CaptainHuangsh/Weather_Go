@@ -246,6 +246,7 @@ public class WeatherMain extends AppCompatActivity
         switch (item.getItemId()) {
             case R.id.action_share:
                 /**
+                 *
                  * 动态获取权限，Android 6.0 新特性，一些保护权限，除了要在AndroidManifest中声明权限，还要使用如下代码动态获取
                  */
                 FileUtil.getPermission(this);
