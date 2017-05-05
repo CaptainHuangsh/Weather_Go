@@ -2,7 +2,7 @@ package com.example.owen.weathergo.activity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -34,10 +34,10 @@ import android.widget.Toast;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.DoubleClickExit;
-import com.example.owen.weathergo.modules.domain.Weather;
 import com.example.owen.weathergo.service.AutoUpdateService;
 import com.example.owen.weathergo.util.IconGet;
 import com.example.owen.weathergo.util.JSONUtil;
+import com.example.owen.weathergo.util.ScreenShoot;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
 import com.example.owen.weathergo.util.ToastUtil;
 import com.example.owen.weathergo.modules.dao.DLForecast;
@@ -60,6 +60,7 @@ public class WeatherMain extends AppCompatActivity
 
     private static final String TAG = WeatherMain.class.getSimpleName();
     private static final int UPDATE_WEATHER_DATA = 0;
+    private String image;
 
     //ButterKnife参考http://jakewharton.github.io/butterknife/
     @BindView(R.id.tl_custom)
@@ -240,6 +241,8 @@ public class WeatherMain extends AppCompatActivity
         //为Toolbarmenu各个选项添加点击事件
         switch (item.getItemId()) {
             case R.id.action_share:
+                Bitmap bitmap = ScreenShoot.convertViewBitmap(mRecycleView);
+                ScreenShoot.saveMyBitmap(bitmap,"sdcard/weathergo/" + String.valueOf(System.currentTimeMillis()) + ".png");
                 break;
             default:
                 break;
