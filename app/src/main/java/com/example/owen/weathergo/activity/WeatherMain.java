@@ -242,7 +242,7 @@ public class WeatherMain extends AppCompatActivity
         switch (item.getItemId()) {
             case R.id.action_share:
                 Bitmap bitmap = ScreenShoot.convertViewBitmap(mRecycleView);
-                ScreenShoot.saveMyBitmap(bitmap,"sdcard/weathergo/" + String.valueOf(System.currentTimeMillis()) + ".png");
+                ScreenShoot.saveMyBitmap(bitmap, "sdcard/");
                 break;
             default:
                 break;
@@ -286,7 +286,7 @@ public class WeatherMain extends AppCompatActivity
      * 初始化各个变量
      */
     public void init() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
             //使状态栏透明
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             //使导航栏透明getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
