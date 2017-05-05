@@ -1,7 +1,9 @@
 package com.example.owen.weathergo.activity;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -35,6 +37,7 @@ import android.widget.Toast;
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.DoubleClickExit;
 import com.example.owen.weathergo.service.AutoUpdateService;
+import com.example.owen.weathergo.util.FileUtil;
 import com.example.owen.weathergo.util.IconGet;
 import com.example.owen.weathergo.util.JSONUtil;
 import com.example.owen.weathergo.util.ScreenShoot;
@@ -45,6 +48,7 @@ import com.example.owen.weathergo.modules.dao.DailyForecast;
 import com.example.owen.weathergo.modules.dao.WeatherBean;
 import com.example.owen.weathergo.modules.adapter.WeatherAdapter;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -241,6 +245,10 @@ public class WeatherMain extends AppCompatActivity
         //为Toolbarmenu各个选项添加点击事件
         switch (item.getItemId()) {
             case R.id.action_share:
+                /**
+                 * 动态获取权限，Android 6.0 新特性，一些保护权限，除了要在AndroidManifest中声明权限，还要使用如下代码动态获取
+                 */
+                FileUtil.getPermission(this);
                 Bitmap bitmap = ScreenShoot.convertViewBitmap(mRecycleView);
                 ScreenShoot.saveMyBitmap(bitmap, "sdcard/");
                 break;
