@@ -1,9 +1,7 @@
 package com.example.owen.weathergo.activity;
 
-import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -36,6 +34,10 @@ import android.widget.Toast;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.DoubleClickExit;
+import com.example.owen.weathergo.modules.adapter.WeatherAdapter;
+import com.example.owen.weathergo.modules.dao.DLForecast;
+import com.example.owen.weathergo.modules.dao.DailyForecast;
+import com.example.owen.weathergo.modules.dao.WeatherBean;
 import com.example.owen.weathergo.service.AutoUpdateService;
 import com.example.owen.weathergo.util.FileUtil;
 import com.example.owen.weathergo.util.IconGet;
@@ -43,12 +45,7 @@ import com.example.owen.weathergo.util.JSONUtil;
 import com.example.owen.weathergo.util.ScreenShoot;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
 import com.example.owen.weathergo.util.ToastUtil;
-import com.example.owen.weathergo.modules.dao.DLForecast;
-import com.example.owen.weathergo.modules.dao.DailyForecast;
-import com.example.owen.weathergo.modules.dao.WeatherBean;
-import com.example.owen.weathergo.modules.adapter.WeatherAdapter;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
