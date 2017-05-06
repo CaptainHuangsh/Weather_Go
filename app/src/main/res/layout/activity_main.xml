@@ -4,8 +4,7 @@
     android:id="@+id/dl_left"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:openDrawer="start">
+    android:fitsSystemWindows="true">
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/coord"
@@ -22,10 +21,14 @@
                 android:id="@+id/tl_custom"
                 layout="@layout/custom_toolbar" />
 
-            <include
+            <!--<include
                 android:id="@+id/main_weather"
-                layout="@layout/main_weather" />
-
+                layout="@layout/main_weather" />-->
+            <fragment
+                android:id="@+id/weather_fragment"
+                android:name="com.example.owen.weathergo.fragment.MainFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
         </LinearLayout>
 
         <android.support.design.widget.FloatingActionButton

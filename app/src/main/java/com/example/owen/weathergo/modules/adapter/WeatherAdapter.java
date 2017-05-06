@@ -35,7 +35,10 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         this.dlForecastList = dlForecastList;
         this.weatherBean = weatherBean;
     }
-
+    public WeatherAdapter( List<DLForecast> dlForecastList, WeatherBean weatherBean) {
+        this.dlForecastList = dlForecastList;
+        this.weatherBean = weatherBean;
+    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

@@ -36,14 +36,15 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="H689bzDre7wsQ4qSR5EAx9t1ZN9dltkm" />
         //key:开发者申请的Key
+        <activity android:name=".activity.FirstActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name="com.example.owen.weathergo.activity.WeatherMain"
             android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name="com.example.owen.weathergo.activity.LoginActivity" />
         <activity android:name="com.example.owen.weathergo.activity.LogingActivity" />
