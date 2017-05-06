@@ -10,7 +10,6 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -66,14 +65,15 @@ public class MainFragment extends Fragment {
     private String mCityStr = "开封市";//设置的CityName
     private String mGCityStr = "";//从和风天气查询到的城市名称CityName，理论上和设置的一样
     private List<DLForecast> dlForecastList = new ArrayList<DLForecast>();
-    WeatherMain mActivity;
+    private View view;
+    private boolean mIsCreateView = false;
+    private WeatherMain mActivity;
 
     private Handler mHandler = new Handler() {
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case UPDATE_WEATHER_DATA:
-//                    mDrawerLayout.closeDrawers();
                     initRecycleView();
                     refresh();
                     break;
@@ -91,8 +91,6 @@ public class MainFragment extends Fragment {
                                 mHandler.sendMessage(message);
                             }
                         }).start();
-//                        DrawerLayout mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.dl_left);
-
                     }
                     break;
                 case SCREEN_SHOOT:
@@ -109,10 +107,6 @@ public class MainFragment extends Fragment {
         }
     };
 
-
-    private View view;
-    private boolean mIsCreateView = false;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,7 +117,6 @@ public class MainFragment extends Fragment {
         super.onAttach(activity);
         mActivity = (WeatherMain) activity;
         mActivity.setHandler(mHandler);
-
     }
 
     //@Nullable 表示定义的字段可以为空.
@@ -138,18 +131,6 @@ public class MainFragment extends Fragment {
         mIsCreateView = true;
         init();
         getWeather();
-/*
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                JSONUtil.getWeatherBeans(getActivity(), mCityStr);
-                Message message = new Message();
-                message.what = UPDATE_WEATHER_DATA;
-                mHandler.sendMessage(message);
-            }
-        }).start();
-*/
-
         setListener();
         return view;
     }
@@ -200,20 +181,11 @@ public class MainFragment extends Fragment {
                 refresh();
             }
         });
-
         mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        //获取当前Activity的View
-//        mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(), dlForecastList,weatherBean));
-
-
     }
 
     public void refresh() {
         {
-
-            // 开始刷新，设置当前为刷新状态
-            //swipeRefreshLayout.setRefreshing(true);
-
             // 这里是主线程
             // 一些比较耗时的操作，比如联网获取数据，需要放到子线程去执行
             new Handler().postDelayed(new Runnable() {
@@ -225,7 +197,6 @@ public class MainFragment extends Fragment {
                     mRecycleView.removeAllViews();
                     getWeather();
                     mWeatherAdapter.notifyDataSetChanged();
-
                     // 加载完数据设置为不刷新状态，将下拉进度收起来
                     mRefreshLayout.setRefreshing(false);
                 }
@@ -246,15 +217,11 @@ public class MainFragment extends Fragment {
             WeatherBean weatherBean = null;
             weatherBean = JSONUtil.getWeatherBeans(getActivity(), mCityStr);
             //问题在这里，新更改的mCityStr但weatherBean仍然返回前一个值
-            //TODO 解决实时刷新天气
             ArrayList<DailyForecast> mDFList = JSONUtil.getDForecast();
-            Log.i("wtfs", mDFList.toString());
             int i = 0;
             for (DailyForecast df : mDFList
                     ) {
                 DailyForecast dfs = mDFList.get(i);
-                Log.e("wtf", dfs.getDate());
-
                 DLForecast dls = new DLForecast(dfs.getDate() + "", getResources().getString(R.string.hsh_temp_min)
                         + dfs.getMin()
                         + getResources().getString(R.string.c) + getResources().getString(R.string.hsh_temp_max)
@@ -265,14 +232,10 @@ public class MainFragment extends Fragment {
             }
             mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(dlForecastList, weatherBean));
             mGCityStr = weatherBean.getCity();
-//            mToolBar.setTitle("" + mGCityStr);
             safeSetTitle(mGCityStr);
-            Log.i("WeatherMains", "ReadyToStartService");
             Intent intent = new Intent(getActivity(), AutoUpdateService.class);
             intent.putExtra("weather", weatherBean);
             getActivity().startService(intent);
-            Log.i("WeatherMains", "startService");
-
         } catch (Exception e) {
             e.printStackTrace();
             mWeatherInfo.setVisibility(View.GONE);
@@ -280,17 +243,12 @@ public class MainFragment extends Fragment {
             Toast.makeText(getActivity(), "    定位失败,请手动输入城市", Toast.LENGTH_LONG).show();
         }
         Toast.makeText(getActivity(), "加载完毕，✺◟(∗❛ัᴗ❛ั∗)◞✺,", Toast.LENGTH_SHORT).show();
-
     }
 
     public void init() {
         String cCity = SharedPreferenceUtil.getInstance().getCityName();
-//        safeSetTitle(getResources().getString(R.string.weather_app_name));
         if (!cCity.equals(""))//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值进行初始赋值
             mCityStr = cCity;
-        Log.d("fragmentinit", "" + mCityStr);
-//        safeSetTitle(mCityStr);
-
         mNoData.setVisibility(View.GONE);
         initRecycleView();
     }
