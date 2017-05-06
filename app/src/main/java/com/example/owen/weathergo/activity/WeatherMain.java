@@ -1,7 +1,6 @@
 package com.example.owen.weathergo.activity;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -14,11 +13,9 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -28,26 +25,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.DoubleClickExit;
-import com.example.owen.weathergo.modules.adapter.WeatherAdapter;
-import com.example.owen.weathergo.modules.dao.DLForecast;
-import com.example.owen.weathergo.modules.dao.DailyForecast;
-import com.example.owen.weathergo.modules.dao.WeatherBean;
-import com.example.owen.weathergo.service.AutoUpdateService;
 import com.example.owen.weathergo.util.FileUtil;
-import com.example.owen.weathergo.util.IconGet;
-import com.example.owen.weathergo.util.JSONUtil;
 import com.example.owen.weathergo.util.ScreenShoot;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
 import com.example.owen.weathergo.util.ToastUtil;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -59,13 +43,11 @@ public class WeatherMain extends AppCompatActivity
      * 程序入口，主Activity类
      */
     //TODO 加入startActivity等待网络请求
-
+    //TODO fragment
     //TODO 设置的震动
-            //TODO fab
+    //TODO fab
 
     private static final String TAG = WeatherMain.class.getSimpleName();
-    private static final int UPDATE_WEATHER_DATA = 0;
-    private String image;
 
     //ButterKnife参考http://jakewharton.github.io/butterknife/
     @BindView(R.id.tl_custom)
@@ -74,40 +56,14 @@ public class WeatherMain extends AppCompatActivity
     DrawerLayout mDrawerLayout;
     @BindView(R.id.nav_view)
     NavigationView mNavigationView;
-    @BindView(R.id.main_swipe)//下拉刷新控件
-            SwipeRefreshLayout mRefreshLayout;
-    @BindView(R.id.recycle_view)
-    RecyclerView mRecycleView;
     @BindView(R.id.fab)
     FloatingActionButton fab;
-    @BindView(R.id.no_data)//没有查询到城市天气信息或城市不存在时显示
-            LinearLayout mNoData;
-    @BindView(R.id.weather_info)
-    RelativeLayout mWeatherInfo;
+    View view = null;
 
-    WeatherAdapter mWeatherAdapter;
     private ActionBarDrawerToggle mDrawerToggle;
-    private String mCityStr = "开封市";//设置的CityName
-    private String mGCityStr = "";//从和风天气查询到的城市名称CityName，理论上和设置的一样
-    private List<DLForecast> dlForecastList = new ArrayList<DLForecast>();
-
-    private Handler handler = new Handler() {
-        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case UPDATE_WEATHER_DATA:
-                    mDrawerLayout.closeDrawers();
-                    initRecycleView();
-                    refresh();
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
+    Handler mHandler;
 
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,45 +72,18 @@ public class WeatherMain extends AppCompatActivity
         ButterKnife.bind(this);
         init();
         setListener();
-/*
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                JSONUtil.getWeatherBeans(WeatherMain.this, mCityStr);
-                Message message = new Message();
-                message.what = UPDATE_WEATHER_DATA;
-                handler.sendMessage(message);
-            }
-        }).start();
-*/
-        getWeather();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onRestart() {
         super.onRestart();
-//        mDrawerLayout.closeDrawers();
-        String Ccity = SharedPreferenceUtil.getInstance().getCityName();
-        if (!Ccity.equals(mCityStr)) {
-            mCityStr = Ccity;
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    JSONUtil.getWeatherBeans(WeatherMain.this, mCityStr);
-                    Message message = new Message();
-                    message.what = UPDATE_WEATHER_DATA;
-                    handler.sendMessage(message);
-                }
-            }).start();
-        }
+        mDrawerLayout.closeDrawers();
     }
 
+    /**
+     * 绑定监听事件
+     */
     public void setListener() {
-        /**
-         * 绑定监听事件
-         */
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,19 +96,11 @@ public class WeatherMain extends AppCompatActivity
                 }).show();
             }
         });
-
-        mNoData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initRecycleView();
-                refresh();
-            }
-        });
-
     }
 
     //的给 Android 开发者的 RxJava 详解 https://gank.io/post/560e15be2dca930e00da1083
     //大头鬼Bruce的译文 深入浅出RxJava系列 http://blog.csdn.net/lzyzsd/article/category/2767743
+/*
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void getWeather() {
         mWeatherInfo.setVisibility(View.VISIBLE);
@@ -187,15 +108,16 @@ public class WeatherMain extends AppCompatActivity
         mRecycleView.setLayoutManager(new LinearLayoutManager(this));
         try {
             WeatherBean weatherBean = null;
-            /*new Thread(new Runnable() {
+            */
+/*new Thread(new Runnable() {
                 @Override
                 public void run() {
                     JSONUtil.getWeatherBeans(WeatherMain.this, mCityStr);
                 }
-            }).start();*/
+            }).start();*//*
+
             weatherBean = JSONUtil.getWeatherBeans(this, mCityStr);
             //问题在这里，新更改的mCityStr但weatherBean仍然返回前一个值
-            //TODO 解决实时刷新天气
             ArrayList<DailyForecast> mDFList = JSONUtil.getDForecast();
             Log.i("wtfs", mDFList.toString());
             int i = 0;
@@ -231,6 +153,7 @@ public class WeatherMain extends AppCompatActivity
         Toast.makeText(this, "加载完毕，✺◟(∗❛ัᴗ❛ั∗)◞✺,", Toast.LENGTH_SHORT).show();
 
     }
+*/
 
 
     //@Override
@@ -250,6 +173,8 @@ public class WeatherMain extends AppCompatActivity
                  *
                  * 动态获取权限，Android 6.0 新特性，一些保护权限，除了要在AndroidManifest中声明权限，还要使用如下代码动态获取
                  */
+                android.app.Fragment fragment = getFragmentManager().findFragmentById(R.id.main_fragment);
+                RecyclerView mRecycleView = (RecyclerView) fragment.getView().findViewById(R.id.recycle_view);
                 FileUtil.getPermission(this);
                 Bitmap bitmap = ScreenShoot.convertViewBitmap(mRecycleView);
                 ScreenShoot.saveMyBitmap(bitmap, "sdcard/");
@@ -268,6 +193,12 @@ public class WeatherMain extends AppCompatActivity
                     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+//                            String text = et.getText().toString();
+                        Message msg = new Message();
+                        msg.obj = et.getText().toString();
+                        msg.what = 1;
+                        mHandler.sendMessage(msg);
+                        /*
                         if (!et.getText().toString().equals("")) {
                             mCityStr = et.getText().toString();
                             SharedPreferenceUtil.getInstance().setCityName(mCityStr);
@@ -281,6 +212,7 @@ public class WeatherMain extends AppCompatActivity
                                 }
                             }).start();
                         }
+*/
                     }
                 })
                 .setNegativeButton("取消", null).show();
@@ -301,14 +233,10 @@ public class WeatherMain extends AppCompatActivity
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             //使导航栏透明getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
-        String cCity = SharedPreferenceUtil.getInstance().getCityName();
-        if (!cCity.equals(""))//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值进行初始赋值
-            mCityStr = cCity;
-        mToolBar.setTitle(getResources().getString(R.string.weather_app_name));
         setSupportActionBar(mToolBar);
-        mNoData.setVisibility(View.GONE);
+
         initDrawer();
-        initRecycleView();
+//        initRecycleView();
         initNavigationView();
     }
 
@@ -373,6 +301,7 @@ public class WeatherMain extends AppCompatActivity
         });
     }
 
+/*
     //初始化下拉刷新控件
     public void initRecycleView() {
         //下拉刷新 http://www.jianshu.com/p/d23b42b6360b
@@ -395,6 +324,8 @@ public class WeatherMain extends AppCompatActivity
 
 
     }
+*/
+/*
 
     public void refresh() {
         {
@@ -422,6 +353,7 @@ public class WeatherMain extends AppCompatActivity
             // 这个不能写在外边，不然会直接收起来
         }
     }
+*/
 
     //设置双击推出
     @Override
@@ -437,5 +369,7 @@ public class WeatherMain extends AppCompatActivity
         }
     }
 
-
+    public  void setHandler(Handler handler) {
+        mHandler = handler;
+    }
 }

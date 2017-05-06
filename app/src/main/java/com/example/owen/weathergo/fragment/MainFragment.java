@@ -1,5 +1,6 @@
 package com.example.owen.weathergo.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.owen.weathergo.R;
+import com.example.owen.weathergo.activity.WeatherMain;
 import com.example.owen.weathergo.modules.adapter.WeatherAdapter;
 import com.example.owen.weathergo.modules.dao.DLForecast;
 import com.example.owen.weathergo.modules.dao.DailyForecast;
@@ -29,6 +31,7 @@ import com.example.owen.weathergo.modules.dao.WeatherBean;
 import com.example.owen.weathergo.service.AutoUpdateService;
 import com.example.owen.weathergo.util.IconGet;
 import com.example.owen.weathergo.util.JSONUtil;
+import com.example.owen.weathergo.util.SharedPreferenceUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,8 +60,9 @@ public class MainFragment extends Fragment {
     private String mCityStr = "开封市";//设置的CityName
     private String mGCityStr = "";//从和风天气查询到的城市名称CityName，理论上和设置的一样
     private List<DLForecast> dlForecastList = new ArrayList<DLForecast>();
+    WeatherMain mActivity;
 
-    private Handler handler = new Handler() {
+    private Handler mHandler = new Handler() {
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -67,6 +71,20 @@ public class MainFragment extends Fragment {
                     initRecycleView();
                     refresh();
                     break;
+                case 1:
+                    if (!msg.obj.toString().equals("")) {
+                        mCityStr = msg.obj.toString();
+                        SharedPreferenceUtil.getInstance().setCityName(mCityStr);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                JSONUtil.getWeatherBeans(getActivity(), mCityStr);
+                                Message message = new Message();
+                                message.what = UPDATE_WEATHER_DATA;
+                                mHandler.sendMessage(message);
+                            }
+                        }).start();
+                    break;}
                 default:
                     break;
             }
@@ -82,7 +100,16 @@ public class MainFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        mActivity = (WeatherMain)activity;
+        mActivity.setHandler(mHandler);
+
+    }
+
     //@Nullable 表示定义的字段可以为空.
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -91,10 +118,54 @@ public class MainFragment extends Fragment {
             ButterKnife.bind(this, view);
         }
         mIsCreateView = true;
-        Log.d("MainFragment", "oncreateView");
+        init();
+        getWeather();
+/*
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                JSONUtil.getWeatherBeans(getActivity(), mCityStr);
+                Message message = new Message();
+                message.what = UPDATE_WEATHER_DATA;
+                mHandler.sendMessage(message);
+            }
+        }).start();
+*/
+
+        setListener();
         return view;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        String Ccity = SharedPreferenceUtil.getInstance().getCityName();
+        if (!Ccity.equals(mCityStr)) {
+            mCityStr = Ccity;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    JSONUtil.getWeatherBeans(getActivity(), mCityStr);
+                    Message message = new Message();
+                    message.what = UPDATE_WEATHER_DATA;
+                    mHandler.sendMessage(message);
+                }
+            }).start();
+        }
+    }
+
+    /**
+     * 绑定监听事件
+     */
+    public void setListener() {
+        mNoData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                initRecycleView();
+                refresh();
+            }
+        });
+    }
 
     //初始化下拉刷新控件
     public void initRecycleView() {
@@ -155,12 +226,6 @@ public class MainFragment extends Fragment {
         mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         try {
             WeatherBean weatherBean = null;
-            /*new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    JSONUtil.getWeatherBeans(WeatherMain.this, mCityStr);
-                }
-            }).start();*/
             weatherBean = JSONUtil.getWeatherBeans(getActivity(), mCityStr);
             //问题在这里，新更改的mCityStr但weatherBean仍然返回前一个值
             //TODO 解决实时刷新天气
@@ -182,7 +247,6 @@ public class MainFragment extends Fragment {
             }
             mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(dlForecastList, weatherBean));
             mGCityStr = weatherBean.getCity();
-//            Log.i("WeatherMains","ReadyToStartService");
 //            mToolBar.setTitle("" + mGCityStr);
             safeSetTitle(mGCityStr);
             Log.i("WeatherMains", "ReadyToStartService");
@@ -199,6 +263,18 @@ public class MainFragment extends Fragment {
         }
         Toast.makeText(getActivity(), "加载完毕，✺◟(∗❛ัᴗ❛ั∗)◞✺,", Toast.LENGTH_SHORT).show();
 
+    }
+
+    public void init() {
+        String cCity = SharedPreferenceUtil.getInstance().getCityName();
+//        safeSetTitle(getResources().getString(R.string.weather_app_name));
+        if (!cCity.equals(""))//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值进行初始赋值
+            mCityStr = cCity;
+        Log.d("fragmentinit",""+mCityStr);
+//        safeSetTitle(mCityStr);
+
+        mNoData.setVisibility(View.GONE);
+        initRecycleView();
     }
 
     public void safeSetTitle(String title) {
