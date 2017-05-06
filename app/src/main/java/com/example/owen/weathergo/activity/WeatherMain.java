@@ -1,6 +1,8 @@
 package com.example.owen.weathergo.activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -194,6 +196,10 @@ public class WeatherMain extends AppCompatActivity
                 finish();
             }
         }
+    }
+
+    public static void launch(Context context) {
+        context.startActivity(new Intent(context, WeatherMain.class));
     }
 
     public void setHandler(Handler handler) {

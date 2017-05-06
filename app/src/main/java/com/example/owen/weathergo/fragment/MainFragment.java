@@ -68,6 +68,7 @@ public class MainFragment extends Fragment {
     private View view;
     private boolean mIsCreateView = false;
     private WeatherMain mActivity;
+    private int times = 0;
 
     private Handler mHandler = new Handler() {
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -130,7 +131,16 @@ public class MainFragment extends Fragment {
         }
         mIsCreateView = true;
         init();
-        getWeather();
+//        getWeather();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                JSONUtil.getWeatherBeans(getActivity(), mCityStr);
+                Message message = new Message();
+                message.what = UPDATE_WEATHER_DATA;
+                mHandler.sendMessage(message);
+            }
+        }).start();
         setListener();
         return view;
     }
@@ -139,6 +149,7 @@ public class MainFragment extends Fragment {
     public void onStart() {
         super.onStart();
         String Ccity = SharedPreferenceUtil.getInstance().getCityName();
+
         if (!Ccity.equals(mCityStr)) {
             mCityStr = Ccity;
             new Thread(new Runnable() {
@@ -232,7 +243,9 @@ public class MainFragment extends Fragment {
             }
             mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(dlForecastList, weatherBean));
             mGCityStr = weatherBean.getCity();
-            safeSetTitle(mGCityStr);
+            Log.d("huangshaohua", "mGcity" + mGCityStr);
+            if (!mGCityStr.equals(""))
+                safeSetTitle(mGCityStr);
             Intent intent = new Intent(getActivity(), AutoUpdateService.class);
             intent.putExtra("weather", weatherBean);
             getActivity().startService(intent);
@@ -248,7 +261,10 @@ public class MainFragment extends Fragment {
     public void init() {
         String cCity = SharedPreferenceUtil.getInstance().getCityName();
         if (!cCity.equals(""))//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值进行初始赋值
+        {
             mCityStr = cCity;
+            safeSetTitle(mCityStr);
+        }
         mNoData.setVisibility(View.GONE);
         initRecycleView();
     }
