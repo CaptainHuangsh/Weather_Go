@@ -131,8 +131,8 @@ public class MainFragment extends Fragment {
         }
         mIsCreateView = true;
         init();
-//        getWeather();
-        new Thread(new Runnable() {
+        getWeather();
+        /*new Thread(new Runnable() {
             @Override
             public void run() {
                 JSONUtil.getWeatherBeans(getActivity(), mCityStr);
@@ -140,7 +140,7 @@ public class MainFragment extends Fragment {
                 message.what = UPDATE_WEATHER_DATA;
                 mHandler.sendMessage(message);
             }
-        }).start();
+        }).start();*/
         setListener();
         return view;
     }
