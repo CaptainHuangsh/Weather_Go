@@ -28,7 +28,8 @@
                 android:id="@+id/weather_fragment"
                 android:name="com.example.owen.weathergo.fragment.MainFragment"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                tools:layout="@layout/fragment_main" />
         </LinearLayout>
 
         <android.support.design.widget.FloatingActionButton
@@ -40,7 +41,7 @@
             android:elevation="10dp"
             app:borderWidth="0dp"
             app:layout_behavior="com.example.owen.weathergo.modules.listener.FloatingActionButtonScrollBehavior"
-            app:srcCompat="@drawable/ic_favorite"
+            app:srcCompat="@drawable/ic_location"
             tools:context=".MyActivity" />
         <!--what's the diff between app:srcCompat and android:src
         http://stackoverflow.com/questions/40624554/android-what-is-the-difference-between-appsrccompat-and-androidsrc-->
