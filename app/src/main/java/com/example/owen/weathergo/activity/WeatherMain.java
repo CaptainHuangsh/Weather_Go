@@ -30,7 +30,6 @@ import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.DoubleClickExit;
 import com.example.owen.weathergo.util.FileUtil;
 import com.example.owen.weathergo.util.ScreenShoot;
-import com.example.owen.weathergo.util.SharedPreferenceUtil;
 import com.example.owen.weathergo.util.ToastUtil;
 
 import butterknife.BindView;
@@ -48,6 +47,8 @@ public class WeatherMain extends AppCompatActivity
     //TODO fab
 
     private static final String TAG = WeatherMain.class.getSimpleName();
+    private static final int SEARCH_CITY = 1;
+    private static final int SCREEN_SHOOT = 2;
 
     //ButterKnife参考http://jakewharton.github.io/butterknife/
     @BindView(R.id.tl_custom)
@@ -173,11 +174,10 @@ public class WeatherMain extends AppCompatActivity
                  *
                  * 动态获取权限，Android 6.0 新特性，一些保护权限，除了要在AndroidManifest中声明权限，还要使用如下代码动态获取
                  */
-                android.app.Fragment fragment = getFragmentManager().findFragmentById(R.id.main_fragment);
-                RecyclerView mRecycleView = (RecyclerView) fragment.getView().findViewById(R.id.recycle_view);
-                FileUtil.getPermission(this);
-                Bitmap bitmap = ScreenShoot.convertViewBitmap(mRecycleView);
-                ScreenShoot.saveMyBitmap(bitmap, "sdcard/");
+
+                Message msg = new Message();
+                msg.what = SCREEN_SHOOT;
+                mHandler.sendMessage(msg);
                 break;
             default:
                 break;
@@ -196,7 +196,7 @@ public class WeatherMain extends AppCompatActivity
 //                            String text = et.getText().toString();
                         Message msg = new Message();
                         msg.obj = et.getText().toString();
-                        msg.what = 1;
+                        msg.what = SEARCH_CITY;
                         mHandler.sendMessage(msg);
                         /*
                         if (!et.getText().toString().equals("")) {
@@ -216,6 +216,7 @@ public class WeatherMain extends AppCompatActivity
                     }
                 })
                 .setNegativeButton("取消", null).show();
+        mDrawerLayout.closeDrawers();
     }
 
     @Override

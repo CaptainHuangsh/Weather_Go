@@ -2,6 +2,7 @@ package com.example.owen.weathergo.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -9,6 +10,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -29,8 +31,10 @@ import com.example.owen.weathergo.modules.dao.DLForecast;
 import com.example.owen.weathergo.modules.dao.DailyForecast;
 import com.example.owen.weathergo.modules.dao.WeatherBean;
 import com.example.owen.weathergo.service.AutoUpdateService;
+import com.example.owen.weathergo.util.FileUtil;
 import com.example.owen.weathergo.util.IconGet;
 import com.example.owen.weathergo.util.JSONUtil;
+import com.example.owen.weathergo.util.ScreenShoot;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
 
 import java.util.ArrayList;
@@ -46,6 +50,8 @@ import butterknife.ButterKnife;
 public class MainFragment extends Fragment {
 
     private static final int UPDATE_WEATHER_DATA = 0;
+    private static final int SEARCH_CITY = 1;
+    private static final int SCREEN_SHOOT = 2;
 
     @BindView(R.id.main_swipe)//下拉刷新控件
             SwipeRefreshLayout mRefreshLayout;
@@ -71,7 +77,8 @@ public class MainFragment extends Fragment {
                     initRecycleView();
                     refresh();
                     break;
-                case 1:
+                case SEARCH_CITY:
+                    //Fragment与activity交互http://blog.csdn.net/huangyabin001/article/details/35231753
                     if (!msg.obj.toString().equals("")) {
                         mCityStr = msg.obj.toString();
                         SharedPreferenceUtil.getInstance().setCityName(mCityStr);
@@ -84,7 +91,15 @@ public class MainFragment extends Fragment {
                                 mHandler.sendMessage(message);
                             }
                         }).start();
-                    break;}
+//                        DrawerLayout mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.dl_left);
+
+                    }
+                    break;
+                case SCREEN_SHOOT:
+                    FileUtil.getPermission(getActivity());
+                    Bitmap bitmap = ScreenShoot.convertViewBitmap(mRecycleView);
+                    ScreenShoot.saveMyBitmap(bitmap, "sdcard/");
+                    break;
                 default:
                     break;
             }
@@ -103,7 +118,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mActivity = (WeatherMain)activity;
+        mActivity = (WeatherMain) activity;
         mActivity.setHandler(mHandler);
 
     }
@@ -270,7 +285,7 @@ public class MainFragment extends Fragment {
 //        safeSetTitle(getResources().getString(R.string.weather_app_name));
         if (!cCity.equals(""))//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值进行初始赋值
             mCityStr = cCity;
-        Log.d("fragmentinit",""+mCityStr);
+        Log.d("fragmentinit", "" + mCityStr);
 //        safeSetTitle(mCityStr);
 
         mNoData.setVisibility(View.GONE);
