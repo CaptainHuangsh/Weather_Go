@@ -1,7 +1,6 @@
 package com.example.owen.weathergo.activity;
 
 import android.content.DialogInterface;
-import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,7 +15,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -28,8 +26,6 @@ import android.widget.EditText;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.DoubleClickExit;
-import com.example.owen.weathergo.util.FileUtil;
-import com.example.owen.weathergo.util.ScreenShoot;
 import com.example.owen.weathergo.util.ToastUtil;
 
 import butterknife.BindView;
@@ -42,7 +38,6 @@ public class WeatherMain extends AppCompatActivity
      * 程序入口，主Activity类
      */
     //TODO 加入startActivity等待网络请求
-    //TODO fragment
     //TODO 设置的震动
     //TODO fab
 
@@ -59,10 +54,9 @@ public class WeatherMain extends AppCompatActivity
     NavigationView mNavigationView;
     @BindView(R.id.fab)
     FloatingActionButton fab;
-    View view = null;
 
     private ActionBarDrawerToggle mDrawerToggle;
-    Handler mHandler;
+    private Handler mHandler;
 
 
     @Override
@@ -89,77 +83,14 @@ public class WeatherMain extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Snackbar.make(v, "fab等待绑定的活动", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).setAction("取消", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                }).show();
+                        .setAction("Action", null).setAction("取消", null).show();
             }
         });
     }
 
-    //的给 Android 开发者的 RxJava 详解 https://gank.io/post/560e15be2dca930e00da1083
-    //大头鬼Bruce的译文 深入浅出RxJava系列 http://blog.csdn.net/lzyzsd/article/category/2767743
-/*
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void getWeather() {
-        mWeatherInfo.setVisibility(View.VISIBLE);
-        mNoData.setVisibility(View.GONE);
-        mRecycleView.setLayoutManager(new LinearLayoutManager(this));
-        try {
-            WeatherBean weatherBean = null;
-            */
-/*new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    JSONUtil.getWeatherBeans(WeatherMain.this, mCityStr);
-                }
-            }).start();*//*
-
-            weatherBean = JSONUtil.getWeatherBeans(this, mCityStr);
-            //问题在这里，新更改的mCityStr但weatherBean仍然返回前一个值
-            ArrayList<DailyForecast> mDFList = JSONUtil.getDForecast();
-            Log.i("wtfs", mDFList.toString());
-            int i = 0;
-            for (DailyForecast df : mDFList
-                    ) {
-                DailyForecast dfs = mDFList.get(i);
-                Log.e("wtf", dfs.getDate());
-
-                DLForecast dls = new DLForecast(dfs.getDate() + "", getResources().getString(R.string.hsh_temp_min)
-                        + dfs.getMin()
-                        + getResources().getString(R.string.c) + getResources().getString(R.string.hsh_temp_max)
-                        + dfs.getMax()
-                        + getResources().getString(R.string.c), dfs.getDir() + dfs.getSc() + dfs.getTxt_d() + dfs.getTxt_n(), IconGet.getWeaIcon(dfs.getTxt_d()));
-                dlForecastList.add(dls);
-                i++;
-            }
-            mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(), dlForecastList, weatherBean));
-            mGCityStr = weatherBean.getCity();
-//            Log.i("WeatherMains","ReadyToStartService");
-            mToolBar.setTitle("" + mGCityStr);
-            Log.i("WeatherMains", "ReadyToStartService");
-            Intent intent = new Intent(WeatherMain.this, AutoUpdateService.class);
-            intent.putExtra("weather", weatherBean);
-            startService(intent);
-            Log.i("WeatherMains", "startService");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            mWeatherInfo.setVisibility(View.GONE);
-            mNoData.setVisibility(View.VISIBLE);
-            Toast.makeText(this, "    定位失败,请手动输入城市", Toast.LENGTH_LONG).show();
-        }
-        Toast.makeText(this, "加载完毕，✺◟(∗❛ัᴗ❛ั∗)◞✺,", Toast.LENGTH_SHORT).show();
-
-    }
-*/
-
 
     //@Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //自定义toobar Menu
         MenuInflater menuInflater = new MenuInflater(this);
         menuInflater.inflate(R.menu.weather_toolbar_menu, menu);
         return super.onCreateOptionsMenu(menu);
@@ -167,14 +98,8 @@ public class WeatherMain extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //为Toolbarmenu各个选项添加点击事件
         switch (item.getItemId()) {
             case R.id.action_share:
-                /**
-                 *
-                 * 动态获取权限，Android 6.0 新特性，一些保护权限，除了要在AndroidManifest中声明权限，还要使用如下代码动态获取
-                 */
-
                 Message msg = new Message();
                 msg.what = SCREEN_SHOOT;
                 mHandler.sendMessage(msg);
@@ -190,29 +115,12 @@ public class WeatherMain extends AppCompatActivity
         new AlertDialog.Builder(this).setTitle("请输入")
                 .setView(et)
                 .setPositiveButton("搜索", new DialogInterface.OnClickListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-//                            String text = et.getText().toString();
                         Message msg = new Message();
                         msg.obj = et.getText().toString();
                         msg.what = SEARCH_CITY;
                         mHandler.sendMessage(msg);
-                        /*
-                        if (!et.getText().toString().equals("")) {
-                            mCityStr = et.getText().toString();
-                            SharedPreferenceUtil.getInstance().setCityName(mCityStr);
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    JSONUtil.getWeatherBeans(WeatherMain.this, mCityStr);
-                                    Message message = new Message();
-                                    message.what = UPDATE_WEATHER_DATA;
-                                    handler.sendMessage(message);
-                                }
-                            }).start();
-                        }
-*/
                     }
                 })
                 .setNegativeButton("取消", null).show();
@@ -224,7 +132,6 @@ public class WeatherMain extends AppCompatActivity
         super.onDestroy();
     }
 
-
     /**
      * 初始化各个变量
      */
@@ -235,12 +142,9 @@ public class WeatherMain extends AppCompatActivity
             //使导航栏透明getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
         setSupportActionBar(mToolBar);
-
         initDrawer();
-//        initRecycleView();
         initNavigationView();
     }
-
 
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
@@ -249,33 +153,9 @@ public class WeatherMain extends AppCompatActivity
 
     //初始化抽屉
     public void initDrawer() {
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolBar, R.string.open, R.string.close) {
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                Log.i(TAG, "opened");
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-                //mAnimationDrawable.start();
-                Log.i(TAG, "closed");
-            }
-
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-                super.onDrawerSlide(drawerView, slideOffset);
-            }
-
-            @Override
-            public void onDrawerStateChanged(int newState) {
-                super.onDrawerStateChanged(newState);
-            }
-        };
+        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolBar, R.string.open, R.string.close);
         mDrawerToggle.syncState();
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-        //设置菜单列表
     }
 
     //初始化navigationView
@@ -302,60 +182,6 @@ public class WeatherMain extends AppCompatActivity
         });
     }
 
-/*
-    //初始化下拉刷新控件
-    public void initRecycleView() {
-        //下拉刷新 http://www.jianshu.com/p/d23b42b6360b
-        mRefreshLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);
-        // 设置下拉进度的主题颜色
-        mRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary, R.color.colorPrimaryDark);
-        mRecycleView.removeAllViews();
-        // 下拉时触发SwipeRefreshLayout的下拉动画，动画完毕之后就会回调这个方法
-        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-            @Override
-            public void onRefresh() {
-                refresh();
-            }
-        });
-
-        mRecycleView.setLayoutManager(new LinearLayoutManager(this));
-        //获取当前Activity的View
-//        mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(getWindow().getDecorView(), dlForecastList,weatherBean));
-
-
-    }
-*/
-/*
-
-    public void refresh() {
-        {
-
-            // 开始刷新，设置当前为刷新状态
-            //swipeRefreshLayout.setRefreshing(true);
-
-            // 这里是主线程
-            // 一些比较耗时的操作，比如联网获取数据，需要放到子线程去执行
-            new Handler().postDelayed(new Runnable() {
-                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                @Override
-
-                public void run() {
-                    dlForecastList.clear();
-                    mRecycleView.removeAllViews();
-                    getWeather();
-                    mWeatherAdapter.notifyDataSetChanged();
-
-                    // 加载完数据设置为不刷新状态，将下拉进度收起来
-                    mRefreshLayout.setRefreshing(false);
-                }
-            }, 1200);
-
-            // 这个不能写在外边，不然会直接收起来
-        }
-    }
-*/
-
     //设置双击推出
     @Override
     public void onBackPressed() {
@@ -370,7 +196,7 @@ public class WeatherMain extends AppCompatActivity
         }
     }
 
-    public  void setHandler(Handler handler) {
+    public void setHandler(Handler handler) {
         mHandler = handler;
     }
 }

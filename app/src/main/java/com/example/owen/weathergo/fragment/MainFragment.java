@@ -96,6 +96,9 @@ public class MainFragment extends Fragment {
                     }
                     break;
                 case SCREEN_SHOOT:
+                    /**
+                     * 动态获取权限，Android 6.0 新特性，一些保护权限，除了要在AndroidManifest中声明权限，还要使用如下代码动态获取
+                     */
                     FileUtil.getPermission(getActivity());
                     Bitmap bitmap = ScreenShoot.convertViewBitmap(mRecycleView);
                     ScreenShoot.saveMyBitmap(bitmap, "sdcard/");
