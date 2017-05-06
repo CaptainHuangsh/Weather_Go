@@ -58,6 +58,10 @@ public class WeatherMain extends AppCompatActivity
     /**
      * 程序入口，主Activity类
      */
+    //TODO 加入startActivity等待网络请求
+
+    //TODO 设置的震动
+            //TODO fab
 
     private static final String TAG = WeatherMain.class.getSimpleName();
     private static final int UPDATE_WEATHER_DATA = 0;
