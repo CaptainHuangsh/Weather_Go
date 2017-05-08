@@ -9,39 +9,51 @@ import android.widget.TextView;
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.base.BaseViewHolder;
 
+import java.util.ArrayList;
+
 /**
  * Created by owen on 2017/4/24.
  */
 
 
-public class HourlyWeatherHolder extends BaseViewHolder {
-    private TextView[] hourlytxt = new TextView[3];
+public class HourlyWeatherHolder extends BaseViewHolder<ArrayList<HourlyForecast>> {
+    private TextView[] hourlyClock = new TextView[3];
+    private TextView[] hourlyTemp = new TextView[3];
+    private TextView[] hourlyHumidity = new TextView[3];
+    private TextView[] hourlyWind = new TextView[3];
     private Context mContext;
     private LinearLayout hourlyWeather;
 
-    public HourlyWeatherHolder(View itemView) {
+    public HourlyWeatherHolder(View itemView, ArrayList<HourlyForecast> hourlyForecastList) {
         super(itemView);
         mContext = itemView.getContext();
         hourlyWeather = (LinearLayout) itemView.findViewById(R.id.hourly_forecast_linear);
-        for (int i = 0; i < 3; i++) {
-            View v = View.inflate(mContext, R.layout.items_hourly_forecast, null);
-            Log.i("HourlyWeatherHolderConstr", "" + i);
-            hourlytxt[i] = (TextView) v.findViewById(R.id.hourly_forecast_i1);
+        for (int i = 0; i < hourlyForecastList.size(); i++) {
+            View v = View.inflate(mContext, R.layout.items_hour_forecasts, null);
+            hourlyClock[i] = (TextView) v.findViewById(R.id.hourly_clock);
+            hourlyTemp[i] = (TextView) v.findViewById(R.id.hourly_temp);
+            hourlyHumidity[i] = (TextView) v.findViewById(R.id.hourly_humidity);
+            hourlyWind[i] = (TextView) v.findViewById(R.id.hourly_wind);
             hourlyWeather.addView(v);
         }
     }
 
     @Override
-    public void bind(Object o) {
+    public void bind(ArrayList<HourlyForecast> hourlyForecastList) {
         try {
-            for (int i = 0; i < 3; i++) {
-
-                hourlytxt[i].setText("Hourly Forecast Here Later");
+            for (int i = 0; i < hourlyForecastList.size(); i++) {
+                String mDate = hourlyForecastList.get(i).getDate();
+                hourlyClock[i].setText(mDate.substring(mDate.length() - 5
+                        ,mDate.length()));//截取时间，不需要日期
+                hourlyTemp[i].setText(String.format("%s℃",hourlyForecastList.get(i).getTmp()));
+                hourlyHumidity[i].setText(String.format("%s%%",hourlyForecastList.get(i).getHum()));
+                hourlyWind[i].setText(String.format("%sKm/h",hourlyForecastList.get(i).getSpd()));
             }
         } catch (Exception e) {
 
         }
 
     }
+
 
 }

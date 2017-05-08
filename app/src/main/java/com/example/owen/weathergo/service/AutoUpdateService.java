@@ -55,6 +55,7 @@ public class AutoUpdateService extends Service {
         mVibrate = preferences.getBoolean("vibrate", false);
         Log.i("autoUpdateService", "onStartCommand()");
         WeatherBean weatherBean = (WeatherBean) intent.getSerializableExtra("weather");
+        //TODO 查找崩溃原因
         Log.i("autoUpdateService", "onStartCommand()" + weatherBean.getCity());
         createNotification(weatherBean);
         return super.onStartCommand(intent, flags, startId);

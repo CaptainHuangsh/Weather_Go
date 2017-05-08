@@ -28,6 +28,7 @@ import com.example.owen.weathergo.activity.WeatherMain;
 import com.example.owen.weathergo.modules.adapter.WeatherAdapter;
 import com.example.owen.weathergo.modules.dao.DLForecast;
 import com.example.owen.weathergo.modules.dao.DailyForecast;
+import com.example.owen.weathergo.modules.dao.HourlyForecast;
 import com.example.owen.weathergo.modules.dao.WeatherBean;
 import com.example.owen.weathergo.service.AutoUpdateService;
 import com.example.owen.weathergo.util.FileUtil;
@@ -249,7 +250,6 @@ public class MainFragment extends Fragment {
         try {
             WeatherBean weatherBean = null;
             weatherBean = JSONUtil.getWeatherBeans(getActivity(), mCityStr);
-            //问题在这里，新更改的mCityStr但weatherBean仍然返回前一个值
             ArrayList<DailyForecast> mDFList = JSONUtil.getDForecast();
             int i = 0;
             for (DailyForecast df : mDFList
@@ -263,7 +263,8 @@ public class MainFragment extends Fragment {
                 dlForecastList.add(dls);
                 i++;
             }
-            mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(dlForecastList, weatherBean));
+            ArrayList<HourlyForecast> mHFList = JSONUtil.getHForecast();
+            mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(dlForecastList, weatherBean,mHFList));
             mGCityStr = weatherBean.getCity();
             Log.d("huangshaohua", "mGcity" + mGCityStr);
             if (!mGCityStr.equals(""))
