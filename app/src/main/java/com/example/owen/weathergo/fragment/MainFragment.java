@@ -164,6 +164,13 @@ public class MainFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Intent intent = new Intent(getActivity(), AutoUpdateService.class);
+        getActivity().stopService(intent);
+    }
+
     /**
      * 绑定监听事件
      */

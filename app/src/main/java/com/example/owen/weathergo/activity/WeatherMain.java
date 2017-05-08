@@ -39,9 +39,8 @@ public class WeatherMain extends AppCompatActivity
     /**
      * 程序入口，主Activity类
      */
-    //TODO 加入startActivity等待网络请求
+
     //TODO 设置的震动
-    //TODO fab
 
     private static final String TAG = WeatherMain.class.getSimpleName();
     private static final int SEARCH_CITY = 1;
@@ -59,7 +58,6 @@ public class WeatherMain extends AppCompatActivity
 
     private ActionBarDrawerToggle mDrawerToggle;
     private Handler mHandler;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,13 +82,10 @@ public class WeatherMain extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Snackbar.make(v, "fab等待绑定的活动", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).setAction("取消", null).show();*/
                 toSearchDialog();//发布版本暂时设为选择地址
             }
         });
     }
-
 
     //@Override
     public boolean onCreateOptionsMenu(Menu menu) {
