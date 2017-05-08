@@ -84,8 +84,9 @@ public class WeatherMain extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Snackbar.make(v, "fab等待绑定的活动", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).setAction("取消", null).show();
+                /*Snackbar.make(v, "fab等待绑定的活动", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).setAction("取消", null).show();*/
+                toSearchDialog();//发布版本暂时设为选择地址
             }
         });
     }
