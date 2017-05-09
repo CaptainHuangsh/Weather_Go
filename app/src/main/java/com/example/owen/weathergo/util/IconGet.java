@@ -5,7 +5,7 @@ import com.example.owen.weathergo.R;
 /**
  * Created by owen on 2016/11/15.
  * 根据天气概况信息给出对应的天气概况图标
- * http://www.iconfont.cn/collections/detail?cid=4410
+ * http://www.iconfont.cn/collections/detail?cid=2385
  */
 
 public class IconGet {
@@ -42,7 +42,7 @@ public class IconGet {
                 ic = R.mipmap.icon_weather_rain_heavy;
                 break;
             case "阵雨":
-                ic = R.mipmap.icon_weather_rain_storm;
+                ic = R.mipmap.icon_weather_rain_middle;
                 break;
             case "雷阵雨":
                 ic = R.mipmap.icon_weather_rain_thunder;
@@ -51,7 +51,7 @@ public class IconGet {
                 ic = R.mipmap.icon_weather_fog;
                 break;
             case "雾":
-                ic = R.mipmap.icon_weather_fog;
+                ic = R.mipmap.icon_weather_fogy;
                 break;
             case "小雪":
                 ic = R.mipmap.icon_weather_snow_light;
@@ -61,6 +61,9 @@ public class IconGet {
                 break;
             case "大雪":
                 ic = R.mipmap.icon_weather_snow_heavy;
+                break;
+            case "雨夹雪":
+                ic = R.mipmap.icon_weather_rain_snow;
                 break;
             default:
                 ic = R.mipmap.icon_weather_sunny;
