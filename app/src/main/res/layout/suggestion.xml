@@ -29,7 +29,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center_vertical"
-                card_view:srcCompat="@drawable/icon_cloth" />
+                card_view:srcCompat="@mipmap/icon_sugg_clothes" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -64,7 +64,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center_vertical"
-                card_view:srcCompat="@drawable/icon_sport" />
+                card_view:srcCompat="@mipmap/icon_sugg_sports" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -99,7 +99,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center_vertical"
-                card_view:srcCompat="@drawable/icon_travel" />
+                card_view:srcCompat="@mipmap/icon_sugg_travel" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -134,7 +134,7 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_gravity="center_vertical"
-                card_view:srcCompat="@drawable/icon_flu" />
+                card_view:srcCompat="@mipmap/icon_sugg_flu" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

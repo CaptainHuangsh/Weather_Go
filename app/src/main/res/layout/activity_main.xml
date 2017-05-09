@@ -40,6 +40,8 @@
             android:layout_margin="16dp"
             android:elevation="10dp"
             app:borderWidth="0dp"
+            app:backgroundTint="#33728d"
+            app:rippleColor="#ff87ffeb"
             app:layout_behavior="com.example.owen.weathergo.modules.listener.FloatingActionButtonScrollBehavior"
             app:srcCompat="@drawable/ic_location"
             tools:context=".MyActivity" />
