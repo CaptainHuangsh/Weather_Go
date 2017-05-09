@@ -5,42 +5,42 @@
     android:layout_height="wrap_content"
     android:baselineAligned="false"
     android:gravity="center_vertical"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingBottom="16dp"
+    android:paddingTop="16dp">
     <TextView
         android:id="@+id/hourly_clock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:drawablePadding="12dp"
-        android:drawableLeft="@drawable/icon_time"
-        android:paddingStart="16dp"
         tools:text="16:00" />
-
+    <!--android:drawableStart="@drawable/icon_time"-->
     <TextView
         android:id="@+id/hourly_temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_weight="1.04"
         android:drawablePadding="8dp"
-        android:drawableLeft="@drawable/icon_temp"
-        tools:text="16°" />
 
+        tools:text="16°" />
+    <!--android:drawableStart="@drawable/icon_temp"-->
     <TextView
         android:id="@+id/hourly_humidity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:drawablePadding="8dp"
-        android:drawableLeft="@drawable/icon_humidity"
-        tools:text="81%" />
 
+        tools:text="81%" />
+    <!--android:drawableStart="@drawable/icon_humidity"-->
     <TextView
         android:id="@+id/hourly_wind"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:drawablePadding="8dp"
-        android:drawableLeft="@drawable/icon_wind"
-        tools:text="14Km" />
 
+        tools:text="14Km" />
+    <!--android:drawableStart="@drawable/icon_wind"-->
 </LinearLayout>

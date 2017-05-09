@@ -26,7 +26,7 @@
                 layout="@layout/main_weather" />-->
             <fragment
                 android:id="@+id/weather_fragment"
-                android:name="com.example.owen.weathergo.fragment.MainFragment"
+                android:name="com.example.owen.weathergo.modules.fragment.MainFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 tools:layout="@layout/fragment_main" />

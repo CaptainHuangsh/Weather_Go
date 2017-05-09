@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Weather Go</string>
+    <string name="app_name">天气go</string>
     <string name="open">open</string>
     <string name="close">close</string>
     <string name="hsh_day">天</string>
@@ -49,7 +49,7 @@
     <string name="weather">Weather</string>
     <string name="c">℃</string>
     <string name="m_s">m/s</string>
-    <string name="weather_app_name">☼WeatherGo</string>
+    <string name="weather_app_name">天气狗</string>
 
     <!--nav-->
     <string name="nav_city">选择城市</string>

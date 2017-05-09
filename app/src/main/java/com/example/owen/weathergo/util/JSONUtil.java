@@ -12,6 +12,7 @@ import android.util.Log;
 import com.example.owen.weathergo.common.base.C;
 import com.example.owen.weathergo.component.WgClient;
 import com.example.owen.weathergo.modules.dao.DailyForecast;
+import com.example.owen.weathergo.modules.dao.HourlyForecast;
 import com.example.owen.weathergo.modules.dao.WeatherBean;
 
 import org.json.JSONArray;
@@ -37,7 +38,7 @@ public class JSONUtil {
      */
 
     static ArrayList<DailyForecast> dfLists = new ArrayList<DailyForecast>();
-
+    static ArrayList<HourlyForecast> hfLists = new ArrayList<HourlyForecast>();
     public static WeatherBean getWeatherBeans(final Context context, String sCity) {
         dfLists = null;
         /**
@@ -291,6 +292,35 @@ public class JSONUtil {
 
             }
 
+            ArrayList<HourlyForecast> hfList = new ArrayList<HourlyForecast>();
+            JSONArray hfJSONObject = OJSONObject.getJSONArray("hourly_forecast");//fouth grade;
+
+            for (int i = 0; i < hfJSONObject.length(); i++) {
+                HourlyForecast hourlyForecast = new HourlyForecast();
+                JSONObject hf0JSONObject = hfJSONObject.getJSONObject(i);
+                hourlyForecast.setDate(hf0JSONObject.getString("date"));
+                Log.d("hourlyforecast", "date" + hourlyForecast.getDate());
+                hourlyForecast.setHum(hf0JSONObject.getInt("hum"));
+                Log.d("hourlyforecast", "hum" + hourlyForecast.getHum());
+                hourlyForecast.setPop(hf0JSONObject.getInt("pop"));
+                Log.d("hourlyforecast", "pop" + hourlyForecast.getPop());
+                hourlyForecast.setPres(hf0JSONObject.getInt("pres"));
+                Log.d("hourlyforecast", "pres" + hourlyForecast.getPres());
+                hourlyForecast.setTmp(hf0JSONObject.getInt("tmp"));
+                Log.d("hourlyforecast", "tmp" + hourlyForecast.getTmp());
+
+                JSONObject hf0WindJSONObject = hf0JSONObject.getJSONObject("wind");
+                hourlyForecast.setDeg(hf0WindJSONObject.getInt("deg"));
+                Log.d("hourlyforecast", "deg" + hourlyForecast.getDeg());
+                hourlyForecast.setDir(hf0WindJSONObject.getString("dir"));
+                Log.d("hourlyforecast", "dir" + hourlyForecast.getDir());
+                hourlyForecast.setSc(hf0WindJSONObject.getString("sc"));
+                Log.d("hourlyforecast", "sc" + hourlyForecast.getSc());
+                hourlyForecast.setSpd(hf0WindJSONObject.getInt("spd"));
+                Log.d("hourlyforecast", "spd" + hourlyForecast.getSpd());
+                hfList.add(hourlyForecast);
+            }
+                hfLists = hfList;
 
             /*//"0"
             JSONObject df0JSONObject = dfJSONObject.getJSONObject(0);//third:"0"
@@ -314,6 +344,11 @@ public class JSONUtil {
     public static ArrayList<DailyForecast> getDForecast() {
         ArrayList<DailyForecast> rdfList = dfLists;
         return rdfList;
+    }
+
+    public static ArrayList<HourlyForecast> getHForecast() {
+        ArrayList<HourlyForecast> rhfList = hfLists;
+        return rhfList;
     }
 }
 
