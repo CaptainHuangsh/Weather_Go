@@ -5,6 +5,7 @@ import com.example.owen.weathergo.R;
 /**
  * Created by owen on 2016/11/15.
  * 根据天气概况信息给出对应的天气概况图标
+ * http://www.iconfont.cn/collections/detail?cid=4410
  */
 
 public class IconGet {
@@ -62,7 +63,7 @@ public class IconGet {
                 ic = R.mipmap.icon_weather_snow_heavy;
                 break;
             default:
-                ic = R.mipmap.type_one_sunny;
+                ic = R.mipmap.icon_weather_sunny;
                 break;
         }
 

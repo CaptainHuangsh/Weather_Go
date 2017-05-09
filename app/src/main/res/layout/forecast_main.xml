@@ -21,8 +21,9 @@
             android:id="@+id/weather_img"
             android:layout_width="106dp"
             android:layout_height="106dp"
+            android:layout_marginRight="12dp"
             android:layout_below="@+id/tl_custom"
-            android:src="@drawable/weather" />
+            android:src="@mipmap/icon_weather_sunny" />
 
 
         <TextView
