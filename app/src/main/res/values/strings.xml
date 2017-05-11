@@ -49,6 +49,7 @@
     <string name="weather">Weather</string>
     <string name="c">℃</string>
     <string name="m_s">m/s</string>
+    <string name="to">转</string>
     <string name="weather_app_name">天气狗</string>
 
     <!--nav-->

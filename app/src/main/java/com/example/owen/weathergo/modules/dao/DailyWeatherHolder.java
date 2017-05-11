@@ -64,7 +64,7 @@ public class DailyWeatherHolder extends BaseViewHolder<ArrayList<DailyForecast>>
                         + mContext.getResources().getString(R.string.m_s)
                         + (mDFList.get(i).getTxt_d().equals(mDFList.get(i).getTxt_n())
                         ? mDFList.get(i).getTxt_d() : mDFList.get(i).getTxt_d()
-                        + "到" + mDFList.get(i).getTxt_n()));
+                        + mContext.getResources().getString(R.string.to) + mDFList.get(i).getTxt_n()));
 
             }
         } catch (Exception e) {
