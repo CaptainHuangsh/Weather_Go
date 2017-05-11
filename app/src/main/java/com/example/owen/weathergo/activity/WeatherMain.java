@@ -40,7 +40,7 @@ public class WeatherMain extends AppCompatActivity
      * 程序入口，主Activity类
      */
 
-    //TODO 设置的震动
+    //TODO 设置推送并震动
 
     private static final String TAG = WeatherMain.class.getSimpleName();
     private static final int SEARCH_CITY = 1;
@@ -72,6 +72,12 @@ public class WeatherMain extends AppCompatActivity
     @Override
     protected void onRestart() {
         super.onRestart();
+//        mDrawerLayout.closeDrawers();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
         mDrawerLayout.closeDrawers();
     }
 
@@ -110,15 +116,16 @@ public class WeatherMain extends AppCompatActivity
 
     public void toSearchDialog() {
         final EditText et = new EditText(this);
-        new AlertDialog.Builder(this).setTitle("请输入")
+        new AlertDialog.Builder(this).setTitle("请输入城市名称")
                 .setView(et)
-                .setPositiveButton("搜索", new DialogInterface.OnClickListener() {
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Message msg = new Message();
                         msg.obj = et.getText().toString();
                         msg.what = SEARCH_CITY;
                         mHandler.sendMessage(msg);
+                        //TODO 美化搜索框界面
                     }
                 })
                 .setNegativeButton("取消", null).show();

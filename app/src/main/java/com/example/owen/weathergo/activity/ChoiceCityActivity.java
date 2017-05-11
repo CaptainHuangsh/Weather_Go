@@ -27,11 +27,10 @@ import butterknife.ButterKnife;
 public class ChoiceCityActivity extends AppCompatActivity {
 
     @BindView(R.id.city_recycle)
-    RecyclerView mCityRecy;
+    RecyclerView mCityRecycle;
 
     private ArrayList<String> dataList = new ArrayList<>();
     private Province selectedProvince;
-    private int proNum;
     private City selectedCity;
     private List<Province> provincesList = new ArrayList<>();
     private List<City> cityList = new ArrayList<>();
@@ -57,10 +56,10 @@ public class ChoiceCityActivity extends AppCompatActivity {
     }
 
     private void initRecycleView() {
-        mCityRecy.setLayoutManager(new LinearLayoutManager(this));
-        mCityRecy.setHasFixedSize(true);
+        mCityRecycle.setLayoutManager(new LinearLayoutManager(this));
+        mCityRecycle.setHasFixedSize(true);
         mAdapter = new CityAdapter(this, dataList);
-        mCityRecy.setAdapter(mAdapter);
+        mCityRecycle.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new CityAdapter.OnRecyclerViewItemClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
@@ -71,7 +70,8 @@ public class ChoiceCityActivity extends AppCompatActivity {
                 } else if (currentLevel == LEVEL_CITY) {
                     selectedCity = cityList.get(pos);
                     SharedPreferenceUtil.getInstance().setCityName(selectedCity.getCityName());
-                    finish();
+//                    finish();
+                    quit();
                 }
 
             }
