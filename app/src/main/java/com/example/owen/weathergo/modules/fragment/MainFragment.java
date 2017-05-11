@@ -264,7 +264,8 @@ public class MainFragment extends Fragment {
                 i++;
             }
             ArrayList<HourlyForecast> mHFList = JSONUtil.getHForecast();
-            mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(dlForecastList, weatherBean,mHFList));
+//            mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(dlForecastList, weatherBean,mHFList));
+            mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(mDFList, weatherBean,mHFList));
             mGCityStr = weatherBean.getCity();
             Log.d("huangshaohua", "mGcity" + mGCityStr);
             if (!mGCityStr.equals(""))
