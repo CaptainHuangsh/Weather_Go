@@ -9,6 +9,7 @@
     android:paddingBottom="16dp"
     android:paddingTop="16dp">
     <TextView
+        android:layout_marginLeft="16dp"
         android:id="@+id/hourly_clock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,6 +18,7 @@
         tools:text="16:00" />
     <!--android:drawableStart="@drawable/icon_time"-->
     <TextView
+        android:layout_marginLeft="16dp"
         android:id="@+id/hourly_temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,6 +28,7 @@
         tools:text="16°" />
     <!--android:drawableStart="@drawable/icon_temp"-->
     <TextView
+        android:layout_marginLeft="16dp"
         android:id="@+id/hourly_humidity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,6 +38,7 @@
         tools:text="81%" />
     <!--android:drawableStart="@drawable/icon_humidity"-->
     <TextView
+        android:layout_marginLeft="16dp"
         android:id="@+id/hourly_wind"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
