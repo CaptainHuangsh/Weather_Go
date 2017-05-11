@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.owen.weathergo.R;
-import com.example.owen.weathergo.modules.dao.DLForecast;
 import com.example.owen.weathergo.modules.dao.DailyForecast;
 import com.example.owen.weathergo.modules.dao.DailyWeatherHolder;
 import com.example.owen.weathergo.modules.dao.HourlyForecast;
@@ -17,7 +16,6 @@ import com.example.owen.weathergo.modules.dao.TodayWeatherHolder;
 import com.example.owen.weathergo.modules.dao.WeatherBean;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by owen on 2017/4/21.
@@ -26,8 +24,7 @@ import java.util.List;
 public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
     View view;
-    List<DLForecast> dlForecastList;
-    ArrayList<DailyForecast> mDFList;
+    ArrayList<DailyForecast> dailyForecastList;
     ArrayList<HourlyForecast> hourlyForecastList;
     WeatherBean weatherBean;
     private static final int TYPE_ONE = 0;//今日天气
@@ -35,31 +32,27 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     private static final int TYPE_THREE = 2;//生活建议
     private static final int TYPE_FORE = 3;//分时预报
 
-   /* public WeatherAdapter(View inflate, List<DLForecast> dlForecastList, WeatherBean weatherBean) {
-        this.view = inflate;
-        this.dlForecastList = dlForecastList;
-        this.weatherBean = weatherBean;
-    }*/
-    public WeatherAdapter(ArrayList<DailyForecast> mDFList, WeatherBean weatherBean, ArrayList<HourlyForecast> hourlyForecastList) {
-        this.dlForecastList = dlForecastList;
-        this.mDFList = mDFList;
+    public WeatherAdapter(ArrayList<DailyForecast> mDFList, WeatherBean weatherBean
+            , ArrayList<HourlyForecast> hourlyForecastList) {
+        this.dailyForecastList = mDFList;
         this.hourlyForecastList = hourlyForecastList;
         this.weatherBean = weatherBean;
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent
+            , int viewType) {
         context = parent.getContext();
 
         switch (viewType) {
             case WeatherAdapter.TYPE_ONE:
                 return new TodayWeatherHolder(LayoutInflater.from(context).inflate(R.layout.forecast_main, parent, false), weatherBean);
             case WeatherAdapter.TYPE_TWO:
-                return new HourlyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.forecast_hourly, parent, false),hourlyForecastList);
+                return new HourlyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.forecast_hourly, parent, false), hourlyForecastList);
             case WeatherAdapter.TYPE_THREE:
                 return new SuggestionWeatherHolder(LayoutInflater.from(context).inflate(R.layout.suggestion, parent, false), weatherBean);
             case WeatherAdapter.TYPE_FORE:
-                return new DailyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.forecast_weekly, parent, false), mDFList);
+                return new DailyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.forecast_weekly, parent, false), dailyForecastList);
         }
         return null;
     }
@@ -74,12 +67,11 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             case WeatherAdapter.TYPE_TWO:
                 ((HourlyWeatherHolder) holder).bind(hourlyForecastList);
                 break;
-
             case WeatherAdapter.TYPE_THREE:
                 ((SuggestionWeatherHolder) holder).bind(weatherBean);
                 break;
             case WeatherAdapter.TYPE_FORE:
-                ((DailyWeatherHolder) holder).bind(mDFList);
+                ((DailyWeatherHolder) holder).bind(dailyForecastList);
                 break;
         }
     }

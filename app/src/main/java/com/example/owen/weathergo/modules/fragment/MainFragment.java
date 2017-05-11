@@ -15,7 +15,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,13 +25,11 @@ import android.widget.Toast;
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.activity.WeatherMain;
 import com.example.owen.weathergo.modules.adapter.WeatherAdapter;
-import com.example.owen.weathergo.modules.dao.DLForecast;
 import com.example.owen.weathergo.modules.dao.DailyForecast;
 import com.example.owen.weathergo.modules.dao.HourlyForecast;
 import com.example.owen.weathergo.modules.dao.WeatherBean;
 import com.example.owen.weathergo.service.AutoUpdateService;
 import com.example.owen.weathergo.util.FileUtil;
-import com.example.owen.weathergo.util.IconGet;
 import com.example.owen.weathergo.util.JSONUtil;
 import com.example.owen.weathergo.util.ScreenShoot;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
@@ -65,7 +62,6 @@ public class MainFragment extends Fragment {
     WeatherAdapter mWeatherAdapter;
     private String mCityStr = "开封市";//设置的CityName
     private String mGCityStr = "";//从和风天气查询到的城市名称CityName，理论上和设置的一样
-    private List<DLForecast> dlForecastList = new ArrayList<DLForecast>();
     private View view;
     private boolean mIsCreateView = false;
     private WeatherMain mActivity;
@@ -132,7 +128,6 @@ public class MainFragment extends Fragment {
         }
         mIsCreateView = true;
         init();
-//        getWeather();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -227,7 +222,6 @@ public class MainFragment extends Fragment {
                 @Override
 
                 public void run() {
-                    dlForecastList.clear();
                     mRecycleView.removeAllViews();
                     getWeather();
                     mWeatherAdapter.notifyDataSetChanged();
@@ -252,22 +246,9 @@ public class MainFragment extends Fragment {
             weatherBean = JSONUtil.getWeatherBeans(getActivity(), mCityStr);
             ArrayList<DailyForecast> mDFList = JSONUtil.getDForecast();
             int i = 0;
-            for (DailyForecast df : mDFList
-                    ) {
-                DailyForecast dfs = mDFList.get(i);
-                DLForecast dls = new DLForecast(dfs.getDate() + "", getResources().getString(R.string.hsh_temp_min)
-                        + dfs.getMin()
-                        + getResources().getString(R.string.c) + getResources().getString(R.string.hsh_temp_max)
-                        + dfs.getMax()
-                        + getResources().getString(R.string.c), dfs.getDir() + dfs.getSc() + dfs.getTxt_d() + dfs.getTxt_n(), IconGet.getWeaIcon(dfs.getTxt_d()));
-                dlForecastList.add(dls);
-                i++;
-            }
             ArrayList<HourlyForecast> mHFList = JSONUtil.getHForecast();
-//            mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(dlForecastList, weatherBean,mHFList));
-            mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(mDFList, weatherBean,mHFList));
+            mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(mDFList, weatherBean, mHFList));
             mGCityStr = weatherBean.getCity();
-            Log.d("huangshaohua", "mGcity" + mGCityStr);
             if (!mGCityStr.equals(""))
                 safeSetTitle(mGCityStr);
             Intent intent = new Intent(getActivity(), AutoUpdateService.class);

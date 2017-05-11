@@ -11,7 +11,6 @@ import com.example.owen.weathergo.common.base.BaseViewHolder;
 import com.example.owen.weathergo.util.IconGet;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by owen on 2017/4/21.
@@ -20,27 +19,25 @@ import java.util.List;
 public class DailyWeatherHolder extends BaseViewHolder<ArrayList<DailyForecast>> {
     private final String TAG = DailyWeatherHolder.class.getSimpleName();
     private Context mContext;
-    private List<DLForecast> dlForecastsList;
     ArrayList<DailyForecast> mDFList;
     private LinearLayout dailyWeather;
     private ImageView img[] = new ImageView[7];
     private TextView dayView[] = new TextView[7];
-    private TextView temprView[] = new TextView[7];
-    private TextView weamoreView[] = new TextView[7];
+    private TextView tempView[] = new TextView[7];
+    private TextView moreInfoView[] = new TextView[7];
 
 
     public DailyWeatherHolder(View view, ArrayList<DailyForecast> mDFList) {
         super(view);
         mContext = view.getContext();
         this.mDFList = mDFList;
-        this.dlForecastsList = dlForecastsList;
         dailyWeather = (LinearLayout) itemView.findViewById(R.id.forecast_linear);
         for (int i = 0; i < mDFList.size(); i++) {
             View v = View.inflate(mContext, R.layout.items_weeklyforecast, null);
             img[i] = (ImageView) v.findViewById(R.id.forecast_icon);
             dayView[i] = (TextView) v.findViewById(R.id.forecast_date);
-            temprView[i] = (TextView) v.findViewById(R.id.forecast_temp);
-            weamoreView[i] = (TextView) v.findViewById(R.id.forecast_txt);
+            tempView[i] = (TextView) v.findViewById(R.id.forecast_temp);
+            moreInfoView[i] = (TextView) v.findViewById(R.id.forecast_txt);
             dailyWeather.addView(v);
         }
     }
@@ -57,29 +54,20 @@ public class DailyWeatherHolder extends BaseViewHolder<ArrayList<DailyForecast>>
                 }
                 img[i].setImageResource(IconGet.getWeaIcon(mDFList.get(i)
                         .getTxt_d()));
-                temprView[i].setText(mContext.getResources().getString(R.string.hsh_temp_min)
+                tempView[i].setText(mContext.getResources().getString(R.string.hsh_temp_min)
                         + mDFList.get(i).getMin()
                         + mContext.getResources().getString(R.string.c)
                         + mContext.getResources().getString(R.string.hsh_temp_max)
                         + mDFList.get(i).getMax()
                         + mContext.getResources().getString(R.string.c));
-                weamoreView[i].setText(mDFList.get(i).getDir() + mDFList.get(i).getSc()
-                        + mDFList.get(i).getTxt_d() + mDFList.get(i).getTxt_n());
+                moreInfoView[i].setText(mDFList.get(i).getDir() + mDFList.get(i).getSc()
+                        + mContext.getResources().getString(R.string.m_s)
+                        + (mDFList.get(i).getTxt_d().equals(mDFList.get(i).getTxt_n())
+                        ? mDFList.get(i).getTxt_d() : mDFList.get(i).getTxt_d()
+                        + "到" + mDFList.get(i).getTxt_n()));
+
             }
-
-            /*for (int i = 0; i < dlForecasts.size(); i++) {
-                if (i > 1) {
-                    dayView[i].setText(dlForecasts.get(i).getDay());
-                }
-                img[i].setImageResource(dlForecasts.get(i).getImageId());
-                temprView[i].setText(dlForecasts.get(i).getTempr());
-                weamoreView[i].setText(dlForecasts.get(i).getWeamore());*//*
-            }*/
         } catch (Exception e) {
-
         }
-
     }
-
-
 }

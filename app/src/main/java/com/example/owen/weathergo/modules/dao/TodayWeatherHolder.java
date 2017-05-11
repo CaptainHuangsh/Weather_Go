@@ -19,7 +19,6 @@ public class TodayWeatherHolder extends BaseViewHolder<WeatherBean> {
 
     private final String TAG = TodayWeatherHolder.class.getSimpleName();
     private Context mContext;
-    private List<DLForecast> dlForecasts;
     TextView mTemp_min;
     TextView mTemp_max;
     TextView mCountry;
