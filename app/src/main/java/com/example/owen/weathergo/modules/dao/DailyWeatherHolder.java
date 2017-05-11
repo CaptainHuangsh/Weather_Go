@@ -65,9 +65,10 @@ public class DailyWeatherHolder extends BaseViewHolder<ArrayList<DailyForecast>>
                         + (mDFList.get(i).getTxt_d().equals(mDFList.get(i).getTxt_n())
                         ? mDFList.get(i).getTxt_d() : mDFList.get(i).getTxt_d()
                         + mContext.getResources().getString(R.string.to) + mDFList.get(i).getTxt_n()));
-
+                //判断getTxt_d()和getTxt_n()的值是否相等，即上下午天气是否不变，如果不变则显示一个，否则在两天气信息中加入过渡词“转”
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
