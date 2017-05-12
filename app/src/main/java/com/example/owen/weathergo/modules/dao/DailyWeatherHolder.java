@@ -1,6 +1,7 @@
 package com.example.owen.weathergo.modules.dao;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -60,8 +61,9 @@ public class DailyWeatherHolder extends BaseViewHolder<ArrayList<DailyForecast>>
                         + mContext.getResources().getString(R.string.hsh_temp_max)
                         + mDFList.get(i).getMax()
                         + mContext.getResources().getString(R.string.c));
-                moreInfoView[i].setText(mDFList.get(i).getDir() + mDFList.get(i).getSc()
-                        + mContext.getResources().getString(R.string.m_s)
+                moreInfoView[i].setText(mDFList.get(i).getDir() + (mDFList.get(i).getSc().equals("微风")
+                        ? mDFList.get(i).getSc() : mDFList.get(i).getSc() + mContext.getResources().getString(R.string.m_s))
+                        //判断风速大小若无风或微风不显示风力
                         + (mDFList.get(i).getTxt_d().equals(mDFList.get(i).getTxt_n())
                         ? mDFList.get(i).getTxt_d() : mDFList.get(i).getTxt_d()
                         + mContext.getResources().getString(R.string.to) + mDFList.get(i).getTxt_n()));
