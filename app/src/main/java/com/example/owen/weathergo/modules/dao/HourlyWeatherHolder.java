@@ -17,10 +17,10 @@ import java.util.ArrayList;
 
 
 public class HourlyWeatherHolder extends BaseViewHolder<ArrayList<HourlyForecast>> {
-    private TextView[] hourlyClock = new TextView[10];//早晨出现fc，问题在初始化数组长度不足
-    private TextView[] hourlyTemp = new TextView[10];
-    private TextView[] hourlyHumidity = new TextView[10];
-    private TextView[] hourlyWind = new TextView[10];
+    private TextView[] hourlyClock = new TextView[12];//早晨出现fc，问题在初始化数组长度不足
+    private TextView[] hourlyTemp = new TextView[12];
+    private TextView[] hourlyHumidity = new TextView[12];
+    private TextView[] hourlyWind = new TextView[12];
     private Context mContext;
     private LinearLayout hourlyWeather;
 

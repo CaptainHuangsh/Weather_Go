@@ -1,5 +1,6 @@
 package com.example.owen.weathergo.activity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,15 +20,19 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.DoubleClickExit;
+import com.example.owen.weathergo.dialog.CityDialog;
 import com.example.owen.weathergo.util.ToastUtil;
 
 import butterknife.BindView;
@@ -115,20 +120,25 @@ public class WeatherMain extends AppCompatActivity
     }
 
     public void toSearchDialog() {
-        final EditText et = new EditText(this);
-        new AlertDialog.Builder(this).setTitle("请输入城市名称")
-                .setView(et)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        Message msg = new Message();
-                        msg.obj = et.getText().toString();
-                        msg.what = SEARCH_CITY;
-                        mHandler.sendMessage(msg);
-                        //TODO 美化搜索框界面
-                    }
-                })
-                .setNegativeButton("取消", null).show();
+        final CityDialog dialog = new CityDialog(WeatherMain.this);
+        dialog.setYesOnclickListener("确定", new CityDialog.onYesOnclickListener() {
+            @Override
+            public void onYesClick() {
+                Message msg = new Message();
+                msg.obj = dialog.mCityEdit.getText().toString();
+                msg.what = SEARCH_CITY;
+                mHandler.sendMessage(msg);
+                dialog.dismiss();
+            }
+        });
+        dialog.setNoOnclickListener("取消", new CityDialog.onNoOnclickListener() {
+            @Override
+            public void onNoClick() {
+                dialog.dismiss();
+            }
+        });
+        //TODO 对软键盘回车键的监听
+        dialog.show();
         mDrawerLayout.closeDrawers();
     }
 
