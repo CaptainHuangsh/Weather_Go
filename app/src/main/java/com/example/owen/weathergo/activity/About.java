@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.owen.weathergo.R;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by owen on 2017/4/8.
@@ -24,15 +25,14 @@ public class About extends AppCompatActivity implements NavigationView.OnNavigat
     @BindView(R.id.about_version)
     TextView mVersion;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
+        ButterKnife.bind(this);
         mVersion = (TextView) findViewById(R.id.about_version);
         mVersion.setText(getVersion());
     }
-
 
     public static void launch(Context context) {
         context.startActivity(new Intent(context, About.class));

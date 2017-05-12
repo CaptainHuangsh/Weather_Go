@@ -19,5 +19,7 @@
     <color name="Indigo_colorPrimary">#3f51b5</color>
     <color name="Indigo_nav_color">#4675FF</color>
     <color name="gray">#969696</color>
+    <color name="aboutIcon">#106c99</color>
+    <color name="lineColor">#60d3d3d3</color>
 
 </resources>
