@@ -4,14 +4,13 @@
     <color name="colorPrimaryDark">#0D4A6A</color>
     <color name="colorAccent">#FC413D</color>
 
-    <color name="hsh_background">#3d85c6</color>
-    <color name="hsh_black">#000000</color>
-    <color name="hsh_green">#01740F</color>
-    <color name="hsh_yellow">#FFF40F</color>
+    <color name="background">#3d85c6</color>
+    <color name="black">#000000</color>
+    <color name="green">#01740F</color>
+    <color name="yellow">#FFF40F</color>
     <color name="white">#FFFFFF</color>
-    <color name="hsh_gray">#999999</color>
-    <color name="hsh_titlebg">#CCCCCC</color>
-    <color name="hsh_toolbarbg">#ff0f6c97</color>
+    <color name="titlebg">#CCCCCC</color>
+    <color name="toolbarbg">#ff0f6c97</color>
     <color name="toolBarBG">#ff0f6c97</color>
 
 

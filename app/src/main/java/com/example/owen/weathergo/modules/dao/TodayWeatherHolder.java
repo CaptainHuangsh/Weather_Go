@@ -43,18 +43,18 @@ public class TodayWeatherHolder extends BaseViewHolder<WeatherBean> {
     public void bind(WeatherBean weatherBean) {
 
         try {
-            mTemp_min.setText(mContext.getResources().getString(R.string.hsh_temp_min)
+            mTemp_min.setText(mContext.getResources().getString(R.string.temp_min)
                     + weatherBean.getNow_min()
                     + mContext.getResources().getString(R.string.c));
-            mTemp_max.setText(mContext.getResources().getString(R.string.hsh_temp_max)
+            mTemp_max.setText(mContext.getResources().getString(R.string.temp_max)
                     + weatherBean.getNow_max()
                     + mContext.getResources().getString(R.string.c));
-            mWind_speed.setText(mContext.getResources().getString(R.string.hsh_wind_speed)
+            mWind_speed.setText(mContext.getResources().getString(R.string.wind_speed)
                     + weatherBean.getNow_dir() + weatherBean.getNow_sc()
                     + mContext.getResources().getString(R.string.m_s));
             mTemp.setText(weatherBean.getNow_tmp()
                     + mContext.getResources().getString(R.string.c));
-            mCountry.setText(mContext.getResources().getString(R.string.hsh_country)
+            mCountry.setText(mContext.getResources().getString(R.string.country)
                     + weatherBean.getCnty());
             mImg.setImageResource(IconGet.getWeaIcon(weatherBean.getMain_weather_img()));
         } catch (Exception e) {

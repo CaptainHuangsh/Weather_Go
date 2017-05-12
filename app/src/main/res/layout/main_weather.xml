@@ -31,7 +31,7 @@
             android:textColor="@color/gray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/tourch_to_refresh"/>
+            android:text="@string/touch_to_refresh"/>
     </LinearLayout>
 
     <RelativeLayout
