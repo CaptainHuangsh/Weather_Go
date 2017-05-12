@@ -1,5 +1,6 @@
 package com.example.owen.weathergo.activity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,6 +29,7 @@ import android.widget.EditText;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.DoubleClickExit;
+import com.example.owen.weathergo.dialog.CityDialog;
 import com.example.owen.weathergo.util.ToastUtil;
 
 import butterknife.BindView;
@@ -115,7 +117,7 @@ public class WeatherMain extends AppCompatActivity
     }
 
     public void toSearchDialog() {
-        final EditText et = new EditText(this);
+        /*final EditText et = new EditText(this);
         new AlertDialog.Builder(this).setTitle("请输入城市名称")
                 .setView(et)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
@@ -128,7 +130,26 @@ public class WeatherMain extends AppCompatActivity
                         //TODO 美化搜索框界面
                     }
                 })
-                .setNegativeButton("取消", null).show();
+                .setNegativeButton("取消", null).show();*/
+
+        final CityDialog dialog = new CityDialog(WeatherMain.this);
+        dialog.setYesOnclickListener("确定", new CityDialog.onYesOnclickListener() {
+            @Override
+            public void onYesclick() {
+                Message msg = new Message();
+                msg.obj = dialog.mCityEdit.getText().toString();
+                msg.what = SEARCH_CITY;
+                mHandler.sendMessage(msg);
+                dialog.dismiss();
+            }
+        });
+        dialog.setNoOnclickListener("取消", new CityDialog.onNoOnclickListener() {
+            @Override
+            public void onNoclick() {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
         mDrawerLayout.closeDrawers();
     }
 
