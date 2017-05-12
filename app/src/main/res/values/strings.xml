@@ -72,4 +72,5 @@
     <string name="clear_cache">清除缓存</string>
     <string name="notification_mode">通知栏常驻</string>
     <string name="about_app">这是一款关于天气的app，简洁专一，给出详细的主要城市的天气信息，并对您的生活给出相关建议,没有不必要的弹窗和权限申请，相信会成为您生活的一部分</string>
+    <string name="air">空气质量</string>
 </resources>

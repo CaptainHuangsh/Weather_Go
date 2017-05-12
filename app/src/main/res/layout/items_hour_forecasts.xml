@@ -9,7 +9,7 @@
     android:paddingBottom="16dp"
     android:paddingTop="16dp">
     <TextView
-        android:layout_marginLeft="16dp"
+        android:layout_marginLeft="42dp"
         android:id="@+id/hourly_clock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
