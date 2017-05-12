@@ -20,7 +20,7 @@
             android:text="输入城市名"
             android:textColor="#38ADFF"
             android:textSize="16sp" />
-
+        <!--http://blog.csdn.net/hanjieson/article/details/10045847-->
         <EditText
             android:id="@+id/city_name"
             android:maxLines="1"

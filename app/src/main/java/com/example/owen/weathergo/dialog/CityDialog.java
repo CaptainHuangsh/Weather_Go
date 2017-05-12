@@ -54,7 +54,7 @@ public class CityDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 if (yesOnclickListener != null) {
-                    yesOnclickListener.onYesclick();
+                    yesOnclickListener.onYesClick();
                 }
             }
         });
@@ -62,7 +62,7 @@ public class CityDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 if(noOnclickListener!=null){
-                    noOnclickListener.onNoclick();
+                    noOnclickListener.onNoClick();
                 }
             }
         });
@@ -98,10 +98,10 @@ public class CityDialog extends Dialog {
 
 
     public interface onNoOnclickListener {
-        public void onNoclick();
+        public void onNoClick();
     }
 
     public interface onYesOnclickListener {
-        public void onYesclick();
+        public void onYesClick();
     }
 }
