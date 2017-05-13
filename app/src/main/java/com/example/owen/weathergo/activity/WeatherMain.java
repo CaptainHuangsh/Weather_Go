@@ -1,39 +1,40 @@
 package com.example.owen.weathergo.activity;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.Toast;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.DoubleClickExit;
 import com.example.owen.weathergo.dialog.CityDialog;
 import com.example.owen.weathergo.util.ToastUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,6 +51,8 @@ public class WeatherMain extends AppCompatActivity
     private static final String TAG = WeatherMain.class.getSimpleName();
     private static final int SEARCH_CITY = 1;
     private static final int SCREEN_SHOOT = 2;
+
+    public LocationClient mLocationClient;
 
     //ButterKnife参考http://jakewharton.github.io/butterknife/
     @BindView(R.id.tl_custom)
@@ -159,6 +162,63 @@ public class WeatherMain extends AppCompatActivity
         setSupportActionBar(mToolBar);
         initDrawer();
         initNavigationView();
+        initLocation();
+    }
+
+    private void initLocation() {
+        mLocationClient = new LocationClient(getApplicationContext());
+        mLocationClient.registerLocationListener(new MyLocationListener());
+        List<String> permissionList = new ArrayList<>();
+        if (ContextCompat.checkSelfPermission(WeatherMain.this, android.Manifest
+                .permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            permissionList.add(android.Manifest.permission.ACCESS_FINE_LOCATION);
+        }
+        if (ContextCompat.checkSelfPermission(WeatherMain.this, android.Manifest
+                .permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            permissionList.add(android.Manifest.permission.READ_PHONE_STATE);
+        }
+        if (ContextCompat.checkSelfPermission(WeatherMain.this, android.Manifest
+                .permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            permissionList.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }
+        if (!permissionList.isEmpty()) {
+            String[] permissions = permissionList.toArray(new String[permissionList.size()]);
+            ActivityCompat.requestPermissions(WeatherMain.this, permissions, 1);
+            //Android6.0之后动态申请权限
+        } else {
+            requestLocation();
+        }
+
+    }
+
+    private void requestLocation() {
+        mLocationClient.start();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case 1:
+                if (grantResults.length>0){
+                    for(int result:grantResults){
+                        if (result!=PackageManager.PERMISSION_GRANTED){
+                            Toast.makeText(WeatherMain.this,"必须获得以上权限才能正常使用",Toast.LENGTH_SHORT)
+                                    .show();
+                            finish();//不同意就退出
+                            return;
+                        }
+                    }
+                    requestLocation();
+                }else{
+                    Toast.makeText(WeatherMain.this,"发生未知错误",Toast.LENGTH_SHORT)
+                            .show();
+                    finish();
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
@@ -217,5 +277,26 @@ public class WeatherMain extends AppCompatActivity
 
     public void setHandler(Handler handler) {
         mHandler = handler;
+    }
+
+
+    public class MyLocationListener implements BDLocationListener {
+
+        @Override
+        public void onReceiveLocation(BDLocation bdLocation) {
+            StringBuilder currentPosition = new StringBuilder();
+            currentPosition.append("纬度：").append(bdLocation.getLatitude())
+                    .append("\n");
+            currentPosition.append("经度：").append(bdLocation.getLongitude())
+                    .append("\n");
+            currentPosition.append("城市：").append(bdLocation.getCity())
+                    .append("\n");
+            Log.d("huangshaohua", "" + currentPosition.toString());
+        }
+
+        @Override
+        public void onConnectHotSpotMessage(String s, int i) {
+
+        }
     }
 }
