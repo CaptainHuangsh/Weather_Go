@@ -43,7 +43,7 @@ public class IconGet {
                 ic = R.mipmap.icon_weather_rain_heavy;
                 break;
             case "阵雨":
-                ic = R.mipmap.icon_weather_rain_middle;
+                ic = R.mipmap.icon_weather_rain_light;
                 break;
             case "雷阵雨":
                 ic = R.mipmap.icon_weather_rain_thunder;
