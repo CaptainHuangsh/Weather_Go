@@ -9,6 +9,7 @@ import com.example.owen.weathergo.R;
  */
 
 public class IconGet {
+    //TODO 修改阵雨图标
 
     public static int getWeaIcon(String weatherType) {
 
