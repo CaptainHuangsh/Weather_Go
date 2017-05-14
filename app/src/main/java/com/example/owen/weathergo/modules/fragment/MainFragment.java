@@ -15,7 +15,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +35,6 @@ import com.example.owen.weathergo.util.ScreenShoot;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,6 +55,8 @@ public class MainFragment extends Fragment {
     RecyclerView mRecycleView;
     @BindView(R.id.no_data)//没有查询到城市天气信息或城市不存在时显示
             LinearLayout mNoData;
+    @BindView(R.id.load_data)
+    LinearLayout mLoadData;//第一次加载时等待获取位置信息
     @BindView(R.id.weather_info)
     RelativeLayout mWeatherInfo;
 
@@ -78,7 +78,13 @@ public class MainFragment extends Fragment {
                         mCityStr = msg.obj.toString();
                     }*/
                     initRecycleView();
-                    refresh();
+                    if (SharedPreferenceUtil.getInstance().getCityName().equals("")) {
+                        mNoData.setVisibility(View.GONE);
+                        mLoadData.setVisibility(View.VISIBLE);
+                    } else {
+                        mLoadData.setVisibility(View.GONE);
+                        refresh();
+                    }
                     break;
                 case SEARCH_CITY:
                     //Fragment与activity交互http://blog.csdn.net/huangyabin001/article/details/35231753
