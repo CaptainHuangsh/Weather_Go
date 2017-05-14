@@ -28,9 +28,11 @@ import android.widget.Toast;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.DoubleClickExit;
 import com.example.owen.weathergo.dialog.CityDialog;
+import com.example.owen.weathergo.util.SharedPreferenceUtil;
 import com.example.owen.weathergo.util.ToastUtil;
 
 import java.util.ArrayList;
@@ -49,6 +51,7 @@ public class WeatherMain extends AppCompatActivity
     //TODO 设置推送并震动
 
     private static final String TAG = WeatherMain.class.getSimpleName();
+    private static final  int UPDATE_WEATHER_DATA = 0;
     private static final int SEARCH_CITY = 1;
     private static final int SCREEN_SHOOT = 2;
 
@@ -148,6 +151,7 @@ public class WeatherMain extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mLocationClient.stop();
     }
 
     /**
@@ -162,7 +166,13 @@ public class WeatherMain extends AppCompatActivity
         setSupportActionBar(mToolBar);
         initDrawer();
         initNavigationView();
-        initLocation();
+        String cCity = SharedPreferenceUtil.getInstance().getCityName();
+        Log.d("initlocation",""+cCity);
+        if (cCity.equals(""))//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值进行初始赋值
+        {
+            Log.d("initlocation : ","kongde");
+            initLocation();
+        }
     }
 
     private void initLocation() {
@@ -192,26 +202,33 @@ public class WeatherMain extends AppCompatActivity
     }
 
     private void requestLocation() {
+        refreshLocation();
         mLocationClient.start();
+    }
+
+    public void refreshLocation() {
+        LocationClientOption option = new LocationClientOption();
+        option.setIsNeedAddress(true);
+        mLocationClient.setLocOption(option);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode){
+        switch (requestCode) {
             case 1:
-                if (grantResults.length>0){
-                    for(int result:grantResults){
-                        if (result!=PackageManager.PERMISSION_GRANTED){
-                            Toast.makeText(WeatherMain.this,"必须获得以上权限才能正常使用",Toast.LENGTH_SHORT)
+                if (grantResults.length > 0) {
+                    for (int result : grantResults) {
+                        if (result != PackageManager.PERMISSION_GRANTED) {
+                            Toast.makeText(WeatherMain.this, "必须获得以上权限才能正常使用", Toast.LENGTH_SHORT)
                                     .show();
                             finish();//不同意就退出
                             return;
                         }
                     }
                     requestLocation();
-                }else{
-                    Toast.makeText(WeatherMain.this,"发生未知错误",Toast.LENGTH_SHORT)
+                } else {
+                    Toast.makeText(WeatherMain.this, "发生未知错误", Toast.LENGTH_SHORT)
                             .show();
                     finish();
                 }
@@ -284,6 +301,7 @@ public class WeatherMain extends AppCompatActivity
 
         @Override
         public void onReceiveLocation(BDLocation bdLocation) {
+
             StringBuilder currentPosition = new StringBuilder();
             currentPosition.append("纬度：").append(bdLocation.getLatitude())
                     .append("\n");
@@ -292,6 +310,13 @@ public class WeatherMain extends AppCompatActivity
             currentPosition.append("城市：").append(bdLocation.getCity())
                     .append("\n");
             Log.d("huangshaohua", "" + currentPosition.toString());
+            Toast.makeText(WeatherMain.this, "定位城市：" + bdLocation.getCity(), Toast.LENGTH_SHORT)
+                    .show();
+
+            SharedPreferenceUtil.getInstance().setCityName(bdLocation.getCity());
+            Message msg = new Message();
+            msg.what = UPDATE_WEATHER_DATA;
+            mHandler.sendMessage(msg);
         }
 
         @Override

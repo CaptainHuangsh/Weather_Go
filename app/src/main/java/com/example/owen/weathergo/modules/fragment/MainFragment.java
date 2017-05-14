@@ -60,7 +60,7 @@ public class MainFragment extends Fragment {
     RelativeLayout mWeatherInfo;
 
     WeatherAdapter mWeatherAdapter;
-    private String mCityStr = "开封市";//设置的CityName
+    private String mCityStr = "";//设置的CityName
     private String mGCityStr = "";//从和风天气查询到的城市名称CityName，理论上和设置的一样
     private View view;
     private boolean mIsCreateView = false;
