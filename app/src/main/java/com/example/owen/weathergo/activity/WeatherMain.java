@@ -315,8 +315,10 @@ public class WeatherMain extends AppCompatActivity
 
             SharedPreferenceUtil.getInstance().setCityName(bdLocation.getCity());
             Message msg = new Message();
-            msg.what = UPDATE_WEATHER_DATA;
+            msg.obj = bdLocation.getCity();
+            msg.what = SEARCH_CITY;
             mHandler.sendMessage(msg);
+            Log.d("update_weather_data",""+SharedPreferenceUtil.getInstance().getCityName());
         }
 
         @Override

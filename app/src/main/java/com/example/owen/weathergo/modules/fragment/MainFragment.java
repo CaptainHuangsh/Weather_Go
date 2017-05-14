@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,6 +73,10 @@ public class MainFragment extends Fragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case UPDATE_WEATHER_DATA:
+                    /*if (msg.obj != null) {
+                        Log.d("update_weather_data", "get" + msg.obj.toString());
+                        mCityStr = msg.obj.toString();
+                    }*/
                     initRecycleView();
                     refresh();
                     break;
