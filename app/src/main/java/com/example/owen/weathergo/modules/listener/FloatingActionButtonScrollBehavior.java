@@ -33,7 +33,9 @@ public class FloatingActionButtonScrollBehavior extends FloatingActionButton.Beh
         super.onNestedScroll(coordinatorLayout, child, target, dxConsumed, dyConsumed,
                 dxUnconsumed, dyUnconsumed);
         if (dyConsumed > 0 && child.getVisibility() == View.VISIBLE) {
-            child.hide();
+//            child.hide();
+            child.setVisibility(View.INVISIBLE);
+            //上拉消失，下拉出现
         } else if (dyConsumed < 0 && child.getVisibility() != View.VISIBLE) {
             child.show();
         }
