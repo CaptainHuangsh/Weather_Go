@@ -86,6 +86,7 @@ public class MainFragment extends Fragment {
                         mLoadData.setVisibility(View.VISIBLE);
                     } else {
                         mLoadData.setVisibility(View.GONE);
+                        mNoData.setVisibility(View.GONE);
                         refresh();
                     }
                     break;
@@ -274,6 +275,7 @@ public class MainFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void getWeather() {
         mWeatherInfo.setVisibility(View.VISIBLE);
+        mLoadData.setVisibility(View.GONE);
         mNoData.setVisibility(View.GONE);
         mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         try {
@@ -292,6 +294,7 @@ public class MainFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
             mWeatherInfo.setVisibility(View.GONE);
+            mLoadData.setVisibility(View.GONE);
             mNoData.setVisibility(View.VISIBLE);
 //            Toast.makeText(getActivity(), "    定位失败,请手动输入城市", Toast.LENGTH_LONG).show();
         }
