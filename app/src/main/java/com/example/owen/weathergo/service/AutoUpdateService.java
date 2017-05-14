@@ -77,7 +77,7 @@ public class AutoUpdateService extends Service {
         Notification notification = builder.setContentIntent(pendingIntent)
                 .setContentTitle(weatherBean.getCity() + "   " + weatherBean.getNow_tmp() + getApplicationContext().getResources().getString(R.string.c))
                 .setContentText("" + weatherBean.getNow_dir() +(weatherBean.getNow_sc().equals("微风")?weatherBean.getNow_sc():weatherBean.getNow_sc()
-                        + getApplicationContext().getResources().getString(R.string.m_s)))
+                        + getApplicationContext().getResources().getString(R.string.m_s))+" "+weatherBean.getTxt())
                 .setSmallIcon(IconGet.getWeaIcon(weatherBean.getMain_weather_img())).build();
         builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),
                 IconGet.getWeaIcon(weatherBean.getMain_weather_img())));
