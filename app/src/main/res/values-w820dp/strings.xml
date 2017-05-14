@@ -4,7 +4,7 @@
     <string name="can_not_find_version_name">weather_go</string>
     <string name="author">mstro</string>
     <string name="no_data_response"><![CDATA[没有查询到信息 ( >﹏<。)～]]></string>
-    <string name="tourch_to_refresh">轻触图片刷新</string>
+    <string name="touch_to_refresh">轻触图片刷新</string>
     <string name="pref_common">通用</string>
     <string name="update_time">自动刷新频率</string>
     <string name="pref_vibrate">开启震动提醒</string>

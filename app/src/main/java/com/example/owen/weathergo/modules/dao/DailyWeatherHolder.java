@@ -55,10 +55,10 @@ public class DailyWeatherHolder extends BaseViewHolder<ArrayList<DailyForecast>>
                 }
                 img[i].setImageResource(IconGet.getWeaIcon(mDFList.get(i)
                         .getTxt_d()));
-                tempView[i].setText(mContext.getResources().getString(R.string.hsh_temp_min)
+                tempView[i].setText(mContext.getResources().getString(R.string.temp_min)
                         + mDFList.get(i).getMin()
                         + mContext.getResources().getString(R.string.c)
-                        + mContext.getResources().getString(R.string.hsh_temp_max)
+                        + mContext.getResources().getString(R.string.temp_max)
                         + mDFList.get(i).getMax()
                         + mContext.getResources().getString(R.string.c));
                 moreInfoView[i].setText(mDFList.get(i).getDir() + (mDFList.get(i).getSc().equals("微风")

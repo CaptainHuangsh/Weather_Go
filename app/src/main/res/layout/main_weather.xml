@@ -26,14 +26,34 @@
             android:layout_height="wrap_content"
             android:text="@string/no_data_response" />
         <TextView
+            android:id="@+id/no_city_data"
             android:layout_marginTop="16dp"
             android:gravity="center"
             android:textColor="@color/gray"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/tourch_to_refresh"/>
+            android:text="@string/touch_to_refresh"/>
     </LinearLayout>
-
+    <LinearLayout
+        android:id="@+id/load_data"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+    <ProgressBar
+        android:layout_marginTop="150dp"
+        android:layout_gravity="center_vertical|center_horizontal"
+        android:layout_width="200dp"
+        android:layout_height="200dp" />
+        <TextView
+            android:id="@+id/load_location"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:textColor="@color/gray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/load_location"/>
+    </LinearLayout>
     <RelativeLayout
         android:id="@+id/weather_info"
         android:layout_width="match_parent"

@@ -33,7 +33,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:gravity="right"
-            android:text="@string/hsh_temp_max"
+            android:text="@string/temp_max"
             android:textSize="16dp" />
 
         <TextView
@@ -41,7 +41,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/weather_temp_max"
-            android:text="@string/hsh_temperature"
+            android:text="@string/temperature"
             android:textSize="48dp" />
 
         <TextView
@@ -52,7 +52,7 @@
             android:layout_below="@id/weather_temp_max"
             android:layout_marginTop="30dp"
             android:gravity="right"
-            android:text="@string/hsh_temp_min"
+            android:text="@string/temp_min"
             android:textSize="16dp" />
 
         <LinearLayout
@@ -69,14 +69,14 @@
                 android:id="@+id/weather_wind_speed"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="@string/hsh_wind_speed" />
+                android:text="@string/wind_speed" />
 
             <TextView
-                android:id="@+id/weather_country"
+                android:id="@+id/weather_air"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="16dp"
-                android:text="@string/hsh_country" />
+                android:text="@string/air" />
         </LinearLayout>
     </RelativeLayout>
 </android.support.v7.widget.CardView>

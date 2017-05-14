@@ -95,7 +95,7 @@ public class SharedPreferenceUtil {
     }
 
     public String getCityName(){
-        return mSharedPreference.getString(CITY_NAME,"kaifeng");
+        return mSharedPreference.getString(CITY_NAME,"");
     }
 
     //通知栏默认常驻

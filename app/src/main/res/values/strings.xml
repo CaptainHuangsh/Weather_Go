@@ -2,55 +2,17 @@
     <string name="app_name">天气go</string>
     <string name="open">open</string>
     <string name="close">close</string>
-    <string name="hsh_day">天</string>
-    <string name="hsh_num0">0</string>
-    <string name="hsh_num00">00</string>
-    <string name="hsh_num3">3</string>
-    <string name="hsh_num6">6</string>
-    <string name="hsh_num9">9</string>
-    <string name="hsh_num5">5</string>
-    <string name="hsh_num11">11</string>
-    <string name="hsh_num17">17</string>
-    <string name="hsh_num15">15</string>
-    <string name="hsh_num30">30</string>
-    <string name="hsh_num45">45</string>
-    <string name="hsh_title">标题：</string>
-    <string name="hsh_content">内容：</string>
-    <string name="hsh_text_title">标题</string>
-    <string name="hsh_text_content">内容</string>
-    <string name="hsh_text_time">时间</string>
-    <string name="hsh_mytitle">My Title</string>
-    <string name="hsh_add">添加</string>
-    <string name="hsh_OK">OK</string>
-    <string name="hsh_CANCLE">CANCEL</string>
     <string name="DATABASES">Events.db</string>
-    <string name="hsh_TITLE">title</string>
-    <string name="hsh_TIME">time</string>
-    <string name="hsh_CONTENT">content</string>
-    <string name="hsh_EVENT">Event</string>
-    <string name="hsh_deleteDone">已删除</string>
-    <string name="hsh_0s">0秒前</string>
-    <string name="hsh_hms">%1$,d时%2$,d分%3$,d秒前</string>
-    <string name="hsh_ms">%1$,d分%2$,d秒前</string>
-    <string name="hsh_s">%1$,d秒前</string>
-    <string name="hsh_delete">title = ? and content = ?</string>
-    <string name="hsh_databaseVersion">1</string>
-    <string name="hsh_location">Location</string>
-    <string name="hsh_country0">Country:</string>
-    <string name="hsh_temperature">Temp</string>
-    <string name="hsh_humidity">Humidity:</string>
-    <string name="hsh_pressure">Pressure:</string>
-    <string name="hsh_weather">Weather</string>
-    <string name="hsh_country">国家</string>
-    <string name="hsh_temp_min">↓</string>
-    <string name="hsh_temp_max">↑</string>
-    <string name="hsh_city">城市</string>
-    <string name="hsh_wind_speed">风速</string>
+    <string name="country">国家</string>
+    <string name="wind_speed">风速</string>
+    <string name="temperature">Temp</string>
+    <string name="temp_min">↓</string>
+    <string name="temp_max">↑</string>
     <string name="weather">Weather</string>
     <string name="c">℃</string>
     <string name="m_s">m/s</string>
     <string name="to">转</string>
-    <string name="weather_app_name">天气狗</string>
+    <string name="weather_app_name">天气go</string>
 
     <!--nav-->
     <string name="nav_city">选择城市</string>
@@ -63,34 +25,6 @@
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
-
-    <!-- Example General settings -->
-    <string name="pref_header_general">General</string>
-
-    <string name="pref_title_social_recommendations">Enable social recommendations</string>
-    <string name="pref_description_social_recommendations">Recommendations for people to contact
-        based on your message history
-    </string>
-
-    <string name="pref_title_display_name">Display name</string>
-    <string name="pref_default_display_name">John Smith</string>
-
-    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
-    <string-array name="pref_example_list_titles">
-        <item>Always</item>
-        <item>When possible</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_example_list_values">
-        <item>1</item>
-        <item>0</item>
-        <item>-1</item>
-    </string-array>
-
-    <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync">Data &amp; sync</string>
-
-    <string name="pref_title_sync_frequency">Sync frequency</string>
     <string-array name="pref_sync_frequency_titles">
         <item>15 minutes</item>
         <item>30 minutes</item>
@@ -106,18 +40,6 @@
         <item>180</item>
         <item>360</item>
         <item>-1</item>
-    </string-array>
-
-    <string-array name="list_preference_entries">
-        <item>Entry 1</item>
-        <item>Entry 2</item>
-        <item>Entry 3</item>
-    </string-array>
-
-    <string-array name="list_preference_entry_values">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
     </string-array>
 
     <string-array name="multi_select_list_preference_default_value" />
@@ -143,11 +65,13 @@
     <string name="author">mstro</string>
     <string name="e_mail">mr@captainhuang.cn</string>
     <string name="no_data_response"><![CDATA[没有查询到信息 ( >﹏<。)～]]></string>
-    <string name="tourch_to_refresh">轻触图片刷新</string>
+    <string name="touch_to_refresh">轻触图片刷新</string>
     <string name="pref_common">通用</string>
     <string name="update_time">自动刷新频率</string>
     <string name="pref_vibrate">开启震动提醒</string>
     <string name="clear_cache">清除缓存</string>
     <string name="notification_mode">通知栏常驻</string>
     <string name="about_app">这是一款关于天气的app，简洁专一，给出详细的主要城市的天气信息，并对您的生活给出相关建议,没有不必要的弹窗和权限申请，相信会成为您生活的一部分</string>
+    <string name="air">空气质量</string>
+    <string name="load_location">正在定位. . .</string>
 </resources>
