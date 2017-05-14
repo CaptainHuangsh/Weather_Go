@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:visibility="gone"
         >
 
         <ImageView
@@ -35,6 +36,7 @@
             android:text="@string/touch_to_refresh"/>
     </LinearLayout>
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/load_data"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

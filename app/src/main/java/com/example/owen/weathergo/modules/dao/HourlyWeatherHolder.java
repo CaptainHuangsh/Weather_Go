@@ -28,13 +28,15 @@ public class HourlyWeatherHolder extends BaseViewHolder<ArrayList<HourlyForecast
         super(itemView);
         mContext = itemView.getContext();
         hourlyWeather = (LinearLayout) itemView.findViewById(R.id.hourly_forecast_linear);
-        for (int i = 0; i < hourlyForecastList.size()+1; i++) {
-            View v = View.inflate(mContext, R.layout.items_hour_forecasts, null);
-            hourlyClock[i] = (TextView) v.findViewById(R.id.hourly_clock);
-            hourlyTemp[i] = (TextView) v.findViewById(R.id.hourly_temp);
-            hourlyHumidity[i] = (TextView) v.findViewById(R.id.hourly_humidity);
-            hourlyWind[i] = (TextView) v.findViewById(R.id.hourly_wind);
-            hourlyWeather.addView(v);
+        for (int i = 0; i < hourlyForecastList.size() + 1; i++) {
+            if (hourlyForecastList.size() > 0) {
+                View v = View.inflate(mContext, R.layout.items_hour_forecasts, null);
+                hourlyClock[i] = (TextView) v.findViewById(R.id.hourly_clock);
+                hourlyTemp[i] = (TextView) v.findViewById(R.id.hourly_temp);
+                hourlyHumidity[i] = (TextView) v.findViewById(R.id.hourly_humidity);
+                hourlyWind[i] = (TextView) v.findViewById(R.id.hourly_wind);
+                hourlyWeather.addView(v);
+            }
         }
     }
 
