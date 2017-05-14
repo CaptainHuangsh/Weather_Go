@@ -48,8 +48,8 @@ public class TodayWeatherHolder extends BaseViewHolder<WeatherBean> {
                     + weatherBean.getNow_max()
                     + mContext.getResources().getString(R.string.c));
             mWind_speed.setText(mContext.getResources().getString(R.string.wind_speed)
-                    + weatherBean.getNow_dir() + weatherBean.getNow_sc()
-                    + mContext.getResources().getString(R.string.m_s));
+                    + weatherBean.getNow_dir() + (weatherBean.getNow_sc().equals("微风")?weatherBean.getNow_sc():weatherBean.getNow_sc()
+                    + mContext.getResources().getString(R.string.m_s)));
             mTemp.setText(weatherBean.getNow_tmp()
                     + mContext.getResources().getString(R.string.c));
             mCountry.setText(weatherBean.getQlty().length()<2?mContext.getResources().getString(R.string.air)
