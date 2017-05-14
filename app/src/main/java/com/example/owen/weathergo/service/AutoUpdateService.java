@@ -54,10 +54,14 @@ public class AutoUpdateService extends Service {
         mNotificationMode = preferences.getBoolean("notification_mode", false);
         mVibrate = preferences.getBoolean("vibrate", false);
         Log.i("autoUpdateService", "onStartCommand()");
-        WeatherBean weatherBean = (WeatherBean) intent.getSerializableExtra("weather");
-        //TODO 查找崩溃原因
-        Log.i("autoUpdateService", "onStartCommand()" + weatherBean.getCity());
-        createNotification(weatherBean);
+
+        if (intent.getSerializableExtra("weather") != null) {
+            //判断为空？
+            WeatherBean weatherBean = (WeatherBean) intent.getSerializableExtra("weather");
+            //TODO 查找崩溃原因
+            Log.i("autoUpdateService", "onStartCommand()" + weatherBean.getCity());
+            createNotification(weatherBean);
+        }
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -76,8 +80,8 @@ public class AutoUpdateService extends Service {
         Notification.Builder builder = new Notification.Builder(AutoUpdateService.this);
         Notification notification = builder.setContentIntent(pendingIntent)
                 .setContentTitle(weatherBean.getCity() + "   " + weatherBean.getNow_tmp() + getApplicationContext().getResources().getString(R.string.c))
-                .setContentText("" + weatherBean.getNow_dir() +(weatherBean.getNow_sc().equals("微风")?weatherBean.getNow_sc():weatherBean.getNow_sc()
-                        + getApplicationContext().getResources().getString(R.string.m_s))+" "+weatherBean.getTxt())
+                .setContentText("" + weatherBean.getNow_dir() + (weatherBean.getNow_sc().equals("微风") ? weatherBean.getNow_sc() : weatherBean.getNow_sc()
+                        + getApplicationContext().getResources().getString(R.string.m_s)) + " " + weatherBean.getTxt())
                 .setSmallIcon(IconGet.getWeaIcon(weatherBean.getMain_weather_img())).build();
         builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),
                 IconGet.getWeaIcon(weatherBean.getMain_weather_img())));

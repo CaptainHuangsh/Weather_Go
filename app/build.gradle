@@ -17,8 +17,8 @@ android {
         applicationId "com.example.owen.weathergo"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 7 
-        versionName '1.2.05.20170511'
+        versionCode 7
+        versionName '1.2.06.20170514'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         /*jackOptions {
@@ -33,6 +33,12 @@ android {
             signingConfig signingConfigs.release
         }
     }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
     productFlavors {
     }
     compileOptions {
@@ -41,7 +47,7 @@ android {
     }
     sourceSets {
         main {
-            jniLibs.srcDirs = ['libs',"src/main/jniLibs"]
+            jniLibs.srcDirs = ['libs', "src/main/jniLibs"]
         }
     }
 }
