@@ -3,6 +3,7 @@ package com.example.owen.weathergo.modules.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.icu.text.LocaleDisplayNames;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,11 +16,13 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.owen.weathergo.R;
@@ -48,7 +51,11 @@ public class MainFragment extends Fragment {
     private static final int UPDATE_WEATHER_DATA = 0;
     private static final int SEARCH_CITY = 1;
     private static final int SCREEN_SHOOT = 2;
+    private static final int CHANGE_TEXT = 3;
 
+
+    @BindView(R.id.no_city_data)
+    TextView mNoCityData;
     @BindView(R.id.main_swipe)//下拉刷新控件
             SwipeRefreshLayout mRefreshLayout;
     @BindView(R.id.recycle_view)
@@ -85,6 +92,7 @@ public class MainFragment extends Fragment {
                 case SEARCH_CITY:
                     //Fragment与activity交互http://blog.csdn.net/huangyabin001/article/details/35231753
                     if (!msg.obj.toString().equals("")) {
+                        Log.d("search_weather_data", "get " + msg.obj);
                         mCityStr = msg.obj.toString();
                         SharedPreferenceUtil.getInstance().setCityName(mCityStr);
                         new Thread(new Runnable() {
@@ -96,6 +104,13 @@ public class MainFragment extends Fragment {
                                 mHandler.sendMessage(message);
                             }
                         }).start();
+                    } else {
+                        Log.d("changetext", "start");
+                        Message message = new Message();
+                        message.what = CHANGE_TEXT;
+                        message.obj = "no_city_data";
+                        mHandler.sendMessage(message);
+                        //请手动选择城市
                     }
                     break;
                 case SCREEN_SHOOT:
@@ -105,6 +120,17 @@ public class MainFragment extends Fragment {
                     FileUtil.getPermission(getActivity());
                     Bitmap bitmap = ScreenShoot.convertViewBitmap(mRecycleView);
                     ScreenShoot.saveMyBitmap(bitmap, "sdcard/");
+                    break;
+                case CHANGE_TEXT:
+                    Log.d("changetext", "start2");
+                    if (msg.obj.equals("no_city_data")) {
+                        Log.d("changetext", "start3");
+                        mNoCityData.setText("定位失败，请手动选择城市");
+                    }
+                    if (msg.obj.equals("refresh_wrong")) {
+                        Log.d("changetext", "start4");
+                        mNoCityData.setText("请触图片刷新");
+                    }
                     break;
                 default:
                     break;
@@ -267,7 +293,7 @@ public class MainFragment extends Fragment {
             e.printStackTrace();
             mWeatherInfo.setVisibility(View.GONE);
             mNoData.setVisibility(View.VISIBLE);
-            Toast.makeText(getActivity(), "    定位失败,请手动输入城市", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getActivity(), "    定位失败,请手动输入城市", Toast.LENGTH_LONG).show();
         }
         Toast.makeText(getActivity(), "加载完毕，✺◟(∗❛ัᴗ❛ั∗)◞✺,", Toast.LENGTH_SHORT).show();
     }

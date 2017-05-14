@@ -151,7 +151,9 @@ public class WeatherMain extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mLocationClient.stop();
+        if (mLocationClient != null)
+            mLocationClient.stop();
+        //先判空，否则可能fc
     }
 
     /**
@@ -301,8 +303,9 @@ public class WeatherMain extends AppCompatActivity
         public void onReceiveLocation(BDLocation bdLocation) {
             SharedPreferenceUtil.getInstance().setCityName(bdLocation.getCity());
             Message msg = new Message();
-            msg.obj = bdLocation.getCity();
+            msg.obj = bdLocation.getCity() + "";
             msg.what = SEARCH_CITY;
+            Log.d("search_weather_data", "" + bdLocation.getCity());
             mHandler.sendMessage(msg);
         }
 
