@@ -73,10 +73,6 @@ public class MainFragment extends Fragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case UPDATE_WEATHER_DATA:
-                    /*if (msg.obj != null) {
-                        Log.d("update_weather_data", "get" + msg.obj.toString());
-                        mCityStr = msg.obj.toString();
-                    }*/
                     initRecycleView();
                     if (SharedPreferenceUtil.getInstance().getCityName().equals("")) {
                         mNoData.setVisibility(View.GONE);
@@ -139,15 +135,17 @@ public class MainFragment extends Fragment {
         }
         mIsCreateView = true;
         init();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                JSONUtil.getWeatherBeans(getActivity(), mCityStr);
-                Message message = new Message();
-                message.what = UPDATE_WEATHER_DATA;
-                mHandler.sendMessage(message);
-            }
-        }).start();
+        if (!mCityStr.equals("")) {
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    JSONUtil.getWeatherBeans(getActivity(), mCityStr);
+                    Message message = new Message();
+                    message.what = UPDATE_WEATHER_DATA;
+                    mHandler.sendMessage(message);
+                }
+            }).start();
+        }
         setListener();
         return view;
     }

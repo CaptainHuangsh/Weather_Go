@@ -51,7 +51,7 @@ public class WeatherMain extends AppCompatActivity
     //TODO 设置推送并震动
 
     private static final String TAG = WeatherMain.class.getSimpleName();
-    private static final  int UPDATE_WEATHER_DATA = 0;
+    private static final int UPDATE_WEATHER_DATA = 0;
     private static final int SEARCH_CITY = 1;
     private static final int SCREEN_SHOOT = 2;
 
@@ -167,10 +167,8 @@ public class WeatherMain extends AppCompatActivity
         initDrawer();
         initNavigationView();
         String cCity = SharedPreferenceUtil.getInstance().getCityName();
-        Log.d("initlocation",""+cCity);
         if (cCity.equals(""))//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值进行初始赋值
         {
-            Log.d("initlocation : ","kongde");
             initLocation();
         }
     }
@@ -301,29 +299,15 @@ public class WeatherMain extends AppCompatActivity
 
         @Override
         public void onReceiveLocation(BDLocation bdLocation) {
-
-            StringBuilder currentPosition = new StringBuilder();
-            currentPosition.append("纬度：").append(bdLocation.getLatitude())
-                    .append("\n");
-            currentPosition.append("经度：").append(bdLocation.getLongitude())
-                    .append("\n");
-            currentPosition.append("城市：").append(bdLocation.getCity())
-                    .append("\n");
-            Log.d("huangshaohua", "" + currentPosition.toString());
-            Toast.makeText(WeatherMain.this, "定位城市：" + bdLocation.getCity(), Toast.LENGTH_SHORT)
-                    .show();
-
             SharedPreferenceUtil.getInstance().setCityName(bdLocation.getCity());
             Message msg = new Message();
             msg.obj = bdLocation.getCity();
             msg.what = SEARCH_CITY;
             mHandler.sendMessage(msg);
-            Log.d("update_weather_data",""+SharedPreferenceUtil.getInstance().getCityName());
         }
 
         @Override
         public void onConnectHotSpotMessage(String s, int i) {
-
         }
     }
 }
