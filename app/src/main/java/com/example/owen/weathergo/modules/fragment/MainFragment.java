@@ -93,7 +93,6 @@ public class MainFragment extends Fragment {
                 case SEARCH_CITY:
                     //Fragment与activity交互http://blog.csdn.net/huangyabin001/article/details/35231753
                     if (!msg.obj.toString().equals("")) {
-                        Log.d("search_weather_data", "get " + msg.obj);
                         mCityStr = msg.obj.toString();
                         SharedPreferenceUtil.getInstance().setCityName(mCityStr);
                         new Thread(new Runnable() {
@@ -294,7 +293,7 @@ public class MainFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
             mWeatherInfo.setVisibility(View.GONE);
-            mLoadData.setVisibility(View.GONE);
+            mLoadData.setVisibility(View.VISIBLE);
             mNoData.setVisibility(View.VISIBLE);
 //            Toast.makeText(getActivity(), "    定位失败,请手动输入城市", Toast.LENGTH_LONG).show();
         }
