@@ -93,7 +93,6 @@ public class MainFragment extends Fragment {
                 case SEARCH_CITY:
                     //Fragment与activity交互http://blog.csdn.net/huangyabin001/article/details/35231753
                     if (!msg.obj.toString().equals("")) {
-                        Log.d("search_weather_data", "get " + msg.obj);
                         mCityStr = msg.obj.toString();
                         SharedPreferenceUtil.getInstance().setCityName(mCityStr);
                         new Thread(new Runnable() {
@@ -120,7 +119,15 @@ public class MainFragment extends Fragment {
                      */
                     FileUtil.getPermission(getActivity());
                     Bitmap bitmap = ScreenShoot.convertViewBitmap(mRecycleView);
-                    ScreenShoot.saveMyBitmap(bitmap, "sdcard/");
+                    String fileName = ScreenShoot.saveMyBitmap(bitmap, "sdcard/");
+                    FileUtil.shareMsg(getContext(),"分享","share","今天天气",fileName);
+                    /*Intent intent=new Intent(Intent.ACTION_SEND);
+                    intent.setType("image*//*");
+                    intent.putExtra(Intent.EXTRA_SUBJECT, "Share");
+//                    intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,bitmap);
+                    intent.putExtra(Intent.EXTRA_TEXT, "I have successfully share my message through my app");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(Intent.createChooser(intent, "分享"));*/
                     break;
                 case CHANGE_TEXT:
                     Log.d("changetext", "start2");
@@ -294,7 +301,7 @@ public class MainFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
             mWeatherInfo.setVisibility(View.GONE);
-            mLoadData.setVisibility(View.GONE);
+            mLoadData.setVisibility(View.VISIBLE);
             mNoData.setVisibility(View.VISIBLE);
 //            Toast.makeText(getActivity(), "    定位失败,请手动输入城市", Toast.LENGTH_LONG).show();
         }

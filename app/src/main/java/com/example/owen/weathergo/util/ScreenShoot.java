@@ -28,30 +28,28 @@ public class ScreenShoot {
         return bitmap;
     }
 
-    public static void saveMyBitmap(Bitmap bitmap, String path) {
-        Log.d("huangshaohuasave", "" + path);
+    public static String saveMyBitmap(Bitmap bitmap, String path) {
         File file1 = new File(path);
         File file = new File(path + String.valueOf(System.currentTimeMillis()) + ".png");
         if (!file1.exists()) {
-            Log.d("huangshaohuamkdir2","");
                 file1.mkdir();
-            Log.d("huangshaohuamkdir","");
         }
         FileOutputStream fileOutputStream = null;
         try {
             fileOutputStream = new FileOutputStream(file);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-            return;
+            return "";
         }
         bitmap.compress(Bitmap.CompressFormat.PNG, 80, fileOutputStream);
         try {
             fileOutputStream.flush();
             fileOutputStream.close();
-            ToastUtil.showShort(""+file+"保存成功");
+//            ToastUtil.showShort(""+file+"保存成功");
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return file+"";
     }
 
 }

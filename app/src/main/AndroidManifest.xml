@@ -33,23 +33,20 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme0">
-        <meta-date
-            android:name="com.baidu.lbsapi.API_KEY"
-            android:value="H689bzDre7wsQ4qSR5EAx9t1ZN9dltkm" />
-        //key:开发者申请的Key
-        <activity android:name=".activity.FirstActivity">
+        <activity
+            android:name="com.example.owen.weathergo.activity.WeatherMain"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.owen.weathergo.activity.WeatherMain"
+            android:name=".activity.About"
             android:launchMode="singleTask" />
-        <activity android:name="com.example.owen.weathergo.activity.LoginActivity" />
-        <activity android:name="com.example.owen.weathergo.activity.LogingActivity" />
-        <activity android:name=".activity.About" />
-        <activity android:name=".activity.SettingsActivity" />
+        <activity
+            android:name=".activity.SettingsActivity"
+            android:launchMode="singleTask" />
         <activity
             android:name="com.example.owen.weathergo.activity.ChoiceCityActivity"
             android:launchMode="singleTask" />
@@ -58,8 +55,12 @@
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote">
-        </service>
+            android:process=":remote" />
+
+        <meta-date
+            android:name="com.baidu.lbsapi.API_KEY"
+            android:value="H689bzDre7wsQ4qSR5EAx9t1ZN9dltkm" />
+        //key:开发者申请的Key
     </application>
 
 </manifest>
