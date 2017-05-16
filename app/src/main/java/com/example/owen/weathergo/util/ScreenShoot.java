@@ -16,15 +16,12 @@ import java.io.IOException;
 
 public class ScreenShoot {
     public static Bitmap convertViewBitmap(View view) {
-        Log.d("huangshaohua", "screen");
         Bitmap bitmap = Bitmap.createBitmap(view.getWidth(),
                 view.getHeight(), Bitmap.Config.RGB_565);
-        Log.d("huangshaohua", "screen2");
         //利用Bitmap生成画布
         Canvas canvas = new Canvas(bitmap);
         //把view中的内容绘制在画布上
         view.draw(canvas);
-        Log.d("huangshaohua", "screen3");
         return bitmap;
     }
 
