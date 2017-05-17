@@ -10,4 +10,8 @@
     <string name="pref_vibrate">开启震动提醒</string>
     <string name="clear_cache">清除缓存</string>
     <string name="notification_mode">通知栏常驻</string>
+    <string name="feedback">反馈</string>
+    <string name="email">mr@captainhuang.cn</string>
+    <string name="tech_info">Technical Information:</string>
+    <string name="send_email">send e-mail</string>
 </resources>

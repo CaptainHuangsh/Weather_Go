@@ -72,19 +72,19 @@
             android:background="@color/lineColor" />
 
         <TextView
-            android:layout_gravity="center"
-            android:lineSpacingExtra="3dp"
             android:id="@+id/about_version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:lineSpacingExtra="3dp"
             android:text="about" />
 
         <TextView
-            android:lineSpacingExtra="3dp"
             android:id="@+id/author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:lineSpacingExtra="3dp"
             android:text="@string/author" />
 
         <TextView
@@ -93,5 +93,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/e_mail" />
+
+        <TextView
+            android:textColor="@color/aboutIcon"
+            android:id="@+id/feed_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:clickable="true"
+            android:text="@string/feedback" />
     </LinearLayout>
 </LinearLayout>

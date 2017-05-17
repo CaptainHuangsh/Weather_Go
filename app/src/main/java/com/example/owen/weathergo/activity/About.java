@@ -9,9 +9,11 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.owen.weathergo.R;
+import com.example.owen.weathergo.util.FileUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,15 +26,29 @@ public class About extends AppCompatActivity implements NavigationView.OnNavigat
 
     @BindView(R.id.about_version)
     TextView mVersion;
+    @BindView(R.id.feed_back)
+    TextView mFeedBack;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
         ButterKnife.bind(this);
-        mVersion = (TextView) findViewById(R.id.about_version);
-        mVersion.setText(getVersion());
+        init();
     }
+
+    private void init() {
+//        mVersion = (TextView) findViewById(R.id.about_version);
+        mVersion.setText(getVersion());
+        mFeedBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FileUtil.shareMsg(About.this,getApplicationContext().getString(R.string.send_email),"WeatherGo Feedback",FileUtil.getAppInfo(About.this).toString(),null,1);
+            }
+        });
+
+    }
+
 
     public static void launch(Context context) {
         context.startActivity(new Intent(context, About.class));
