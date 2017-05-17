@@ -120,14 +120,7 @@ public class MainFragment extends Fragment {
                     FileUtil.getPermission(getActivity());
                     Bitmap bitmap = ScreenShoot.convertViewBitmap(mRecycleView);
                     String fileName = ScreenShoot.saveMyBitmap(bitmap, "sdcard/");
-                    FileUtil.shareMsg(getContext(),"分享","share","今天天气",fileName);
-                    /*Intent intent=new Intent(Intent.ACTION_SEND);
-                    intent.setType("image*//*");
-                    intent.putExtra(Intent.EXTRA_SUBJECT, "Share");
-//                    intent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,bitmap);
-                    intent.putExtra(Intent.EXTRA_TEXT, "I have successfully share my message through my app");
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(Intent.createChooser(intent, "分享"));*/
+                    FileUtil.shareMsg(getContext(),"分享","share","今天天气",fileName,0);
                     break;
                 case CHANGE_TEXT:
                     Log.d("changetext", "start2");

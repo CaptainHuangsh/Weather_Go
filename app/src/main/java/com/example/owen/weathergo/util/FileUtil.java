@@ -4,18 +4,27 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.widget.Toast;
+
+import com.example.owen.weathergo.R;
 
 import java.io.File;
 
 /**
- * Created by owen on 2017/5/5.
+ * Created by owen on 2017/5/5
  */
 
 public class FileUtil {
 
+    private final int TYPE_SHARE = 0;
+    private final int TYPE_FEEDBACK = 1;
+
+    //http://blog.csdn.net/loongggdroid/article/details/35572269
     public static void getPermission(Activity activity) {
 /**
  * 动态获取权限，Android 6.0 新特性，一些保护权限，除了要在AndroidManifest中声明权限，还要使用如下代码动态获取
@@ -35,25 +44,58 @@ public class FileUtil {
     }
 
     //实现分享功能
-    public static void shareMsg(Context context,String activityTitle, String msgTitle, String msgText,
-                                String imgPath) {
+    public static void shareMsg(Context context, String activityTitle, String msgTitle, String msgText,
+                                String imgPath, int type) {
         Intent intent = new Intent(Intent.ACTION_SEND);
-        if (imgPath == null || imgPath.equals("")) {
-            intent.setType("text/plain");//纯文本
-        } else {
-            File f = new File(imgPath);
-            if (f!=null&&f.exists()&&f.isFile()){
-                intent.setType("image/png");
-                Uri u = Uri.fromFile(f);
-                intent.putExtra(Intent.EXTRA_STREAM,u);
+        if (type == 0) {
+            if (imgPath == null || imgPath.equals("")) {
+                intent.setType("text/plain");//纯文本
+            } else {
+                File f = new File(imgPath);
+                if (f != null && f.exists() && f.isFile()) {
+                    intent.setType("image/png");
+                    Uri u = Uri.fromFile(f);
+                    intent.putExtra(Intent.EXTRA_STREAM, u);
+                }
+
             }
-
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        } else if (type == 1) {
+            intent.setType("message/rfc822");//邮件
+            intent.putExtra(Intent.EXTRA_EMAIL, new String[]{context.getString(R.string.email)});
+//            intent2.putExtra(Intent.EXTRA_SUBJECT, "Lucid Dream Alarm Feedback");
+//            intent2.putExtra(Intent.EXTRA_TEXT, getAppInfo(context).toString());
+            try {
+                context.startActivity(Intent.createChooser(intent, context.getString(R.string.send_email)));
+            } catch (android.content.ActivityNotFoundException e) {
+                Toast.makeText(context, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+            }
         }
-        intent.putExtra(Intent.EXTRA_SUBJECT,msgTitle);
-        intent.putExtra(Intent.EXTRA_TEXT,msgText);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(Intent.createChooser(intent,activityTitle));
+        intent.putExtra(Intent.EXTRA_SUBJECT, msgTitle);
+        intent.putExtra(Intent.EXTRA_TEXT, msgText);
+        context.startActivity(Intent.createChooser(intent, activityTitle));
+    }
 
+    @NonNull
+    public static StringBuilder getAppInfo(Context context) {
+        String mVersionName = null;
+        try {
+
+            PackageInfo packageInfo = context.getPackageManager().
+                    getPackageInfo(context.getPackageName(), 0);
+            mVersionName = packageInfo.versionName;
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        StringBuilder builder = new StringBuilder();
+        builder.append("\n\n\n");
+        builder.append(context.getString(R.string.tech_info));
+        builder.append("\n\n");
+        builder.append("Lucid Dream Alarm " + mVersionName);
+        builder.append("\n");
+        builder.append(Build.MODEL);
+        return builder;
     }
 
 }
