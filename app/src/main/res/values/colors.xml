@@ -22,4 +22,10 @@
     <color name="fab_bg">#33728d</color>
     <color name="fab_rip">#ff87ffeb</color>
 
+    <color name="dialog_tittle_text">#38ADFF</color>
+    <color name="dialog_bg">#E4E4E4</color>
+    <color name="dialog_btn_no">#7D7D7D</color>
+    <color name="dialog_btn_yes">#38ADFF</color>
+
+
 </resources>

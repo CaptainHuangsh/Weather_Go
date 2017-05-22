@@ -6,6 +6,10 @@
     <dimen name="card_view_margin">8dp</dimen>
     <dimen name="zero">0dp</dimen>
 
+    <dimen name="tabIndicatorHeight">4dp</dimen>
+    <dimen name="tab_layout_tabIndicatorHeight">4dp</dimen>
+
+
     <dimen name="fab_margin">16dp</dimen>
 
     <dimen name="no_data_margin_top">80dp</dimen>
@@ -14,7 +18,7 @@
     <dimen name="progress_bar_height">200dp</dimen>
     <dimen name="weather_info_margin_bottom">8dp</dimen>
 
-    <dimen name="forecast_main_margin_top">10dp</dimen>
+    <dimen name="card_view_margin_top">10dp</dimen>
     <dimen name="card_view_elevation">10dp</dimen>
     <dimen name="card_view_radius">5dp</dimen>
     <dimen name="forecast_main_image_view_margin">106dp</dimen>
@@ -24,4 +28,59 @@
     <dimen name="forecast_main_temp_text_size">48dp</dimen>
     <dimen name="forecast_main_temp_min_margin_top">30dp</dimen>
     <dimen name="forecast_main_weather_country_wind_margin_top">5dp</dimen>
+
+    <dimen name="suggestion_margin_bottom">16dp</dimen>
+    <dimen name="suggestion_padding_left">32dp</dimen>
+    <dimen name="suggestion_padding">16dp</dimen>
+    <dimen name="suggestion_image_width">32dp</dimen>
+    <dimen name="suggestion_image_height">32dp</dimen>
+    <dimen name="suggestion_text_margin_left">36dp</dimen>
+    <dimen name="suggestion_text_size">16sp</dimen>
+    <dimen name="suggestion_text_more_margin_top">2dp</dimen>
+    <dimen name="suggestion_text_more_size">16sp</dimen>
+
+    <dimen name="items_hour_text_margin_left">42dp</dimen>
+    <dimen name="items_hour_text_padding">12dp</dimen>
+    <dimen name="items_hour_text_temp_margin_left">16dp</dimen>
+    <dimen name="items_hour_text_temp_padding">8dp</dimen>
+    <dimen name="items_hour_text_humidity_margin_left">16dp</dimen>
+
+    <dimen name="weekly_padding_left">32dp</dimen>
+    <dimen name="weekly_padding_right">16dp</dimen>
+    <dimen name="weekly_padding_top">16dp</dimen>
+    <dimen name="weekly_image_width">32dp</dimen>
+    <dimen name="weekly_image_height">32dp</dimen>
+    <dimen name="weekly_more_left">36dp</dimen>
+    <dimen name="weekly_text_size">16sp</dimen>
+    <dimen name="weekly_text_temp_size">18sp</dimen>
+    <dimen name="weekly_text_more_margin_top">4dp</dimen>
+
+    <dimen name="about_margin_bottom">32dp</dimen>
+    <dimen name="about_padding">24dp</dimen>
+    <dimen name="about_padding_top">32dp</dimen>
+    <dimen name="about_drawable_padding">4dp</dimen>
+    <dimen name="about_text_size">15sp</dimen>
+    <dimen name="about_lineSpacingExtra">3dp</dimen>
+    <dimen name="about_me_top">12dp</dimen>
+    <dimen name="about_me_padding">4dp</dimen>
+    <dimen name="about_me_text_size">15sp</dimen>
+
+    <dimen name="city_image_width">24dp</dimen>
+    <dimen name="city_image_height">24dp</dimen>
+    <dimen name="city_text_margin">16dp</dimen>
+    <dimen name="city_text_size">16sp</dimen>
+
+    <dimen name="dialog_width">260dp</dimen>
+    <dimen name="dialog_margin">15dp</dimen>
+    <dimen name="dialog_view_height">1px</dimen>
+    <dimen name="dialog_size">16sp</dimen>
+    <dimen name="dialog_btn_height">40dp</dimen>
+    <dimen name="dialog_btn_margin">10dp</dimen>
+
+    <dimen name="view_height">0.3dp</dimen>
+    <dimen name="view_margin_bottom">8dp</dimen>
+    <dimen name="view_margin_start">30dp</dimen>
+    <dimen name="view_margin_top">4dp</dimen>
+
+
 </resources>

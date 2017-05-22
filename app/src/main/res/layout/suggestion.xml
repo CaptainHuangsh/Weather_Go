@@ -5,37 +5,36 @@
     android:id="@+id/main_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="0dp"
-    android:layout_marginRight="0dp"
-    android:layout_marginTop="10dp"
+    android:layout_marginLeft="@dimen/zero"
+    android:layout_marginRight="@dimen/zero"
+    android:layout_marginTop="@dimen/card_view_margin_top"
     android:clickable="true"
-    android:elevation="10dp"
-    card_view:cardCornerRadius="5dp">
+    android:elevation="@dimen/card_view_elevation"
+    card_view:cardCornerRadius="@dimen/card_view_radius">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="16dp"
-        android:paddingLeft="32dp"
-        android:paddingRight="16dp"
-        android:paddingTop="16dp">
+        android:paddingLeft="@dimen/suggestion_padding_left"
+        android:paddingRight="@dimen/suggestion_padding"
+        android:paddingTop="@dimen/suggestion_padding">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="@dimen/suggestion_image_width"
+                android:layout_height="@dimen/suggestion_image_height"
                 android:layout_gravity="center_vertical"
                 card_view:srcCompat="@mipmap/icon_sugg_clothes" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="36dp"
-                android:layout_marginStart="36dp"
+                android:layout_marginLeft="@dimen/suggestion_text_margin_left"
+                android:layout_marginStart="@dimen/suggestion_text_margin_left"
                 android:orientation="vertical">
 
                 <TextView
@@ -43,16 +42,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sugg_clothes"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/suggestion_text_size"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/clothes_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="@dimen/suggestion_text_more_margin_top"
                     android:textColor="@color/gray"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/suggestion_text_more_size" />
             </LinearLayout>
         </LinearLayout>
 
@@ -61,16 +60,16 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="@dimen/suggestion_image_width"
+                android:layout_height="@dimen/suggestion_image_height"
                 android:layout_gravity="center_vertical"
                 card_view:srcCompat="@mipmap/icon_sugg_sports" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="36dp"
-                android:layout_marginStart="36dp"
+                android:layout_marginLeft="@dimen/suggestion_text_margin_left"
+                android:layout_marginStart="@dimen/suggestion_text_margin_left"
                 android:orientation="vertical">
 
                 <TextView
@@ -78,16 +77,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sugg_sports"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/suggestion_text_size"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/sports_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="@dimen/suggestion_text_more_margin_top"
                     android:textColor="@color/gray"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/suggestion_text_more_size" />
             </LinearLayout>
         </LinearLayout>
 
@@ -96,16 +95,16 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="@dimen/suggestion_image_width"
+                android:layout_height="@dimen/suggestion_image_height"
                 android:layout_gravity="center_vertical"
                 card_view:srcCompat="@mipmap/icon_sugg_travel" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="36dp"
-                android:layout_marginStart="36dp"
+                android:layout_marginLeft="@dimen/suggestion_text_margin_left"
+                android:layout_marginStart="@dimen/suggestion_text_margin_left"
                 android:orientation="vertical">
 
                 <TextView
@@ -113,16 +112,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sugg_travel"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/suggestion_text_size"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/travel_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="@dimen/suggestion_text_more_margin_top"
                     android:textColor="@color/gray"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/suggestion_text_more_size" />
             </LinearLayout>
         </LinearLayout>
 
@@ -131,16 +130,16 @@
             android:layout_height="wrap_content">
 
             <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="@dimen/suggestion_image_width"
+                android:layout_height="@dimen/suggestion_image_height"
                 android:layout_gravity="center_vertical"
                 card_view:srcCompat="@mipmap/icon_sugg_flu" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="36dp"
-                android:layout_marginStart="36dp"
+                android:layout_marginLeft="@dimen/suggestion_text_margin_left"
+                android:layout_marginStart="@dimen/suggestion_text_margin_left"
                 android:orientation="vertical">
 
                 <TextView
@@ -148,16 +147,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/sugg_flu"
-                    android:textSize="16sp"
+                    android:textSize="@dimen/forecast_main_text_size"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/flu_txt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="@dimen/suggestion_text_more_margin_top"
                     android:textColor="@color/gray"
-                    android:textSize="12sp" />
+                    android:textSize="@dimen/suggestion_text_more_size" />
             </LinearLayout>
         </LinearLayout>
 

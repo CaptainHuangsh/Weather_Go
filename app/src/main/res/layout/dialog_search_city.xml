@@ -4,7 +4,7 @@
     android:background="#11ffffff">
 
     <LinearLayout
-        android:layout_width="260dp"
+        android:layout_width="@dimen/dialog_width"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:background="@drawable/free_dialog_bg"
@@ -15,11 +15,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="15dp"
+            android:layout_margin="@dimen/dialog_margin"
             android:gravity="center"
             android:text="输入城市名"
-            android:textColor="#38ADFF"
-            android:textSize="16sp" />
+            android:textColor="@color/dialog_tittle_text"
+            android:textSize="@dimen/dialog_size" />
         <!--http://blog.csdn.net/hanjieson/article/details/10045847-->
         <EditText
             android:id="@+id/city_name"
@@ -31,45 +31,45 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:layout_marginTop="15dp"
-            android:background="#E4E4E4" />
+            android:layout_height="@dimen/dialog_view_height"
+            android:layout_marginTop="@dimen/dialog_margin"
+            android:background="@color/dialog_bg" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/dialog_btn_height"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/no"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/zero"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="@dimen/dialog_btn_margin"
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="No"
                 android:textColor="#7D7D7D"
-                android:textSize="16sp" />
+                android:textSize="@dimen/dialog_size" />
 
             <View
-                android:layout_width="1px"
+                android:layout_width="@dimen/dialog_view_height"
                 android:layout_height="match_parent"
-                android:background="#E4E4E4" />
+                android:background="@color/dialog_bg" />
 
             <Button
                 android:id="@+id/yes"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/zero"
                 android:layout_height="match_parent"
-                android:layout_marginRight="10dp"
+                android:layout_marginRight="@dimen/dialog_btn_margin"
                 android:layout_weight="1"
                 android:background="@null"
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="Yes"
-                android:textColor="#38ADFF"
-                android:textSize="16sp" />
+                android:textColor="@color/dialog_btn_yes"
+                android:textSize="@dimen/dialog_size" />
         </LinearLayout>
     </LinearLayout>
 
