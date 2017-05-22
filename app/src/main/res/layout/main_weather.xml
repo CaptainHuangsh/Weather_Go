@@ -16,11 +16,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|center_horizontal"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="@dimen/no_data_margin_top"
             android:src="@drawable/no_response" />
 
         <TextView
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:gravity="center"
             android:textColor="@color/gray"
             android:layout_width="match_parent"
@@ -28,7 +28,7 @@
             android:text="@string/no_data_response" />
         <TextView
             android:id="@+id/no_city_data"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:gravity="center"
             android:textColor="@color/gray"
             android:layout_width="match_parent"
@@ -42,13 +42,13 @@
         android:orientation="vertical"
         >
     <ProgressBar
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="@dimen/progress_bar_margin_top"
         android:layout_gravity="center_vertical|center_horizontal"
-        android:layout_width="200dp"
-        android:layout_height="200dp" />
+        android:layout_width="@dimen/progress_bar_width"
+        android:layout_height="@dimen/progress_bar_height" />
         <TextView
             android:id="@+id/load_location"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
             android:gravity="center"
             android:textColor="@color/gray"
             android:layout_width="match_parent"
@@ -59,10 +59,9 @@
         android:id="@+id/weather_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tl_custom"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginBottom="@dimen/weather_info_margin_bottom"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:visibility="visible">
 
         <!--<include android:id="@+id/main_card"

@@ -294,7 +294,7 @@ public class MainFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
             mWeatherInfo.setVisibility(View.GONE);
-            mLoadData.setVisibility(View.VISIBLE);
+            mLoadData.setVisibility(View.GONE);
             mNoData.setVisibility(View.VISIBLE);
 //            Toast.makeText(getActivity(), "    定位失败,请手动输入城市", Toast.LENGTH_LONG).show();
         }
