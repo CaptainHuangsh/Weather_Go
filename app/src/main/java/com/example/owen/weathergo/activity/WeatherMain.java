@@ -1,5 +1,6 @@
 package com.example.owen.weathergo.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -34,6 +35,7 @@ import com.example.owen.weathergo.common.DoubleClickExit;
 import com.example.owen.weathergo.dialog.CityDialog;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
 import com.example.owen.weathergo.util.ToastUtil;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -178,6 +180,17 @@ public class WeatherMain extends AppCompatActivity
     private void initLocation() {
         mLocationClient = new LocationClient(getApplicationContext());
         mLocationClient.registerLocationListener(new MyLocationListener());
+
+        /*RxPermissions rxPermissions = new RxPermissions(WeatherMain.this);
+        rxPermissions
+                .request(Manifest.permission.ACCESS_FINE_LOCATION)
+                .subscribe(granted -> {
+                    if (granted) { // Always true pre-M
+                        // I can control the camera now
+                    } else {
+                        // Oups permission denied
+                    }
+                });*/
         List<String> permissionList = new ArrayList<>();
         if (ContextCompat.checkSelfPermission(WeatherMain.this, android.Manifest
                 .permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -247,7 +260,9 @@ public class WeatherMain extends AppCompatActivity
     public void initDrawer() {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolBar, R.string.open, R.string.close);
         mDrawerToggle.syncState();
-        mDrawerLayout.setDrawerListener(mDrawerToggle);
+        //mDrawerLayout.setDrawerListener(mDrawerToggle);
+        //旧版本可能会空指针
+        mDrawerLayout.addDrawerListener(mDrawerToggle);
     }
 
     //初始化navigationView
@@ -278,6 +293,7 @@ public class WeatherMain extends AppCompatActivity
     @Override
     public void onBackPressed() {
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            //如果抽屉没有合上先合上抽屉
             mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
             if (!DoubleClickExit.check()) {
@@ -298,7 +314,7 @@ public class WeatherMain extends AppCompatActivity
 
 
     public class MyLocationListener implements BDLocationListener {
-
+        //用于定位
         @Override
         public void onReceiveLocation(BDLocation bdLocation) {
             SharedPreferenceUtil.getInstance().setCityName(bdLocation.getCity());

@@ -20,16 +20,17 @@
 
         <ImageView
             android:id="@+id/city_img"
-            card_view:srcCompat="@mipmap/icon_city"
             android:layout_width="@dimen/city_image_width"
-            android:layout_height="@dimen/city_image_height" />
+            android:layout_height="@dimen/city_image_height"
+            card_view:srcCompat="@mipmap/icon_city" />
+
         <TextView
             android:id="@+id/city_txt"
-            android:layout_marginStart="@dimen/city_text_margin"
-            android:textSize="@dimen/city_text_size"
-            tools:text="开封"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/city_text_margin" />
+            android:layout_marginLeft="@dimen/city_text_margin"
+            android:layout_marginStart="@dimen/city_text_margin"
+            android:textSize="@dimen/city_text_size"
+            tools:text="开封" />
     </LinearLayout>
 </android.support.v7.widget.CardView>
