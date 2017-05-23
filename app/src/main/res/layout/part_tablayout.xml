@@ -14,13 +14,13 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:layout_scrollFlags="scroll|enterAlways"
         app:tabIndicatorColor="@android:color/white"
-        app:tabIndicatorHeight="4dp" />
+        app:tabIndicatorHeight="@dimen/tabIndicatorHeight" />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        app:tabIndicatorColor="#fff"
-        app:tabIndicatorHeight="2dp" />
+        app:tabIndicatorColor="@android:color/white"
+        app:tabIndicatorHeight="@dimen/tab_layout_tabIndicatorHeight" />
 
 </android.support.design.widget.AppBarLayout>

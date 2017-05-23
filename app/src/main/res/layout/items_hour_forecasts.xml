@@ -6,45 +6,43 @@
     android:baselineAligned="false"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingBottom="16dp"
-    android:paddingTop="16dp">
+    android:paddingBottom="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin">
+
     <TextView
-        android:layout_marginLeft="42dp"
         android:id="@+id/hourly_clock"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/items_hour_text_margin_left"
         android:layout_weight="1"
-        android:drawablePadding="12dp"
+        android:drawablePadding="@dimen/items_hour_text_padding"
         tools:text="16:00" />
     <!--android:drawableStart="@drawable/icon_time"-->
     <TextView
-        android:layout_marginLeft="16dp"
         android:id="@+id/hourly_temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/items_hour_text_temp_margin_left"
         android:layout_weight="1.04"
-        android:drawablePadding="8dp"
-
+        android:drawablePadding="@dimen/items_hour_text_temp_padding"
         tools:text="16°" />
     <!--android:drawableStart="@drawable/icon_temp"-->
     <TextView
-        android:layout_marginLeft="16dp"
         android:id="@+id/hourly_humidity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/items_hour_text_humidity_margin_left"
         android:layout_weight="1"
-        android:drawablePadding="8dp"
-
+        android:drawablePadding="@dimen/items_hour_text_temp_padding"
         tools:text="81%" />
     <!--android:drawableStart="@drawable/icon_humidity"-->
     <TextView
-        android:layout_marginLeft="16dp"
         android:id="@+id/hourly_wind"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/items_hour_text_temp_margin_left"
         android:layout_weight="1"
-        android:drawablePadding="8dp"
-
+        android:drawablePadding="@dimen/items_hour_text_temp_padding"
         tools:text="14Km" />
     <!--android:drawableStart="@drawable/icon_wind"-->
 </LinearLayout>

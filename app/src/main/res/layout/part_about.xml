@@ -3,10 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:paddingBottom="32dp"
-    android:paddingEnd="24dp"
-    android:paddingStart="24dp"
-    android:paddingTop="32dp">
+    android:paddingBottom="@dimen/about_margin_bottom"
+    android:paddingEnd="@dimen/about_padding"
+    android:paddingStart="@dimen/about_padding"
+    android:paddingTop="@dimen/about_padding_top">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,18 +16,18 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawablePadding="4dp"
+            android:drawablePadding="@dimen/about_drawable_padding"
             android:gravity="center"
             android:text="很高兴认识你"
             android:textColor="@color/aboutIcon"
-            android:textSize="15sp" />
+            android:textSize="@dimen/about_text_size" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.3dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="4dp"
+            android:layout_height="@dimen/view_height"
+            android:layout_marginBottom="@dimen/about_margin_bottom"
+            android:layout_marginStart="@dimen/view_margin_start"
+            android:layout_marginTop="@dimen/view_margin_top"
             android:background="@color/lineColor" />
 
         <TextView
@@ -35,15 +35,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:lineSpacingExtra="3dp"
+            android:lineSpacingExtra="@dimen/about_lineSpacingExtra"
             android:text="@string/about_app" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.3dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="4dp"
+            android:layout_height="@dimen/view_height"
+            android:layout_marginBottom="@dimen/view_margin_bottom"
+            android:layout_marginStart="@dimen/view_margin_start"
+            android:layout_marginTop="@dimen/view_margin_top"
             android:background="@color/lineColor" />
 
     </LinearLayout>
@@ -51,24 +51,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="@dimen/about_me_top"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawablePadding="4dp"
+            android:drawablePadding="@dimen/about_me_padding"
             android:gravity="center"
             android:text="为了更好的自己"
             android:textColor="@color/aboutIcon"
-            android:textSize="15sp" />
+            android:textSize="@dimen/about_me_text_size" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="0.3dp"
-            android:layout_marginBottom="8dp"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="4dp"
+            android:layout_height="@dimen/view_height"
+            android:layout_marginBottom="@dimen/view_margin_bottom"
+            android:layout_marginStart="@dimen/view_margin_start"
+            android:layout_marginTop="@dimen/view_margin_top"
             android:background="@color/lineColor" />
 
         <TextView
@@ -76,7 +76,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:lineSpacingExtra="3dp"
+            android:lineSpacingExtra="@dimen/about_lineSpacingExtra"
             android:text="about" />
 
         <TextView
@@ -84,7 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:lineSpacingExtra="3dp"
+            android:lineSpacingExtra="@dimen/about_lineSpacingExtra"
             android:text="@string/author" />
 
         <TextView

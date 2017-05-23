@@ -36,6 +36,7 @@ import com.example.owen.weathergo.util.FileUtil;
 import com.example.owen.weathergo.util.JSONUtil;
 import com.example.owen.weathergo.util.ScreenShoot;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.util.ArrayList;
 
@@ -123,13 +124,10 @@ public class MainFragment extends Fragment {
                     FileUtil.shareMsg(getContext(),"分享","share","今天天气",fileName,0);
                     break;
                 case CHANGE_TEXT:
-                    Log.d("changetext", "start2");
                     if (msg.obj.equals("no_city_data")) {
-                        Log.d("changetext", "start3");
                         mNoCityData.setText("定位失败，请手动选择城市");
                     }
                     if (msg.obj.equals("refresh_wrong")) {
-                        Log.d("changetext", "start4");
                         mNoCityData.setText("请触图片刷新");
                     }
                     break;
@@ -175,6 +173,14 @@ public class MainFragment extends Fragment {
         }
         setListener();
         return view;
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //onViewCreated在onCreateView执行完后立即执行。
+        //onCreateView返回的就是fragment要显示的view。
+        //new RxPermissions()
     }
 
     @Override
@@ -294,7 +300,7 @@ public class MainFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
             mWeatherInfo.setVisibility(View.GONE);
-            mLoadData.setVisibility(View.VISIBLE);
+            mLoadData.setVisibility(View.GONE);
             mNoData.setVisibility(View.VISIBLE);
 //            Toast.makeText(getActivity(), "    定位失败,请手动输入城市", Toast.LENGTH_LONG).show();
         }
