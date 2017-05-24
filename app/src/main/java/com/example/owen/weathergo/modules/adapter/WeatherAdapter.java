@@ -44,7 +44,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             case WeatherAdapter.TYPE_ONE:
                 return new TodayWeatherHolder(LayoutInflater.from(context).inflate(R.layout.forecast_main, parent, false), mWeather);
             case WeatherAdapter.TYPE_TWO:
-                return new HourlyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.forecast_hourly, parent, false), mWeather);
+//                return new HourlyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.forecast_hourly, parent, false), mWeather);
             case WeatherAdapter.TYPE_THREE:
                 return new SuggestionWeatherHolder(LayoutInflater.from(context).inflate(R.layout.suggestion, parent, false), mWeather);
             case WeatherAdapter.TYPE_FORE:
@@ -61,7 +61,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 ((TodayWeatherHolder) holder).bind(mWeather);
                 break;
             case WeatherAdapter.TYPE_TWO:
-                ((HourlyWeatherHolder) holder).bind(mWeather);
+//                ((HourlyWeatherHolder) holder).bind(mWeather);
                 break;
             case WeatherAdapter.TYPE_THREE:
                 ((SuggestionWeatherHolder) holder).bind(mWeather);
@@ -75,7 +75,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-        return mWeather != null ? 2 : 0;
+        return mWeather != null ? 4 : 0;
     }
 
     @Override

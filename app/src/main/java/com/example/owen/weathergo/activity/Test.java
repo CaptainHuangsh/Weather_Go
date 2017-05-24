@@ -28,6 +28,7 @@ public class Test extends Activity {
                         JSONUtil2 jsonUtil2 = new JSONUtil2(getApplicationContext(), "luoyang");
                         mWeather = JSONUtil2.getsomeThing();
                         Log.d("huangshaohuaTest", " : " + mWeather.getBasic().getCity());
+                Log.d("huangshaohuaTest", " hour : " + mWeather.getHourlyForecast().get(0).getDate());
             }
         });
     }
