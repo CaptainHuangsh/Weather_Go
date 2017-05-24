@@ -33,6 +33,7 @@ import com.baidu.location.LocationClientOption;
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.DoubleClickExit;
 import com.example.owen.weathergo.dialog.CityDialog;
+import com.example.owen.weathergo.modules.domain.Weather;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
 import com.example.owen.weathergo.util.ToastUtil;
 import com.tbruyelle.rxpermissions.RxPermissions;
@@ -117,9 +118,10 @@ public class WeatherMain extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_share:
-                Message msg = new Message();
+                /*Message msg = new Message();
                 msg.what = SCREEN_SHOOT;
-                mHandler.sendMessage(msg);
+                mHandler.sendMessage(msg);*/
+                startActivity(new Intent(WeatherMain.this,Test.class));
                 break;
             default:
                 break;

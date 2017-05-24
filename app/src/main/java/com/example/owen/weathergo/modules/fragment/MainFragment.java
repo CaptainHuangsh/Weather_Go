@@ -34,6 +34,7 @@ import com.example.owen.weathergo.modules.dao.WeatherBean;
 import com.example.owen.weathergo.service.AutoUpdateService;
 import com.example.owen.weathergo.util.FileUtil;
 import com.example.owen.weathergo.util.JSONUtil;
+import com.example.owen.weathergo.util.JSONUtil2;
 import com.example.owen.weathergo.util.ScreenShoot;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
 import com.tbruyelle.rxpermissions.RxPermissions;
@@ -285,6 +286,7 @@ public class MainFragment extends Fragment {
         mNoData.setVisibility(View.GONE);
         mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         try {
+//            JSONUtil2 jsonUtil2 = new JSONUtil2(getActivity(),"luoyang");
             WeatherBean weatherBean = null;
             weatherBean = JSONUtil.getWeatherBeans(getActivity(), mCityStr);
             ArrayList<DailyForecast> mDFList = JSONUtil.getDForecast();

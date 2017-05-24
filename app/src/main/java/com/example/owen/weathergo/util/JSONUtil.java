@@ -78,7 +78,7 @@ public class JSONUtil {
         });
         SharedPreferences preferences = context.getSharedPreferences("huang", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-
+        //缓存json数据
         String jsonText = preferences.getString("jsonText", "");
 
         ArrayList<DailyForecast> dfList = new ArrayList<DailyForecast>();

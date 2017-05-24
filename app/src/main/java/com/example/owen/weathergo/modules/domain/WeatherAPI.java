@@ -14,7 +14,14 @@ public class WeatherAPI {
 
     @SerializedName("HeWeather data service 3.0")
     @Expose
-    public List<Weather> mHeWeatherDataService30s
+    private List<Weather> heWeatherDataService30s
             = new ArrayList<>();
 
+    public List<Weather> getHeWeatherDataService30s() {
+        return heWeatherDataService30s;
+    }
+
+    public void setHeWeatherDataService30s(List<Weather> heWeatherDataService30s) {
+        this.heWeatherDataService30s = heWeatherDataService30s;
+    }
 }
