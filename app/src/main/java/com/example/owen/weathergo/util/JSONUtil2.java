@@ -86,7 +86,7 @@ public class JSONUtil2 {
             mWeather = lw;
         }
 
-        Log.d("huangshaohuaUtil2", " : " + mWeather.suggestion.trav.brf);
+        Log.d("huangshaohuaUtil2", " : " + mWeather.getSuggestion().getTrav().getBrf());
     }
 
 }
