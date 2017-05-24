@@ -40,13 +40,15 @@ public class JSONUtil2 {
         Log.d("huangshaohuaUtil2", " -1: " + sCity);
     }
 
-    public static void getsomeThing() {
+    public static Weather getsomeThing() {
         Log.d("huangshaohuaUtil2", " 0: " + mCity);
+        Weather weather = new Weather();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(C.HOST)
                 .build();
         //Retrofit创建一个BlogService的代理对象
         WgClient service = retrofit.create(WgClient.class);
+        Log.d("huangshaohuaUtil2", " 0.5: " + mCity);
         Call<ResponseBody> call = service.mWeatherAPI(mCity, C.HE_WEATHER_KEY);
         String jss = "";
         call.enqueue(new Callback<ResponseBody>() {
@@ -57,8 +59,13 @@ public class JSONUtil2 {
                 try {
 
                     jsonText = "" + response.body().string();
-                    parse(jsonText);
+                    SharedPreferences preferences;
+                    preferences = mContext.getSharedPreferences("huang", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("jsonTextg", jsonText);
+                    editor.apply();
                     Log.d("huangshaohuaUtil2", " 1: " + jsonText);
+//                    parse(jsonText);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -70,9 +77,16 @@ public class JSONUtil2 {
                 t.printStackTrace();
             }
         });
+        SharedPreferences preferences = mContext.getSharedPreferences("huang", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        //缓存json数据
+        String jsonTextg = preferences.getString("jsonTextg", "");
+        Log.d("huangshaohuaUtil2", " 1.5: " + jsonTextg);
+        parse(jsonTextg);
+        return mWeather;
     }
 
-    public static void parse(String jsonText) {
+    public static Weather parse(String jsonText) {
         Log.d("huangshaohuaUtil2", " 2: " + jsonText);
         Gson gson = new Gson();
         WeatherAPI weatherAPI = gson.fromJson(jsonText,
@@ -87,6 +101,12 @@ public class JSONUtil2 {
         }
 
         Log.d("huangshaohuaUtil2", " : " + mWeather.getSuggestion().getTrav().getBrf());
+        return mWeather;
+    }
+
+    public static Weather getmWeather() {
+        Weather weather = mWeather;
+        return weather;
     }
 
 }
