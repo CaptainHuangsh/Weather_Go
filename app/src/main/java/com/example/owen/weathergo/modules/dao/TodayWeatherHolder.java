@@ -7,13 +7,14 @@ import android.widget.TextView;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.base.BaseViewHolder;
+import com.example.owen.weathergo.modules.domain.Weather;
 import com.example.owen.weathergo.util.IconGet;
 
 /**
  * Created by owen on 2017/4/24.
  */
 
-public class TodayWeatherHolder extends BaseViewHolder<WeatherBean> {
+public class TodayWeatherHolder extends BaseViewHolder<Weather> {
 
     private final String TAG = TodayWeatherHolder.class.getSimpleName();
     private Context mContext;
@@ -23,11 +24,12 @@ public class TodayWeatherHolder extends BaseViewHolder<WeatherBean> {
     TextView mWind_speed;
     TextView mTemp;
     ImageView mImg;
-    private WeatherBean weatherBean;
+//    private WeatherBean weatherBean;
+    private Weather weather;
 
-    public TodayWeatherHolder(View view, WeatherBean weatherBean) {
+    public TodayWeatherHolder(View view, Weather weather) {
         super(view);
-        this.weatherBean = weatherBean;
+        this.weather = weather;
         mContext = view.getContext();
         mTemp_min = (TextView) view.findViewById(R.id.weather_temp_min);
         mTemp_max = (TextView) view.findViewById(R.id.weather_temp_max);
@@ -38,23 +40,32 @@ public class TodayWeatherHolder extends BaseViewHolder<WeatherBean> {
     }
 
     @Override
-    public void bind(WeatherBean weatherBean) {
+    public void bind(Weather weather) {
 
         try {
             mTemp_min.setText(mContext.getResources().getString(R.string.temp_min)
-                    + weatherBean.getNow_min()
+//                    + weatherBean.getNow_min()
+                    + weather.getDailyForecast().get(0).getTmp().getMin()
                     + mContext.getResources().getString(R.string.c));
             mTemp_max.setText(mContext.getResources().getString(R.string.temp_max)
-                    + weatherBean.getNow_max()
+//                    + weatherBean.getNow_max()
+                    + weather.getDailyForecast().get(0).getTmp().getMax()
                     + mContext.getResources().getString(R.string.c));
             mWind_speed.setText(mContext.getResources().getString(R.string.wind_speed)
-                    + weatherBean.getNow_dir() + (weatherBean.getNow_sc().equals("微风")?weatherBean.getNow_sc():weatherBean.getNow_sc()
+//                    + weatherBean.getNow_dir() + (weatherBean.getNow_sc().equals("微风")?weatherBean.getNow_sc():weatherBean.getNow_sc()
+                    + weather.getNow().getWind().getDir()
+                    + (weather.getNow().getWind().getSc().equals("微风") ? weather.getNow().getWind().getSc() : weather.getNow().getWind().getSc()
                     + mContext.getResources().getString(R.string.m_s)));
-            mTemp.setText(weatherBean.getNow_tmp()
-                    + mContext.getResources().getString(R.string.c));
-            mCountry.setText(weatherBean.getQlty().length()<2?mContext.getResources().getString(R.string.air)
-                    + weatherBean.getQlty():weatherBean.getQlty());
-            mImg.setImageResource(IconGet.getWeaIcon(weatherBean.getMain_weather_img()));
+            mTemp.setText(
+//                    weatherBean.getNow_tmp()
+                    weather.getNow().getTmp()
+                            + mContext.getResources().getString(R.string.c));
+            mCountry.setText(
+//                    weatherBean.getQlty().length() < 2 ? mContext.getResources().getString(R.string.air)
+                    weather.getAqi().getCity().getQlty().length() < 2 ? mContext.getResources().getString(R.string.air)
+//                    + weatherBean.getQlty() : weatherBean.getQlty());
+                            + weather.getAqi().getCity().getQlty() : weather.getAqi().getCity().getQlty());
+            mImg.setImageResource(IconGet.getWeaIcon(weather.getNow().getCond().getTxt()));
         } catch (Exception e) {
 
         }

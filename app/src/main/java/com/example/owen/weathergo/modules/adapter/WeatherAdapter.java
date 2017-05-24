@@ -7,15 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.owen.weathergo.R;
-import com.example.owen.weathergo.modules.dao.DailyForecast;
 import com.example.owen.weathergo.modules.dao.DailyWeatherHolder;
-import com.example.owen.weathergo.modules.dao.HourlyForecast;
 import com.example.owen.weathergo.modules.dao.HourlyWeatherHolder;
 import com.example.owen.weathergo.modules.dao.SuggestionWeatherHolder;
 import com.example.owen.weathergo.modules.dao.TodayWeatherHolder;
-import com.example.owen.weathergo.modules.dao.WeatherBean;
-
-import java.util.ArrayList;
+import com.example.owen.weathergo.modules.domain.Weather;
 
 /**
  * Created by owen on 2017/4/21.
@@ -24,19 +20,19 @@ import java.util.ArrayList;
 public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
     View view;
-    ArrayList<DailyForecast> dailyForecastList;
-    ArrayList<HourlyForecast> hourlyForecastList;
-    WeatherBean weatherBean;
+    //    ArrayList<DailyForecast> dailyForecastList;
+//    ArrayList<HourlyForecast> hourlyForecastList;
+    Weather mWeather;
+    //    WeatherBean weatherBean;
     private static final int TYPE_ONE = 0;//今日天气
     private static final int TYPE_TWO = 1;//七日天气
     private static final int TYPE_THREE = 2;//生活建议
     private static final int TYPE_FORE = 3;//分时预报
 
-    public WeatherAdapter(ArrayList<DailyForecast> mDFList, WeatherBean weatherBean
-            , ArrayList<HourlyForecast> hourlyForecastList) {
-        this.dailyForecastList = mDFList;
-        this.hourlyForecastList = hourlyForecastList;
-        this.weatherBean = weatherBean;
+    public WeatherAdapter(Weather weather) {
+        this.mWeather = weather;
+//        this.hourlyForecastList = hourlyForecastList;
+//        this.weatherBean = weatherBean;
     }
 
     @Override
@@ -46,13 +42,13 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
         switch (viewType) {
             case WeatherAdapter.TYPE_ONE:
-                return new TodayWeatherHolder(LayoutInflater.from(context).inflate(R.layout.forecast_main, parent, false), weatherBean);
+                return new TodayWeatherHolder(LayoutInflater.from(context).inflate(R.layout.forecast_main, parent, false), mWeather);
             case WeatherAdapter.TYPE_TWO:
-                return new HourlyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.forecast_hourly, parent, false), hourlyForecastList);
+                return new HourlyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.forecast_hourly, parent, false), mWeather);
             case WeatherAdapter.TYPE_THREE:
-                return new SuggestionWeatherHolder(LayoutInflater.from(context).inflate(R.layout.suggestion, parent, false), weatherBean);
+                return new SuggestionWeatherHolder(LayoutInflater.from(context).inflate(R.layout.suggestion, parent, false), mWeather);
             case WeatherAdapter.TYPE_FORE:
-                return new DailyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.forecast_weekly, parent, false), dailyForecastList);
+                return new DailyWeatherHolder(LayoutInflater.from(context).inflate(R.layout.forecast_weekly, parent, false), mWeather);
         }
         return null;
     }
@@ -62,16 +58,16 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         int itemType = getItemViewType(position);
         switch (itemType) {
             case WeatherAdapter.TYPE_ONE:
-                ((TodayWeatherHolder) holder).bind(weatherBean);
+                ((TodayWeatherHolder) holder).bind(mWeather);
                 break;
             case WeatherAdapter.TYPE_TWO:
-                ((HourlyWeatherHolder) holder).bind(hourlyForecastList);
+                ((HourlyWeatherHolder) holder).bind(mWeather);
                 break;
             case WeatherAdapter.TYPE_THREE:
-                ((SuggestionWeatherHolder) holder).bind(weatherBean);
+                ((SuggestionWeatherHolder) holder).bind(mWeather);
                 break;
             case WeatherAdapter.TYPE_FORE:
-                ((DailyWeatherHolder) holder).bind(dailyForecastList);
+                ((DailyWeatherHolder) holder).bind(mWeather);
                 break;
         }
     }
@@ -79,7 +75,7 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     @Override
     public int getItemCount() {
-        return weatherBean != null ? 4 : 0;
+        return mWeather != null ? 2 : 0;
     }
 
     @Override

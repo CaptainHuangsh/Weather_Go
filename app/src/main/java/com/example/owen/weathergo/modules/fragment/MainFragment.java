@@ -31,6 +31,7 @@ import com.example.owen.weathergo.modules.adapter.WeatherAdapter;
 import com.example.owen.weathergo.modules.dao.DailyForecast;
 import com.example.owen.weathergo.modules.dao.HourlyForecast;
 import com.example.owen.weathergo.modules.dao.WeatherBean;
+import com.example.owen.weathergo.modules.domain.Weather;
 import com.example.owen.weathergo.service.AutoUpdateService;
 import com.example.owen.weathergo.util.FileUtil;
 import com.example.owen.weathergo.util.JSONUtil;
@@ -54,7 +55,7 @@ public class MainFragment extends Fragment {
     private static final int SEARCH_CITY = 1;
     private static final int SCREEN_SHOOT = 2;
     private static final int CHANGE_TEXT = 3;
-
+    JSONUtil2 jsonUtil2 ;
 
     @BindView(R.id.no_city_data)
     TextView mNoCityData;
@@ -75,6 +76,7 @@ public class MainFragment extends Fragment {
     private View view;
     private boolean mIsCreateView = false;
     private WeatherMain mActivity;
+    private Weather mWeather;
     private int times = 0;
 
     private Handler mHandler = new Handler() {
@@ -165,7 +167,9 @@ public class MainFragment extends Fragment {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    JSONUtil.getWeatherBeans(getActivity(), mCityStr);
+//                    JSONUtil.getWeatherBeans(getActivity(), mCityStr);
+                    jsonUtil2 = new JSONUtil2(getActivity(), mCityStr);
+                    JSONUtil2.getsomeThing();
                     Message message = new Message();
                     message.what = UPDATE_WEATHER_DATA;
                     mHandler.sendMessage(message);
@@ -193,7 +197,8 @@ public class MainFragment extends Fragment {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    JSONUtil.getWeatherBeans(getActivity(), mCityStr);
+//                    JSONUtil.getWeatherBeans(getActivity(), mCityStr);
+                    jsonUtil2 = new JSONUtil2(getActivity(), mCityStr);
                     Message message = new Message();
                     message.what = UPDATE_WEATHER_DATA;
                     mHandler.sendMessage(message);
@@ -288,12 +293,14 @@ public class MainFragment extends Fragment {
         try {
 //            JSONUtil2 jsonUtil2 = new JSONUtil2(getActivity(),"luoyang");
             WeatherBean weatherBean = null;
-            weatherBean = JSONUtil.getWeatherBeans(getActivity(), mCityStr);
-            ArrayList<DailyForecast> mDFList = JSONUtil.getDForecast();
+//            weatherBean = JSONUtil.getWeatherBeans(getActivity(), mCityStr);
+            mWeather = JSONUtil2.getmWeather();
+//            ArrayList<DailyForecast> mDFList = JSONUtil.getDForecast();
             int i = 0;
-            ArrayList<HourlyForecast> mHFList = JSONUtil.getHForecast();
-            mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(mDFList, weatherBean, mHFList));
-            mGCityStr = weatherBean.getCity();
+//            ArrayList<HourlyForecast> mHFList = JSONUtil.getHForecast();
+            mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(mWeather));
+//            mGCityStr = weatherBean.getCity();
+            mGCityStr = mWeather.getBasic().getCity();
             if (!mGCityStr.equals(""))
                 safeSetTitle(mGCityStr);
             Intent intent = new Intent(getActivity(), AutoUpdateService.class);

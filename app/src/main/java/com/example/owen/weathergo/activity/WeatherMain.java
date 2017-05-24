@@ -1,6 +1,5 @@
 package com.example.owen.weathergo.activity;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -33,10 +32,8 @@ import com.baidu.location.LocationClientOption;
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.DoubleClickExit;
 import com.example.owen.weathergo.dialog.CityDialog;
-import com.example.owen.weathergo.modules.domain.Weather;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
 import com.example.owen.weathergo.util.ToastUtil;
-import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,10 +115,10 @@ public class WeatherMain extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_share:
-                /*Message msg = new Message();
+                Message msg = new Message();
                 msg.what = SCREEN_SHOOT;
-                mHandler.sendMessage(msg);*/
-                startActivity(new Intent(WeatherMain.this,Test.class));
+                mHandler.sendMessage(msg);
+//                startActivity(new Intent(WeatherMain.this,Test.class));
                 break;
             default:
                 break;
@@ -254,7 +251,7 @@ public class WeatherMain extends AppCompatActivity
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem menuItem) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         return false;
     }
 
