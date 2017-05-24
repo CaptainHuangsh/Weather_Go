@@ -82,6 +82,10 @@ public class Weather {
         this.dailyForecast = dailyForecast;
     }
 
+
+    @SerializedName("hourly_forecast")
+    private List<HourlyForecastEntity> hourlyForecast;
+
     public List<HourlyForecastEntity> getHourlyForecast() {
         return hourlyForecast;
     }
@@ -89,9 +93,6 @@ public class Weather {
     public void setHourlyForecast(List<HourlyForecastEntity> hourlyForecast) {
         this.hourlyForecast = hourlyForecast;
     }
-
-    @SerializedName("forecast_hourly")
-    private List<HourlyForecastEntity> hourlyForecast;
 
     public static class AqiEntity implements Serializable {
 
