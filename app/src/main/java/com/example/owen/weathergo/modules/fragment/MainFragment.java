@@ -304,7 +304,7 @@ public class MainFragment extends Fragment {
             if (!mGCityStr.equals(""))
                 safeSetTitle(mGCityStr);
             Intent intent = new Intent(getActivity(), AutoUpdateService.class);
-            intent.putExtra("weather", weatherBean);
+            intent.putExtra("weather", mWeather);
             getActivity().startService(intent);
         } catch (Exception e) {
             e.printStackTrace();

@@ -115,10 +115,10 @@ public class WeatherMain extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_share:
-                /*Message msg = new Message();
+                Message msg = new Message();
                 msg.what = SCREEN_SHOOT;
-                mHandler.sendMessage(msg);*/
-                startActivity(new Intent(WeatherMain.this,Test.class));
+                mHandler.sendMessage(msg);
+//                startActivity(new Intent(WeatherMain.this,Test.class));
                 break;
             default:
                 break;
