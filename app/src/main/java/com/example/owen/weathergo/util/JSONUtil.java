@@ -2,18 +2,14 @@ package com.example.owen.weathergo.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
-
 import com.example.owen.weathergo.common.base.C;
 import com.example.owen.weathergo.component.WgClient;
 import com.example.owen.weathergo.modules.domain.Weather;
 import com.example.owen.weathergo.modules.domain.WeatherAPI;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 import java.io.IOException;
 import java.util.List;
-
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,7 +31,15 @@ public class JSONUtil {
     static List<Weather> mListWeather;
     static Weather mWeather = new Weather();
 
-    public static Weather getWeather(final Context context, String sCity) {
+    public static JSONUtil getInstance(){
+        return JHolder.sInstance;
+    }
+
+    public static class JHolder{
+        private static JSONUtil sInstance = new JSONUtil();
+    }
+
+    public Weather getWeather(final Context context, String sCity) {
         Weather weather = new Weather();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(C.HOST)

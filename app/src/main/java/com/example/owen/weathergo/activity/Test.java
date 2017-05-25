@@ -26,7 +26,7 @@ public class Test extends Activity {
             @Override
             public void onClick(View v) {
 //                        JSONUtil jsonUtil2 = new JSONUtil(getApplicationContext(), "luoyang");
-                        mWeather = JSONUtil.getWeather(getApplicationContext(), "luoyang");
+                        mWeather = JSONUtil.getInstance().getWeather(getApplicationContext(), "luoyang");
                         Log.d("huangshaohuaTest", " : " + mWeather.getBasic().getCity());
                 Log.d("huangshaohuaTest", " hour : " + mWeather.getHourlyForecast().get(0).getDate());
             }

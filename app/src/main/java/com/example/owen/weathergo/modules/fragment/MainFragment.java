@@ -95,7 +95,7 @@ public class MainFragment extends Fragment {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                mWeather = JSONUtil.getWeather(getActivity(), mCityStr);
+                                mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
                                 Log.d("huangshaohua2", " searchCity: " + mCityStr);
                                 Message message = new Message();
                                 message.what = UPDATE_WEATHER_DATA;
@@ -161,7 +161,7 @@ public class MainFragment extends Fragment {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    mWeather = JSONUtil.getWeather(getActivity(), mCityStr);
+                    mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
                     Message message = new Message();
                     message.what = UPDATE_WEATHER_DATA;
                     mHandler.sendMessage(message);
@@ -189,7 +189,7 @@ public class MainFragment extends Fragment {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    mWeather = JSONUtil.getWeather(getActivity(), mCityStr);
+                    mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
                     Message message = new Message();
                     message.what = UPDATE_WEATHER_DATA;
                     mHandler.sendMessage(message);
@@ -284,7 +284,7 @@ public class MainFragment extends Fragment {
         mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         try {
             Log.d("huangshaohua4", " getweather: " + mCityStr);
-            mWeather = JSONUtil.getWeather(getActivity(), mCityStr);
+            mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
             Log.d("huangshaohua4", " getweather2: " + mWeather.getBasic().getCity());
             int i = 0;
             mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(mWeather));
