@@ -58,7 +58,6 @@ public class AutoUpdateService extends Service {
         if (intent.getSerializableExtra("weather") != null) {
             //判断为空？
             Weather weather = (Weather) intent.getSerializableExtra("weather");
-            //TODO 查找崩溃原因
             Log.i("autoUpdateService", "onStartCommand()" + weather.getBasic().getCity());
             createNotification(weather);
         }

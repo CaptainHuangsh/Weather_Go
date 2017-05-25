@@ -43,26 +43,21 @@ public class TodayWeatherHolder extends BaseViewHolder<Weather> {
 
         try {
             mTemp_min.setText(mContext.getResources().getString(R.string.temp_min)
-//                    + weatherBean.getNow_min()
                     + weather.getDailyForecast().get(0).getTmp().getMin()
                     + mContext.getResources().getString(R.string.c));
             mTemp_max.setText(mContext.getResources().getString(R.string.temp_max)
-//                    + weatherBean.getNow_max()
                     + weather.getDailyForecast().get(0).getTmp().getMax()
                     + mContext.getResources().getString(R.string.c));
             mWind_speed.setText(mContext.getResources().getString(R.string.wind_speed)
-//                    + weatherBean.getNow_dir() + (weatherBean.getNow_sc().equals("微风")?weatherBean.getNow_sc():weatherBean.getNow_sc()
                     + weather.getNow().getWind().getDir()
-                    + (weather.getNow().getWind().getSc().equals("微风") ? weather.getNow().getWind().getSc() : weather.getNow().getWind().getSc()
+                    + (weather.getNow().getWind().getSc().equals(mContext.getResources().getString(R.string.light_wind))
+                    ? weather.getNow().getWind().getSc() : weather.getNow().getWind().getSc()
                     + mContext.getResources().getString(R.string.m_s)));
             mTemp.setText(
-//                    weatherBean.getNow_tmp()
                     weather.getNow().getTmp()
                             + mContext.getResources().getString(R.string.c));
             mCountry.setText(
-//                    weatherBean.getQlty().length() < 2 ? mContext.getResources().getString(R.string.air)
                     weather.getAqi().getCity().getQlty().length() < 2 ? mContext.getResources().getString(R.string.air)
-//                    + weatherBean.getQlty() : weatherBean.getQlty());
                             + weather.getAqi().getCity().getQlty() : weather.getAqi().getCity().getQlty());
             mImg.setImageResource(IconGet.getWeaIcon(weather.getNow().getCond().getTxt()));
         } catch (Exception e) {

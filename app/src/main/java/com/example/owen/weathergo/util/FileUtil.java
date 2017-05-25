@@ -6,14 +6,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.owen.weathergo.R;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * Created by owen on 2017/5/5
@@ -24,11 +30,23 @@ public class FileUtil {
     private final int TYPE_SHARE = 0;
     private final int TYPE_FEEDBACK = 1;
 
-    //http://blog.csdn.net/loongggdroid/article/details/35572269
-    public static void getPermission(Activity activity) {
-/**
- * 动态获取权限，Android 6.0 新特性，一些保护权限，除了要在AndroidManifest中声明权限，还要使用如下代码动态获取
- */
+    public static FileUtil getInstance() {
+        return FileHolder.sInstance;
+    }
+
+    public static class FileHolder {
+        private static FileUtil sInstance = new FileUtil();
+    }
+
+
+    /**
+     * 第一次安装或未获取新权限时调用此方法申请获取权限（6.0以上）
+     * http://blog.csdn.net/loongggdroid/article/details/35572269
+     * 动态获取权限，Android 6.0 新特性，一些保护权限，除了要在AndroidManifest中声明权限，还要使用如下代码动态获取
+     *
+     * @param activity
+     */
+    public void getPermission(Activity activity) {
         if (Build.VERSION.SDK_INT >= 23) {
             int REQUEST_CODE_CONTACT = 101;
             String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
@@ -43,9 +61,19 @@ public class FileUtil {
         }
     }
 
-    //实现分享功能
-    public static void shareMsg(Context context, String activityTitle, String msgTitle, String msgText,
-                                String imgPath, int type) {
+
+    /**
+     * 实现分享功能
+     *
+     * @param context
+     * @param activityTitle
+     * @param msgTitle
+     * @param msgText
+     * @param imgPath
+     * @param type
+     */
+    public void shareMsg(Context context, String activityTitle, String msgTitle, String msgText,
+                         String imgPath, int type) {
         Intent intent = new Intent(Intent.ACTION_SEND);
         if (type == 0) {
             if (imgPath == null || imgPath.equals("")) {
@@ -76,8 +104,15 @@ public class FileUtil {
         context.startActivity(Intent.createChooser(intent, activityTitle));
     }
 
+
+    /**
+     * 获取设备信息
+     *
+     * @param context
+     * @return
+     */
     @NonNull
-    public static StringBuilder getAppInfo(Context context) {
+    public StringBuilder getAppInfo(Context context) {
         String mVersionName = null;
         try {
 
@@ -96,6 +131,54 @@ public class FileUtil {
         builder.append("\n");
         builder.append(Build.MODEL);
         return builder;
+    }
+
+
+    /**
+     * 保存截图
+     *
+     * @param bitmap
+     * @param path
+     * @return
+     */
+    public String saveMyBitmap(Bitmap bitmap, String path) {
+        File file1 = new File(path);
+        File file = new File(path + String.valueOf(System.currentTimeMillis()) + ".png");
+        if (!file1.exists()) {
+            file1.mkdir();
+        }
+        FileOutputStream fileOutputStream = null;
+        try {
+            fileOutputStream = new FileOutputStream(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return "";
+        }
+        bitmap.compress(Bitmap.CompressFormat.PNG, 80, fileOutputStream);
+        try {
+            fileOutputStream.flush();
+            fileOutputStream.close();
+//            ToastUtil.showShort(""+file+"保存成功");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return file + "";
+    }
+
+    /**
+     * 截图
+     *
+     * @param view
+     * @return
+     */
+    public Bitmap convertViewBitmap(View view) {
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(),
+                view.getHeight(), Bitmap.Config.RGB_565);
+        //利用Bitmap生成画布
+        Canvas canvas = new Canvas(bitmap);
+        //把view中的内容绘制在画布上
+        view.draw(canvas);
+        return bitmap;
     }
 
 }
