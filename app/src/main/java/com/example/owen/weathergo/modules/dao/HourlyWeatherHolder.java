@@ -47,10 +47,10 @@ public class HourlyWeatherHolder extends BaseViewHolder<Weather> {
                 //添加表头信息后会多出一行信息
                 if (i == 0) {
                     if (weather.getHourlyForecast().size() > 0) {
-                        hourlyClock[i].setText("时间");
-                        hourlyTemp[i].setText("温度");
-                        hourlyHumidity[i].setText("湿度");
-                        hourlyWind[i].setText("风力");
+                        hourlyClock[i].setText(mContext.getResources().getString(R.string.TIME));
+                        hourlyTemp[i].setText(mContext.getResources().getString(R.string.TEMP));
+                        hourlyHumidity[i].setText(mContext.getResources().getString(R.string.HUM));
+                        hourlyWind[i].setText(mContext.getResources().getString(R.string.WIND));
                     }
                 } else {
                     String mDate = weather.getHourlyForecast().get(i - 1).getDate();

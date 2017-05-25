@@ -78,4 +78,13 @@
     <string name="email">mr@captainhuang.cn</string>
     <string name="tech_info">Technical Information:</string>
     <string name="send_email">send e-mail</string>
+    
+    <!--基本天气类型-->
+    <string name="TIME">时间</string>
+    <string name="TEMP">温度</string>
+    <string name="HUM">湿度</string>
+    <string name="WIND">风力</string>
+    <string name="TODAY">今日</string>
+    <string name="TOMORROW">明日</string>
+    <string name="light_wind">微风</string>
 </resources>

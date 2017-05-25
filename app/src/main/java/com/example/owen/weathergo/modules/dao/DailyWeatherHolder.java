@@ -47,8 +47,8 @@ public class DailyWeatherHolder extends BaseViewHolder<Weather> {
     @Override
     public void bind(Weather weather) {
         try {
-            dayView[0].setText("今日");
-            dayView[1].setText("明日");
+            dayView[0].setText(mContext.getResources().getString(R.string.TODAY));
+            dayView[1].setText(mContext.getResources().getString(R.string.TOMORROW));
 
             for (int i = 0; i < weather.getDailyForecast().size(); i++) {
                 if (i > 1) {
