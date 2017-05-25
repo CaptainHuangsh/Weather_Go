@@ -91,19 +91,16 @@ public class MainFragment extends Fragment {
                     if (!msg.obj.toString().equals("")) {
                         mCityStr = msg.obj.toString();
                         SharedPreferenceUtil.getInstance().setCityName(mCityStr);
-                        Log.d("huangshaohua1", " searchCity: " + mCityStr);
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
                                 mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
-                                Log.d("huangshaohua2", " searchCity: " + mCityStr);
                                 Message message = new Message();
                                 message.what = UPDATE_WEATHER_DATA;
                                 mHandler.sendMessage(message);
                             }
                         }).start();
                     } else {
-                        Log.d("changetext", "start");
                         Message message = new Message();
                         message.what = CHANGE_TEXT;
                         message.obj = "no_city_data";
@@ -254,7 +251,6 @@ public class MainFragment extends Fragment {
 
     public void refresh() {
         {
-            Log.d("huangshaohua4", " refresh: " + mCityStr);
             // 这里是主线程
             // 一些比较耗时的操作，比如联网获取数据，需要放到子线程去执行
             new Handler().postDelayed(new Runnable() {
@@ -283,9 +279,7 @@ public class MainFragment extends Fragment {
         mNoData.setVisibility(View.GONE);
         mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         try {
-            Log.d("huangshaohua4", " getweather: " + mCityStr);
             mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
-            Log.d("huangshaohua4", " getweather2: " + mWeather.getBasic().getCity());
             int i = 0;
             mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(mWeather));
             mGCityStr = mWeather.getBasic().getCity();
