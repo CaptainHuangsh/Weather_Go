@@ -30,7 +30,7 @@ import com.example.owen.weathergo.modules.adapter.WeatherAdapter;
 import com.example.owen.weathergo.modules.domain.Weather;
 import com.example.owen.weathergo.service.AutoUpdateService;
 import com.example.owen.weathergo.util.FileUtil;
-import com.example.owen.weathergo.util.JSONUtil2;
+import com.example.owen.weathergo.util.JSONUtil;
 import com.example.owen.weathergo.util.ScreenShoot;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
 
@@ -47,7 +47,6 @@ public class MainFragment extends Fragment {
     private static final int SEARCH_CITY = 1;
     private static final int SCREEN_SHOOT = 2;
     private static final int CHANGE_TEXT = 3;
-    JSONUtil2 jsonUtil2;
 
     @BindView(R.id.no_city_data)
     TextView mNoCityData;
@@ -96,7 +95,7 @@ public class MainFragment extends Fragment {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                mWeather = JSONUtil2.getsomeThing(getActivity(), mCityStr);
+                                mWeather = JSONUtil.getWeather(getActivity(), mCityStr);
                                 Log.d("huangshaohua2", " searchCity: " + mCityStr);
                                 Message message = new Message();
                                 message.what = UPDATE_WEATHER_DATA;
@@ -162,7 +161,7 @@ public class MainFragment extends Fragment {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    mWeather = JSONUtil2.getsomeThing(getActivity(), mCityStr);
+                    mWeather = JSONUtil.getWeather(getActivity(), mCityStr);
                     Message message = new Message();
                     message.what = UPDATE_WEATHER_DATA;
                     mHandler.sendMessage(message);
@@ -190,7 +189,7 @@ public class MainFragment extends Fragment {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    mWeather = JSONUtil2.getsomeThing(getActivity(), mCityStr);
+                    mWeather = JSONUtil.getWeather(getActivity(), mCityStr);
                     Message message = new Message();
                     message.what = UPDATE_WEATHER_DATA;
                     mHandler.sendMessage(message);
@@ -285,7 +284,7 @@ public class MainFragment extends Fragment {
         mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         try {
             Log.d("huangshaohua4", " getweather: " + mCityStr);
-            mWeather = jsonUtil2.getsomeThing(getActivity(), mCityStr);
+            mWeather = JSONUtil.getWeather(getActivity(), mCityStr);
             Log.d("huangshaohua4", " getweather2: " + mWeather.getBasic().getCity());
             int i = 0;
             mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(mWeather));

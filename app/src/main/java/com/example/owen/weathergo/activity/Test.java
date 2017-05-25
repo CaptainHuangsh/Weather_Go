@@ -9,7 +9,7 @@ import android.widget.Button;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.modules.domain.Weather;
-import com.example.owen.weathergo.util.JSONUtil2;
+import com.example.owen.weathergo.util.JSONUtil;
 
 /**
  * Created by owen on 2017/5/24.
@@ -25,8 +25,8 @@ public class Test extends Activity {
         ((Button) findViewById(R.id.test)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                        JSONUtil2 jsonUtil2 = new JSONUtil2(getApplicationContext(), "luoyang");
-                        mWeather = JSONUtil2.getsomeThing(getApplicationContext(), "luoyang");
+//                        JSONUtil jsonUtil2 = new JSONUtil(getApplicationContext(), "luoyang");
+                        mWeather = JSONUtil.getWeather(getApplicationContext(), "luoyang");
                         Log.d("huangshaohuaTest", " : " + mWeather.getBasic().getCity());
                 Log.d("huangshaohuaTest", " hour : " + mWeather.getHourlyForecast().get(0).getDate());
             }
