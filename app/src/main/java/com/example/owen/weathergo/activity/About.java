@@ -43,7 +43,7 @@ public class About extends AppCompatActivity implements NavigationView.OnNavigat
         mFeedBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FileUtil.shareMsg(About.this,getApplicationContext().getString(R.string.send_email),"WeatherGo Feedback",FileUtil.getAppInfo(About.this).toString(),null,1);
+                FileUtil.getInstance().shareMsg(About.this,getApplicationContext().getString(R.string.send_email),"WeatherGo Feedback",FileUtil.getInstance().getAppInfo(About.this).toString(),null,1);
             }
         });
 

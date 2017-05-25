@@ -31,7 +31,6 @@ import com.example.owen.weathergo.modules.domain.Weather;
 import com.example.owen.weathergo.service.AutoUpdateService;
 import com.example.owen.weathergo.util.FileUtil;
 import com.example.owen.weathergo.util.JSONUtil;
-import com.example.owen.weathergo.util.ScreenShoot;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
 
 import butterknife.BindView;
@@ -112,10 +111,10 @@ public class MainFragment extends Fragment {
                     /**
                      * 动态获取权限，Android 6.0 新特性，一些保护权限，除了要在AndroidManifest中声明权限，还要使用如下代码动态获取
                      */
-                    FileUtil.getPermission(getActivity());
-                    Bitmap bitmap = ScreenShoot.convertViewBitmap(mRecycleView);
-                    String fileName = ScreenShoot.saveMyBitmap(bitmap, "sdcard/");
-                    FileUtil.shareMsg(getContext(), "分享", "share", "今天天气", fileName, 0);
+                    FileUtil.getInstance().getPermission(getActivity());
+                    Bitmap bitmap = FileUtil.getInstance().convertViewBitmap(mRecycleView);
+                    String fileName = FileUtil.getInstance().saveMyBitmap(bitmap, "sdcard/");
+                    FileUtil.getInstance().shareMsg(getContext(), "分享", "share", "今天天气", fileName, 0);
                     break;
                 case CHANGE_TEXT:
                     if (msg.obj.equals("no_city_data")) {
