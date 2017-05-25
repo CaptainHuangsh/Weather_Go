@@ -1,4 +1,4 @@
-package com.example.owen.weathergo.modules.dao;
+package com.example.owen.weathergo.modules.domain;
 
 /**
  * Created by owen on 2017/4/25.

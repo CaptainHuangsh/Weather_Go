@@ -24,6 +24,10 @@ import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by owen on 2017/5/24.
+ * 原先是用JsonObject解析，效率低，不易维护，此类是用于替代之前方法的工具类
+ * 原Created by owenh on 2016/5/17.
+ * 处理从openweathermap网站上获取的json代码，进行解析赋值操作
+ *
  */
 
 public class JSONUtil2 {
@@ -95,7 +99,7 @@ public class JSONUtil2 {
 
         mWeatherAPI = weatherAPI;
 
-
+        if (weatherAPI!=null)
         for (Weather lw : mWeatherAPI.getHeWeatherDataService30s()) {
             mWeather = lw;
         }

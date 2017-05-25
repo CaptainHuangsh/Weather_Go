@@ -24,7 +24,6 @@ public class TodayWeatherHolder extends BaseViewHolder<Weather> {
     TextView mWind_speed;
     TextView mTemp;
     ImageView mImg;
-//    private WeatherBean weatherBean;
     private Weather weather;
 
     public TodayWeatherHolder(View view, Weather weather) {

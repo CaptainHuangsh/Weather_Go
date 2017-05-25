@@ -16,7 +16,6 @@ import android.util.Log;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.activity.WeatherMain;
-import com.example.owen.weathergo.modules.dao.WeatherBean;
 import com.example.owen.weathergo.modules.domain.Weather;
 import com.example.owen.weathergo.util.IconGet;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;

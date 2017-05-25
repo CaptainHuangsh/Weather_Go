@@ -14,7 +14,6 @@ import com.example.owen.weathergo.modules.domain.Weather;
 
 public class SuggestionWeatherHolder extends BaseViewHolder<Weather> {
     private Weather weather;
-    private WeatherBean weatherBean;
     private Context mContext;
     private TextView suggClothesBrief;
     private TextView suggClothesTxt;

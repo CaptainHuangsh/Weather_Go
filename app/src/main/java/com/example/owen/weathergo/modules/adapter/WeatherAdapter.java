@@ -20,10 +20,7 @@ import com.example.owen.weathergo.modules.domain.Weather;
 public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     Context context;
     View view;
-    //    ArrayList<DailyForecast> dailyForecastList;
-//    ArrayList<HourlyForecast> hourlyForecastList;
     Weather mWeather;
-    //    WeatherBean weatherBean;
     private static final int TYPE_ONE = 0;//今日天气
     private static final int TYPE_TWO = 1;//七日天气
     private static final int TYPE_THREE = 2;//生活建议
@@ -31,8 +28,6 @@ public class WeatherAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
 
     public WeatherAdapter(Weather weather) {
         this.mWeather = weather;
-//        this.hourlyForecastList = hourlyForecastList;
-//        this.weatherBean = weatherBean;
     }
 
     @Override

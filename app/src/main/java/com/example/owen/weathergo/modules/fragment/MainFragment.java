@@ -96,7 +96,6 @@ public class MainFragment extends Fragment {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-//                                JSONUtil.getWeatherBeans(getActivity(), mCityStr);
                                 mWeather = JSONUtil2.getsomeThing(getActivity(), mCityStr);
                                 Log.d("huangshaohua2", " searchCity: " + mCityStr);
                                 Message message = new Message();
@@ -163,8 +162,6 @@ public class MainFragment extends Fragment {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-//                    JSONUtil.getWeatherBeans(getActivity(), mCityStr);
-//                    jsonUtil2 = new JSONUtil2(getActivity(), mCityStr);
                     mWeather = JSONUtil2.getsomeThing(getActivity(), mCityStr);
                     Message message = new Message();
                     message.what = UPDATE_WEATHER_DATA;
@@ -193,7 +190,6 @@ public class MainFragment extends Fragment {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-//                    JSONUtil.getWeatherBeans(getActivity(), mCityStr);
                     mWeather = JSONUtil2.getsomeThing(getActivity(), mCityStr);
                     Message message = new Message();
                     message.what = UPDATE_WEATHER_DATA;
@@ -289,17 +285,10 @@ public class MainFragment extends Fragment {
         mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         try {
             Log.d("huangshaohua4", " getweather: " + mCityStr);
-//            JSONUtil2 jsonUtil2 = new JSONUtil2(getActivity(),"luoyang");
-//            WeatherBean weatherBean = null;
-//            weatherBean = JSONUtil.getWeatherBeans(getActivity(), mCityStr);
-//            jsonUtil2 = new JSONUtil2(getActivity(),mCityStr);
             mWeather = jsonUtil2.getsomeThing(getActivity(), mCityStr);
             Log.d("huangshaohua4", " getweather2: " + mWeather.getBasic().getCity());
-//            ArrayList<DailyForecast> mDFList = JSONUtil.getDForecast();
             int i = 0;
-//            ArrayList<HourlyForecast> mHFList = JSONUtil.getHForecast();
             mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(mWeather));
-//            mGCityStr = weatherBean.getCity();
             mGCityStr = mWeather.getBasic().getCity();
             if (!mGCityStr.equals(""))
                 safeSetTitle(mGCityStr);

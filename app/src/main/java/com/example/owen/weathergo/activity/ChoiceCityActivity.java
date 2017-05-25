@@ -14,8 +14,8 @@ import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.util.DBManager;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
 import com.example.owen.weathergo.util.WeatherDB;
-import com.example.owen.weathergo.modules.dao.City;
-import com.example.owen.weathergo.modules.dao.Province;
+import com.example.owen.weathergo.modules.domain.City;
+import com.example.owen.weathergo.modules.domain.Province;
 import com.example.owen.weathergo.modules.adapter.CityAdapter;
 
 import java.util.ArrayList;
