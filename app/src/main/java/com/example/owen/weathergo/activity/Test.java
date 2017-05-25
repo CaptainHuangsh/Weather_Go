@@ -25,8 +25,8 @@ public class Test extends Activity {
         ((Button) findViewById(R.id.test)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                        JSONUtil2 jsonUtil2 = new JSONUtil2(getApplicationContext(), "luoyang");
-                        mWeather = JSONUtil2.getsomeThing();
+//                        JSONUtil2 jsonUtil2 = new JSONUtil2(getApplicationContext(), "luoyang");
+                        mWeather = JSONUtil2.getsomeThing(getApplicationContext(), "luoyang");
                         Log.d("huangshaohuaTest", " : " + mWeather.getBasic().getCity());
                 Log.d("huangshaohuaTest", " hour : " + mWeather.getHourlyForecast().get(0).getDate());
             }

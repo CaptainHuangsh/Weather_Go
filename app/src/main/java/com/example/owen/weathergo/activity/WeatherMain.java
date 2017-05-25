@@ -49,7 +49,7 @@ public class WeatherMain extends AppCompatActivity
      */
 
     //TODO 设置推送并震动
-
+    //TODO JSONUtil2 单例getInstance()模式
     private static final String TAG = WeatherMain.class.getSimpleName();
     private static final int UPDATE_WEATHER_DATA = 0;
     private static final int SEARCH_CITY = 1;

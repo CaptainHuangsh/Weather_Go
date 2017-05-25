@@ -28,28 +28,28 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class JSONUtil2 {
 
-    private static Context mContext;
-    private static String mCity;
+//    private static Context mContext;
+//    private static String mCity;
     static WeatherAPI mWeatherAPI = new WeatherAPI();
     static List<Weather> mListWeather;
     static Weather mWeather = new Weather();
 
     public JSONUtil2(final Context context, String sCity) {
-        this.mCity = sCity;
-        this.mContext = context;
+//        this.mCity = sCity;
+//        this.mContext = context;
         Log.d("huangshaohuaUtil2", " -1: " + sCity);
     }
 
-    public static Weather getsomeThing() {
-        Log.d("huangshaohuaUtil2", " 0: " + mCity);
+    public static Weather getsomeThing(final Context context, String sCity) {
+        Log.d("huangshaohuaUtil2", " 0: " + sCity);
         Weather weather = new Weather();
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(C.HOST)
                 .build();
         //Retrofit创建一个BlogService的代理对象
         WgClient service = retrofit.create(WgClient.class);
-        Log.d("huangshaohuaUtil2", " 0.5: " + mCity);
-        Call<ResponseBody> call = service.mWeatherAPI(mCity, C.HE_WEATHER_KEY);
+        Log.d("huangshaohuaUtil2", " 0.5: " + sCity);
+        Call<ResponseBody> call = service.mWeatherAPI(sCity, C.HE_WEATHER_KEY);
         String jss = "";
         call.enqueue(new Callback<ResponseBody>() {
             String jsonText = "";
@@ -60,7 +60,7 @@ public class JSONUtil2 {
 
                     jsonText = "" + response.body().string();
                     SharedPreferences preferences;
-                    preferences = mContext.getSharedPreferences("huang", MODE_PRIVATE);
+                    preferences = context.getSharedPreferences("huang", MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("jsonTextg", jsonText);
                     editor.apply();
@@ -77,7 +77,7 @@ public class JSONUtil2 {
                 t.printStackTrace();
             }
         });
-        SharedPreferences preferences = mContext.getSharedPreferences("huang", MODE_PRIVATE);
+        SharedPreferences preferences = context.getSharedPreferences("huang", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         //缓存json数据
         String jsonTextg = preferences.getString("jsonTextg", "");
@@ -100,13 +100,8 @@ public class JSONUtil2 {
             mWeather = lw;
         }
 
-        Log.d("huangshaohuaUtil2", " : " + mWeather.getSuggestion().getTrav().getBrf());
+//        Log.d("huangshaohuaUtil2", " : " + mWeather.getSuggestion().getTrav().getBrf());
         return mWeather;
-    }
-
-    public static Weather getmWeather() {
-        Weather weather = mWeather;
-        return weather;
     }
 
 }

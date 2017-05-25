@@ -3,7 +3,6 @@ package com.example.owen.weathergo.modules.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.icu.text.LocaleDisplayNames;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,19 +27,12 @@ import android.widget.Toast;
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.activity.WeatherMain;
 import com.example.owen.weathergo.modules.adapter.WeatherAdapter;
-import com.example.owen.weathergo.modules.dao.DailyForecast;
-import com.example.owen.weathergo.modules.dao.HourlyForecast;
-import com.example.owen.weathergo.modules.dao.WeatherBean;
 import com.example.owen.weathergo.modules.domain.Weather;
 import com.example.owen.weathergo.service.AutoUpdateService;
 import com.example.owen.weathergo.util.FileUtil;
-import com.example.owen.weathergo.util.JSONUtil;
 import com.example.owen.weathergo.util.JSONUtil2;
 import com.example.owen.weathergo.util.ScreenShoot;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
-import com.tbruyelle.rxpermissions.RxPermissions;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,7 +47,7 @@ public class MainFragment extends Fragment {
     private static final int SEARCH_CITY = 1;
     private static final int SCREEN_SHOOT = 2;
     private static final int CHANGE_TEXT = 3;
-    JSONUtil2 jsonUtil2 ;
+    JSONUtil2 jsonUtil2;
 
     @BindView(R.id.no_city_data)
     TextView mNoCityData;
@@ -91,6 +83,7 @@ public class MainFragment extends Fragment {
                     } else {
                         mLoadData.setVisibility(View.GONE);
                         mNoData.setVisibility(View.GONE);
+                        Log.d("huangshaohua3", " updatedata: " + mCityStr);
                         refresh();
                     }
                     break;
@@ -99,10 +92,13 @@ public class MainFragment extends Fragment {
                     if (!msg.obj.toString().equals("")) {
                         mCityStr = msg.obj.toString();
                         SharedPreferenceUtil.getInstance().setCityName(mCityStr);
+                        Log.d("huangshaohua1", " searchCity: " + mCityStr);
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                JSONUtil.getWeatherBeans(getActivity(), mCityStr);
+//                                JSONUtil.getWeatherBeans(getActivity(), mCityStr);
+                                mWeather = JSONUtil2.getsomeThing(getActivity(), mCityStr);
+                                Log.d("huangshaohua2", " searchCity: " + mCityStr);
                                 Message message = new Message();
                                 message.what = UPDATE_WEATHER_DATA;
                                 mHandler.sendMessage(message);
@@ -124,7 +120,7 @@ public class MainFragment extends Fragment {
                     FileUtil.getPermission(getActivity());
                     Bitmap bitmap = ScreenShoot.convertViewBitmap(mRecycleView);
                     String fileName = ScreenShoot.saveMyBitmap(bitmap, "sdcard/");
-                    FileUtil.shareMsg(getContext(),"分享","share","今天天气",fileName,0);
+                    FileUtil.shareMsg(getContext(), "分享", "share", "今天天气", fileName, 0);
                     break;
                 case CHANGE_TEXT:
                     if (msg.obj.equals("no_city_data")) {
@@ -168,8 +164,8 @@ public class MainFragment extends Fragment {
                 @Override
                 public void run() {
 //                    JSONUtil.getWeatherBeans(getActivity(), mCityStr);
-                    jsonUtil2 = new JSONUtil2(getActivity(), mCityStr);
-                    JSONUtil2.getsomeThing();
+//                    jsonUtil2 = new JSONUtil2(getActivity(), mCityStr);
+                    mWeather = JSONUtil2.getsomeThing(getActivity(), mCityStr);
                     Message message = new Message();
                     message.what = UPDATE_WEATHER_DATA;
                     mHandler.sendMessage(message);
@@ -198,7 +194,7 @@ public class MainFragment extends Fragment {
                 @Override
                 public void run() {
 //                    JSONUtil.getWeatherBeans(getActivity(), mCityStr);
-                    jsonUtil2 = new JSONUtil2(getActivity(), mCityStr);
+                    mWeather = JSONUtil2.getsomeThing(getActivity(), mCityStr);
                     Message message = new Message();
                     message.what = UPDATE_WEATHER_DATA;
                     mHandler.sendMessage(message);
@@ -263,6 +259,7 @@ public class MainFragment extends Fragment {
 
     public void refresh() {
         {
+            Log.d("huangshaohua4", " refresh: " + mCityStr);
             // 这里是主线程
             // 一些比较耗时的操作，比如联网获取数据，需要放到子线程去执行
             new Handler().postDelayed(new Runnable() {
@@ -291,10 +288,13 @@ public class MainFragment extends Fragment {
         mNoData.setVisibility(View.GONE);
         mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         try {
+            Log.d("huangshaohua4", " getweather: " + mCityStr);
 //            JSONUtil2 jsonUtil2 = new JSONUtil2(getActivity(),"luoyang");
-            WeatherBean weatherBean = null;
+//            WeatherBean weatherBean = null;
 //            weatherBean = JSONUtil.getWeatherBeans(getActivity(), mCityStr);
-            mWeather = JSONUtil2.getmWeather();
+//            jsonUtil2 = new JSONUtil2(getActivity(),mCityStr);
+            mWeather = jsonUtil2.getsomeThing(getActivity(), mCityStr);
+            Log.d("huangshaohua4", " getweather2: " + mWeather.getBasic().getCity());
 //            ArrayList<DailyForecast> mDFList = JSONUtil.getDForecast();
             int i = 0;
 //            ArrayList<HourlyForecast> mHFList = JSONUtil.getHForecast();
