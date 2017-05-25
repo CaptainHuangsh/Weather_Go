@@ -5,8 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 
-import com.example.owen.weathergo.modules.dao.City;
-import com.example.owen.weathergo.modules.dao.Province;
+import com.example.owen.weathergo.modules.domain.City;
+import com.example.owen.weathergo.modules.domain.Province;
 
 import java.io.Closeable;
 import java.io.IOException;

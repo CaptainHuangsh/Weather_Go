@@ -3,7 +3,6 @@ package com.example.owen.weathergo.modules.fragment;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.icu.text.LocaleDisplayNames;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,17 +27,12 @@ import android.widget.Toast;
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.activity.WeatherMain;
 import com.example.owen.weathergo.modules.adapter.WeatherAdapter;
-import com.example.owen.weathergo.modules.dao.DailyForecast;
-import com.example.owen.weathergo.modules.dao.HourlyForecast;
-import com.example.owen.weathergo.modules.dao.WeatherBean;
+import com.example.owen.weathergo.modules.domain.Weather;
 import com.example.owen.weathergo.service.AutoUpdateService;
 import com.example.owen.weathergo.util.FileUtil;
 import com.example.owen.weathergo.util.JSONUtil;
 import com.example.owen.weathergo.util.ScreenShoot;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
-import com.tbruyelle.rxpermissions.RxPermissions;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,7 +47,6 @@ public class MainFragment extends Fragment {
     private static final int SEARCH_CITY = 1;
     private static final int SCREEN_SHOOT = 2;
     private static final int CHANGE_TEXT = 3;
-
 
     @BindView(R.id.no_city_data)
     TextView mNoCityData;
@@ -74,6 +67,7 @@ public class MainFragment extends Fragment {
     private View view;
     private boolean mIsCreateView = false;
     private WeatherMain mActivity;
+    private Weather mWeather;
     private int times = 0;
 
     private Handler mHandler = new Handler() {
@@ -88,6 +82,7 @@ public class MainFragment extends Fragment {
                     } else {
                         mLoadData.setVisibility(View.GONE);
                         mNoData.setVisibility(View.GONE);
+                        Log.d("huangshaohua3", " updatedata: " + mCityStr);
                         refresh();
                     }
                     break;
@@ -99,14 +94,13 @@ public class MainFragment extends Fragment {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                JSONUtil.getWeatherBeans(getActivity(), mCityStr);
+                                mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
                                 Message message = new Message();
                                 message.what = UPDATE_WEATHER_DATA;
                                 mHandler.sendMessage(message);
                             }
                         }).start();
                     } else {
-                        Log.d("changetext", "start");
                         Message message = new Message();
                         message.what = CHANGE_TEXT;
                         message.obj = "no_city_data";
@@ -121,7 +115,7 @@ public class MainFragment extends Fragment {
                     FileUtil.getPermission(getActivity());
                     Bitmap bitmap = ScreenShoot.convertViewBitmap(mRecycleView);
                     String fileName = ScreenShoot.saveMyBitmap(bitmap, "sdcard/");
-                    FileUtil.shareMsg(getContext(),"分享","share","今天天气",fileName,0);
+                    FileUtil.shareMsg(getContext(), "分享", "share", "今天天气", fileName, 0);
                     break;
                 case CHANGE_TEXT:
                     if (msg.obj.equals("no_city_data")) {
@@ -164,7 +158,7 @@ public class MainFragment extends Fragment {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    JSONUtil.getWeatherBeans(getActivity(), mCityStr);
+                    mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
                     Message message = new Message();
                     message.what = UPDATE_WEATHER_DATA;
                     mHandler.sendMessage(message);
@@ -192,7 +186,7 @@ public class MainFragment extends Fragment {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    JSONUtil.getWeatherBeans(getActivity(), mCityStr);
+                    mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
                     Message message = new Message();
                     message.what = UPDATE_WEATHER_DATA;
                     mHandler.sendMessage(message);
@@ -285,17 +279,14 @@ public class MainFragment extends Fragment {
         mNoData.setVisibility(View.GONE);
         mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         try {
-            WeatherBean weatherBean = null;
-            weatherBean = JSONUtil.getWeatherBeans(getActivity(), mCityStr);
-            ArrayList<DailyForecast> mDFList = JSONUtil.getDForecast();
+            mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
             int i = 0;
-            ArrayList<HourlyForecast> mHFList = JSONUtil.getHForecast();
-            mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(mDFList, weatherBean, mHFList));
-            mGCityStr = weatherBean.getCity();
+            mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(mWeather));
+            mGCityStr = mWeather.getBasic().getCity();
             if (!mGCityStr.equals(""))
                 safeSetTitle(mGCityStr);
             Intent intent = new Intent(getActivity(), AutoUpdateService.class);
-            intent.putExtra("weather", weatherBean);
+            intent.putExtra("weather", mWeather);
             getActivity().startService(intent);
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,6 +1,5 @@
 package com.example.owen.weathergo.activity;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -35,7 +34,6 @@ import com.example.owen.weathergo.common.DoubleClickExit;
 import com.example.owen.weathergo.dialog.CityDialog;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
 import com.example.owen.weathergo.util.ToastUtil;
-import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,7 +49,7 @@ public class WeatherMain extends AppCompatActivity
      */
 
     //TODO 设置推送并震动
-
+    //TODO JSONUtil 单例getInstance()模式
     private static final String TAG = WeatherMain.class.getSimpleName();
     private static final int UPDATE_WEATHER_DATA = 0;
     private static final int SEARCH_CITY = 1;
@@ -120,6 +118,7 @@ public class WeatherMain extends AppCompatActivity
                 Message msg = new Message();
                 msg.what = SCREEN_SHOOT;
                 mHandler.sendMessage(msg);
+//                startActivity(new Intent(WeatherMain.this,Test.class));
                 break;
             default:
                 break;
@@ -252,7 +251,7 @@ public class WeatherMain extends AppCompatActivity
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem menuItem) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         return false;
     }
 

@@ -16,7 +16,7 @@ import android.util.Log;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.activity.WeatherMain;
-import com.example.owen.weathergo.modules.dao.WeatherBean;
+import com.example.owen.weathergo.modules.domain.Weather;
 import com.example.owen.weathergo.util.IconGet;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
 
@@ -57,10 +57,10 @@ public class AutoUpdateService extends Service {
 
         if (intent.getSerializableExtra("weather") != null) {
             //判断为空？
-            WeatherBean weatherBean = (WeatherBean) intent.getSerializableExtra("weather");
+            Weather weather = (Weather) intent.getSerializableExtra("weather");
             //TODO 查找崩溃原因
-            Log.i("autoUpdateService", "onStartCommand()" + weatherBean.getCity());
-            createNotification(weatherBean);
+            Log.i("autoUpdateService", "onStartCommand()" + weather.getBasic().getCity());
+            createNotification(weather);
         }
         return super.onStartCommand(intent, flags, startId);
     }
@@ -71,20 +71,20 @@ public class AutoUpdateService extends Service {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-    private void createNotification(WeatherBean weatherBean) {
-        Log.i("autoUpdateService", "createNotification()" + weatherBean.getCity());
+    private void createNotification(Weather weather) {
+        Log.i("autoUpdateService", "createNotification()" + weather.getBasic().getCity());
         Intent autoServiceIntent
                 = new Intent(AutoUpdateService.this, WeatherMain.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(
                 AutoUpdateService.this, 0, autoServiceIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         Notification.Builder builder = new Notification.Builder(AutoUpdateService.this);
         Notification notification = builder.setContentIntent(pendingIntent)
-                .setContentTitle(weatherBean.getCity() + "   " + weatherBean.getNow_tmp() + getApplicationContext().getResources().getString(R.string.c))
-                .setContentText("" + weatherBean.getNow_dir() + (weatherBean.getNow_sc().equals("微风") ? weatherBean.getNow_sc() : weatherBean.getNow_sc()
-                        + getApplicationContext().getResources().getString(R.string.m_s)) + " " + weatherBean.getTxt())
-                .setSmallIcon(IconGet.getWeaIcon(weatherBean.getMain_weather_img())).build();
+                .setContentTitle(weather.getBasic().getCity() + "   " + weather.getNow().getTmp() + getApplicationContext().getResources().getString(R.string.c))
+                .setContentText("" + weather.getNow().getWind().getDir() + (weather.getNow().getWind().getSc().equals("微风") ? weather.getNow().getWind().getSc() : weather.getNow().getWind().getSc()
+                        + getApplicationContext().getResources().getString(R.string.m_s)) + " " + weather.getNow().getCond().getTxt())
+                .setSmallIcon(IconGet.getWeaIcon(weather.getNow().getCond().getTxt())).build();
         builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),
-                IconGet.getWeaIcon(weatherBean.getMain_weather_img())));
+                IconGet.getWeaIcon(weather.getNow().getCond().getTxt())));
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(
                         NOTIFICATION_SERVICE);

@@ -1,4 +1,4 @@
-package com.example.owen.weathergo.modules.dao;
+package com.example.owen.weathergo.modules.domain;
 
 import java.io.Serializable;
 

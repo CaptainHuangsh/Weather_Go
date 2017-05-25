@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.base.BaseViewHolder;
+import com.example.owen.weathergo.modules.domain.Weather;
 import com.example.owen.weathergo.util.IconGet;
 
 import java.util.ArrayList;
@@ -17,23 +18,23 @@ import java.util.ArrayList;
  * Created by owen on 2017/4/21.
  */
 
-public class DailyWeatherHolder extends BaseViewHolder<ArrayList<DailyForecast>> {
+public class DailyWeatherHolder extends BaseViewHolder<Weather> {
     private final String TAG = DailyWeatherHolder.class.getSimpleName();
     private Context mContext;
-    ArrayList<DailyForecast> mDFList;
     private LinearLayout dailyWeather;
     private ImageView img[] = new ImageView[7];
     private TextView dayView[] = new TextView[7];
     private TextView tempView[] = new TextView[7];
     private TextView moreInfoView[] = new TextView[7];
+    private Weather weather;
 
 
-    public DailyWeatherHolder(View view, ArrayList<DailyForecast> mDFList) {
+    public DailyWeatherHolder(View view, Weather weather) {
         super(view);
+        this.weather = weather;
         mContext = view.getContext();
-        this.mDFList = mDFList;
         dailyWeather = (LinearLayout) itemView.findViewById(R.id.forecast_linear);
-        for (int i = 0; i < mDFList.size(); i++) {
+        for (int i = 0; i < weather.getDailyForecast().size(); i++) {
             View v = View.inflate(mContext, R.layout.items_weeklyforecast, null);
             img[i] = (ImageView) v.findViewById(R.id.forecast_icon);
             dayView[i] = (TextView) v.findViewById(R.id.forecast_date);
@@ -44,29 +45,29 @@ public class DailyWeatherHolder extends BaseViewHolder<ArrayList<DailyForecast>>
     }
 
     @Override
-    public void bind(ArrayList<DailyForecast> mDFList) {
+    public void bind(Weather weather) {
         try {
             dayView[0].setText("今日");
             dayView[1].setText("明日");
 
-            for (int i = 0; i < mDFList.size(); i++) {
+            for (int i = 0; i < weather.getDailyForecast().size(); i++) {
                 if (i > 1) {
-                    dayView[i].setText(mDFList.get(i).getDate() + "");
+                    dayView[i].setText(weather.getDailyForecast().get(i).getDate() + "");
                 }
-                img[i].setImageResource(IconGet.getWeaIcon(mDFList.get(i)
-                        .getTxt_d()));
+                img[i].setImageResource(IconGet.getWeaIcon(weather.getDailyForecast().get(i)
+                        .getCond().getTxtD()));//TODO 图标为上午图标，需要改成全天适用
                 tempView[i].setText(mContext.getResources().getString(R.string.temp_min)
-                        + mDFList.get(i).getMin()
+                        + weather.getDailyForecast().get(i).getTmp().getMin()
                         + mContext.getResources().getString(R.string.c)
                         + mContext.getResources().getString(R.string.temp_max)
-                        + mDFList.get(i).getMax()
+                        + weather.getDailyForecast().get(i).getTmp().getMin()
                         + mContext.getResources().getString(R.string.c));
-                moreInfoView[i].setText(mDFList.get(i).getDir() + (mDFList.get(i).getSc().equals("微风")
-                        ? mDFList.get(i).getSc() : mDFList.get(i).getSc() + mContext.getResources().getString(R.string.m_s))
+                moreInfoView[i].setText(weather.getDailyForecast().get(i).getWind().getDir() + (weather.getDailyForecast().get(i).getWind().getSc().equals("微风")
+                        ? weather.getDailyForecast().get(i).getWind().getSc() : weather.getDailyForecast().get(i).getWind().getSc() + mContext.getResources().getString(R.string.m_s))
                         //判断风速大小若无风或微风不显示风力
-                        + (mDFList.get(i).getTxt_d().equals(mDFList.get(i).getTxt_n())
-                        ? mDFList.get(i).getTxt_d() : mDFList.get(i).getTxt_d()
-                        + mContext.getResources().getString(R.string.to) + mDFList.get(i).getTxt_n()));
+                        + (weather.getDailyForecast().get(i).getCond().getTxtD().equals(weather.getDailyForecast().get(i).getCond().getTxtN())
+                        ? weather.getDailyForecast().get(i).getCond().getTxtD() : weather.getDailyForecast().get(i).getCond().getTxtD()
+                        + mContext.getResources().getString(R.string.to) + weather.getDailyForecast().get(i).getCond().getTxtN()));
                 //判断getTxt_d()和getTxt_n()的值是否相等，即上下午天气是否不变，如果不变则显示一个，否则在两天气信息中加入过渡词“转”
             }
         } catch (Exception e) {
