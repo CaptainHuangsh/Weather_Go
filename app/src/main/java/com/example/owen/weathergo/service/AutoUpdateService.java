@@ -60,11 +60,6 @@ public class AutoUpdateService extends Service {
         mNotificationMode = preferences.getBoolean("notification_mode", false);
         mVibrate = preferences.getBoolean("vibrate", false);
         mUpdateTime = Integer.valueOf(preferences.getString("update_time", "3"));
-        /*if (intent.getSerializableExtra("weather") != null) {
-            //判断为空？
-            Weather weather = (Weather) intent.getSerializableExtra("weather");
-
-        }*/
         if (mWeather != null) {
             createNotification(mWeather);
         }

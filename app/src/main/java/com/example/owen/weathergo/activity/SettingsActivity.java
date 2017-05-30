@@ -19,7 +19,6 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        addPreferencesFromResource(R.xml.pref_settings);
         setContentView(R.layout.activity_setting);
         this.getFragmentManager().beginTransaction()
                 .replace(R.id.main_setting,new SettingFragment())

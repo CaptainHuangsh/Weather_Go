@@ -81,7 +81,6 @@ public class MainFragment extends Fragment {
                     } else {
                         mLoadData.setVisibility(View.GONE);
                         mNoData.setVisibility(View.GONE);
-                        Log.d("huangshaohua3", " updatedata: " + mCityStr);
                         refresh();
                     }
                     break;
@@ -287,7 +286,6 @@ public class MainFragment extends Fragment {
             if (!mGCityStr.equals(""))
                 safeSetTitle(mGCityStr);
             Intent intent = new Intent(getActivity(), AutoUpdateService.class);
-            intent.putExtra("weather", mWeather);
             getActivity().startService(intent);
         } catch (Exception e) {
             e.printStackTrace();
