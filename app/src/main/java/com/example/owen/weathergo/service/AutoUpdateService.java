@@ -70,7 +70,8 @@ public class AutoUpdateService extends Service {
         }
         //几种定时刷新的方式 http://blog.csdn.net/wanglixin1999/article/details/7874316
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        int aTime = 60 * 10 * 1000;//测试1分钟
+        int aTime = 60 * 10 * 1000;//测试10分钟
+        // 用户划掉天气后，一小时/2小时/8小时候会重新出现notification
         long triggerAtTime = SystemClock.elapsedRealtime() + aTime;
         Intent i = new Intent(this, AutoUpdateService.class);
         PendingIntent pi = PendingIntent.getService(this, 0, i, 0);
