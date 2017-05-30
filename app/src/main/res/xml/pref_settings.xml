@@ -2,7 +2,7 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/pref_common" />
     <ListPreference
-        android:defaultValue="3"
+        android:defaultValue="2"
         android:key="update_time"
         android:entries="@array/update_time"
         android:entryValues="@array/update_time_values"

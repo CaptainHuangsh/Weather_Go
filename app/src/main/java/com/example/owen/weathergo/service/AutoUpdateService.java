@@ -35,8 +35,8 @@ public class AutoUpdateService extends Service {
     private SharedPreferences preferences;
     private boolean mNotificationMode; //通知栏常驻
     private boolean mVibrate; //天气推送震动
+    private int mUpdateTime;
     Weather mWeather;
-    SharedPreferenceUtil mSharedPreferenceUtil;
 
     @Nullable
     @Override
@@ -59,6 +59,7 @@ public class AutoUpdateService extends Service {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         mNotificationMode = preferences.getBoolean("notification_mode", false);
         mVibrate = preferences.getBoolean("vibrate", false);
+        mUpdateTime = Integer.valueOf(preferences.getString("update_time", "3"));
         /*if (intent.getSerializableExtra("weather") != null) {
             //判断为空？
             Weather weather = (Weather) intent.getSerializableExtra("weather");
@@ -66,17 +67,19 @@ public class AutoUpdateService extends Service {
         }*/
         if (mWeather != null) {
             createNotification(mWeather);
-            Log.d("huangshaohua","createNotification");
         }
-        //几种定时刷新的方式 http://blog.csdn.net/wanglixin1999/article/details/7874316
-        AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        int aTime = 60 * 10 * 1000;//测试10分钟
-        // 用户划掉天气后，一小时/2小时/8小时候会重新出现notification
-        long triggerAtTime = SystemClock.elapsedRealtime() + aTime;
-        Intent i = new Intent(this, AutoUpdateService.class);
-        PendingIntent pi = PendingIntent.getService(this, 0, i, 0);
-        manager.cancel(pi);
-        manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAtTime, pi);
+
+        if (mUpdateTime > 0) {
+            //几种定时刷新的方式 http://blog.csdn.net/wanglixin1999/article/details/7874316
+            AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            int aTime = mUpdateTime * 60 * 60 * 1000;//测试10分钟
+            // 用户划掉天气后，一小时/2小时/8小时候会重新出现notification
+            long triggerAtTime = SystemClock.elapsedRealtime() + aTime;
+            Intent i = new Intent(this, AutoUpdateService.class);
+            PendingIntent pi = PendingIntent.getService(this, 0, i, 0);
+            manager.cancel(pi);
+            manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAtTime, pi);
+        }
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -87,7 +90,6 @@ public class AutoUpdateService extends Service {
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void createNotification(Weather weather) {
-        Log.i("autoUpdateService", "createNotification()" + weather.getBasic().getCity());
         Intent autoServiceIntent
                 = new Intent(AutoUpdateService.this, WeatherMain.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(
@@ -114,12 +116,7 @@ public class AutoUpdateService extends Service {
     }
 
     private void updateWeather() {
-//        SharedPreferences preferences = getApplicationContext().getSharedPreferences("huang", MODE_PRIVATE);
-//        String jsonTextg = preferences.getString("jsonTextg", "");
-//        mWeather = JSONUtil.getInstance().parse(jsonTextg);
         String Ccity = SharedPreferenceUtil.getInstance().getCityName();
-        Log.d("huangshaohua", " updateWeather "  + Ccity);
         mWeather = JSONUtil.getInstance().getWeather(getApplicationContext(), Ccity);
-//        ToastUtil.showShort("heheda");
     }
 }
