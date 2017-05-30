@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/pref_common" />
-    <Preference
+    <ListPreference
         android:defaultValue="3"
         android:key="update_time"
+        android:entries="@array/update_time"
+        android:entryValues="@array/update_time_values"
         android:title="@string/update_time" />
     <CheckBoxPreference
         android:defaultValue="true"

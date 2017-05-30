@@ -14,10 +14,19 @@ import com.example.owen.weathergo.R;
 public class SettingFragment extends PreferenceFragment implements
         Preference.OnPreferenceChangeListener ,Preference.OnPreferenceClickListener{
 
+    Preference mUpdateTimes;
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.pref_settings);
+//        init();
+    }
+
+    private void init() {
+        mUpdateTimes = findPreference("update_time");
+        mUpdateTimes.setOnPreferenceClickListener(this);
     }
 
     @Override
@@ -27,6 +36,13 @@ public class SettingFragment extends PreferenceFragment implements
 
     @Override
     public boolean onPreferenceClick(Preference preference) {
-        return false;
+        if (preference == mUpdateTimes){
+            showUpdateDialog();
+        }
+        return true;
+    }
+
+    private void showUpdateDialog() {
+
     }
 }
