@@ -64,11 +64,13 @@ public class AutoUpdateService extends Service {
             Weather weather = (Weather) intent.getSerializableExtra("weather");
 
         }*/
-        if (mWeather != null)
+        if (mWeather != null) {
             createNotification(mWeather);
+            Log.d("huangshaohua","createNotification");
+        }
         //几种定时刷新的方式 http://blog.csdn.net/wanglixin1999/article/details/7874316
         AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        int aTime = 60 * 60 * 10 * 1000;//测试10秒
+        int aTime = 60 * 10 * 1000;//测试1分钟
         long triggerAtTime = SystemClock.elapsedRealtime() + aTime;
         Intent i = new Intent(this, AutoUpdateService.class);
         PendingIntent pi = PendingIntent.getService(this, 0, i, 0);
@@ -115,7 +117,8 @@ public class AutoUpdateService extends Service {
 //        String jsonTextg = preferences.getString("jsonTextg", "");
 //        mWeather = JSONUtil.getInstance().parse(jsonTextg);
         String Ccity = SharedPreferenceUtil.getInstance().getCityName();
-        mWeather = JSONUtil.getInstance().getWeather(getApplicationContext(),Ccity);
+        Log.d("huangshaohua", " updateWeather "  + Ccity);
+        mWeather = JSONUtil.getInstance().getWeather(getApplicationContext(), Ccity);
 //        ToastUtil.showShort("heheda");
     }
 }
