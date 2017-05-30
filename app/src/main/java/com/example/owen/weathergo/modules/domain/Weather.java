@@ -9,7 +9,9 @@ import java.util.List;
  * Created by owen on 2017/4/8.
  */
 
-public class Weather implements Serializable{
+
+//@serializedName 建立映射关系
+public class Weather implements Serializable {
     @SerializedName("aqi")
     private AqiEntity aqi;
 

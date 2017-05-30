@@ -1,5 +1,6 @@
 package com.example.owen.weathergo.service;
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -9,6 +10,7 @@ import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
@@ -18,7 +20,9 @@ import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.activity.WeatherMain;
 import com.example.owen.weathergo.modules.domain.Weather;
 import com.example.owen.weathergo.util.IconGet;
+import com.example.owen.weathergo.util.JSONUtil;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
+import com.example.owen.weathergo.util.ToastUtil;
 
 /**
  * Created by owen on 2017/5/1.
@@ -31,6 +35,7 @@ public class AutoUpdateService extends Service {
     private SharedPreferences preferences;
     private boolean mNotificationMode; //通知栏常驻
     private boolean mVibrate; //天气推送震动
+    Weather mWeather;
     SharedPreferenceUtil mSharedPreferenceUtil;
 
     @Nullable
@@ -49,18 +54,26 @@ public class AutoUpdateService extends Service {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        updateWeather();
         PreferenceManager.setDefaultValues(this, R.xml.pref_settings, false);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         mNotificationMode = preferences.getBoolean("notification_mode", false);
         mVibrate = preferences.getBoolean("vibrate", false);
-        Log.i("autoUpdateService", "onStartCommand()");
-
-        if (intent.getSerializableExtra("weather") != null) {
+        /*if (intent.getSerializableExtra("weather") != null) {
             //判断为空？
             Weather weather = (Weather) intent.getSerializableExtra("weather");
-            Log.i("autoUpdateService", "onStartCommand()" + weather.getBasic().getCity());
-            createNotification(weather);
-        }
+
+        }*/
+        if (mWeather != null)
+            createNotification(mWeather);
+        //几种定时刷新的方式 http://blog.csdn.net/wanglixin1999/article/details/7874316
+        AlarmManager manager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        int aTime = 60 * 60 * 10 * 1000;//测试10秒
+        long triggerAtTime = SystemClock.elapsedRealtime() + aTime;
+        Intent i = new Intent(this, AutoUpdateService.class);
+        PendingIntent pi = PendingIntent.getService(this, 0, i, 0);
+        manager.cancel(pi);
+        manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAtTime, pi);
         return super.onStartCommand(intent, flags, startId);
     }
 
@@ -95,5 +108,14 @@ public class AutoUpdateService extends Service {
         }
         notificationManager.notify(1, notification);
 
+    }
+
+    private void updateWeather() {
+//        SharedPreferences preferences = getApplicationContext().getSharedPreferences("huang", MODE_PRIVATE);
+//        String jsonTextg = preferences.getString("jsonTextg", "");
+//        mWeather = JSONUtil.getInstance().parse(jsonTextg);
+        String Ccity = SharedPreferenceUtil.getInstance().getCityName();
+        mWeather = JSONUtil.getInstance().getWeather(getApplicationContext(),Ccity);
+//        ToastUtil.showShort("heheda");
     }
 }
