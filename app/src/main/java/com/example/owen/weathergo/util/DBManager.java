@@ -22,9 +22,9 @@ import java.io.InputStream;
 public class DBManager {
 
     private static String TAG = DBManager.class.getSimpleName();
-    public static final String DB_NAME = "china_city.db"; //数据库名字
-    public static final String PACKAGE_NAME = "com.example.owen.weathergo";
-    public static final String DB_PATH = "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" +
+    private static final String DB_NAME = "china_city.db"; //数据库名字
+    private static final String PACKAGE_NAME = "com.example.owen.weathergo";
+    private static final String DB_PATH = "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" +
             PACKAGE_NAME;  //在手机里存放数据库的位置(/data/data/com.example.owen.weathergo/china_city.db)
     private SQLiteDatabase database;
     private Context context;
@@ -38,7 +38,7 @@ public class DBManager {
     }
 
     private static final class DBManagerHolder {
-        public static final DBManager sInstance = new DBManager();
+        static final DBManager sInstance = new DBManager();
     }
 
     public SQLiteDatabase getDatabase() {

@@ -81,7 +81,6 @@ public class MainFragment extends Fragment {
                     } else {
                         mLoadData.setVisibility(View.GONE);
                         mNoData.setVisibility(View.GONE);
-                        Log.d("huangshaohua3", " updatedata: " + mCityStr);
                         refresh();
                     }
                     break;
@@ -178,6 +177,8 @@ public class MainFragment extends Fragment {
 
     @Override
     public void onStart() {
+        //TODO onStart中只通过sharedPreference取在service中存储的jsonText
+        //以节省流量和访问次数（因为每次打开app时用户的位置数据是基本不会改变的）
         super.onStart();
         String Ccity = SharedPreferenceUtil.getInstance().getCityName();
         if (!Ccity.equals(mCityStr)) {
@@ -285,7 +286,6 @@ public class MainFragment extends Fragment {
             if (!mGCityStr.equals(""))
                 safeSetTitle(mGCityStr);
             Intent intent = new Intent(getActivity(), AutoUpdateService.class);
-            intent.putExtra("weather", mWeather);
             getActivity().startService(intent);
         } catch (Exception e) {
             e.printStackTrace();

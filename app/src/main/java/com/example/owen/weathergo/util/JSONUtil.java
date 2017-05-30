@@ -74,14 +74,14 @@ public class JSONUtil {
             }
         });
         SharedPreferences preferences = context.getSharedPreferences("huang", MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
+//        SharedPreferences.Editor editor = preferences.edit();
         //缓存json数据
         String jsonTextg = preferences.getString("jsonTextg", "");
         parse(jsonTextg);
         return mWeather;
     }
 
-    private static Weather parse(String jsonText) {
+    public Weather parse(String jsonText) {
         Gson gson = new Gson();
         WeatherAPI weatherAPI = gson.fromJson(jsonText,
                 new TypeToken<WeatherAPI>() {
