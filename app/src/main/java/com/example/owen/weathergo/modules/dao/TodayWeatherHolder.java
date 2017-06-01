@@ -1,14 +1,27 @@
 package com.example.owen.weathergo.modules.dao;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Message;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.base.BaseViewHolder;
 import com.example.owen.weathergo.modules.domain.Weather;
 import com.example.owen.weathergo.util.IconGet;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by owen on 2017/4/24.
@@ -24,7 +37,20 @@ public class TodayWeatherHolder extends BaseViewHolder<Weather> {
     TextView mWind_speed;
     TextView mTemp;
     ImageView mImg;
+    ImageView mBingPic;
     private Weather weather;
+
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 0:
+                    String bingPic = msg.toString();
+                    Glide.with(mContext).load(bingPic).into(mBingPic);
+                    break;
+            }
+        }
+    };
 
     public TodayWeatherHolder(View view, Weather weather) {
         super(view);
@@ -36,6 +62,7 @@ public class TodayWeatherHolder extends BaseViewHolder<Weather> {
         mWind_speed = (TextView) view.findViewById(R.id.weather_wind_speed);
         mTemp = (TextView) view.findViewById(R.id.weather_temp);
         mImg = (ImageView) view.findViewById(R.id.weather_img);
+        mBingPic = (ImageView) view.findViewById(R.id.bg_pic);
     }
 
     @Override
@@ -60,9 +87,51 @@ public class TodayWeatherHolder extends BaseViewHolder<Weather> {
                     weather.getAqi().getCity().getQlty().length() < 2 ? mContext.getResources().getString(R.string.air)
                             + weather.getAqi().getCity().getQlty() : weather.getAqi().getCity().getQlty());
             mImg.setImageResource(IconGet.getWeaIcon(weather.getNow().getCond().getTxt()));
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+            String bingPic = prefs.getString("bing_pic", null);
+            if (bingPic != null) {
+                Glide.with(mContext).load(bingPic).into(mBingPic);
+            } else {
+                loadPic();
+            }
+
         } catch (Exception e) {
 
         }
+    }
+
+    private void loadPic() {
+        String requestBingPic = "http://guolin.tech/api/bing_pic";
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(requestBingPic)
+                .build();
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final  String bingPic = response.body().string();
+                SharedPreferences.Editor editor = PreferenceManager.
+                        getDefaultSharedPreferences(mContext).edit();
+                editor.putString("bing_pic",bingPic);
+                editor.apply();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Message message = new Message();
+                        message.what = 0;
+                        message.obj = bingPic;
+                        mHandler.sendMessage(message);
+                    }
+                });
+//                Glide.with(mContext).load(bingPic).into(mBingPic);
+            }
+        });
     }
 
 }
