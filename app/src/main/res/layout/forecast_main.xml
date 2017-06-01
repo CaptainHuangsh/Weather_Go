@@ -3,12 +3,19 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/main_card_view"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="160dp"
     android:layout_marginLeft="@dimen/zero"
     android:layout_marginRight="@dimen/zero"
     android:layout_marginTop="@dimen/card_view_margin_top"
     android:elevation="@dimen/card_view_elevation"
     card_view:cardCornerRadius="@dimen/card_view_radius">
+
+    <ImageView
+        android:id="@+id/bg_pic"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/play" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -26,6 +33,7 @@
 
 
         <TextView
+            android:textColor="@color/white"
             android:id="@+id/weather_temp_max"
             android:layout_width="@dimen/forecast_main_text_view_width"
             android:layout_height="wrap_content"
@@ -36,6 +44,7 @@
             android:textSize="@dimen/forecast_main_text_size" />
 
         <TextView
+            android:textColor="@color/white"
             android:id="@+id/weather_temp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,6 +53,7 @@
             android:textSize="@dimen/forecast_main_temp_text_size" />
 
         <TextView
+            android:textColor="@color/white"
             android:id="@+id/weather_temp_min"
             android:layout_width="@dimen/forecast_main_text_view_width"
             android:layout_height="wrap_content"
@@ -64,12 +74,14 @@
             android:orientation="horizontal">
 
             <TextView
+                android:textColor="@color/white"
                 android:id="@+id/weather_wind_speed"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="@string/wind_speed" />
 
             <TextView
+                android:textColor="@color/white"
                 android:id="@+id/weather_air"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
