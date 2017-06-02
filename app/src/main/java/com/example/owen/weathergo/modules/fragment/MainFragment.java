@@ -225,7 +225,19 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 initRecycleView();
-                refresh();
+                String Ccity = SharedPreferenceUtil.getInstance().getCityName();
+                if (!Ccity.equals(mCityStr)) {
+                    mCityStr = Ccity;
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
+                            Message message = new Message();
+                            message.what = UPDATE_WEATHER_DATA;
+                            mHandler.sendMessage(message);
+                        }
+                    }).start();
+                }
             }
         });
     }
@@ -242,7 +254,7 @@ public class MainFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onRefresh() {
-                refresh();
+              refresh();
             }
         });
         mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
