@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.modules.domain.Weather;
@@ -22,7 +21,7 @@ public class Test extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test);
-        ((Button) findViewById(R.id.test)).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.test).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                        JSONUtil jsonUtil2 = new JSONUtil(getApplicationContext(), "luoyang");

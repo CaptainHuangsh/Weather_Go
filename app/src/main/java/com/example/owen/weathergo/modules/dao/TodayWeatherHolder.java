@@ -16,6 +16,8 @@ import com.example.owen.weathergo.modules.domain.Weather;
 import com.example.owen.weathergo.util.IconGet;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -40,10 +42,10 @@ public class TodayWeatherHolder extends BaseViewHolder<Weather> {
     ImageView mBingPic;
     private Weather weather;
 
-    private Handler mHandler = new Handler(){
+    private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case 0:
                     String bingPic = msg.toString();
                     Glide.with(mContext).load(bingPic).into(mBingPic);
@@ -87,9 +89,13 @@ public class TodayWeatherHolder extends BaseViewHolder<Weather> {
                     weather.getAqi().getCity().getQlty().length() < 2 ? mContext.getResources().getString(R.string.air)
                             + weather.getAqi().getCity().getQlty() : weather.getAqi().getCity().getQlty());
             mImg.setImageResource(IconGet.getWeaIcon(weather.getNow().getCond().getTxt()));
+            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+            Calendar c = Calendar.getInstance();
+            String today = sf.format(c.getTime());
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
             String bingPic = prefs.getString("bing_pic", null);
-            if (bingPic != null) {
+            String date = prefs.getString("date", null);
+            if (bingPic != null && today.equals(date)) {
                 Glide.with(mContext).load(bingPic).into(mBingPic);
             } else {
                 loadPic();
@@ -101,6 +107,9 @@ public class TodayWeatherHolder extends BaseViewHolder<Weather> {
     }
 
     private void loadPic() {
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        final String today = sf.format(c.getTime());
         String requestBingPic = "http://guolin.tech/api/bing_pic";
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
@@ -115,10 +124,11 @@ public class TodayWeatherHolder extends BaseViewHolder<Weather> {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                final  String bingPic = response.body().string();
+                final String bingPic = response.body().string();
                 SharedPreferences.Editor editor = PreferenceManager.
                         getDefaultSharedPreferences(mContext).edit();
-                editor.putString("bing_pic",bingPic);
+                editor.putString("bing_pic", bingPic);
+                editor.putString("date", today);
                 editor.apply();
                 new Thread(new Runnable() {
                     @Override

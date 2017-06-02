@@ -9,7 +9,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Message;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -22,7 +24,6 @@ import com.example.owen.weathergo.modules.domain.Weather;
 import com.example.owen.weathergo.util.IconGet;
 import com.example.owen.weathergo.util.JSONUtil;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
-import com.example.owen.weathergo.util.ToastUtil;
 
 /**
  * Created by owen on 2017/5/1.
@@ -32,11 +33,28 @@ import com.example.owen.weathergo.util.ToastUtil;
 public class AutoUpdateService extends Service {
     //http://www.jianshu.com/p/67c1d82b50b7
     private final String TAG = AutoUpdateService.class.getSimpleName();
-    private SharedPreferences preferences;
+    //    private SharedPreferences preferences;
     private boolean mNotificationMode; //通知栏常驻
-    private boolean mVibrate; //天气推送震动
+    //    private boolean mVibrate; //天气推送震动
     private int mUpdateTime;
     Weather mWeather;
+
+    private Handler mHandler = new Handler() {
+        @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 0:
+                    final String Ccity = SharedPreferenceUtil.getInstance().getCityName();
+                    Weather weather = JSONUtil.getInstance().getWeather(getApplicationContext(), Ccity);
+                    if (weather != null) {
+                        Log.d("huangshaohua notification", "" + weather.getBasic().getCity());
+                        createNotification(weather);
+                    }
+                    break;
+            }
+        }
+    };
 
     @Nullable
     @Override
@@ -47,18 +65,17 @@ public class AutoUpdateService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
-
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         updateWeather();
+//        createNotification(mWeather);
         PreferenceManager.setDefaultValues(this, R.xml.pref_settings, false);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         mNotificationMode = preferences.getBoolean("notification_mode", false);
-        mVibrate = preferences.getBoolean("vibrate", false);
+//        mVibrate = preferences.getBoolean("vibrate", false);
         mUpdateTime = Integer.valueOf(preferences.getString("update_time", "3"));
         if (mWeather != null) {
             createNotification(mWeather);
@@ -111,7 +128,9 @@ public class AutoUpdateService extends Service {
     }
 
     private void updateWeather() {
-        String Ccity = SharedPreferenceUtil.getInstance().getCityName();
+        Log.d("huangshaohua ", "updateWeather");
+        final String Ccity = SharedPreferenceUtil.getInstance().getCityName();
         mWeather = JSONUtil.getInstance().getWeather(getApplicationContext(), Ccity);
+        Log.d("huangshaohua notification0", "" + mWeather.getBasic().getCity());
     }
 }
