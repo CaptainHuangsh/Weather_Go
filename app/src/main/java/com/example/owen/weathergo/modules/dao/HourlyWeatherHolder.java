@@ -62,7 +62,7 @@ public class HourlyWeatherHolder extends BaseViewHolder<Weather> {
                 }
             }
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
 
     }

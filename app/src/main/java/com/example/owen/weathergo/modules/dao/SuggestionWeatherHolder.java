@@ -54,7 +54,7 @@ public class SuggestionWeatherHolder extends BaseViewHolder<Weather> {
             suggFluBrief.setText(weather.getSuggestion().getFlu().getBrf());
             suggFluTxt.setText(weather.getSuggestion().getFlu().getTxt());
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
 
     }

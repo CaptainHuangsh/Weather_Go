@@ -98,10 +98,10 @@ public class CityDialog extends Dialog {
 
 
     public interface onNoOnclickListener {
-        public void onNoClick();
+        void onNoClick();
     }
 
     public interface onYesOnclickListener {
-        public void onYesClick();
+        void onYesClick();
     }
 }

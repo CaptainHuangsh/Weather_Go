@@ -30,17 +30,17 @@ import okhttp3.Response;
  */
 
 public class TodayWeatherHolder extends BaseViewHolder<Weather> {
-
+    //TODO 每日首次实时刷新图片的问题
+    //TODO 字体颜色的问题
     private final String TAG = TodayWeatherHolder.class.getSimpleName();
     private Context mContext;
-    TextView mTemp_min;
-    TextView mTemp_max;
-    TextView mCountry;
-    TextView mWind_speed;
-    TextView mTemp;
-    ImageView mImg;
-    ImageView mBingPic;
-    private Weather weather;
+    private TextView mTemp_min;
+    private TextView mTemp_max;
+    private TextView mCountry;
+    private TextView mWind_speed;
+    private TextView mTemp;
+    private ImageView mImg;
+    private ImageView mBingPic;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -56,7 +56,6 @@ public class TodayWeatherHolder extends BaseViewHolder<Weather> {
 
     public TodayWeatherHolder(View view, Weather weather) {
         super(view);
-        this.weather = weather;
         mContext = view.getContext();
         mTemp_min = (TextView) view.findViewById(R.id.weather_temp_min);
         mTemp_max = (TextView) view.findViewById(R.id.weather_temp_max);
@@ -102,7 +101,7 @@ public class TodayWeatherHolder extends BaseViewHolder<Weather> {
             }
 
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
