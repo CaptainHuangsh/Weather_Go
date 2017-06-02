@@ -37,7 +37,7 @@ public class AutoUpdateService extends Service {
     private boolean mNotificationMode; //通知栏常驻
     //    private boolean mVibrate; //天气推送震动
     private int mUpdateTime;
-    Weather mWeather;
+    private Weather mWeather;
 
     private Handler mHandler = new Handler() {
         @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
@@ -45,11 +45,13 @@ public class AutoUpdateService extends Service {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
+/*
                     final String Ccity = SharedPreferenceUtil.getInstance().getCityName();
                     Weather weather = JSONUtil.getInstance().getWeather(getApplicationContext(), Ccity);
-                    if (weather != null) {
-                        Log.d("huangshaohua notification", "" + weather.getBasic().getCity());
-                        createNotification(weather);
+*/
+                    if (mWeather != null) {
+                        Log.d("huangshaohua notification", "" + mWeather.getBasic().getCity());
+                        createNotification(mWeather);
                     }
                     break;
             }
@@ -70,16 +72,25 @@ public class AutoUpdateService extends Service {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        updateWeather();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                updateWeather();
+                Message msg = new Message();
+                msg.what = 0;
+                mHandler.sendMessage(msg);
+            }
+        }).start();//不要忘了start
+
 //        createNotification(mWeather);
         PreferenceManager.setDefaultValues(this, R.xml.pref_settings, false);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         mNotificationMode = preferences.getBoolean("notification_mode", false);
 //        mVibrate = preferences.getBoolean("vibrate", false);
         mUpdateTime = Integer.valueOf(preferences.getString("update_time", "3"));
-        if (mWeather != null) {
+        /*if (mWeather != null) {
             createNotification(mWeather);
-        }
+        }*/
 
         if (mUpdateTime > 0) {
             //几种定时刷新的方式 http://blog.csdn.net/wanglixin1999/article/details/7874316
