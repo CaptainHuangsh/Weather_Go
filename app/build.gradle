@@ -17,8 +17,8 @@ android {
         applicationId "com.example.owen.weathergo"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 8
-        versionName '1.2.07.3050'
+        versionCode 9
+        versionName '1.2.08.3130beta'
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         /*jackOptions {

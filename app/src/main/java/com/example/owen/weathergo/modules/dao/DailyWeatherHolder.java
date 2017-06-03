@@ -66,7 +66,7 @@ public class DailyWeatherHolder extends BaseViewHolder<Weather> {
                         + weather.getDailyForecast().get(i).getTmp().getMin()
                         + mContext.getResources().getString(R.string.c)
                         + mContext.getResources().getString(R.string.temp_max)
-                        + weather.getDailyForecast().get(i).getTmp().getMin()
+                        + weather.getDailyForecast().get(i).getTmp().getMax()
                         + mContext.getResources().getString(R.string.c));
                 moreInfoView[i].setText(weather.getDailyForecast().get(i).getWind().getDir() + (weather.getDailyForecast().get(i).getWind().getSc().equals("微风")
                         ? weather.getDailyForecast().get(i).getWind().getSc() : weather.getDailyForecast().get(i).getWind().getSc() + mContext.getResources().getString(R.string.m_s))
