@@ -254,7 +254,7 @@ public class MainFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onRefresh() {
-              refresh();
+                refresh();
             }
         });
         mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
