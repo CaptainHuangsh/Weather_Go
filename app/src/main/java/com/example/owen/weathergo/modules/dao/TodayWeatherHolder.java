@@ -31,8 +31,7 @@ import okhttp3.Response;
  */
 
 public class TodayWeatherHolder extends BaseViewHolder<Weather> {
-    //TODO 每日首次实时刷新图片的问题
-    //TODO 字体颜色的问题
+
     private final String TAG = TodayWeatherHolder.class.getSimpleName();
     private Context mContext;
     private TextView mTemp_min;

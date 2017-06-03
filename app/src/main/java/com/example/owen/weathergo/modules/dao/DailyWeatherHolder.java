@@ -55,7 +55,7 @@ public class DailyWeatherHolder extends BaseViewHolder<Weather> {
                     dayView[i].setText(weather.getDailyForecast().get(i).getDate() + "");
                 }
                 img[i].setImageResource(IconGet.getWeaIcon(weather.getDailyForecast().get(i)
-                        .getCond().getTxtD()));//TODO 图标为上午图标，需要改成全天适用
+                        .getCond().getTxtD()));
                 if (weather.getDailyForecast().get(i).getCond().getTxtD().equals(weather.getDailyForecast().get(i).getCond().getTxtN())) {
                     imgN[i].setVisibility(View.INVISIBLE);
                 } else {
