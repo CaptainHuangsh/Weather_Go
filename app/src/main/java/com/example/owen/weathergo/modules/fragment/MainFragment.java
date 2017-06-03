@@ -15,7 +15,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -226,7 +225,19 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 initRecycleView();
-                refresh();
+                String Ccity = SharedPreferenceUtil.getInstance().getCityName();
+                if (!Ccity.equals(mCityStr)) {
+                    mCityStr = Ccity;
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
+                            Message message = new Message();
+                            message.what = UPDATE_WEATHER_DATA;
+                            mHandler.sendMessage(message);
+                        }
+                    }).start();
+                }
             }
         });
     }

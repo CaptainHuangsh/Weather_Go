@@ -13,12 +13,12 @@ import com.example.owen.weathergo.common.base.BaseApplication;
 
 public class SharedPreferenceUtil {
 
-    public static final String CITY_NAME = "city";//选择城市
-    public static final String HOUR = "current_hour";//当前小时
-    public static final String CHANG_ICONS = "change_icons";//切换图标
-    public static final String AUTO_UPDATE = "auto_update_time";//自动更新时长
-    public static final String CLEAR_CACHE = "clear_cache";//清空缓存
-    public static final String NOTIFICATION_MODE = "notification_mode";//notification常开与否
+    private static final String CITY_NAME = "city";//选择城市
+    private static final String HOUR = "current_hour";//当前小时
+    private static final String CHANG_ICONS = "change_icons";//切换图标
+    private static final String AUTO_UPDATE = "auto_update_time";//自动更新时长
+//    public static final String CLEAR_CACHE = "clear_cache";//清空缓存
+    private static final String NOTIFICATION_MODE = "notification_mode";//notification常开与否
 
     private SharedPreferences mSharedPreference;
 
@@ -26,7 +26,7 @@ public class SharedPreferenceUtil {
         return SPHolder.sInstance;
     }
 
-    public static class SPHolder {
+    private static class SPHolder {
         private static SharedPreferenceUtil sInstance = new SharedPreferenceUtil();
     }
 

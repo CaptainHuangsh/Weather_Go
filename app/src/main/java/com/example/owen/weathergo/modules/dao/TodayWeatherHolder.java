@@ -1,34 +1,61 @@
 package com.example.owen.weathergo.modules.dao;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Message;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.base.BaseViewHolder;
 import com.example.owen.weathergo.modules.domain.Weather;
 import com.example.owen.weathergo.util.IconGet;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by owen on 2017/4/24.
  */
 
 public class TodayWeatherHolder extends BaseViewHolder<Weather> {
-
+    //TODO 每日首次实时刷新图片的问题
+    //TODO 字体颜色的问题
     private final String TAG = TodayWeatherHolder.class.getSimpleName();
     private Context mContext;
-    TextView mTemp_min;
-    TextView mTemp_max;
-    TextView mCountry;
-    TextView mWind_speed;
-    TextView mTemp;
-    ImageView mImg;
-    private Weather weather;
+    private TextView mTemp_min;
+    private TextView mTemp_max;
+    private TextView mCountry;
+    private TextView mWind_speed;
+    private TextView mTemp;
+    private ImageView mImg;
+    private ImageView mBingPic;
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 0:
+                    String bingPic = msg.toString();
+                    Glide.with(mContext).load(bingPic).into(mBingPic);
+                    break;
+            }
+        }
+    };
 
     public TodayWeatherHolder(View view, Weather weather) {
         super(view);
-        this.weather = weather;
         mContext = view.getContext();
         mTemp_min = (TextView) view.findViewById(R.id.weather_temp_min);
         mTemp_max = (TextView) view.findViewById(R.id.weather_temp_max);
@@ -36,6 +63,7 @@ public class TodayWeatherHolder extends BaseViewHolder<Weather> {
         mWind_speed = (TextView) view.findViewById(R.id.weather_wind_speed);
         mTemp = (TextView) view.findViewById(R.id.weather_temp);
         mImg = (ImageView) view.findViewById(R.id.weather_img);
+        mBingPic = (ImageView) view.findViewById(R.id.bg_pic);
     }
 
     @Override
@@ -60,9 +88,59 @@ public class TodayWeatherHolder extends BaseViewHolder<Weather> {
                     weather.getAqi().getCity().getQlty().length() < 2 ? mContext.getResources().getString(R.string.air)
                             + weather.getAqi().getCity().getQlty() : weather.getAqi().getCity().getQlty());
             mImg.setImageResource(IconGet.getWeaIcon(weather.getNow().getCond().getTxt()));
-        } catch (Exception e) {
+            SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+            Calendar c = Calendar.getInstance();
+            String today = sf.format(c.getTime());
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+            String bingPic = prefs.getString("bing_pic", null);
+            String date = prefs.getString("date", null);
+            if (bingPic != null && today.equals(date)) {
+                Glide.with(mContext).load(bingPic).into(mBingPic);
+            } else {
+                loadPic();
+            }
 
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
+
+    private void loadPic() {
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        final String today = sf.format(c.getTime());
+        String requestBingPic = "http://guolin.tech/api/bing_pic";
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(requestBingPic)
+                .build();
+        Call call = client.newCall(request);
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String bingPic = response.body().string();
+                SharedPreferences.Editor editor = PreferenceManager.
+                        getDefaultSharedPreferences(mContext).edit();
+                editor.putString("bing_pic", bingPic);
+                editor.putString("date", today);
+                editor.apply();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Message message = new Message();
+                        message.what = 0;
+                        message.obj = bingPic;
+                        mHandler.sendMessage(message);
+                    }
+                });
+//                Glide.with(mContext).load(bingPic).into(mBingPic);
+            }
+        });
     }
 
 }
