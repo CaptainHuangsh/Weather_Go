@@ -45,9 +45,11 @@ public class AutoUpdateService extends Service {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
-                    if (mWeather != null) {
-                        Log.d("huangshaohua notification", "" + mWeather.getBasic().getCity());
-                        createNotification(mWeather);
+                    final String Ccity = SharedPreferenceUtil.getInstance().getCityName();
+                    Weather weather = JSONUtil.getInstance().getWeather(getApplicationContext(), Ccity);
+                    if (weather != null) {
+                        Log.d("huangshaohua notification", "" + weather.getBasic().getCity());
+                        createNotification(weather);
                     }
                     break;
             }
