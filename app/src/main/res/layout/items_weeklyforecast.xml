@@ -15,7 +15,7 @@
         android:layout_gravity="center_vertical"
         android:src="@mipmap/icon_weather_sunny" />
     <ImageView
-        android:layout_marginLeft="@dimen/tabIndicatorHeight"
+        android:layout_marginLeft="@dimen/fab_margin"
         android:id="@+id/forecast_icon_n"
         android:layout_width="@dimen/weekly_image_width"
         android:layout_height="@dimen/weekly_image_height"
