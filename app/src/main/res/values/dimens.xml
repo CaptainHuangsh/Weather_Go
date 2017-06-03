@@ -35,9 +35,9 @@
     <dimen name="suggestion_image_width">32dp</dimen>
     <dimen name="suggestion_image_height">32dp</dimen>
     <dimen name="suggestion_text_margin_left">36dp</dimen>
-    <dimen name="suggestion_text_size">16sp</dimen>
+    <dimen name="suggestion_text_size">14sp</dimen>
     <dimen name="suggestion_text_more_margin_top">2dp</dimen>
-    <dimen name="suggestion_text_more_size">16sp</dimen>
+    <dimen name="suggestion_text_more_size">14sp</dimen>
 
     <dimen name="items_hour_text_margin_left">42dp</dimen>
     <dimen name="items_hour_text_padding">12dp</dimen>
@@ -50,9 +50,9 @@
     <dimen name="weekly_padding_top">16dp</dimen>
     <dimen name="weekly_image_width">32dp</dimen>
     <dimen name="weekly_image_height">32dp</dimen>
-    <dimen name="weekly_more_left">36dp</dimen>
-    <dimen name="weekly_text_size">16sp</dimen>
-    <dimen name="weekly_text_temp_size">18sp</dimen>
+    <dimen name="weekly_more_left">24dp</dimen>
+    <dimen name="weekly_text_size">14sp</dimen>
+    <dimen name="weekly_text_temp_size">14sp</dimen>
     <dimen name="weekly_text_more_margin_top">4dp</dimen>
 
     <dimen name="about_margin_bottom">32dp</dimen>

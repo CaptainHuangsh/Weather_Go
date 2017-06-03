@@ -23,6 +23,8 @@
         <!--http://blog.csdn.net/hanjieson/article/details/10045847-->
         <EditText
             android:id="@+id/city_name"
+            android:inputType="text"
+            android:textColor="@color/black"
             android:maxLines="1"
             android:background="@drawable/bg_edittext"
             android:textCursorDrawable="@null"

@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,8 +31,7 @@ import okhttp3.Response;
  */
 
 public class TodayWeatherHolder extends BaseViewHolder<Weather> {
-    //TODO 每日首次实时刷新图片的问题
-    //TODO 字体颜色的问题
+
     private final String TAG = TodayWeatherHolder.class.getSimpleName();
     private Context mContext;
     private TextView mTemp_min;
