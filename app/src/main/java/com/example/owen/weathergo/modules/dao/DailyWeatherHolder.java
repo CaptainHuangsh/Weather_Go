@@ -1,6 +1,7 @@
 package com.example.owen.weathergo.modules.dao;
 
 import android.content.Context;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -20,6 +21,7 @@ public class DailyWeatherHolder extends BaseViewHolder<Weather> {
     private Context mContext;
     private LinearLayout dailyWeather;
     private ImageView img[] = new ImageView[7];
+    private ImageView imgN[] = new ImageView[7];
     private TextView dayView[] = new TextView[7];
     private TextView tempView[] = new TextView[7];
     private TextView moreInfoView[] = new TextView[7];
@@ -34,6 +36,7 @@ public class DailyWeatherHolder extends BaseViewHolder<Weather> {
         for (int i = 0; i < weather.getDailyForecast().size(); i++) {
             View v = View.inflate(mContext, R.layout.items_weeklyforecast, null);
             img[i] = (ImageView) v.findViewById(R.id.forecast_icon);
+            imgN[i] = (ImageView) v.findViewById(R.id.forecast_icon_n);
             dayView[i] = (TextView) v.findViewById(R.id.forecast_date);
             tempView[i] = (TextView) v.findViewById(R.id.forecast_temp);
             moreInfoView[i] = (TextView) v.findViewById(R.id.forecast_txt);
@@ -53,6 +56,12 @@ public class DailyWeatherHolder extends BaseViewHolder<Weather> {
                 }
                 img[i].setImageResource(IconGet.getWeaIcon(weather.getDailyForecast().get(i)
                         .getCond().getTxtD()));//TODO 图标为上午图标，需要改成全天适用
+                if (weather.getDailyForecast().get(i).getCond().getTxtD().equals(weather.getDailyForecast().get(i).getCond().getTxtN())) {
+                    imgN[i].setVisibility(View.INVISIBLE);
+                } else {
+                    imgN[i].setImageResource(IconGet.getWeaIcon(weather.getDailyForecast().get(i)
+                            .getCond().getTxtN()));
+                }
                 tempView[i].setText(mContext.getResources().getString(R.string.temp_min)
                         + weather.getDailyForecast().get(i).getTmp().getMin()
                         + mContext.getResources().getString(R.string.c)
@@ -71,4 +80,5 @@ public class DailyWeatherHolder extends BaseViewHolder<Weather> {
             e.printStackTrace();
         }
     }
+
 }
