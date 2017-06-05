@@ -48,7 +48,6 @@ public class AutoUpdateService extends Service {
                     final String Ccity = SharedPreferenceUtil.getInstance().getCityName();
                     Weather weather = JSONUtil.getInstance().getWeather(getApplicationContext(), Ccity);
                     if (weather != null) {
-                        Log.d("huangshaohua notification", "" + weather.getBasic().getCity());
                         createNotification(weather);
                     }
                     break;
@@ -137,9 +136,7 @@ public class AutoUpdateService extends Service {
     }
 
     private void updateWeather() {
-        Log.d("huangshaohua ", "updateWeather");
         final String Ccity = SharedPreferenceUtil.getInstance().getCityName();
         mWeather = JSONUtil.getInstance().getWeather(getApplicationContext(), Ccity);
-        Log.d("huangshaohua notification0", "" + mWeather.getBasic().getCity());
     }
 }
