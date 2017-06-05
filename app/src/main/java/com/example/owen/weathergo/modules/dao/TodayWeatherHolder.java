@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -49,7 +48,6 @@ public class TodayWeatherHolder extends BaseViewHolder<Weather> {
                 case 0:
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
                     String bingPic = prefs.getString("bing_pic", null);
-                    Log.d("TodayWeatherHolder loadPic ","2: "+bingPic);
                     Glide.with(mContext).load(bingPic).into(mBingPic);
                     break;
             }
@@ -131,14 +129,11 @@ public class TodayWeatherHolder extends BaseViewHolder<Weather> {
                 editor.putString("bing_pic", bingPic);
                 editor.putString("date", today);
                 editor.apply();
-                Log.d("TodayWeatherHolder loadPic ",": "+bingPic);
-                Log.d("TodayWeatherHolder loadPic ",": "+today);
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
                         Message message = new Message();
                         message.what = 0;
-                        Log.d("huangshaohua  ",": "+bingPic);
                         mHandler.sendMessage(message);
                     }
                 }).start();//又忘记start了

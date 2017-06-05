@@ -16,7 +16,6 @@ import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.util.Log;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.activity.WeatherMain;
@@ -35,8 +34,6 @@ public class AutoUpdateService extends Service {
     private final String TAG = AutoUpdateService.class.getSimpleName();
     //    private SharedPreferences preferences;
     private boolean mNotificationMode; //通知栏常驻
-    //    private boolean mVibrate; //天气推送震动
-    private int mUpdateTime;
     private Weather mWeather;
 
     private Handler mHandler = new Handler() {
@@ -84,7 +81,7 @@ public class AutoUpdateService extends Service {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         mNotificationMode = preferences.getBoolean("notification_mode", false);
 //        mVibrate = preferences.getBoolean("vibrate", false);
-        mUpdateTime = Integer.valueOf(preferences.getString("update_time", "3"));
+        int mUpdateTime = Integer.valueOf(preferences.getString("update_time", "3"));
         /*if (mWeather != null) {
             createNotification(mWeather);
         }*/
