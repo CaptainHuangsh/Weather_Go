@@ -70,9 +70,9 @@ public class AutoUpdateService extends Service {
             @Override
             public void run() {
                 updateWeather();
-                Message msg = new Message();
+                /*Message msg = new Message();
                 msg.what = 0;
-                mHandler.sendMessage(msg);
+                mHandler.sendMessage(msg);*/
             }
         }).start();//不要忘了start
 
@@ -135,5 +135,8 @@ public class AutoUpdateService extends Service {
     private void updateWeather() {
         final String Ccity = SharedPreferenceUtil.getInstance().getCityName();
         mWeather = JSONUtil.getInstance().getWeather(getApplicationContext(), Ccity);
+        Message msg = new Message();
+        msg.what = 0;
+        mHandler.sendMessage(msg);
     }
 }
