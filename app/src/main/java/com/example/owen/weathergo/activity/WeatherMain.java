@@ -143,7 +143,6 @@ public class WeatherMain extends AppCompatActivity
                 dialog.dismiss();
             }
         });
-        //TODO 对软键盘回车键的监听
         dialog.show();
         mDrawerLayout.closeDrawers();
     }

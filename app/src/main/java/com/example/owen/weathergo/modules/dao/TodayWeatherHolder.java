@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,7 +46,8 @@ public class TodayWeatherHolder extends BaseViewHolder<Weather> {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 0:
-                    String bingPic = msg.toString();
+                    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
+                    String bingPic = prefs.getString("bing_pic", null);
                     Glide.with(mContext).load(bingPic).into(mBingPic);
                     break;
             }
@@ -134,10 +134,9 @@ public class TodayWeatherHolder extends BaseViewHolder<Weather> {
                     public void run() {
                         Message message = new Message();
                         message.what = 0;
-                        message.obj = bingPic;
                         mHandler.sendMessage(message);
                     }
-                });
+                }).start();//又忘记start了
 //                Glide.with(mContext).load(bingPic).into(mBingPic);
             }
         });
