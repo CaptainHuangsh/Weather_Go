@@ -125,6 +125,9 @@ public class WeatherMain extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * 手动输入城市
+     */
     public void toSearchDialog() {
         final CityDialog dialog = new CityDialog(WeatherMain.this);
         dialog.setYesOnclickListener("确定", new CityDialog.onYesOnclickListener() {
@@ -145,6 +148,19 @@ public class WeatherMain extends AppCompatActivity
         });
         dialog.show();
         mDrawerLayout.closeDrawers();
+    }
+
+
+    /**
+     * 添加城市
+     * 1：判断城市是否已经超过3个
+     * （1）如果没有超过则添加一个Pager平行于MainWeather
+     * 暂时通过手动输入选择城市；下一阶段可以在新的Pager中通过Fb选择选择城市方式
+     * （城市选择是否要去重？）
+     * （2）如果已经3个则弹出框提示已经选择超限制
+     */
+    private void toAddDialog() {
+        ToastUtil.showShort("Multi Cities");
     }
 
     @Override
@@ -274,6 +290,9 @@ public class WeatherMain extends AppCompatActivity
                     case R.id.nav_edit_city:
                         toSearchDialog();
                         break;
+                    case R.id.nav_multi_city:
+                        toAddDialog();
+                        break;
                     case R.id.nav_setting:
                         SettingsActivity.launch(WeatherMain.this);
                         break;
@@ -285,6 +304,7 @@ public class WeatherMain extends AppCompatActivity
             }
         });
     }
+
 
     //设置双击推出
     @Override
