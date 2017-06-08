@@ -35,6 +35,7 @@ import com.example.owen.weathergo.common.DoubleClickExit;
 import com.example.owen.weathergo.dialog.CityDialog;
 import com.example.owen.weathergo.modules.adapter.HomePagerAdapter;
 import com.example.owen.weathergo.modules.fragment.MainFragment;
+import com.example.owen.weathergo.modules.fragment.TestFragment;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
 import com.example.owen.weathergo.util.ToastUtil;
 
@@ -170,6 +171,10 @@ public class WeatherMain extends AppCompatActivity
      * （2）如果已经3个则弹出框提示已经选择超限制
      */
     private void toAddDialog() {
+        TestFragment tf = new TestFragment();
+        mHomePagerAdapter.addTab(tf, "");
+        mHomePagerAdapter.notifyDataSetChanged();
+        mDrawerLayout.closeDrawers();
 //        ToastUtil.showShort("Multi Cities");
     }
 
@@ -344,7 +349,7 @@ public class WeatherMain extends AppCompatActivity
     }
 
 
-    public class MyLocationListener implements BDLocationListener {
+    private class MyLocationListener implements BDLocationListener {
         //用于定位
         @Override
         public void onReceiveLocation(BDLocation bdLocation) {
