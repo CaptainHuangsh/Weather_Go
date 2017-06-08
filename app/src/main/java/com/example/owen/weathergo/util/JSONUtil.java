@@ -59,7 +59,7 @@ public class JSONUtil {
                     SharedPreferences preferences;
                     preferences = context.getSharedPreferences("huang", MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
-                    editor.putString("jsonTextg", jsonText);
+                    editor.putString("jsonText_city_0", jsonText);
                     editor.apply();
 //                    parse(jsonText);
                 } catch (IOException e) {
@@ -76,8 +76,8 @@ public class JSONUtil {
         SharedPreferences preferences = context.getSharedPreferences("huang", MODE_PRIVATE);
 //        SharedPreferences.Editor editor = preferences.edit();
         //缓存json数据
-        String jsonTextg = preferences.getString("jsonTextg", "");
-        parse(jsonTextg);
+        String jsonTextCity0 = preferences.getString("jsonText_city_0", "");
+        parse(jsonTextCity0);
         return mWeather;
     }
 

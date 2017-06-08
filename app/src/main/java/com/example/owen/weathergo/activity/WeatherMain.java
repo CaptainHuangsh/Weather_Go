@@ -35,6 +35,7 @@ import com.example.owen.weathergo.common.DoubleClickExit;
 import com.example.owen.weathergo.dialog.CityDialog;
 import com.example.owen.weathergo.modules.adapter.HomePagerAdapter;
 import com.example.owen.weathergo.modules.fragment.MainFragment;
+import com.example.owen.weathergo.modules.fragment.MultiCityFragment;
 import com.example.owen.weathergo.modules.fragment.TestFragment;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
 import com.example.owen.weathergo.util.ToastUtil;
@@ -171,7 +172,7 @@ public class WeatherMain extends AppCompatActivity
      * （2）如果已经3个则弹出框提示已经选择超限制
      */
     private void toAddDialog() {
-        TestFragment tf = new TestFragment();
+        MultiCityFragment tf = new MultiCityFragment();
         mHomePagerAdapter.addTab(tf, "");
         mHomePagerAdapter.notifyDataSetChanged();
         mDrawerLayout.closeDrawers();
