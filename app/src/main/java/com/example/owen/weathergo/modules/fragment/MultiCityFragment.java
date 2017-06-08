@@ -44,6 +44,10 @@ public class MultiCityFragment extends Fragment {
     private static final int SCREEN_SHOOT = 2;
     private static final int CHANGE_TEXT = 3;
 
+    private static final int CITY_NUM_0 = 0x00;//主城市
+    private static final int CITY_NUM_1 = 0x01;//多城市1
+    private static final int CITY_NUM_2 = 0x02;//多城市2
+
     @BindView(R.id.no_city_data)
     TextView mNoCityData;
     @BindView(R.id.main_swipe)//下拉刷新控件
@@ -85,7 +89,7 @@ public class MultiCityFragment extends Fragment {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
+                                mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr,CITY_NUM_1);
                                 Message message = new Message();
                                 message.what = UPDATE_WEATHER_DATA;
                                 mHandler.sendMessage(message);
@@ -149,7 +153,7 @@ public class MultiCityFragment extends Fragment {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
+                    mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr,CITY_NUM_1);
                     Message message = new Message();
                     message.what = UPDATE_WEATHER_DATA;
                     mHandler.sendMessage(message);
@@ -178,7 +182,7 @@ public class MultiCityFragment extends Fragment {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
+                    mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr,CITY_NUM_1);
                     Message message = new Message();
                     message.what = UPDATE_WEATHER_DATA;
                     mHandler.sendMessage(message);
@@ -224,7 +228,7 @@ public class MultiCityFragment extends Fragment {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
+                            mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr,CITY_NUM_1);
                             Message message = new Message();
                             message.what = UPDATE_WEATHER_DATA;
                             mHandler.sendMessage(message);
@@ -282,7 +286,7 @@ public class MultiCityFragment extends Fragment {
         mNoData.setVisibility(View.GONE);
         mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         try {
-            mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
+            mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr,CITY_NUM_1);
             int i = 0;
             mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(mWeather));
             mGCityStr = mWeather.getBasic().getCity();

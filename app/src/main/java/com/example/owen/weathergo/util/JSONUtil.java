@@ -30,13 +30,13 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class JSONUtil {
 
-    static final int CITY_NUM_0 = 0x00;//主城市
-    static final int CITY_NUM_1 = 0x01;//多城市1
-    static final int CITY_NUM_2 = 0x02;//多城市2
+    private static final int CITY_NUM_0 = 0x00;//主城市
+    private static final int CITY_NUM_1 = 0x01;//多城市1
+    private static final int CITY_NUM_2 = 0x02;//多城市2
 
-    static WeatherAPI mWeatherAPI = new WeatherAPI();
+    private static WeatherAPI mWeatherAPI = new WeatherAPI();
     static List<Weather> mListWeather;
-    static Weather mWeather = new Weather();
+    private static Weather mWeather = new Weather();
     private int cityNum;
 
     public static JSONUtil getInstance() {
@@ -103,7 +103,7 @@ public class JSONUtil {
         SharedPreferences preferences = context.getSharedPreferences("huang", MODE_PRIVATE);
 //        SharedPreferences.Editor editor = preferences.edit();
         //缓存json数据
-        String jsonTextCity = "";
+        String jsonTextCity;
         switch (cityNumber) {
             case CITY_NUM_0:
                 jsonTextCity = preferences.getString("jsonText_city_0", "");

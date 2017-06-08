@@ -15,6 +15,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -111,6 +112,19 @@ public class WeatherMain extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 toSearchDialog();//发布版本暂时设为选择地址
+            }
+        });
+        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                String titleStr;
+                if (position == 0)
+                    titleStr = SharedPreferenceUtil.getInstance().getCityName();
+                else
+                    titleStr = SharedPreferenceUtil.getInstance().getString("city_1", "");
+                safeSetTitle(titleStr);
+//                ToastUtil.showShort(""+position);
+//                super.onPageSelected(position);
             }
         });
     }
@@ -364,6 +378,12 @@ public class WeatherMain extends AppCompatActivity
 
         @Override
         public void onConnectHotSpotMessage(String s, int i) {
+        }
+    }
+    public void safeSetTitle(String title) {
+        ActionBar appBarLayout = (this).getSupportActionBar();
+        if (appBarLayout != null) {
+            appBarLayout.setTitle(title);
         }
     }
 }
