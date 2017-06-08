@@ -13,6 +13,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +33,8 @@ import com.baidu.location.LocationClientOption;
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.DoubleClickExit;
 import com.example.owen.weathergo.dialog.CityDialog;
+import com.example.owen.weathergo.modules.adapter.HomePagerAdapter;
+import com.example.owen.weathergo.modules.fragment.MainFragment;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
 import com.example.owen.weathergo.util.ToastUtil;
 
@@ -54,6 +57,10 @@ public class WeatherMain extends AppCompatActivity
     private static final int SEARCH_CITY = 1;
     private static final int SCREEN_SHOOT = 2;
 
+    private static String Tag_CITY_0 = "main_fragment";
+    private static String Tag_CITY_1 = "city_1_fragment";
+    private static String Tag_CITY_2 = "city_2_fragment  ";
+
     public LocationClient mLocationClient;
 
     //ButterKnife参考http://jakewharton.github.io/butterknife/
@@ -65,9 +72,12 @@ public class WeatherMain extends AppCompatActivity
     NavigationView mNavigationView;
     @BindView(R.id.fab)
     FloatingActionButton fab;
+    @BindView(R.id.weather_viewpager)
+    ViewPager mViewPager;
 
     private ActionBarDrawerToggle mDrawerToggle;
     private Handler mHandler;
+    private HomePagerAdapter mHomePagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,7 +113,7 @@ public class WeatherMain extends AppCompatActivity
         });
     }
 
-    //@Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = new MenuInflater(this);
         menuInflater.inflate(R.menu.weather_toolbar_menu, menu);
@@ -160,7 +170,7 @@ public class WeatherMain extends AppCompatActivity
      * （2）如果已经3个则弹出框提示已经选择超限制
      */
     private void toAddDialog() {
-        ToastUtil.showShort("Multi Cities");
+//        ToastUtil.showShort("Multi Cities");
     }
 
     @Override
@@ -183,6 +193,10 @@ public class WeatherMain extends AppCompatActivity
         setSupportActionBar(mToolBar);
         initDrawer();
         initNavigationView();
+        mHomePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
+        MainFragment mf = new MainFragment();
+        mHomePagerAdapter.addTab(mf, "aaa");
+        mViewPager.setAdapter(mHomePagerAdapter);
         String cCity = SharedPreferenceUtil.getInstance().getCityName();
         if (cCity.equals(""))//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值进行初始赋值
         {
