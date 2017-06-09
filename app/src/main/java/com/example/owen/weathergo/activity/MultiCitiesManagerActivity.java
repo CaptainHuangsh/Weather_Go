@@ -54,6 +54,7 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, int pos) {
                 ToastUtil.showShort("dianjil"+cityList.get(pos));
+
             }
         });
     }
