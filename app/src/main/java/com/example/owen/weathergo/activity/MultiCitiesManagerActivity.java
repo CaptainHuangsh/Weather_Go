@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.modules.adapter.CityAdapter;
+import com.example.owen.weathergo.util.DBManager;
 import com.example.owen.weathergo.util.ToastUtil;
 
 import java.util.ArrayList;
@@ -40,20 +41,22 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
     }
 
     private void init() {
+        DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
+//        DBManager.getInstance().closeDatabase();
         cityList.add("洛阳");
         cityList.add("开封");
         cityList.add("东莞");
     }
 
-    private void initRecycleView(){
+    private void initRecycleView() {
         mCityRecycle.setLayoutManager(new LinearLayoutManager(this));
         mCityRecycle.setHasFixedSize(true);
-        mAdapter = new CityAdapter(this,cityList);
+        mAdapter = new CityAdapter(this, cityList);
         mCityRecycle.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new CityAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int pos) {
-                ToastUtil.showShort("dianjil"+cityList.get(pos));
+                ToastUtil.showShort("dianjil" + cityList.get(pos));
 
             }
         });
