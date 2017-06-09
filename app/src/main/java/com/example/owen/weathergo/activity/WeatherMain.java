@@ -37,7 +37,6 @@ import com.example.owen.weathergo.dialog.CityDialog;
 import com.example.owen.weathergo.modules.adapter.HomePagerAdapter;
 import com.example.owen.weathergo.modules.fragment.MainFragment;
 import com.example.owen.weathergo.modules.fragment.MultiCityFragment;
-import com.example.owen.weathergo.modules.fragment.TestFragment;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
 import com.example.owen.weathergo.util.ToastUtil;
 
@@ -186,11 +185,14 @@ public class WeatherMain extends AppCompatActivity
      * （2）如果已经3个则弹出框提示已经选择超限制
      */
     private void toAddDialog() {
-        MultiCityFragment tf = new MultiCityFragment();
+        /*MultiCityFragment tf = new MultiCityFragment();
         mHomePagerAdapter.addTab(tf, "");
         mHomePagerAdapter.notifyDataSetChanged();
         mDrawerLayout.closeDrawers();
+        mViewPager.setCurrentItem(1);*/
 //        ToastUtil.showShort("Multi Cities");
+
+        MultiCitiesManagerActivity.launch(this);
     }
 
     @Override
@@ -216,6 +218,10 @@ public class WeatherMain extends AppCompatActivity
         mHomePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
         MainFragment mf = new MainFragment();
         mHomePagerAdapter.addTab(mf, "aaa");
+        if (!"".equals(SharedPreferenceUtil.getInstance().getString("city_1", ""))) {
+            MultiCityFragment tf = new MultiCityFragment();
+            mHomePagerAdapter.addTab(tf, "");
+        }
         mViewPager.setAdapter(mHomePagerAdapter);
         String cCity = SharedPreferenceUtil.getInstance().getCityName();
         if (cCity.equals(""))//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值进行初始赋值
@@ -380,6 +386,7 @@ public class WeatherMain extends AppCompatActivity
         public void onConnectHotSpotMessage(String s, int i) {
         }
     }
+
     public void safeSetTitle(String title) {
         ActionBar appBarLayout = (this).getSupportActionBar();
         if (appBarLayout != null) {

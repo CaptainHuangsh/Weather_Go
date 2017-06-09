@@ -51,7 +51,7 @@
             android:name="com.example.owen.weathergo.activity.ChoiceCityActivity"
             android:launchMode="singleTask" />
         <activity android:name=".activity.Test"/>
-
+        <activity android:name=".activity.MultiCitiesManagerActivity"/>
         <service android:name=".service.AutoUpdateService" />
         <service
             android:name="com.baidu.location.f"

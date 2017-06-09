@@ -1,7 +1,6 @@
 package com.example.owen.weathergo.modules.dao;
 
 import android.support.v7.widget.CardView;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -15,7 +14,7 @@ import com.example.owen.weathergo.modules.adapter.CityAdapter;
 
 public class CityViewHolder extends BaseViewHolder<String> implements View.OnClickListener {
 
-    TextView mItemCity;
+    private TextView mItemCity;
     public CardView mCardView;
     private CityAdapter.OnRecyclerViewItemClickListener mOnItemClickListener = null;
 

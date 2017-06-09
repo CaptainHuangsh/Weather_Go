@@ -40,7 +40,7 @@ public class ChoiceCityActivity extends AppCompatActivity {
     public static final int LEVEL_PROVINCE = 0;
     public static final int LEVEL_CITY = 1;
     private int currentLevel;
-    private boolean isChecked = false;
+//    private boolean isChecked = false;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -52,7 +52,6 @@ public class ChoiceCityActivity extends AppCompatActivity {
         DBManager.getInstance().openDatabase();
         initRecycleView();
         queryProvince();
-
     }
 
     private void initRecycleView() {
