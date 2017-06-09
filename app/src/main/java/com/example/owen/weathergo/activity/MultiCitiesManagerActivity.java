@@ -11,6 +11,7 @@ import android.view.View;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.modules.adapter.CityAdapter;
+import com.example.owen.weathergo.modules.adapter.MultiCityAdapter;
 import com.example.owen.weathergo.util.DBManager;
 import com.example.owen.weathergo.util.ToastUtil;
 
@@ -29,7 +30,7 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
     RecyclerView mCityRecycle;
 
     private ArrayList<String> cityList = new ArrayList<>();
-    private CityAdapter mAdapter;
+    private MultiCityAdapter mAdapter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -51,9 +52,9 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
     private void initRecycleView() {
         mCityRecycle.setLayoutManager(new LinearLayoutManager(this));
         mCityRecycle.setHasFixedSize(true);
-        mAdapter = new CityAdapter(this, cityList);
+        mAdapter = new MultiCityAdapter(this, cityList);
         mCityRecycle.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new CityAdapter.OnRecyclerViewItemClickListener() {
+        mAdapter.setOnItemClickListener(new MultiCityAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int pos) {
                 ToastUtil.showShort("dianjil" + cityList.get(pos));
