@@ -30,6 +30,7 @@ import butterknife.ButterKnife;
 
 public class MultiCitiesManagerActivity extends AppCompatActivity {
 
+    //TODO 添加标题栏:多城市管理
     @BindView(R.id.city_recycle)
     RecyclerView mCityRecycle;
 
@@ -120,8 +121,25 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
                         }
                     });
                     dialog.show();
-                } else
+                } else {
+
                     ToastUtil.showShort("dianjil" + cityList.get(pos));
+                }
+            }
+        });
+        mAdapter.setOnItemLongClickListener(new MultiCityAdapter.OnRecyclerViewItemLongClickListener() {
+            @Override
+            public void onItemLongClick(View view, int pos) {
+                if (pos < mCityCount) {
+                    ToastUtil.showShort("shanchu" + cityList.get(pos));
+                    final SQLiteDatabase db = DBManager.getInstance().getDatabase();
+                    db.delete("MultiCities", "city = ?", new String[]{
+                            cityList.get(pos)
+                    });
+                    cityList.clear();
+                    init();
+                    mAdapter.notifyDataSetChanged();
+                }
             }
         });
     }

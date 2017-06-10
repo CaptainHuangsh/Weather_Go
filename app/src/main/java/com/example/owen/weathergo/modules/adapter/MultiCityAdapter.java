@@ -16,10 +16,12 @@ import java.util.ArrayList;
  * Created by owen on 2017/4/25.
  */
 
-public class MultiCityAdapter extends RecyclerView.Adapter<MultiCityViewHolder> implements View.OnClickListener {
+public class MultiCityAdapter extends RecyclerView.Adapter<MultiCityViewHolder> implements View.OnClickListener
+        , View.OnLongClickListener {
     private Context mContext;
     private ArrayList<String> mDataList;
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
+    private OnRecyclerViewItemLongClickListener mOnItemLongClickListener = null;
 
     public MultiCityAdapter(Context context, ArrayList<String> dataList) {
         mContext = context;
@@ -31,6 +33,7 @@ public class MultiCityAdapter extends RecyclerView.Adapter<MultiCityViewHolder> 
         View view = LayoutInflater.from(mContext).inflate(R.layout.items_city, parent, false);
         MultiCityViewHolder cvh = new MultiCityViewHolder(view);
         view.setOnClickListener(this);
+        view.setOnLongClickListener(this);
         return cvh;
     }
 
@@ -51,6 +54,10 @@ public class MultiCityAdapter extends RecyclerView.Adapter<MultiCityViewHolder> 
         this.mOnItemClickListener = listener;
     }
 
+    public void setOnItemLongClickListener(OnRecyclerViewItemLongClickListener listener) {
+        this.mOnItemLongClickListener = listener;
+    }
+
     @Override
     public void onClick(View v) {
         if (mOnItemClickListener != null) {
@@ -58,8 +65,21 @@ public class MultiCityAdapter extends RecyclerView.Adapter<MultiCityViewHolder> 
         }
     }
 
+    @Override
+    public boolean onLongClick(View v) {
+        //android OnLongClickListener长按事件返回值 http://blog.csdn.net/daoxiaomianzi/article/details/53021766
+        if (mOnItemLongClickListener != null) {
+            mOnItemLongClickListener.onItemLongClick(v, (int) v.getTag());
+        }
+        return true;
+    }
+
 
     public interface OnRecyclerViewItemClickListener {
         void onItemClick(View view, int pos);
+    }
+
+    public interface OnRecyclerViewItemLongClickListener {
+        void onItemLongClick(View view, int pos);
     }
 }
