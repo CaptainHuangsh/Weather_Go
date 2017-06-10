@@ -5,8 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.owen.weathergo.R;
@@ -22,18 +20,18 @@ public class MultiCityAddDialog extends Dialog {
 
     Context mContext;
     @BindView(R.id.to_select_city)
-    public TextView mCitySelect;
+    TextView mCitySelect;
     @BindView(R.id.to_input_city)
-    public TextView mCityInput;
+    TextView mCityInput;
     /*@BindView(R.id.yes)
     Button yes;
     @BindView(R.id.no)
     Button no;*/
 
-    private String noStr, yesStr;
-    private String mCityStr;
-    private onNoOnclickListener noOnclickListener;
-    private onYesOnclickListener yesOnclickListener;
+//    private String noStr, yesStr;
+//    private String mCityStr;
+    private onInputOnclickListener inputOnclickListener;
+    private onSelectOnclickListener selectOnclickListener;
 
     public MultiCityAddDialog(@NonNull Context context) {
         super(context, R.style.MyDialog);
@@ -49,27 +47,27 @@ public class MultiCityAddDialog extends Dialog {
         setCanceledOnTouchOutside(false);
         initView();
 //        initData();
-//        initEvent();
+        initEvent();
     }
 
-    /*private void initEvent() {
-        yes.setOnClickListener(new View.OnClickListener() {
+    private void initEvent() {
+        mCitySelect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (yesOnclickListener != null) {
-                    yesOnclickListener.onYesClick();
+                if (selectOnclickListener != null) {
+                    selectOnclickListener.onSelectClick();
                 }
             }
         });
-        no.setOnClickListener(new View.OnClickListener() {
+        mCityInput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (noOnclickListener != null) {
-                    noOnclickListener.onNoClick();
+                if (inputOnclickListener != null) {
+                    inputOnclickListener.onInputClick();
                 }
             }
         });
-    }*/
+    }
 
     /*private void initData() {
         if (!yesStr.equals("")) {
@@ -83,28 +81,28 @@ public class MultiCityAddDialog extends Dialog {
     private void initView() {
     }
 
-    public void setNoOnclickListener(String str, onNoOnclickListener
+    public void setInputOnclickListener( onInputOnclickListener
             noOnclickListener) {
-        if (!str.equals("")) {
+        /*if (!str.equals("")) {
             this.noStr = str;
-        }
-        this.noOnclickListener = noOnclickListener;
+        }*/
+        this.inputOnclickListener = noOnclickListener;
     }
 
-    public void setYesOnclickListener(String str, onYesOnclickListener
+    public void setSelectOnclickListener(onSelectOnclickListener
             yesOnclickListener) {
-        if (!str.equals("")) {
+        /*if (!str.equals("")) {
             this.yesStr = str;
-        }
-        this.yesOnclickListener = yesOnclickListener;
+        }*/
+        this.selectOnclickListener = yesOnclickListener;
     }
 
 
-    public interface onNoOnclickListener {
-        void onNoClick();
+    public interface onInputOnclickListener {
+        void onInputClick();
     }
 
-    public interface onYesOnclickListener {
-        void onYesClick();
+    public interface onSelectOnclickListener {
+        void onSelectClick();
     }
 }

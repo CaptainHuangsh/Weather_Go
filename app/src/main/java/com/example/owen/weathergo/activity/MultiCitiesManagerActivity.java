@@ -75,6 +75,18 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
             public void onItemClick(View view, int pos) {
                 if (pos == mCityCount) {
                     final MultiCityAddDialog dialog = new MultiCityAddDialog(MultiCitiesManagerActivity.this);
+                    dialog.setSelectOnclickListener(new MultiCityAddDialog.onSelectOnclickListener() {
+                        @Override
+                        public void onSelectClick() {
+                            ToastUtil.showShort("selectCity");
+                        }
+                    });
+                    dialog.setInputOnclickListener(new MultiCityAddDialog.onInputOnclickListener() {
+                        @Override
+                        public void onInputClick() {
+                            ToastUtil.showShort("inputCity");
+                        }
+                    });
                     dialog.show();
                 } else
                     ToastUtil.showShort("dianjil" + cityList.get(pos));
