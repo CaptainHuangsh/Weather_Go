@@ -23,13 +23,7 @@ public class MultiCityAddDialog extends Dialog {
     TextView mCitySelect;
     @BindView(R.id.to_input_city)
     TextView mCityInput;
-    /*@BindView(R.id.yes)
-    Button yes;
-    @BindView(R.id.no)
-    Button no;*/
 
-//    private String noStr, yesStr;
-//    private String mCityStr;
     private onInputOnclickListener inputOnclickListener;
     private onSelectOnclickListener selectOnclickListener;
 
@@ -70,30 +64,19 @@ public class MultiCityAddDialog extends Dialog {
     }
 
     /*private void initData() {
-        if (!yesStr.equals("")) {
-            yes.setText(yesStr);
-        }
-        if (!noStr.equals("")) {
-            no.setText(noStr);
-        }
+
     }*/
 
     private void initView() {
     }
 
-    public void setInputOnclickListener( onInputOnclickListener
-            noOnclickListener) {
-        /*if (!str.equals("")) {
-            this.noStr = str;
-        }*/
+    public void setInputOnclickListener(onInputOnclickListener
+                                                noOnclickListener) {
         this.inputOnclickListener = noOnclickListener;
     }
 
     public void setSelectOnclickListener(onSelectOnclickListener
-            yesOnclickListener) {
-        /*if (!str.equals("")) {
-            this.yesStr = str;
-        }*/
+                                                 yesOnclickListener) {
         this.selectOnclickListener = yesOnclickListener;
     }
 

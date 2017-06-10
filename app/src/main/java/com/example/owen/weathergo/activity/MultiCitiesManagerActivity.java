@@ -1,5 +1,6 @@
 package com.example.owen.weathergo.activity;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -63,6 +64,7 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
         /*cityList.add("洛阳");
         cityList.add("开封");*/
         cityList.add("添加城市");
+//        initRecycleView();
     }
 
     private void initRecycleView() {
@@ -70,6 +72,7 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
         mCityRecycle.setHasFixedSize(true);
         mAdapter = new MultiCityAdapter(this, cityList);
         mCityRecycle.setAdapter(mAdapter);
+        final ContentValues values = new ContentValues();
         mAdapter.setOnItemClickListener(new MultiCityAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int pos) {
@@ -84,7 +87,36 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
                     dialog.setInputOnclickListener(new MultiCityAddDialog.onInputOnclickListener() {
                         @Override
                         public void onInputClick() {
-                            ToastUtil.showShort("inputCity");
+                            final CityDialog dialog2 = new CityDialog(MultiCitiesManagerActivity.this);
+                            dialog2.setYesOnclickListener("确定", new CityDialog.onYesOnclickListener() {
+                                @Override
+                                public void onYesClick() {
+//                                    Message msg = new Message();
+//                                    msg.obj = dialog2.mCityEdit.getText().toString();
+//                                    msg.what = SEARCH_CITY;
+//                                    mHandler.sendMessage(msg);
+                                    if (!"".equals(dialog2.mCityEdit.getText().toString())) {
+                                        values.put("city", dialog2.mCityEdit.getText().toString());
+                                        final SQLiteDatabase db = DBManager.getInstance().getDatabase();
+                                        db.insert("MultiCities", null, values);
+                                        values.clear();
+//                                        mCityRecycle.removeAllViews();
+                                        cityList.clear();
+                                        init();
+//                                        cityList.add(dialog2.mCityEdit.getText().toString());
+                                        mAdapter.notifyDataSetChanged();
+                                    }
+                                    dialog2.dismiss();
+                                }
+                            });
+                            dialog2.setNoOnclickListener("取消", new CityDialog.onNoOnclickListener() {
+                                @Override
+                                public void onNoClick() {
+                                    dialog2.dismiss();
+                                }
+                            });
+                            dialog2.show();
+                            dialog.dismiss();
                         }
                     });
                     dialog.show();
@@ -94,6 +126,12 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
         });
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DBManager.getInstance().closeDatabase();
+    }
 
     private void quit() {
         this.finish();
