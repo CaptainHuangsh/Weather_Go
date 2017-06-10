@@ -1,12 +1,15 @@
 package com.example.owen.weathergo.activity;
 
+import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,6 +34,7 @@ import butterknife.ButterKnife;
 public class MultiCitiesManagerActivity extends AppCompatActivity {
 
     //TODO 添加标题栏:多城市管理
+    //TODO 添加删除确定询问Dialog
     @BindView(R.id.city_recycle)
     RecyclerView mCityRecycle;
 
@@ -131,14 +135,8 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
             @Override
             public void onItemLongClick(View view, int pos) {
                 if (pos < mCityCount) {
-                    ToastUtil.showShort("shanchu" + cityList.get(pos));
-                    final SQLiteDatabase db = DBManager.getInstance().getDatabase();
-                    db.delete("MultiCities", "city = ?", new String[]{
-                            cityList.get(pos)
-                    });
-                    cityList.clear();
-                    init();
-                    mAdapter.notifyDataSetChanged();
+//                    ToastUtil.showShort("shanchu" + cityList.get(pos));
+                        toDeleteCity(cityList.get(pos));
                 }
             }
         });
@@ -149,6 +147,33 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         DBManager.getInstance().closeDatabase();
+    }
+
+    private void toDeleteCity(final String cityStr) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(
+                MultiCitiesManagerActivity.this);
+        dialog.setTitle("提示信息")
+                .setMessage("确定删除城市"+cityStr+"?")
+                .setCancelable(true)
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        final SQLiteDatabase db = DBManager.getInstance().getDatabase();
+                        db.delete("MultiCities", "city = ?", new String[]{
+                                cityStr
+                        });
+                        cityList.clear();
+                        init();
+                        mAdapter.notifyDataSetChanged();
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                }).show();
     }
 
     private void quit() {
