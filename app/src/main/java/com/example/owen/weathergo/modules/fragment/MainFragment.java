@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +61,7 @@ public class MainFragment extends Fragment {
     RelativeLayout mWeatherInfo;
 
     WeatherAdapter mWeatherAdapter;
-    private String mCityStr = "";//设置的CityName
+    private String mCityStr;//设置的CityName
     private String mGCityStr = "";//从和风天气查询到的城市名称CityName，理论上和设置的一样
     private View view;
     private boolean mIsCreateView = false;
@@ -151,10 +152,11 @@ public class MainFragment extends Fragment {
         }
         mIsCreateView = true;
         init();
-        if (!mCityStr.equals("")) {
+        if (!"".equals(mCityStr) && mCityStr != null) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    Log.d("MainFragmenthuang  ", " onCreateView " + mCityStr);
                     mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
                     Message message = new Message();
                     message.what = UPDATE_WEATHER_DATA;
@@ -179,11 +181,13 @@ public class MainFragment extends Fragment {
         //以节省流量和访问次数（因为每次打开app时用户的位置数据是基本不会改变的）
         super.onStart();
         String Ccity = SharedPreferenceUtil.getInstance().getCityName();
-        if (!Ccity.equals(mCityStr)) {
+        Log.d("MainFragmenthuang  ", " onStart " + mCityStr + "\n" + Ccity);
+        if (!"".equals(Ccity) && !Ccity.equals(mCityStr)) {
             mCityStr = Ccity;
             new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    Log.d("MainFragmenthuang  ", " onStart " + mCityStr);
                     mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
                     Message message = new Message();
                     message.what = UPDATE_WEATHER_DATA;
@@ -207,12 +211,14 @@ public class MainFragment extends Fragment {
 
     public void init() {
         String cCity = SharedPreferenceUtil.getInstance().getCityName();
-        if (!cCity.equals(""))//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值进行初始赋值
+        if (!"".equals(cCity) && cCity != null)//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值进行初始赋值
         {
             mCityStr = cCity;
             safeSetTitle(mCityStr);
+            Log.d("MainFragmenthuang  ", " init " + mCityStr);
         }
         mNoData.setVisibility(View.GONE);
+        Log.d("MainFragmenthuang  ", " init2 " + mCityStr);
         initRecycleView();
     }
 

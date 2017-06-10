@@ -2,6 +2,8 @@ package com.example.owen.weathergo.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.example.owen.weathergo.R;
-import com.example.owen.weathergo.modules.adapter.CityAdapter;
 import com.example.owen.weathergo.modules.adapter.MultiCityAdapter;
 import com.example.owen.weathergo.util.DBManager;
 import com.example.owen.weathergo.util.ToastUtil;
@@ -43,10 +44,21 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
 
     private void init() {
         DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
+        final SQLiteDatabase db = DBManager.getInstance().getDatabase();
+        Cursor cursor = db.rawQuery("select city from MultiCities", null);
+        if (cursor.moveToFirst()) {
+            do {
+                //遍历cursor
+                String city = cursor.getString(cursor.getColumnIndex("city"));
+                cityList.add(city);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        long allCity = DBManager.getInstance().allCaseNum();
 //        DBManager.getInstance().closeDatabase();
-        cityList.add("洛阳");
-        cityList.add("开封");
-        cityList.add("东莞");
+        /*cityList.add("洛阳");
+        cityList.add("开封");*/
+        cityList.add("添加城市");
     }
 
     private void initRecycleView() {

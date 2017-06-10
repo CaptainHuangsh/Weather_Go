@@ -218,14 +218,16 @@ public class WeatherMain extends AppCompatActivity
         mHomePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
         MainFragment mf = new MainFragment();
         mHomePagerAdapter.addTab(mf, "aaa");
-        if (!"".equals(SharedPreferenceUtil.getInstance().getString("city_1", ""))) {
+        /*if (!"".equals(SharedPreferenceUtil.getInstance().getString("city_1", ""))) {
             MultiCityFragment tf = new MultiCityFragment();
             mHomePagerAdapter.addTab(tf, "");
-        }
+        }*/
         mViewPager.setAdapter(mHomePagerAdapter);
         String cCity = SharedPreferenceUtil.getInstance().getCityName();
-        if (cCity.equals(""))//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值进行初始赋值
+        Log.d("WeatherMainhuang", " init " + cCity);
+        if ("".equals(cCity) || cCity == null)//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值进行初始赋值
         {
+            Log.d("WeatherMainhuang", " initLocation " + cCity);
             initLocation();
         }
     }
@@ -374,12 +376,14 @@ public class WeatherMain extends AppCompatActivity
         //用于定位
         @Override
         public void onReceiveLocation(BDLocation bdLocation) {
-            SharedPreferenceUtil.getInstance().setCityName(bdLocation.getCity());
-            Message msg = new Message();
-            msg.obj = bdLocation.getCity() + "";
-            msg.what = SEARCH_CITY;
-            Log.d("search_weather_data", "" + bdLocation.getCity());
-            mHandler.sendMessage(msg);
+            if (bdLocation.getCity() != null) {
+                SharedPreferenceUtil.getInstance().setCityName(bdLocation.getCity());
+                Message msg = new Message();
+                msg.obj = bdLocation.getCity() + "";
+                msg.what = SEARCH_CITY;
+                Log.d("search_weather_data", "" + bdLocation.getCity());
+                mHandler.sendMessage(msg);
+            }
         }
 
         @Override

@@ -1,6 +1,7 @@
 package com.example.owen.weathergo.util;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
@@ -25,10 +26,10 @@ public class DBManager {
 
     private static String TAG = DBManager.class.getSimpleName();
     private static final String DB_NAME = "china_city.db"; //城市数据库名字
-    public static final String WEATHER_DB_NAME = "com.example.owen.weathergo.db";//"其他"数据库名字
+    public static final String WEATHER_DB_NAME = "weathergo_city.db";//"其他"数据库名字
     private static final String PACKAGE_NAME = "com.example.owen.weathergo";
     private static final String DB_PATH = "/data" + Environment.getDataDirectory().getAbsolutePath() + "/" +
-            PACKAGE_NAME;  //在手机里存放数据库的位置(/data/data/com.example.owen.weathergo/china_city.db)
+            PACKAGE_NAME + "/databases/";  //在手机里存放数据库的位置(/data/data/com.example.owen.weathergo/databases/" + china_city.db)
     private SQLiteDatabase database;
     private Context context;
 
@@ -61,6 +62,13 @@ public class DBManager {
 
             if (!(new File(DB_PATH + "/" + dbfile).exists())) {
                 if (dbfile.equals(DB_NAME)) {
+
+                    File file = new File(DB_PATH);
+                    //判断文件夹是否存在,如果不存在则创建文件夹
+                    if (!file.exists()) {
+                        file.mkdir();
+                    }
+
                     //如果是city.db的话，从raw中导入；否则按正常方法
                     //判断数据库文件是否存在，若不存在则执行导入，否则直接打开数据库
                     InputStream is = BaseApplication.getAppContext().getResources().openRawResource(R.raw.china_city); //欲导入的数据库
@@ -101,6 +109,20 @@ public class DBManager {
         }
     }
 
+    /**
+     * 查询数据库中的总条数.
+     *
+     * @return
+     */
+    public long allCaseNum() {
+        String sql = "select count(*) from info";
+        Cursor cursor = this.database.rawQuery(sql, null);
+        cursor.moveToFirst();
+        long count = cursor.getLong(0);
+        cursor.close();
+        return count;
+    }
+
     private class MyDatabaseHelper extends SQLiteOpenHelper {
         private String CREATE_DB;
 
@@ -111,6 +133,7 @@ public class DBManager {
 
         @Override
         public void onCreate(SQLiteDatabase sqLiteDatabase) {
+            Log.d("huangshaohua", "sqlStr : " + CREATE_DB);
             sqLiteDatabase.execSQL(CREATE_DB);
         }
 
