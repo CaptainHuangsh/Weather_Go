@@ -102,4 +102,5 @@
     <string name="TOMORROW">明日</string>
     <string name="light_wind">微风</string>
     <string name="nav_multi_city">多城市管理</string>
+    <string name="select_todo">选择操作</string>
 </resources>

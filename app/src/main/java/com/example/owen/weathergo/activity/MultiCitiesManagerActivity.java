@@ -12,6 +12,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.example.owen.weathergo.R;
+import com.example.owen.weathergo.dialog.CityDialog;
+import com.example.owen.weathergo.dialog.MultiCityAddDialog;
 import com.example.owen.weathergo.modules.adapter.MultiCityAdapter;
 import com.example.owen.weathergo.util.DBManager;
 import com.example.owen.weathergo.util.ToastUtil;
@@ -71,8 +73,11 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
         mAdapter.setOnItemClickListener(new MultiCityAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int pos) {
-                ToastUtil.showShort("dianjil" + cityList.get(pos));
-
+                if (pos == mCityCount) {
+                    final MultiCityAddDialog dialog = new MultiCityAddDialog(MultiCitiesManagerActivity.this);
+                    dialog.show();
+                } else
+                    ToastUtil.showShort("dianjil" + cityList.get(pos));
             }
         });
     }
