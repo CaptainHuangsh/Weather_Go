@@ -91,6 +91,8 @@ public class DBManager {
                             .show();
                 }
             }
+            this.database = SQLiteDatabase.openOrCreateDatabase(DB_PATH + "/" + dbfile, null);;
+            //非CITY_DB情况下赋值database
             return SQLiteDatabase.openOrCreateDatabase(DB_PATH + "/" + dbfile, null);
         } catch (FileNotFoundException e) {
             Log.e("File not found", "");
@@ -114,8 +116,8 @@ public class DBManager {
      *
      * @return
      */
-    public long allCaseNum() {
-        String sql = "select count(*) from info";
+    public long allCaseNum(String table) {
+        String sql = "select count(*) from " + table;
         Cursor cursor = this.database.rawQuery(sql, null);
         cursor.moveToFirst();
         long count = cursor.getLong(0);

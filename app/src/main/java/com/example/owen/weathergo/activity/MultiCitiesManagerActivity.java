@@ -32,6 +32,7 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
 
     private ArrayList<String> cityList = new ArrayList<>();
     private MultiCityAdapter mAdapter;
+    private int mCityCount;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
     private void init() {
         DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
         final SQLiteDatabase db = DBManager.getInstance().getDatabase();
+//        ToastUtil.showShort("" + db);
         Cursor cursor = db.rawQuery("select city from MultiCities", null);
         if (cursor.moveToFirst()) {
             do {
@@ -54,7 +56,7 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
             } while (cursor.moveToNext());
         }
         cursor.close();
-        long allCity = DBManager.getInstance().allCaseNum();
+        mCityCount = (int) DBManager.getInstance().allCaseNum("MultiCities");
 //        DBManager.getInstance().closeDatabase();
         /*cityList.add("洛阳");
         cityList.add("开封");*/
