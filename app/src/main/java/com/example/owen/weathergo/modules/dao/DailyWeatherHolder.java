@@ -56,12 +56,12 @@ public class DailyWeatherHolder extends BaseViewHolder<Weather> {
                 }
                 img[i].setImageResource(IconGet.getWeaIcon(weather.getDailyForecast().get(i)
                         .getCond().getTxtD()));
-                if (weather.getDailyForecast().get(i).getCond().getTxtD().equals(weather.getDailyForecast().get(i).getCond().getTxtN())) {
+                /*if (weather.getDailyForecast().get(i).getCond().getTxtD().equals(weather.getDailyForecast().get(i).getCond().getTxtN())) {
                     imgN[i].setVisibility(View.INVISIBLE);
-                } else {
+                } else {*/
                     imgN[i].setImageResource(IconGet.getWeaIcon(weather.getDailyForecast().get(i)
                             .getCond().getTxtN()));
-                }
+//                }
                 tempView[i].setText(mContext.getResources().getString(R.string.temp_min)
                         + weather.getDailyForecast().get(i).getTmp().getMin()
                         + mContext.getResources().getString(R.string.c)

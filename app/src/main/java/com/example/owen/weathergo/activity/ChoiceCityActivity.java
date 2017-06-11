@@ -40,7 +40,7 @@ public class ChoiceCityActivity extends AppCompatActivity {
     public static final int LEVEL_PROVINCE = 0;
     public static final int LEVEL_CITY = 1;
     private int currentLevel;
-    private boolean isChecked = false;
+//    private boolean isChecked = false;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -48,11 +48,15 @@ public class ChoiceCityActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choice_city);
         ButterKnife.bind(this);
-        currentLevel = 0;
-        DBManager.getInstance().openDatabase();
+        init();
         initRecycleView();
         queryProvince();
+    }
 
+    private void init() {
+        setTitle("选择城市");
+        currentLevel = 0;
+        DBManager.getInstance().openDatabase();
     }
 
     private void initRecycleView() {

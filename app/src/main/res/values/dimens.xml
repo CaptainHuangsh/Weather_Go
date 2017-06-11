@@ -73,6 +73,7 @@
     <dimen name="dialog_width">260dp</dimen>
     <dimen name="dialog_margin">15dp</dimen>
     <dimen name="dialog_view_height">1px</dimen>
+    <dimen name="dialog_view_3height">1px</dimen>
     <dimen name="dialog_size">16sp</dimen>
     <dimen name="dialog_btn_height">40dp</dimen>
     <dimen name="dialog_btn_margin">10dp</dimen>

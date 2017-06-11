@@ -1,7 +1,9 @@
 package com.example.owen.weathergo.modules.fragment;
 
 import android.app.Activity;
-import android.content.Intent;
+import android.content.ContentValues;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,30 +24,42 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.activity.WeatherMain;
 import com.example.owen.weathergo.modules.adapter.WeatherAdapter;
 import com.example.owen.weathergo.modules.domain.Weather;
-import com.example.owen.weathergo.service.AutoUpdateService;
+import com.example.owen.weathergo.util.DBManager;
 import com.example.owen.weathergo.util.FileUtil;
 import com.example.owen.weathergo.util.JSONUtil;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
+
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by owen on 2017/5/6.
+ * Created by owen on 2017/6/9.
  */
 
-public class MainFragment extends Fragment {
+public class MultiCityFragment extends Fragment {
 
+    //TODO 城市去重
+    //TODO tabLayout
+    //TODO FAB的选择城市
+    //TODO 多城市管理de SelectCity操作
     private static final int UPDATE_WEATHER_DATA = 0;
     private static final int SEARCH_CITY = 1;
     private static final int SCREEN_SHOOT = 2;
     private static final int CHANGE_TEXT = 3;
+
+    //    private static final int CITY_NUM_0 = 0;//主城市
+    private static final int CITY_NUM_1 = 1;//多城市1
+    private static final int CITY_NUM_2 = 2;//多城市2
+    private static final int CITY_NUM_3 = 3;//多城市3
+    private static final int CITY_NUM_4 = 4;//多城市4
+    private static final int CITY_NUM_5 = 5;//多城市5
 
     @BindView(R.id.no_city_data)
     TextView mNoCityData;
@@ -55,13 +69,12 @@ public class MainFragment extends Fragment {
     RecyclerView mRecycleView;
     @BindView(R.id.no_data)//没有查询到城市天气信息或城市不存在时显示
             LinearLayout mNoData;
-    @BindView(R.id.load_data)
-    LinearLayout mLoadData;//第一次加载时等待获取位置信息
     @BindView(R.id.weather_info)
     RelativeLayout mWeatherInfo;
 
     WeatherAdapter mWeatherAdapter;
-    private String mCityStr;//设置的CityName
+    private int mCityNum;
+    private String mCityStr = "";//设置的CityName
     private String mGCityStr = "";//从和风天气查询到的城市名称CityName，理论上和设置的一样
     private View view;
     private boolean mIsCreateView = false;
@@ -77,9 +90,7 @@ public class MainFragment extends Fragment {
                     initRecycleView();
                     if (SharedPreferenceUtil.getInstance().getCityName().equals("")) {
                         mNoData.setVisibility(View.GONE);
-                        mLoadData.setVisibility(View.VISIBLE);
                     } else {
-                        mLoadData.setVisibility(View.GONE);
                         mNoData.setVisibility(View.GONE);
                         refresh();
                     }
@@ -88,11 +99,48 @@ public class MainFragment extends Fragment {
                     //Fragment与activity交互http://blog.csdn.net/huangyabin001/article/details/35231753
                     if (!msg.obj.toString().equals("")) {
                         mCityStr = msg.obj.toString();
-                        SharedPreferenceUtil.getInstance().setCityName(mCityStr);
+                        DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
+                        final SQLiteDatabase db = DBManager.getInstance().getDatabase();
+                        Cursor cursor = db.rawQuery("select city from MultiCities", null);
+
+                        ArrayList<String> cityList = new ArrayList<>();
+                        if (cursor.moveToFirst()) {
+                            do {
+                                //遍历cursor
+                                String city = cursor.getString(cursor.getColumnIndex("city"));
+                                cityList.add(city);
+                            } while (cursor.moveToNext());
+                        }
+                        cursor.close();
+                        String Ccity = cityList.get(mCityNum);
+                        ContentValues values = new ContentValues();
+                        values.put("city", mCityStr);
+                        db.update("MultiCities", values, "city = ?", new String[]{
+                                Ccity
+                        });
+
+                        /*switch (mCityNum + 1) {
+                            case CITY_NUM_1:
+                                SharedPreferenceUtil.getInstance().putString("city_1", mCityStr);
+                                break;
+                            case CITY_NUM_2:
+                                SharedPreferenceUtil.getInstance().putString("city_2", mCityStr);
+                                break;
+                            case CITY_NUM_3:
+                                SharedPreferenceUtil.getInstance().putString("city_3", mCityStr);
+                                break;
+                            case CITY_NUM_4:
+                                SharedPreferenceUtil.getInstance().putString("city_4", mCityStr);
+                                break;
+                            case CITY_NUM_5:
+                                SharedPreferenceUtil.getInstance().putString("city_5", mCityStr);
+                                break;
+                        }*/
+//                        SharedPreferenceUtil.getInstance().putString("city_1", mCityStr);
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
+                                mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr, mCityNum + 1);
                                 Message message = new Message();
                                 message.what = UPDATE_WEATHER_DATA;
                                 mHandler.sendMessage(message);
@@ -129,9 +177,26 @@ public class MainFragment extends Fragment {
         }
     };
 
+    //Fragment不直接用构造函数传值 http://blog.csdn.net/anobodykey/article/details/22503413
+    public static MultiCityFragment newInstance(int cityNum, String cityStr) {
+        MultiCityFragment newFragment = new MultiCityFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt("city_num", cityNum);
+        bundle.putString("city_str", cityStr);
+        newFragment.setArguments(bundle);
+        return newFragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
+        Bundle args = getArguments();
+        if (args != null) {
+            this.mCityNum = args.getInt("city_num");
+            this.mCityStr = args.getString("city_str");
+        }
+        Log.d("MultiCityFragmenthuang", " onCreate " + mCityStr + "  " + mCityNum);
     }
 
     @Override
@@ -147,17 +212,18 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (view == null) {
-            view = inflater.inflate(R.layout.fragment_main, container, false);
+            view = inflater.inflate(R.layout.fragment_multi_cities, container, false);
             ButterKnife.bind(this, view);
         }
         mIsCreateView = true;
         init();
-        if (!"".equals(mCityStr) && mCityStr != null) {
+        initRecycleView();
+        if (!mCityStr.equals("") && mCityStr != null) {
+            Log.d("MultiCityFragmenthuang", " onCreateView " + mCityStr + "  " + mCityNum);
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("MainFragmenthuang  ", " onCreateView " + mCityStr);
-                    mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
+                    mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr, mCityNum + 1);
                     Message message = new Message();
                     message.what = UPDATE_WEATHER_DATA;
                     mHandler.sendMessage(message);
@@ -180,15 +246,44 @@ public class MainFragment extends Fragment {
     public void onStart() {
         //以节省流量和访问次数（因为每次打开app时用户的位置数据是基本不会改变的）
         super.onStart();
-        String Ccity = SharedPreferenceUtil.getInstance().getCityName();
-        Log.d("MainFragmenthuang  ", " onStart " + mCityStr + "\n" + Ccity);
+        DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
+        final SQLiteDatabase db = DBManager.getInstance().getDatabase();
+        Cursor cursor = db.rawQuery("select city from MultiCities", null);
+        ArrayList<String> cityList = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                //遍历cursor
+                String city = cursor.getString(cursor.getColumnIndex("city"));
+                cityList.add(city);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        String Ccity = cityList.get(mCityNum);
+        Log.d("MultiCityFragmenthuang", " onStart " + Ccity + "  " + mCityNum);
+        /*switch (mCityNum + 1) {
+            case CITY_NUM_1:
+                Ccity = SharedPreferenceUtil.getInstance().getString("city_1", "");
+                break;
+            case CITY_NUM_2:
+                Ccity = SharedPreferenceUtil.getInstance().getString("city_2", "");
+                break;
+            case CITY_NUM_3:
+                Ccity = SharedPreferenceUtil.getInstance().getString("city_3", "");
+                break;
+            case CITY_NUM_4:
+                Ccity = SharedPreferenceUtil.getInstance().getString("city_4", "");
+                break;
+            case CITY_NUM_5:
+                Ccity = SharedPreferenceUtil.getInstance().getString("city_5", "");
+                break;
+        }*/
+//        String Ccity = SharedPreferenceUtil.getInstance().getString("city_1", "");
         if (!"".equals(Ccity) && !Ccity.equals(mCityStr)) {
             mCityStr = Ccity;
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("MainFragmenthuang  ", " onStart " + mCityStr);
-                    mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
+                    mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr, mCityNum + 1);
                     Message message = new Message();
                     message.what = UPDATE_WEATHER_DATA;
                     mHandler.sendMessage(message);
@@ -200,8 +295,9 @@ public class MainFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Intent intent = new Intent(getActivity(), AutoUpdateService.class);
-        getActivity().stopService(intent);
+        /*Intent intent = new Intent(getActivity(), AutoUpdateService.class);
+        getActivity().stopService(intent);*/
+        DBManager.getInstance().closeDatabase();
     }
 
     @Override
@@ -210,16 +306,46 @@ public class MainFragment extends Fragment {
     }
 
     public void init() {
-        String cCity = SharedPreferenceUtil.getInstance().getCityName();
+        DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
+        final SQLiteDatabase db = DBManager.getInstance().getDatabase();
+        Cursor cursor = db.rawQuery("select city from MultiCities", null);
+        ArrayList<String> cityList = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                //遍历cursor
+                String city = cursor.getString(cursor.getColumnIndex("city"));
+                cityList.add(city);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        String cCity = cityList.get(mCityNum);
+        Log.d("MultiCityFragmenthuang", " init " + cCity + "  " + mCityNum);
+//        String cCity = "";
+        /*switch (mCityNum + 1) {
+            case CITY_NUM_1:
+                cCity = SharedPreferenceUtil.getInstance().getString("city_1", "");
+                break;
+            case CITY_NUM_2:
+                cCity = SharedPreferenceUtil.getInstance().getString("city_2", "");
+                break;
+            case CITY_NUM_3:
+                cCity = SharedPreferenceUtil.getInstance().getString("city_3", "");
+                break;
+            case CITY_NUM_4:
+                cCity = SharedPreferenceUtil.getInstance().getString("city_4", "");
+                break;
+            case CITY_NUM_5:
+                cCity = SharedPreferenceUtil.getInstance().getString("city_5", "");
+                break;
+        }*/
+//        String cCity = SharedPreferenceUtil.getInstance().getString("city_1", "");
         if (!"".equals(cCity) && cCity != null)//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值进行初始赋值
         {
             mCityStr = cCity;
 //            safeSetTitle(mCityStr);
-            Log.d("MainFragmenthuang  ", " init " + mCityStr);
         }
         mNoData.setVisibility(View.GONE);
-        Log.d("MainFragmenthuang  ", " init2 " + mCityStr);
-        initRecycleView();
+
     }
 
     /**
@@ -230,13 +356,45 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 initRecycleView();
-                String Ccity = SharedPreferenceUtil.getInstance().getCityName();
-                if (!Ccity.equals(mCityStr)) {
-                    mCityStr = Ccity;
+                DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
+                final SQLiteDatabase db = DBManager.getInstance().getDatabase();
+                Cursor cursor = db.rawQuery("select city from MultiCities", null);
+                ArrayList<String> cityList = new ArrayList<>();
+                if (cursor.moveToFirst()) {
+                    do {
+                        //遍历cursor
+                        String city = cursor.getString(cursor.getColumnIndex("city"));
+                        cityList.add(city);
+                    } while (cursor.moveToNext());
+                }
+                cursor.close();
+                String cCity = cityList.get(mCityNum);
+                Log.d("MultiCityFragmenthuang", " setListener " + cCity + "  " + mCityNum);
+//                String cCity = "";
+                /*switch (mCityNum + 1) {
+                    case CITY_NUM_1:
+                        cCity = SharedPreferenceUtil.getInstance().getString("city_1", "");
+                        break;
+                    case CITY_NUM_2:
+                        cCity = SharedPreferenceUtil.getInstance().getString("city_2", "");
+                        break;
+                    case CITY_NUM_3:
+                        cCity = SharedPreferenceUtil.getInstance().getString("city_3", "");
+                        break;
+                    case CITY_NUM_4:
+                        cCity = SharedPreferenceUtil.getInstance().getString("city_4", "");
+                        break;
+                    case CITY_NUM_5:
+                        cCity = SharedPreferenceUtil.getInstance().getString("city_5", "");
+                        break;
+                }*/
+//                String Ccity = SharedPreferenceUtil.getInstance().getString("city_1", "");
+                if (!cCity.equals(mCityStr)) {
+                    mCityStr = cCity;
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
+                            mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr, mCityNum + 1);
                             Message message = new Message();
                             message.what = UPDATE_WEATHER_DATA;
                             mHandler.sendMessage(message);
@@ -291,27 +449,25 @@ public class MainFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void getWeather() {
         mWeatherInfo.setVisibility(View.VISIBLE);
-        mLoadData.setVisibility(View.GONE);
         mNoData.setVisibility(View.GONE);
         mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
         try {
-            mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
+            mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr, mCityNum + 1);
             int i = 0;
             mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(mWeather));
             mGCityStr = mWeather.getBasic().getCity();
             if (!mGCityStr.equals("")) {
 //                safeSetTitle(mGCityStr);
             }
-            Intent intent = new Intent(getActivity(), AutoUpdateService.class);
-            getActivity().startService(intent);
+            /*Intent intent = new Intent(getActivity(), AutoUpdateService.class);
+            getActivity().startService(intent);*/
         } catch (Exception e) {
             e.printStackTrace();
             mWeatherInfo.setVisibility(View.GONE);
-            mLoadData.setVisibility(View.GONE);
             mNoData.setVisibility(View.VISIBLE);
 //            Toast.makeText(getActivity(), "    定位失败,请手动输入城市", Toast.LENGTH_LONG).show();
         }
-        Toast.makeText(getActivity(), "加载完毕，✺◟(∗❛ัᴗ❛ั∗)◞✺,", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), "加载完毕，✺◟(∗❛ัᴗ❛ั∗)◞✺,", Toast.LENGTH_SHORT).show();
     }
 
     public void safeSetTitle(String title) {
