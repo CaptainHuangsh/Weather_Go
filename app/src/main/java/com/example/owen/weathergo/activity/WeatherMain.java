@@ -12,6 +12,7 @@ import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -80,6 +81,8 @@ public class WeatherMain extends AppCompatActivity
     FloatingActionButton fab;
     @BindView(R.id.weather_viewpager)
     ViewPager mViewPager;
+    @BindView(R.id.tabLayout)
+    TabLayout mTabLayout;
 
     private ActionBarDrawerToggle mDrawerToggle;
     private Handler mHandler;
@@ -251,7 +254,7 @@ public class WeatherMain extends AppCompatActivity
         initNavigationView();
         mHomePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
         MainFragment mf = new MainFragment();
-        mHomePagerAdapter.addTab(mf, "aaa");
+        mHomePagerAdapter.addTab(mf, SharedPreferenceUtil.getInstance().getCityName());
 
         DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
         final SQLiteDatabase db = DBManager.getInstance().getDatabase();
@@ -279,7 +282,7 @@ public class WeatherMain extends AppCompatActivity
             mHomePagerAdapter.addTab(tf, "");
         }*/
         mViewPager.setAdapter(mHomePagerAdapter);
-
+        mTabLayout.setupWithViewPager(mViewPager, false);
         String cCity = SharedPreferenceUtil.getInstance().getCityName();
         Log.d("WeatherMainhuang", " init " + cCity);
         if ("".equals(cCity) || cCity == null)//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值进行初始赋值

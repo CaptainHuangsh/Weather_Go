@@ -21,6 +21,8 @@
                 android:id="@+id/tl_custom"
                 layout="@layout/custom_toolbar" />
 
+            <include layout="@layout/part_tab_layout" />
+
             <!--<include
                 android:id="@+id/main_weather"
                 layout="@layout/main_weather" />-->
@@ -29,12 +31,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-<!--            <fragment
-                            android:id="@+id/weather_fragment"
-                            android:name="com.example.owen.weathergo.modules.fragment.MainFragment"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            tools:layout="@layout/fragment_main" />-->
+            <!--            <fragment
+                                        android:id="@+id/weather_fragment"
+                                        android:name="com.example.owen.weathergo.modules.fragment.MainFragment"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        tools:layout="@layout/fragment_main" />-->
         </LinearLayout>
 
         <android.support.design.widget.FloatingActionButton

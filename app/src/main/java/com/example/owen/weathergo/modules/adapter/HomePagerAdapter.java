@@ -25,6 +25,11 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
         super(fm);
     }
 
+    public void addTab(Fragment fragment) {
+        fragments.add(fragment);
+//        titles.add(title);
+    }
+
     public void addTab(Fragment fragment, String title) {
         fragments.add(fragment);
         titles.add(title);
