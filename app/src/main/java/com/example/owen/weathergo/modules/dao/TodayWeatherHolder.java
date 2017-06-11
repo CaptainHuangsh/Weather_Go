@@ -35,9 +35,10 @@ public class TodayWeatherHolder extends BaseViewHolder<Weather> {
     private Context mContext;
     private TextView mTemp_min;
     private TextView mTemp_max;
-    private TextView mCountry;
+    private TextView mAir;
     private TextView mWind_speed;
     private TextView mTemp;
+    private TextView mCity;
     private ImageView mImg;
     private ImageView mBingPic;
 
@@ -59,11 +60,12 @@ public class TodayWeatherHolder extends BaseViewHolder<Weather> {
         mContext = view.getContext();
         mTemp_min = (TextView) view.findViewById(R.id.weather_temp_min);
         mTemp_max = (TextView) view.findViewById(R.id.weather_temp_max);
-        mCountry = (TextView) view.findViewById(R.id.weather_air);
+        mAir = (TextView) view.findViewById(R.id.weather_air);
         mWind_speed = (TextView) view.findViewById(R.id.weather_wind_speed);
         mTemp = (TextView) view.findViewById(R.id.weather_temp);
         mImg = (ImageView) view.findViewById(R.id.weather_img);
         mBingPic = (ImageView) view.findViewById(R.id.bg_pic);
+        mCity = (TextView) view.findViewById(R.id.weather_city);
     }
 
     @Override
@@ -84,9 +86,10 @@ public class TodayWeatherHolder extends BaseViewHolder<Weather> {
             mTemp.setText(
                     weather.getNow().getTmp()
                             + mContext.getResources().getString(R.string.c));
-            mCountry.setText(
+            mAir.setText(
                     weather.getAqi().getCity().getQlty().length() < 2 ? mContext.getResources().getString(R.string.air)
                             + weather.getAqi().getCity().getQlty() : weather.getAqi().getCity().getQlty());
+            mCity.setText(weather.getBasic().getCity());
             mImg.setImageResource(IconGet.getWeaIcon(weather.getNow().getCond().getTxt()));
             SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
             Calendar c = Calendar.getInstance();

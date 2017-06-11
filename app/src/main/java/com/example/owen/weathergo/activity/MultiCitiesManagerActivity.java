@@ -96,10 +96,6 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
                                 dialog2.setYesOnclickListener("确定", new CityDialog.onYesOnclickListener() {
                                     @Override
                                     public void onYesClick() {
-//                                    Message msg = new Message();
-//                                    msg.obj = dialog2.mCityEdit.getText().toString();
-//                                    msg.what = SEARCH_CITY;
-//                                    mHandler.sendMessage(msg);
                                         if (!"".equals(dialog2.mCityEdit.getText().toString())) {
                                             values.put("city", dialog2.mCityEdit.getText().toString());
                                             final SQLiteDatabase db = DBManager.getInstance().getDatabase();

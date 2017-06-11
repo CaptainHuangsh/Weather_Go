@@ -1,6 +1,5 @@
 package com.example.owen.weathergo.modules.fragment;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -25,7 +24,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.activity.WeatherMain;
@@ -46,7 +44,7 @@ import butterknife.ButterKnife;
  */
 
 public class MultiCityFragment extends Fragment {
-
+    //TODO todayWeather界面添加城市名称
     private static final int UPDATE_WEATHER_DATA = 0;
     private static final int SEARCH_CITY = 1;
     private static final int SCREEN_SHOOT = 2;
