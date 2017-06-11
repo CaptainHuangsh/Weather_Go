@@ -18,6 +18,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -193,6 +194,7 @@ public class MultiCityFragment extends Fragment {
             this.mCityNum = args.getInt("city_num");
             this.mCityStr = args.getString("city_str");
         }
+        Log.d("MultiCityFragmenthuang", " onCreate " + mCityStr + "  " + mCityNum);
     }
 
     @Override
@@ -213,7 +215,9 @@ public class MultiCityFragment extends Fragment {
         }
         mIsCreateView = true;
         init();
+        initRecycleView();
         if (!mCityStr.equals("") && mCityStr != null) {
+            Log.d("MultiCityFragmenthuang", " onCreateView " + mCityStr + "  " + mCityNum);
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -253,6 +257,7 @@ public class MultiCityFragment extends Fragment {
         }
         cursor.close();
         String Ccity = cityList.get(mCityNum);
+        Log.d("MultiCityFragmenthuang", " onStart " + Ccity + "  " + mCityNum);
         /*switch (mCityNum + 1) {
             case CITY_NUM_1:
                 Ccity = SharedPreferenceUtil.getInstance().getString("city_1", "");
@@ -312,6 +317,7 @@ public class MultiCityFragment extends Fragment {
         }
         cursor.close();
         String cCity = cityList.get(mCityNum);
+        Log.d("MultiCityFragmenthuang", " init " + cCity + "  " + mCityNum);
 //        String cCity = "";
         /*switch (mCityNum + 1) {
             case CITY_NUM_1:
@@ -334,10 +340,10 @@ public class MultiCityFragment extends Fragment {
         if (!"".equals(cCity) && cCity != null)//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值进行初始赋值
         {
             mCityStr = cCity;
-            safeSetTitle(mCityStr);
+//            safeSetTitle(mCityStr);
         }
         mNoData.setVisibility(View.GONE);
-        initRecycleView();
+
     }
 
     /**
@@ -361,6 +367,7 @@ public class MultiCityFragment extends Fragment {
                 }
                 cursor.close();
                 String cCity = cityList.get(mCityNum);
+                Log.d("MultiCityFragmenthuang", " setListener " + cCity + "  " + mCityNum);
 //                String cCity = "";
                 /*switch (mCityNum + 1) {
                     case CITY_NUM_1:
@@ -447,8 +454,9 @@ public class MultiCityFragment extends Fragment {
             int i = 0;
             mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(mWeather));
             mGCityStr = mWeather.getBasic().getCity();
-            if (!mGCityStr.equals(""))
-                safeSetTitle(mGCityStr);
+            if (!mGCityStr.equals("")) {
+//                safeSetTitle(mGCityStr);
+            }
             /*Intent intent = new Intent(getActivity(), AutoUpdateService.class);
             getActivity().startService(intent);*/
         } catch (Exception e) {
@@ -457,7 +465,7 @@ public class MultiCityFragment extends Fragment {
             mNoData.setVisibility(View.VISIBLE);
 //            Toast.makeText(getActivity(), "    定位失败,请手动输入城市", Toast.LENGTH_LONG).show();
         }
-        Toast.makeText(getActivity(), "加载完毕，✺◟(∗❛ัᴗ❛ั∗)◞✺,", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), "加载完毕，✺◟(∗❛ัᴗ❛ั∗)◞✺,", Toast.LENGTH_SHORT).show();
     }
 
     public void safeSetTitle(String title) {

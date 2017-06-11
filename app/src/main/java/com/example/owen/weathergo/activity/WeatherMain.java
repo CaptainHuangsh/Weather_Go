@@ -239,6 +239,7 @@ public class WeatherMain extends AppCompatActivity
         int mCityCount = (int) DBManager.getInstance().allCaseNum("MultiCities");
         if (mCityCount != 0) {
             for (int i = 0; i < mCityCount; i++) {
+//            for (int i = 0; i < 2; i++) {
                 MultiCityFragment mtf = MultiCityFragment.newInstance(i, cityList.get(i));
                 Log.d("WeatherMainhuang", " init " + cityList.get(i));
                 mHomePagerAdapter.addTab(mtf, cityList.get(i));

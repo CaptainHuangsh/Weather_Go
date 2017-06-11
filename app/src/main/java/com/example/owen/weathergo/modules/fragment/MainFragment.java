@@ -214,7 +214,7 @@ public class MainFragment extends Fragment {
         if (!"".equals(cCity) && cCity != null)//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值进行初始赋值
         {
             mCityStr = cCity;
-            safeSetTitle(mCityStr);
+//            safeSetTitle(mCityStr);
             Log.d("MainFragmenthuang  ", " init " + mCityStr);
         }
         mNoData.setVisibility(View.GONE);
@@ -299,8 +299,9 @@ public class MainFragment extends Fragment {
             int i = 0;
             mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(mWeather));
             mGCityStr = mWeather.getBasic().getCity();
-            if (!mGCityStr.equals(""))
-                safeSetTitle(mGCityStr);
+            if (!mGCityStr.equals("")) {
+//                safeSetTitle(mGCityStr);
+            }
             Intent intent = new Intent(getActivity(), AutoUpdateService.class);
             getActivity().startService(intent);
         } catch (Exception e) {
