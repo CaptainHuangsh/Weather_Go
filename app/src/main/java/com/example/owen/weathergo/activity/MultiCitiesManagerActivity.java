@@ -51,6 +51,7 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
     }
 
     private void init() {
+        setTitle("多城市管理");
         DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
         final SQLiteDatabase db = DBManager.getInstance().getDatabase();
 //        ToastUtil.showShort("" + db);
