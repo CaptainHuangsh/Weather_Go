@@ -34,6 +34,9 @@ import butterknife.ButterKnife;
 public class MultiCitiesManagerActivity extends AppCompatActivity {
 
     //TODO 修改数据库中id不自增,随总数改变id
+    //TODO 验证输入的城市是否可用
+    //TODO 从多城市管理更改后返回WeatherMain做出对应变化、
+    //TODO selectCity跳转到城市选择界面并返回得到的值
     @BindView(R.id.city_recycle)
     RecyclerView mCityRecycle;
 
