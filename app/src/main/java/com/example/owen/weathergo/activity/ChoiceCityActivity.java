@@ -49,7 +49,6 @@ public class ChoiceCityActivity extends AppCompatActivity {
         setContentView(R.layout.activity_choice_city);
         ButterKnife.bind(this);
         init();
-
         initRecycleView();
         queryProvince();
     }

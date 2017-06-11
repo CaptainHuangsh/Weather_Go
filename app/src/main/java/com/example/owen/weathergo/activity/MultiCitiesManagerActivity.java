@@ -12,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.example.owen.weathergo.R;
@@ -101,10 +102,8 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
                                             final SQLiteDatabase db = DBManager.getInstance().getDatabase();
                                             db.insert("MultiCities", null, values);
                                             values.clear();
-//                                        mCityRecycle.removeAllViews();
                                             cityList.clear();
                                             init();
-//                                        cityList.add(dialog2.mCityEdit.getText().toString());
                                             mAdapter.notifyDataSetChanged();
                                         }
                                         dialog2.dismiss();
@@ -128,8 +127,12 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
                                 .show();
                     }
                 } else {
-
-                    ToastUtil.showShort("dianjil" + cityList.get(pos));
+                    Intent intent = new Intent(MultiCitiesManagerActivity.this, WeatherMain.class);
+                    intent.putExtra("city_num", pos);
+                    Log.d("MultiCitiesManagerActivityhuang startActivity "," pos "+pos);
+                    startActivity(intent);
+//                    quit();
+//                    ToastUtil.showShort("dianjil" + cityList.get(pos));
                 }
 
             }

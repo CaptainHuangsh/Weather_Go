@@ -102,6 +102,33 @@ public class WeatherMain extends AppCompatActivity
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        //从多城市管理界面跳转过来，并接收选中的城市编号
+//        Intent intent = this.getIntent();
+//        if (intent.getExtras().getString("city_num", "-1") != null) {
+        int cityNum = getIntent().getIntExtra("city_num", -1);
+        Log.d("WeatherMainhuang", "onStart getIntExtra " + cityNum);
+        mViewPager.setCurrentItem(cityNum + 1);
+//        }
+    }
+
+    /**
+     * 由于在打开MultiCitiesManagerActivity时WeatherMain并未destroyed
+     * 所以在MultiCitiesManagerActivity中启动也就没有重新调用onCreate方法；
+     * WeatherMain中的intent因此也就没有刷新为MultiCitiesManagerActivity
+     * 传来的新intent；
+     * 调用下面的onNewIntent方法可以解决这一问题
+     *
+     * @param intent
+     */
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+    }
+
+    @Override
     protected void onPause() {
         super.onPause();
         mDrawerLayout.closeDrawers();
@@ -218,6 +245,7 @@ public class WeatherMain extends AppCompatActivity
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             //使导航栏透明getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
+
         setSupportActionBar(mToolBar);
         initDrawer();
         initNavigationView();
@@ -251,6 +279,7 @@ public class WeatherMain extends AppCompatActivity
             mHomePagerAdapter.addTab(tf, "");
         }*/
         mViewPager.setAdapter(mHomePagerAdapter);
+
         String cCity = SharedPreferenceUtil.getInstance().getCityName();
         Log.d("WeatherMainhuang", " init " + cCity);
         if ("".equals(cCity) || cCity == null)//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值进行初始赋值
