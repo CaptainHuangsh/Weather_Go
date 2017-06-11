@@ -10,7 +10,7 @@
         android:background="@drawable/free_dialog_bg"
         android:orientation="vertical">
 
-        <TextView
+        <!--<TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -19,8 +19,14 @@
             android:gravity="center"
             android:text="@string/select_todo"
             android:textColor="@color/dialog_tittle_text"
-            android:textSize="@dimen/dialog_size" />
+            android:textSize="@dimen/dialog_size" />-->
         <!--http://blog.csdn.net/hanjieson/article/details/10045847-->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dialog_view_height"
+            android:layout_marginTop="5dp"
+            android:background="@color/dialog_bg" />
+
         <TextView
             android:id="@+id/to_select_city"
             android:layout_width="wrap_content"
@@ -28,13 +34,14 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="15dp"
             android:background="@drawable/bg_edittext"
-            android:text="城市选择"
-            android:textColor="@color/black"
-            android:textCursorDrawable="@null" />
+            android:text="@string/select_city"
+            android:textColor="@color/colorPrimary"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/dialog_size" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/dialog_view_height"
+            android:layout_height="@dimen/dialog_view_3height"
             android:layout_marginTop="5dp"
             android:background="@color/dialog_bg" />
 
@@ -45,9 +52,10 @@
             android:layout_gravity="center_horizontal"
             android:layout_margin="15dp"
             android:background="@drawable/bg_edittext"
-            android:text="输入城市"
-            android:textColor="@color/black"
-            android:textCursorDrawable="@null" />
+            android:text="@string/input_city"
+            android:textColor="@color/colorPrimary"
+            android:textCursorDrawable="@null"
+            android:textSize="@dimen/dialog_size" />
 
         <View
             android:layout_width="match_parent"
