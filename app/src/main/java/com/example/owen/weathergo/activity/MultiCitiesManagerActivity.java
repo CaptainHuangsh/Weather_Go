@@ -1,6 +1,5 @@
 package com.example.owen.weathergo.activity;
 
-import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -34,7 +33,7 @@ import butterknife.ButterKnife;
 public class MultiCitiesManagerActivity extends AppCompatActivity {
 
     //TODO 添加标题栏:多城市管理
-    //TODO 添加删除确定询问Dialog
+    //TODO 修改数据库中id不自增,随总数改变id
     @BindView(R.id.city_recycle)
     RecyclerView mCityRecycle;
 
@@ -82,53 +81,61 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, int pos) {
                 if (pos == mCityCount) {
-                    final MultiCityAddDialog dialog = new MultiCityAddDialog(MultiCitiesManagerActivity.this);
-                    dialog.setSelectOnclickListener(new MultiCityAddDialog.onSelectOnclickListener() {
-                        @Override
-                        public void onSelectClick() {
-                            ToastUtil.showShort("selectCity");
-                        }
-                    });
-                    dialog.setInputOnclickListener(new MultiCityAddDialog.onInputOnclickListener() {
-                        @Override
-                        public void onInputClick() {
-                            final CityDialog dialog2 = new CityDialog(MultiCitiesManagerActivity.this);
-                            dialog2.setYesOnclickListener("确定", new CityDialog.onYesOnclickListener() {
-                                @Override
-                                public void onYesClick() {
+                    if (mCityCount < 5) {
+                        final MultiCityAddDialog dialog = new MultiCityAddDialog(MultiCitiesManagerActivity.this);
+                        dialog.setSelectOnclickListener(new MultiCityAddDialog.onSelectOnclickListener() {
+                            @Override
+                            public void onSelectClick() {
+                                ToastUtil.showShort("selectCity");
+                            }
+                        });
+                        dialog.setInputOnclickListener(new MultiCityAddDialog.onInputOnclickListener() {
+                            @Override
+                            public void onInputClick() {
+                                final CityDialog dialog2 = new CityDialog(MultiCitiesManagerActivity.this);
+                                dialog2.setYesOnclickListener("确定", new CityDialog.onYesOnclickListener() {
+                                    @Override
+                                    public void onYesClick() {
 //                                    Message msg = new Message();
 //                                    msg.obj = dialog2.mCityEdit.getText().toString();
 //                                    msg.what = SEARCH_CITY;
 //                                    mHandler.sendMessage(msg);
-                                    if (!"".equals(dialog2.mCityEdit.getText().toString())) {
-                                        values.put("city", dialog2.mCityEdit.getText().toString());
-                                        final SQLiteDatabase db = DBManager.getInstance().getDatabase();
-                                        db.insert("MultiCities", null, values);
-                                        values.clear();
+                                        if (!"".equals(dialog2.mCityEdit.getText().toString())) {
+                                            values.put("city", dialog2.mCityEdit.getText().toString());
+                                            final SQLiteDatabase db = DBManager.getInstance().getDatabase();
+                                            db.insert("MultiCities", null, values);
+                                            values.clear();
 //                                        mCityRecycle.removeAllViews();
-                                        cityList.clear();
-                                        init();
+                                            cityList.clear();
+                                            init();
 //                                        cityList.add(dialog2.mCityEdit.getText().toString());
-                                        mAdapter.notifyDataSetChanged();
+                                            mAdapter.notifyDataSetChanged();
+                                        }
+                                        dialog2.dismiss();
                                     }
-                                    dialog2.dismiss();
-                                }
-                            });
-                            dialog2.setNoOnclickListener("取消", new CityDialog.onNoOnclickListener() {
-                                @Override
-                                public void onNoClick() {
-                                    dialog2.dismiss();
-                                }
-                            });
-                            dialog2.show();
-                            dialog.dismiss();
-                        }
-                    });
-                    dialog.show();
+                                });
+                                dialog2.setNoOnclickListener("取消", new CityDialog.onNoOnclickListener() {
+                                    @Override
+                                    public void onNoClick() {
+                                        dialog2.dismiss();
+                                    }
+                                });
+                                dialog2.show();
+                                dialog.dismiss();
+                            }
+                        });
+                        dialog.show();
+                    } else {
+                        AlertDialog.Builder dialog3 = new AlertDialog.Builder(
+                                MultiCitiesManagerActivity.this);
+                        dialog3.setMessage("最多选择5个城市哦😭")
+                                .show();
+                    }
                 } else {
 
                     ToastUtil.showShort("dianjil" + cityList.get(pos));
                 }
+
             }
         });
         mAdapter.setOnItemLongClickListener(new MultiCityAdapter.OnRecyclerViewItemLongClickListener() {
@@ -136,7 +143,7 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
             public void onItemLongClick(View view, int pos) {
                 if (pos < mCityCount) {
 //                    ToastUtil.showShort("shanchu" + cityList.get(pos));
-                        toDeleteCity(cityList.get(pos));
+                    toDeleteCity(cityList.get(pos));
                 }
             }
         });
@@ -153,7 +160,7 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
         AlertDialog.Builder dialog = new AlertDialog.Builder(
                 MultiCitiesManagerActivity.this);
         dialog.setTitle("提示信息")
-                .setMessage("确定删除城市"+cityStr+"?")
+                .setMessage("确定删除城市" + cityStr + "?")
                 .setCancelable(true)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override

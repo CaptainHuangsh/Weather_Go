@@ -30,9 +30,12 @@ import static android.content.Context.MODE_PRIVATE;
 
 public class JSONUtil {
 
-    private static final int CITY_NUM_0 = 0x00;//主城市
-    private static final int CITY_NUM_1 = 0x01;//多城市1
-    private static final int CITY_NUM_2 = 0x02;//多城市2
+    private static final int CITY_NUM_0 = 0;//主城市
+    private static final int CITY_NUM_1 = 1;//多城市1
+    private static final int CITY_NUM_2 = 2;//多城市2
+    private static final int CITY_NUM_3 = 3;//多城市3
+    private static final int CITY_NUM_4 = 4;//多城市4
+    private static final int CITY_NUM_5 = 5;//多城市5
 
     private static WeatherAPI mWeatherAPI = new WeatherAPI();
     static List<Weather> mListWeather;
@@ -82,6 +85,15 @@ public class JSONUtil {
                         case CITY_NUM_2:
                             editor.putString("jsonText_city_2", jsonText);
                             break;
+                        case CITY_NUM_3:
+                            editor.putString("jsonText_city_3", jsonText);
+                            break;
+                        case CITY_NUM_4:
+                            editor.putString("jsonText_city_4", jsonText);
+                            break;
+                        case CITY_NUM_5:
+                            editor.putString("jsonText_city_5", jsonText);
+                            break;
                         default:
                             editor.putString("jsonText_city_0", jsonText);
                             break;
@@ -113,6 +125,15 @@ public class JSONUtil {
                 break;
             case CITY_NUM_2:
                 jsonTextCity = preferences.getString("jsonText_city_2", "");
+                break;
+            case CITY_NUM_3:
+                jsonTextCity = preferences.getString("jsonText_city_3", "");
+                break;
+            case CITY_NUM_4:
+                jsonTextCity = preferences.getString("jsonText_city_4", "");
+                break;
+            case CITY_NUM_5:
+                jsonTextCity = preferences.getString("jsonText_city_5", "");
                 break;
             default:
                 jsonTextCity = preferences.getString("jsonText_city_0", "");

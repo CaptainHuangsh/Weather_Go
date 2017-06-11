@@ -3,6 +3,8 @@ package com.example.owen.weathergo.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,6 +39,7 @@ import com.example.owen.weathergo.dialog.CityDialog;
 import com.example.owen.weathergo.modules.adapter.HomePagerAdapter;
 import com.example.owen.weathergo.modules.fragment.MainFragment;
 import com.example.owen.weathergo.modules.fragment.MultiCityFragment;
+import com.example.owen.weathergo.util.DBManager;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
 import com.example.owen.weathergo.util.ToastUtil;
 
@@ -64,6 +67,7 @@ public class WeatherMain extends AppCompatActivity
     private static String Tag_CITY_2 = "city_2_fragment  ";
 
     public LocationClient mLocationClient;
+    ArrayList<String> cityList = new ArrayList<>();
 
     //ButterKnife参考http://jakewharton.github.io/butterknife/
     @BindView(R.id.tl_custom)
@@ -120,7 +124,7 @@ public class WeatherMain extends AppCompatActivity
                 if (position == 0)
                     titleStr = SharedPreferenceUtil.getInstance().getCityName();
                 else
-                    titleStr = SharedPreferenceUtil.getInstance().getString("city_1", "");
+                    titleStr = cityList.get(position - 1);
                 safeSetTitle(titleStr);
 //                ToastUtil.showShort(""+position);
 //                super.onPageSelected(position);
@@ -201,6 +205,8 @@ public class WeatherMain extends AppCompatActivity
         if (mLocationClient != null)
             mLocationClient.stop();
         //先判空，否则可能fc
+
+        DBManager.getInstance().closeDatabase();
     }
 
     /**
@@ -218,6 +224,27 @@ public class WeatherMain extends AppCompatActivity
         mHomePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
         MainFragment mf = new MainFragment();
         mHomePagerAdapter.addTab(mf, "aaa");
+
+        DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
+        final SQLiteDatabase db = DBManager.getInstance().getDatabase();
+        Cursor cursor = db.rawQuery("select city from MultiCities", null);
+        if (cursor.moveToFirst()) {
+            do {
+                //遍历cursor
+                String city = cursor.getString(cursor.getColumnIndex("city"));
+                cityList.add(city);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        int mCityCount = (int) DBManager.getInstance().allCaseNum("MultiCities");
+        if (mCityCount != 0) {
+            for (int i = 0; i < mCityCount; i++) {
+                MultiCityFragment mtf = MultiCityFragment.newInstance(i, cityList.get(i));
+                Log.d("WeatherMainhuang", " init " + cityList.get(i));
+                mHomePagerAdapter.addTab(mtf, cityList.get(i));
+//                mHomePagerAdapter.notifyDataSetChanged();
+            }
+        }
         /*if (!"".equals(SharedPreferenceUtil.getInstance().getString("city_1", ""))) {
             MultiCityFragment tf = new MultiCityFragment();
             mHomePagerAdapter.addTab(tf, "");
