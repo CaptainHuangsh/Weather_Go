@@ -32,7 +32,6 @@ import butterknife.ButterKnife;
 
 public class MultiCitiesManagerActivity extends AppCompatActivity {
 
-    //TODO 添加标题栏:多城市管理
     //TODO 修改数据库中id不自增,随总数改变id
     @BindView(R.id.city_recycle)
     RecyclerView mCityRecycle;

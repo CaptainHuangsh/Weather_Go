@@ -48,10 +48,16 @@ public class ChoiceCityActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choice_city);
         ButterKnife.bind(this);
-        currentLevel = 0;
-        DBManager.getInstance().openDatabase();
+        init();
+
         initRecycleView();
         queryProvince();
+    }
+
+    private void init() {
+        setTitle("选择城市");
+        currentLevel = 0;
+        DBManager.getInstance().openDatabase();
     }
 
     private void initRecycleView() {
