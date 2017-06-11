@@ -32,7 +32,8 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
 
     public void addTab(Fragment fragment, String title) {
         fragments.add(fragment);
-        titles.add(title);
+//        titles.add(title);
+        titles.add("");
     }
 
     @Override
