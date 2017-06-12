@@ -54,6 +54,14 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
         initRecycleView();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent intent = new Intent();
+        intent.putExtra("what_activity_from", "MultiCitiesManagerActivity");
+        setResult(RESULT_OK, intent);
+    }
+
     private void init() {
         setTitle("多城市管理");
         DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
