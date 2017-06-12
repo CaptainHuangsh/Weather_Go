@@ -100,7 +100,6 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
                             @Override
                             public void onSelectClick() {
 //                                ToastUtil.showShort("selectCity");
-                                //TODO selectCity跳转到城市选择界面并返回得到的值
                                 Intent intent = new Intent();
                                 intent.setClass(MultiCitiesManagerActivity.this, ChoiceCityActivity.class);
                                 intent.putExtra("what_to_do", "select_multi_city");
@@ -115,14 +114,24 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
                                 dialog2.setYesOnclickListener("确定", new CityDialog.onYesOnclickListener() {
                                     @Override
                                     public void onYesClick() {
+                                        Boolean addData = true;
                                         if (!"".equals(dialog2.mCityEdit.getText().toString())) {
-                                            values.put("city", dialog2.mCityEdit.getText().toString());
-                                            final SQLiteDatabase db = DBManager.getInstance().getDatabase();
-                                            db.insert("MultiCities", null, values);
-                                            values.clear();
-                                            cityList.clear();
-                                            init();
-                                            mAdapter.notifyDataSetChanged();
+                                            for (String city : cityList) {
+                                                if (city.equals(dialog2.mCityEdit.getText().toString())) {
+                                                    ToastUtil.showShort("城市已存在!");
+                                                    addData = false;
+                                                    break;
+                                                }
+                                            }
+                                            if (addData) {
+                                                values.put("city", dialog2.mCityEdit.getText().toString());
+                                                final SQLiteDatabase db = DBManager.getInstance().getDatabase();
+                                                db.insert("MultiCities", null, values);
+                                                values.clear();
+                                                cityList.clear();
+                                                init();
+                                                mAdapter.notifyDataSetChanged();
+                                            }
                                         }
                                         dialog2.dismiss();
                                     }
@@ -178,6 +187,7 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
         switch (requestCode) {
             case 1:
                 if (resultCode == RESULT_OK) {
+                    Boolean addData = true;
                     mResultCity = data.getStringExtra("select_multi_city");
                     Log.d("MultiCitiesManagerActivityhuang", " onActivityResult "
                             + mResultCity);
@@ -185,8 +195,32 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
                         DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
                         final ContentValues values = new ContentValues();
                         final SQLiteDatabase db = DBManager.getInstance().getDatabase();
-                        values.put("city", mResultCity);
-                        db.insert("MultiCities", null, values);
+
+                        /*Cursor cursor = db.rawQuery("select city from MultiCities", null);
+                        if (cursor.moveToFirst()) {
+                            do {
+                                //遍历cursor
+                                String city = cursor.getString(cursor.getColumnIndex("city"));
+                                if (city.equals(mResultCity)) {
+                                    ToastUtil.showShort("已经选择过这个城市啦!");
+                                    addData = false;
+                                    break;
+                                }
+                            } while (cursor.moveToNext());
+                        }
+                        cursor.close();*/
+
+                        for (String city : cityList) {
+                            if (city.equals(mResultCity)) {
+                                ToastUtil.showShort("城市已存在!");
+                                addData = false;
+                                break;
+                            }
+                        }
+                        if (addData) {
+                            values.put("city", mResultCity);
+                            db.insert("MultiCities", null, values);
+                        }
                         DBManager.getInstance().closeDatabase();
                         values.clear();
                     }

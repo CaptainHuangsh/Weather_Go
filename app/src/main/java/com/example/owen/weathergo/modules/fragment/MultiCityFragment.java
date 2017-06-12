@@ -46,9 +46,7 @@ import butterknife.ButterKnife;
 public class MultiCityFragment extends Fragment {
 
     //TODO 城市去重
-    //TODO tabLayout
     //TODO FAB的选择城市
-    //TODO 多城市管理de SelectCity操作
     private static final int UPDATE_WEATHER_DATA = 0;
     private static final int SEARCH_CITY = 1;
     private static final int SCREEN_SHOOT = 2;
