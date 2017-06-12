@@ -8,6 +8,7 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.example.owen.weathergo.R;
@@ -39,6 +40,7 @@ public class ChoiceCityActivity extends AppCompatActivity {
 
     public static final int LEVEL_PROVINCE = 0;
     public static final int LEVEL_CITY = 1;
+    private String what_to_do;
     private int currentLevel;
 //    private boolean isChecked = false;
 
@@ -51,6 +53,13 @@ public class ChoiceCityActivity extends AppCompatActivity {
         init();
         initRecycleView();
         queryProvince();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent intent = this.getIntent();
+        what_to_do = intent.getStringExtra("what_to_do");
     }
 
     private void init() {
@@ -73,7 +82,14 @@ public class ChoiceCityActivity extends AppCompatActivity {
                     queryCities(selectedProvince.getProSort());
                 } else if (currentLevel == LEVEL_CITY) {
                     selectedCity = cityList.get(pos);
-                    SharedPreferenceUtil.getInstance().setCityName(selectedCity.getCityName());
+                    if ("select_multi_city".equals(what_to_do)) {
+                        Log.d("ChoiceCityActivityhuang", " onclick " + selectedCity.getCityName());
+                        Intent intent = new Intent();
+                        intent.putExtra("select_multi_city", selectedCity.getCityName());
+                        setResult(RESULT_OK, intent);
+                    } else {
+                        SharedPreferenceUtil.getInstance().setCityName(selectedCity.getCityName());
+                    }
 //                    finish();
                     quit();
                 }

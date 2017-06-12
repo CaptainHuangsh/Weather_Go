@@ -36,13 +36,14 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
     //TODO 修改数据库中id不自增,随总数改变id
     //TODO 验证输入的城市是否可用
     //TODO 从多城市管理更改后返回WeatherMain做出对应变化、
-    //TODO selectCity跳转到城市选择界面并返回得到的值
+
     @BindView(R.id.city_recycle)
     RecyclerView mCityRecycle;
 
     private ArrayList<String> cityList = new ArrayList<>();
     private MultiCityAdapter mAdapter;
     private int mCityCount;
+    private String mResultCity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,7 +91,13 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
                         dialog.setSelectOnclickListener(new MultiCityAddDialog.onSelectOnclickListener() {
                             @Override
                             public void onSelectClick() {
-                                ToastUtil.showShort("selectCity");
+//                                ToastUtil.showShort("selectCity");
+                                //TODO selectCity跳转到城市选择界面并返回得到的值
+                                Intent intent = new Intent();
+                                intent.setClass(MultiCitiesManagerActivity.this, ChoiceCityActivity.class);
+                                intent.putExtra("what_to_do", "select_multi_city");
+                                startActivityForResult(intent, 1);
+                                dialog.dismiss();
                             }
                         });
                         dialog.setInputOnclickListener(new MultiCityAddDialog.onInputOnclickListener() {
@@ -132,7 +139,7 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
                 } else {
                     Intent intent = new Intent(MultiCitiesManagerActivity.this, WeatherMain.class);
                     intent.putExtra("city_num", pos);
-                    Log.d("MultiCitiesManagerActivityhuang startActivity "," pos "+pos);
+                    Log.d("MultiCitiesManagerActivityhuang startActivity ", " pos " + pos);
                     startActivity(intent);
 //                    quit();
 //                    ToastUtil.showShort("dianjil" + cityList.get(pos));
@@ -151,6 +158,38 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1:
+                if (resultCode == RESULT_OK) {
+                    mResultCity = data.getStringExtra("select_multi_city");
+                    Log.d("MultiCitiesManagerActivityhuang", " onActivityResult "
+                            + mResultCity);
+                    if (!"".equals(mResultCity) && mResultCity != null) {
+                        DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
+                        final ContentValues values = new ContentValues();
+                        final SQLiteDatabase db = DBManager.getInstance().getDatabase();
+                        values.put("city", mResultCity);
+                        db.insert("MultiCities", null, values);
+                        DBManager.getInstance().closeDatabase();
+                        values.clear();
+                    }
+                    cityList.clear();
+                    init();
+                    mAdapter.notifyDataSetChanged();
+                }
+            default:
+                break;
+        }
+    }
 
     @Override
     protected void onDestroy() {
