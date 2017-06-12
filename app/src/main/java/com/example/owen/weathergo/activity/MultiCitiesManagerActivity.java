@@ -275,7 +275,6 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
                         final SQLiteDatabase db = DBManager.getInstance().getDatabase();
                         db.delete("MultiCities", "city = ?", new String[]{
                                 cityStr

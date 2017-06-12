@@ -67,6 +67,7 @@ public class MainFragment extends Fragment {
     private boolean mIsCreateView = false;
     private WeatherMain mActivity;
     private Weather mWeather;
+    private int mToastSuccess;
     private int times = 0;
 
     private Handler mHandler = new Handler() {
@@ -132,6 +133,7 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mToastSuccess = 0;
     }
 
     @Override
@@ -259,6 +261,7 @@ public class MainFragment extends Fragment {
             @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onRefresh() {
+                mToastSuccess = 0;
                 refresh();
             }
         });
@@ -311,7 +314,9 @@ public class MainFragment extends Fragment {
             mNoData.setVisibility(View.VISIBLE);
 //            Toast.makeText(getActivity(), "    定位失败,请手动输入城市", Toast.LENGTH_LONG).show();
         }
-        Toast.makeText(getActivity(), "加载完毕，✺◟(∗❛ัᴗ❛ั∗)◞✺,", Toast.LENGTH_SHORT).show();
+        if (mToastSuccess == 0)
+            Toast.makeText(getActivity(), "加载完毕，✺◟(∗❛ัᴗ❛ั∗)◞✺,", Toast.LENGTH_SHORT).show();
+        mToastSuccess++;
     }
 
     public void safeSetTitle(String title) {

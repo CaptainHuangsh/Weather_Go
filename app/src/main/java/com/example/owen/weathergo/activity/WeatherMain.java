@@ -108,7 +108,7 @@ public class WeatherMain extends AppCompatActivity
 
     @Override
     protected void onStart() {
-        super.onStart();
+
         //从多城市管理界面跳转过来，并接收选中的城市编号
 //        Intent intent = this.getIntent();
 //        if (intent.getExtras().getString("city_num", "-1") != null) {
@@ -136,6 +136,7 @@ public class WeatherMain extends AppCompatActivity
             }
             cursor.close();
             int mCityCount = (int) DBManager.getInstance().allCaseNum("MultiCities");
+            DBManager.getInstance().closeDatabase();
             Log.d("WeatherMainhuang", " onStart  count " + mCityCount);
             if (mCityCount != 0) {
                 for (int i = 0; i < mCityCount; i++) {
@@ -151,7 +152,7 @@ public class WeatherMain extends AppCompatActivity
             Log.d("WeatherMainhuang", "onStart getIntExtra " + cityNum);
         }
         mViewPager.setCurrentItem(cityNum + 1);
-//        }
+        super.onStart();//将super.onStart();移动到刷新操作之后再从多城市管理点击跳转就不崩溃了
     }
 
     /**
@@ -293,6 +294,7 @@ public class WeatherMain extends AppCompatActivity
                     }
                     cursor.close();
                     int mCityCount = (int) DBManager.getInstance().allCaseNum("MultiCities");
+                    DBManager.getInstance().closeDatabase();
                     Log.d("WeatherMainhuang", " onActivityResult  count " + mCityCount);
                     if (mCityCount != 0) {
                         for (int i = 0; i < mCityCount; i++) {
@@ -360,6 +362,7 @@ public class WeatherMain extends AppCompatActivity
         }
         cursor.close();
         int mCityCount = (int) DBManager.getInstance().allCaseNum("MultiCities");
+        DBManager.getInstance().closeDatabase();
         if (mCityCount != 0) {
             for (int i = 0; i < mCityCount; i++) {
 //            for (int i = 0; i < 2; i++) {
