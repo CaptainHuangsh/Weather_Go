@@ -118,7 +118,11 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
                                         if (!"".equals(dialog2.mCityEdit.getText().toString())) {
                                             for (String city : cityList) {
                                                 if (city.equals(dialog2.mCityEdit.getText().toString())) {
-                                                    ToastUtil.showShort("城市已存在!");
+//                                                    ToastUtil.showShort("城市已存在!");
+                                                    AlertDialog.Builder dialog3 = new AlertDialog.Builder(
+                                                            MultiCitiesManagerActivity.this);
+                                                    dialog3.setMessage("城市已存在😁")
+                                                            .show();
                                                     addData = false;
                                                     break;
                                                 }
@@ -212,7 +216,11 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
 
                         for (String city : cityList) {
                             if (city.equals(mResultCity)) {
-                                ToastUtil.showShort("城市已存在!");
+//                                ToastUtil.showShort("城市已存在!");
+                                AlertDialog.Builder dialog3 = new AlertDialog.Builder(
+                                        MultiCitiesManagerActivity.this);
+                                dialog3.setMessage("城市已存在😁")
+                                        .show();
                                 addData = false;
                                 break;
                             }
