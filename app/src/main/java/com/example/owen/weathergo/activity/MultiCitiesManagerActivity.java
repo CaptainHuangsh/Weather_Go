@@ -20,6 +20,7 @@ import com.example.owen.weathergo.dialog.CityDialog;
 import com.example.owen.weathergo.dialog.MultiCityAddDialog;
 import com.example.owen.weathergo.modules.adapter.MultiCityAdapter;
 import com.example.owen.weathergo.util.DBManager;
+import com.example.owen.weathergo.util.SharedPreferenceUtil;
 import com.example.owen.weathergo.util.ToastUtil;
 
 import java.util.ArrayList;
@@ -127,6 +128,14 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
                                                     break;
                                                 }
                                             }
+                                            if (SharedPreferenceUtil.getInstance().getCityName()
+                                                    .equals(dialog2.mCityEdit.getText().toString())) {//是否和主城市冲突
+                                                AlertDialog.Builder dialog3 = new AlertDialog.Builder(
+                                                        MultiCitiesManagerActivity.this);
+                                                dialog3.setMessage("城市已存在😁")
+                                                        .show();
+                                                addData = false;
+                                            }
                                             if (addData) {
                                                 values.put("city", dialog2.mCityEdit.getText().toString());
                                                 final SQLiteDatabase db = DBManager.getInstance().getDatabase();
@@ -224,6 +233,14 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
                                 addData = false;
                                 break;
                             }
+                        }
+                        if (SharedPreferenceUtil.getInstance().getCityName()
+                                .equals(mResultCity)) {//是否和主城市冲突
+                            AlertDialog.Builder dialog3 = new AlertDialog.Builder(
+                                    MultiCitiesManagerActivity.this);
+                            dialog3.setMessage("城市已存在😁")
+                                    .show();
+                            addData = false;
                         }
                         if (addData) {
                             values.put("city", mResultCity);
