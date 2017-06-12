@@ -21,7 +21,6 @@ import com.example.owen.weathergo.dialog.MultiCityAddDialog;
 import com.example.owen.weathergo.modules.adapter.MultiCityAdapter;
 import com.example.owen.weathergo.util.DBManager;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
-import com.example.owen.weathergo.util.ToastUtil;
 
 import java.util.ArrayList;
 
@@ -34,9 +33,7 @@ import butterknife.ButterKnife;
 
 public class MultiCitiesManagerActivity extends AppCompatActivity {
 
-    //TODO 修改数据库中id不自增,随总数改变id
     //TODO 验证输入的城市是否可用
-    //TODO 从多城市管理更改后返回WeatherMain做出对应变化、
 
     @BindView(R.id.city_recycle)
     RecyclerView mCityRecycle;
