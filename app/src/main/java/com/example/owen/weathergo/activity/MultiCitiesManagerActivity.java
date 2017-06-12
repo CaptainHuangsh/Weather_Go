@@ -83,6 +83,7 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
         cityList.add("开封");*/
         cityList.add("添加城市");
 //        initRecycleView();
+        DBManager.getInstance().closeDatabase();
     }
 
     private void initRecycleView() {
@@ -265,6 +266,7 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
     }
 
     private void toDeleteCity(final String cityStr) {
+        DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
         AlertDialog.Builder dialog = new AlertDialog.Builder(
                 MultiCitiesManagerActivity.this);
         dialog.setTitle("提示信息")
