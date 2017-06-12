@@ -114,7 +114,8 @@ public class WeatherMain extends AppCompatActivity
 //        if (intent.getExtras().getString("city_num", "-1") != null) {
 
         //如果是从多城市管理页面回来的话，则刷新页面
-
+        safeSetTitle(getResources().getString(R.string.app_name));
+        //防止刷新后城市顺序混乱出现title错误的额现象
         int cityNum = getIntent().getIntExtra("city_num", -1);
         Log.d("WeatherMainhuang", "onStart getIntExtra " + cityNum);
         mViewPager.setCurrentItem(cityNum + 1);
