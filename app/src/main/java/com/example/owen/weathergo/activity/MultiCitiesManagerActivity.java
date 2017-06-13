@@ -135,6 +135,7 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
                                                 addData = false;
                                             }
                                             if (addData) {
+                                                DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
                                                 values.put("city", dialog2.mCityEdit.getText().toString());
                                                 final SQLiteDatabase db = DBManager.getInstance().getDatabase();
                                                 db.insert("MultiCities", null, values);
@@ -145,6 +146,7 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
                                             }
                                         }
                                         dialog2.dismiss();
+                                        DBManager.getInstance().closeDatabase();
                                     }
                                 });
                                 dialog2.setNoOnclickListener("取消", new CityDialog.onNoOnclickListener() {
