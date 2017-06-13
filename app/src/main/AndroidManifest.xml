@@ -48,8 +48,7 @@
             android:name=".activity.SettingsActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name="com.example.owen.weathergo.activity.ChoiceCityActivity"
-            android:launchMode="singleTask"
+            android:name=".activity.ChoiceCityActivity"
             android:theme="@style/Theme.AppCompat.Light" />
         <activity android:name=".activity.Test" />
         <activity
