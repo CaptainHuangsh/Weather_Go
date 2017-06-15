@@ -12,7 +12,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.example.owen.weathergo.R;
@@ -169,7 +168,7 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
                 } else {
                     Intent intent = new Intent(MultiCitiesManagerActivity.this, WeatherMain.class);
                     intent.putExtra("city_num", pos);
-                    Log.d("MultiCitiesManagerActivityhuang startActivity ", " pos " + pos);
+//                    Log.d("MultiCitiesManagerActivityhuang startActivity ", " pos " + pos);
                     startActivity(intent);
 //                    quit();
 //                    ToastUtil.showShort("dianjil" + cityList.get(pos));
@@ -202,8 +201,8 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
                 if (resultCode == RESULT_OK) {
                     Boolean addData = true;
                     mResultCity = data.getStringExtra("select_multi_city");
-                    Log.d("MultiCitiesManagerActivityhuang", " onActivityResult "
-                            + mResultCity);
+//                    Log.d("MultiCitiesManagerActivityhuang", " onActivityResult "
+//                            + mResultCity);
                     if (!"".equals(mResultCity) && mResultCity != null) {
                         DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
                         final ContentValues values = new ContentValues();

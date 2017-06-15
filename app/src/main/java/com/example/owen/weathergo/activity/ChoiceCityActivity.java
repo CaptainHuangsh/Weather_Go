@@ -8,7 +8,6 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.example.owen.weathergo.R;
@@ -83,7 +82,7 @@ public class ChoiceCityActivity extends AppCompatActivity {
                 } else if (currentLevel == LEVEL_CITY) {
                     selectedCity = cityList.get(pos);
                     if ("select_multi_city".equals(what_to_do)) {
-                        Log.d("ChoiceCityActivityhuang", " onclick " + selectedCity.getCityName());
+//                        Log.d("ChoiceCityActivityhuang", " onclick " + selectedCity.getCityName());
                         Intent intent = new Intent();
                         intent.putExtra("select_multi_city", selectedCity.getCityName());
                         setResult(RESULT_OK, intent);

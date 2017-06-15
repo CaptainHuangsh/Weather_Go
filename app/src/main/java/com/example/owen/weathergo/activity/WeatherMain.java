@@ -1,6 +1,5 @@
 package com.example.owen.weathergo.activity;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -23,6 +22,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+//import android.util.Log;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -39,7 +39,6 @@ import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.DoubleClickExit;
 import com.example.owen.weathergo.dialog.CityDialog;
 import com.example.owen.weathergo.modules.adapter.HomePagerAdapter;
-import com.example.owen.weathergo.modules.domain.Weather;
 import com.example.owen.weathergo.modules.fragment.MainFragment;
 import com.example.owen.weathergo.modules.fragment.MultiCityFragment;
 import com.example.owen.weathergo.util.DBManager;
@@ -65,9 +64,14 @@ public class WeatherMain extends AppCompatActivity
     private static final int SEARCH_CITY = 1;
     private static final int SCREEN_SHOOT = 2;
 
-    private static String Tag_CITY_0 = "main_fragment";
-    private static String Tag_CITY_1 = "city_1_fragment";
-    private static String Tag_CITY_2 = "city_2_fragment  ";
+    private static String mThisPage;
+
+    private static final String Tag_CITY_0 = "city_0_fragment";
+    private static final String Tag_CITY_1 = "city_1_fragment";
+    private static final String Tag_CITY_2 = "city_2_fragment";
+    private static final String Tag_CITY_3 = "city_3_fragment";
+    private static final String Tag_CITY_4 = "city_4_fragment";
+    private static final String Tag_CITY_5 = "city_5_fragment";
 
     public LocationClient mLocationClient;
     ArrayList<String> cityList = new ArrayList<>();
@@ -137,11 +141,11 @@ public class WeatherMain extends AppCompatActivity
             cursor.close();
             int mCityCount = (int) DBManager.getInstance().allCaseNum("MultiCities");
             DBManager.getInstance().closeDatabase();
-            Log.d("WeatherMainhuang", " onStart  count " + mCityCount);
+//            Log.d("WeatherMainhuang", " onStart  count " + mCityCount);
             if (mCityCount != 0) {
                 for (int i = 0; i < mCityCount; i++) {
                     MultiCityFragment mtf = MultiCityFragment.newInstance(i, cityList.get(i));
-                    Log.d("WeatherMainhuang", " onStart " + cityList.get(i));
+                    Log.d("WeatherMainhuang", " onStart " + i);
                     mHomePagerAdapter.addTab(mtf, cityList.get(i));
                 }
             }
@@ -149,7 +153,7 @@ public class WeatherMain extends AppCompatActivity
             if (mCityCount != 0) {
                 mTabLayout.setupWithViewPager(mViewPager, false);
             }
-            Log.d("WeatherMainhuang", "onStart getIntExtra " + cityNum);
+//            Log.d("WeatherMainhuang", "onStart getIntExtra " + cityNum);
         }
         mViewPager.setCurrentItem(cityNum + 1);
         super.onStart();//将super.onStart();移动到刷新操作之后再从多城市管理点击跳转就不崩溃了
@@ -189,14 +193,36 @@ public class WeatherMain extends AppCompatActivity
         mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
+                switch (position) {
+                    //通过当前Fragment决定搜索或选择城市时在哪个位置更改
+                    case 0:
+                        mThisPage = Tag_CITY_0;
+                        break;
+                    case 1:
+                        mThisPage = Tag_CITY_1;
+                        break;
+                    case 2:
+                        mThisPage = Tag_CITY_2;
+                        break;
+                    case 3:
+                        mThisPage = Tag_CITY_3;
+                        break;
+                    case 4:
+                        mThisPage = Tag_CITY_4;
+                        break;
+                    case 5:
+                        mThisPage = Tag_CITY_5;
+                        break;
+                    default:
+                }
+                Log.d("WeatherMainhuang ", " pagechange " + mThisPage);
                 String titleStr;
-                if (position == 0)
+                if (position == 0) {
                     titleStr = SharedPreferenceUtil.getInstance().getCityName();
-                else
+                } else {
                     titleStr = cityList.get(position - 1);
+                }
                 safeSetTitle(titleStr);
-//                ToastUtil.showShort(""+position);
-//                super.onPageSelected(position);
             }
         });
     }
@@ -234,6 +260,9 @@ public class WeatherMain extends AppCompatActivity
                 Message msg = new Message();
                 msg.obj = dialog.mCityEdit.getText().toString();
                 msg.what = SEARCH_CITY;
+                Bundle bundle = new Bundle();
+                bundle.putString("which_page", mThisPage);//用来判断当前Fragment页面的参数；用来进一步决定更改哪个城市
+                msg.setData(bundle);
                 mHandler.sendMessage(msg);
                 dialog.dismiss();
             }
@@ -295,12 +324,12 @@ public class WeatherMain extends AppCompatActivity
                     cursor.close();
                     int mCityCount = (int) DBManager.getInstance().allCaseNum("MultiCities");
                     DBManager.getInstance().closeDatabase();
-                    Log.d("WeatherMainhuang", " onActivityResult  count " + mCityCount);
+//                    Log.d("WeatherMainhuang", " onActivityResult  count " + mCityCount);
                     if (mCityCount != 0) {
                         for (int i = 0; i < mCityCount; i++) {
 //            for (int i = 0; i < 2; i++) {
                             MultiCityFragment mtf = MultiCityFragment.newInstance(i, cityList.get(i));
-                            Log.d("WeatherMainhuang", " onActivityResult " + cityList.get(i));
+//                            Log.d("WeatherMainhuang", " onActivityResult " + cityList.get(i));
                             mHomePagerAdapter.addTab(mtf, cityList.get(i));
 //                mHomePagerAdapter.notifyDataSetChanged();
                         }
@@ -367,7 +396,7 @@ public class WeatherMain extends AppCompatActivity
             for (int i = 0; i < mCityCount; i++) {
 //            for (int i = 0; i < 2; i++) {
                 MultiCityFragment mtf = MultiCityFragment.newInstance(i, cityList.get(i));
-                Log.d("WeatherMainhuang", " init " + cityList.get(i));
+//                Log.d("WeatherMainhuang", " init " + cityList.get(i));
                 mHomePagerAdapter.addTab(mtf, cityList.get(i));
 //                mHomePagerAdapter.notifyDataSetChanged();
             }
@@ -381,10 +410,10 @@ public class WeatherMain extends AppCompatActivity
             mTabLayout.setupWithViewPager(mViewPager, false);
         }
         String cCity = SharedPreferenceUtil.getInstance().getCityName();
-        Log.d("WeatherMainhuang", " init " + cCity);
+//        Log.d("WeatherMainhuang", " init " + cCity);
         if ("".equals(cCity) || cCity == null)//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值进行初始赋值
         {
-            Log.d("WeatherMainhuang", " initLocation " + cCity);
+//            Log.d("WeatherMainhuang", " initLocation " + cCity);
             initLocation();
         }
     }
@@ -538,7 +567,7 @@ public class WeatherMain extends AppCompatActivity
                 Message msg = new Message();
                 msg.obj = bdLocation.getCity() + "";
                 msg.what = SEARCH_CITY;
-                Log.d("search_weather_data", "" + bdLocation.getCity());
+//                Log.d("search_weather_data", "" + bdLocation.getCity());
                 mHandler.sendMessage(msg);
             }
         }

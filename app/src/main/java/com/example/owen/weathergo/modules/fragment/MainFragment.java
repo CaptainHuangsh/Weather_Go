@@ -42,6 +42,7 @@ import butterknife.ButterKnife;
 
 public class MainFragment extends Fragment {
 
+    private static final String Tag_CITY_0 = "city_0_fragment";
     private static final int UPDATE_WEATHER_DATA = 0;
     private static final int SEARCH_CITY = 1;
     private static final int SCREEN_SHOOT = 2;
@@ -84,27 +85,31 @@ public class MainFragment extends Fragment {
                         mNoData.setVisibility(View.GONE);
                         refresh();
                     }
+
                     break;
                 case SEARCH_CITY:
-                    //Fragment与activity交互http://blog.csdn.net/huangyabin001/article/details/35231753
-                    if (!msg.obj.toString().equals("")) {
-                        mCityStr = msg.obj.toString();
-                        SharedPreferenceUtil.getInstance().setCityName(mCityStr);
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
-                                Message message = new Message();
-                                message.what = UPDATE_WEATHER_DATA;
-                                mHandler.sendMessage(message);
-                            }
-                        }).start();
-                    } else {
-                        Message message = new Message();
-                        message.what = CHANGE_TEXT;
-                        message.obj = "no_city_data";
-                        mHandler.sendMessage(message);
-                        //请手动选择城市
+                    if (msg.getData().getString("which_page").equals(Tag_CITY_0)) {
+                        Log.d("MainFragmenthuang", " SEARCH_CITY " + msg.getData().getString("which_page"));
+                        //Fragment与activity交互http://blog.csdn.net/huangyabin001/article/details/35231753
+                        if (!msg.obj.toString().equals("")) {
+                            mCityStr = msg.obj.toString();
+                            SharedPreferenceUtil.getInstance().setCityName(mCityStr);
+                            new Thread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
+                                    Message message = new Message();
+                                    message.what = UPDATE_WEATHER_DATA;
+                                    mHandler.sendMessage(message);
+                                }
+                            }).start();
+                        } else {
+                            Message message = new Message();
+                            message.what = CHANGE_TEXT;
+                            message.obj = "no_city_data";
+                            mHandler.sendMessage(message);
+                            //请手动选择城市
+                        }
                     }
                     break;
                 case SCREEN_SHOOT:
@@ -136,12 +141,24 @@ public class MainFragment extends Fragment {
         mToastSuccess = 0;
     }
 
+    //此Fragment是否可见
     @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (isVisibleToUser && isVisible()) {
+//            initData();
+            mActivity = (WeatherMain) getActivity();
+            mActivity.setHandler(mHandler);
+
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
+    /*@Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = (WeatherMain) activity;
         mActivity.setHandler(mHandler);
-    }
+    }*/
 
     //@Nullable 表示定义的字段可以为空.
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
