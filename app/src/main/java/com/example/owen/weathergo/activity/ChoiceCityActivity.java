@@ -75,6 +75,7 @@ public class ChoiceCityActivity extends AppCompatActivity {
                 || intent.getStringExtra("which_city") == null)
                 ? Tag_CITY_0 : intent.getStringExtra("which_city");
         Log.d("ChoiceCityActivityhuang ", " onStart which_city : " + which_city);
+        Log.d("ChoiceCityActivityhuang ", " onStart what_to_do : " + what_to_do);
     }
 
     private void init() {
@@ -99,9 +100,9 @@ public class ChoiceCityActivity extends AppCompatActivity {
                     selectedCity = cityList.get(pos);
                     if ("select_multi_city".equals(what_to_do)) {
 //                        Log.d("ChoiceCityActivityhuang", " onclick " + selectedCity.getCityName());
-                        /*Intent intent = new Intent();
+                        Intent intent = new Intent();
                         intent.putExtra("select_multi_city", selectedCity.getCityName());
-                        setResult(RESULT_OK, intent);*/
+                        setResult(RESULT_OK, intent);
                     } else if (!"".equals(which_city)) {
                         Intent intent = new Intent();
                         DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
