@@ -105,6 +105,7 @@ public class ChoiceCityActivity extends AppCompatActivity {
                         setResult(RESULT_OK, intent);
                     } else if (!"".equals(which_city)) {
                         Intent intent = new Intent();
+                        intent.setClass(ChoiceCityActivity.this, WeatherMain.class);
                         DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
                         final SQLiteDatabase db = DBManager.getInstance().getDatabase();
                         Cursor cursor = db.rawQuery("select city from MultiCities", null);
@@ -125,45 +126,45 @@ public class ChoiceCityActivity extends AppCompatActivity {
                                     SharedPreferenceUtil.getInstance()
                                             .setCityName(selectedCity.getCityName());
                                     //城市0 主城市
-//                                    intent.putExtra("which_page", 0);
+                                    intent.putExtra("which_page", 0);
                                     break;
                                 case Tag_CITY_1:
 //                                String city = cityList.get(0);
                                     db.update("MultiCities", values, "city = ?", new String[]{
                                             cityList.get(0)
                                     });
-//                                    intent.putExtra("which_page", 1);
+                                    intent.putExtra("which_page", 1);
                                     break;
                                 case Tag_CITY_2:
                                     db.update("MultiCities", values, "city = ?", new String[]{
                                             cityList.get(1)
                                     });
-//                                    intent.putExtra("which_page", 2);
+                                    intent.putExtra("which_page", 2);
 //                                String city = cityList.get(1);
                                     break;
                                 case Tag_CITY_3:
                                     db.update("MultiCities", values, "city = ?", new String[]{
                                             cityList.get(2)
                                     });
-//                                    intent.putExtra("which_page", 3);
+                                    intent.putExtra("which_page", 3);
                                     break;
                                 case Tag_CITY_4:
                                     db.update("MultiCities", values, "city = ?", new String[]{
                                             cityList.get(3)
                                     });
-//                                    intent.putExtra("which_page", 4);
+                                    intent.putExtra("which_page", 4);
                                     break;
                                 case Tag_CITY_5:
                                     db.update("MultiCities", values, "city = ?", new String[]{
                                             cityList.get(4)
                                     });
-//                                    intent.putExtra("which_page", 5);
+                                    intent.putExtra("which_page", 5);
                                     break;
                                 default:
                             }
 //                        setResult(RESULT_OK, intent);
                         DBManager.getInstance().closeDatabase();
-
+                        startActivity(intent);
                     }
 //                    finish();
                     quit();

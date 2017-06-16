@@ -124,37 +124,38 @@ public class WeatherMain extends AppCompatActivity
         safeSetTitle(getResources().getString(R.string.app_name));
         //防止刷新后城市顺序混乱出现title错误的现象
         int cityNum = getIntent().getIntExtra("city_num", -1);
+        int pageNum = getIntent().getIntExtra("which_page", -1);
 //        if (cityNum != -1) {
-            //如果在MultiCitiesManagerActivity中没有返回而是点击了其中一个城市进行跳转
-            //就不会出发回调函数；
-            mHomePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
+        //如果在MultiCitiesManagerActivity中没有返回而是点击了其中一个城市进行跳转
+        //就不会出发回调函数；
+        mHomePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
 //            MainFragment mf = new MainFragment();
-            mF = new MainFragment();
-            mHomePagerAdapter.addTab(mF, SharedPreferenceUtil.getInstance().getCityName());
-            cityList.clear();
-            DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
-            final SQLiteDatabase db = DBManager.getInstance().getDatabase();
-            Cursor cursor = db.rawQuery("select city from MultiCities", null);
-            if (cursor.moveToFirst()) {
-                do {
-                    //遍历cursor
-                    String city = cursor.getString(cursor.getColumnIndex("city"));
-                    cityList.add(city);
-                } while (cursor.moveToNext());
-            }
-            cursor.close();
-            int mCityCount = (int) DBManager.getInstance().allCaseNum("MultiCities");
-            DBManager.getInstance().closeDatabase();
+        mF = new MainFragment();
+        mHomePagerAdapter.addTab(mF, SharedPreferenceUtil.getInstance().getCityName());
+        cityList.clear();
+        DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
+        final SQLiteDatabase db = DBManager.getInstance().getDatabase();
+        Cursor cursor = db.rawQuery("select city from MultiCities", null);
+        if (cursor.moveToFirst()) {
+            do {
+                //遍历cursor
+                String city = cursor.getString(cursor.getColumnIndex("city"));
+                cityList.add(city);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        int mCityCount = (int) DBManager.getInstance().allCaseNum("MultiCities");
+        DBManager.getInstance().closeDatabase();
 //            Log.d("WeatherMainhuang", " onStart  count " + mCityCount);
-            if (mCityCount != 0) {
-                for (int i = 0; i < mCityCount; i++) {
+        if (mCityCount != 0) {
+            for (int i = 0; i < mCityCount; i++) {
 //                    MultiCityFragment mtf = MultiCityFragment.newInstance(i, cityList.get(i));
-                    MultiCityFragment mft = MultiCityFragment.newInstance(i, cityList.get(i));
-                    Log.d("WeatherMainhuang", " onStart " + i);
+                MultiCityFragment mft = MultiCityFragment.newInstance(i, cityList.get(i));
+                Log.d("WeatherMainhuang", " onStart " + i);
 //                    mHomePagerAdapter.addTab(mtf, cityList.get(i));
-                    mHomePagerAdapter.addTab(mft, cityList.get(i));
+                mHomePagerAdapter.addTab(mft, cityList.get(i));
 
-                }
+            }
 //            }
             mViewPager.setAdapter(mHomePagerAdapter);
             if (mCityCount != 0) {
@@ -163,6 +164,9 @@ public class WeatherMain extends AppCompatActivity
 //            Log.d("WeatherMainhuang", "onStart getIntExtra " + cityNum);
         }
         mViewPager.setCurrentItem(cityNum + 1);
+        if (pageNum > -1) {
+            mViewPager.setCurrentItem(pageNum);
+        }
         super.onStart();//将super.onStart();移动到刷新操作之后再从多城市管理点击跳转就不崩溃了
     }
 
