@@ -1,5 +1,6 @@
 package com.example.owen.weathergo.activity;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -64,14 +65,15 @@ public class WeatherMain extends AppCompatActivity
     private static final int SEARCH_CITY = 1;
     private static final int SCREEN_SHOOT = 2;
 
-    private static String mThisPage;
-
     private static final String Tag_CITY_0 = "city_0_fragment";
     private static final String Tag_CITY_1 = "city_1_fragment";
     private static final String Tag_CITY_2 = "city_2_fragment";
     private static final String Tag_CITY_3 = "city_3_fragment";
     private static final String Tag_CITY_4 = "city_4_fragment";
     private static final String Tag_CITY_5 = "city_5_fragment";
+
+    private static String mThisPage = Tag_CITY_0;
+    private static int mPageNum;
 
     MultiCityFragment[] mFt;
     MainFragment mF;
@@ -158,10 +160,8 @@ public class WeatherMain extends AppCompatActivity
             }
 //            }
             mViewPager.setAdapter(mHomePagerAdapter);
-            if (mCityCount != 0) {
-                mTabLayout.setupWithViewPager(mViewPager, false);
-            }
-//            Log.d("WeatherMainhuang", "onStart getIntExtra " + cityNum);
+            mTabLayout.setupWithViewPager(mViewPager, false);
+            //            Log.d("WeatherMainhuang", "onStart getIntExtra " + cityNum);
         }
         mViewPager.setCurrentItem(cityNum + 1);
         if (pageNum > -1) {
@@ -245,6 +245,7 @@ public class WeatherMain extends AppCompatActivity
                 } else {
                     titleStr = cityList.get(position - 1);
                 }
+                mPageNum = position;
                 safeSetTitle(titleStr);
             }
         });
@@ -280,13 +281,87 @@ public class WeatherMain extends AppCompatActivity
         dialog.setYesOnclickListener("确定", new CityDialog.onYesOnclickListener() {
             @Override
             public void onYesClick() {
-                Message msg = new Message();
+                /*Message msg = new Message();
                 msg.obj = dialog.mCityEdit.getText().toString();
                 msg.what = SEARCH_CITY;
                 Bundle bundle = new Bundle();
                 bundle.putString("which_page", mThisPage);//用来判断当前Fragment页面的参数；用来进一步决定更改哪个城市
                 msg.setData(bundle);
-                mHandler.sendMessage(msg);
+                mHandler.sendMessage(msg);*/
+                DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
+                final SQLiteDatabase db = DBManager.getInstance().getDatabase();
+                Cursor cursor = db.rawQuery("select city from MultiCities", null);
+                ArrayList<String> cityList = new ArrayList<>();
+                if (cursor.moveToFirst()) {
+                    do {
+                        //遍历cursor
+                        String city = cursor.getString(cursor.getColumnIndex("city"));
+                        cityList.add(city);
+                    } while (cursor.moveToNext());
+                }
+                ContentValues values = new ContentValues();
+                values.put("city", dialog.mCityEdit.getText().toString());
+                switch (mThisPage) {
+                    case Tag_CITY_0:
+                        SharedPreferenceUtil.getInstance()
+                                .setCityName(dialog.mCityEdit.getText().toString());
+                        //城市0 主城市
+                        break;
+                    case Tag_CITY_1:
+//                                String city = cityList.get(0);
+                        db.update("MultiCities", values, "city = ?", new String[]{
+                                cityList.get(0)
+                        });
+                        break;
+                    case Tag_CITY_2:
+                        db.update("MultiCities", values, "city = ?", new String[]{
+                                cityList.get(1)
+                        });
+                        break;
+                    case Tag_CITY_3:
+                        db.update("MultiCities", values, "city = ?", new String[]{
+                                cityList.get(2)
+                        });
+                        break;
+                    case Tag_CITY_4:
+                        db.update("MultiCities", values, "city = ?", new String[]{
+                                cityList.get(3)
+                        });
+                        break;
+                    case Tag_CITY_5:
+                        db.update("MultiCities", values, "city = ?", new String[]{
+                                cityList.get(4)
+                        });
+                        break;
+                    default:
+                }
+
+                mHomePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
+                mF = new MainFragment();
+                mHomePagerAdapter.addTab(mF, SharedPreferenceUtil.getInstance().getCityName());
+                cityList.clear();
+                if (cursor.moveToFirst()) {
+                    do {
+                        //遍历cursor
+                        String city = cursor.getString(cursor.getColumnIndex("city"));
+                        cityList.add(city);
+                    } while (cursor.moveToNext());
+                }
+                cursor.close();
+                int mCityCount = (int) DBManager.getInstance().allCaseNum("MultiCities");
+                DBManager.getInstance().closeDatabase();
+                if (mCityCount != 0) {
+                    for (int i = 0; i < mCityCount; i++) {
+                        MultiCityFragment mft = MultiCityFragment.newInstance(i, cityList.get(i));
+                        mHomePagerAdapter.addTab(mft, cityList.get(i));
+                    }
+                    mViewPager.setAdapter(mHomePagerAdapter);
+                    mTabLayout.setupWithViewPager(mViewPager, false);
+                }
+                mViewPager.setCurrentItem(mPageNum);
+//                if (pageNum > -1) {
+//                    mViewPager.setCurrentItem(pageNum);
+//                }
                 dialog.dismiss();
             }
         });
