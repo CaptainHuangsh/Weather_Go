@@ -291,14 +291,15 @@ public class WeatherMain extends AppCompatActivity
                 DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
                 final SQLiteDatabase db = DBManager.getInstance().getDatabase();
                 Cursor cursor = db.rawQuery("select city from MultiCities", null);
-                ArrayList<String> cityList = new ArrayList<>();
+//                ArrayList<String> cityList = new ArrayList<>();
+                /*cityList.clear();
                 if (cursor.moveToFirst()) {
                     do {
                         //遍历cursor
                         String city = cursor.getString(cursor.getColumnIndex("city"));
                         cityList.add(city);
                     } while (cursor.moveToNext());
-                }
+                }*/
                 ContentValues values = new ContentValues();
                 values.put("city", dialog.mCityEdit.getText().toString());
                 switch (mThisPage) {
@@ -359,9 +360,7 @@ public class WeatherMain extends AppCompatActivity
                     mTabLayout.setupWithViewPager(mViewPager, false);
                 }
                 mViewPager.setCurrentItem(mPageNum);
-//                if (pageNum > -1) {
-//                    mViewPager.setCurrentItem(pageNum);
-//                }
+//                safeSetTitle(cityList.get(mPageNum));
                 dialog.dismiss();
             }
         });
