@@ -44,7 +44,7 @@ public class ChoiceCityActivity extends AppCompatActivity {
     public static final int LEVEL_PROVINCE = 0;
     public static final int LEVEL_CITY = 1;
     private String what_to_do;//从那个页面过来，多城市管理、主天气页面
-    private String which_city = Tag_CITY_0;
+    private String which_city;
     private int currentLevel;
     private static final String Tag_CITY_0 = "city_0_fragment";
     private static final String Tag_CITY_1 = "city_1_fragment";
@@ -71,7 +71,9 @@ public class ChoiceCityActivity extends AppCompatActivity {
         super.onStart();
         Intent intent = this.getIntent();
         what_to_do = intent.getStringExtra("what_to_do");
-        which_city = intent.getStringExtra("which_city");
+        which_city = ("".equals(intent.getStringExtra("which_city"))
+                || intent.getStringExtra("which_city") == null)
+                ? Tag_CITY_0 : intent.getStringExtra("which_city");
         Log.d("ChoiceCityActivityhuang ", " onStart which_city : " + which_city);
     }
 
