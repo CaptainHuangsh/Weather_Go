@@ -73,6 +73,9 @@ public class WeatherMain extends AppCompatActivity
     private static final String Tag_CITY_4 = "city_4_fragment";
     private static final String Tag_CITY_5 = "city_5_fragment";
 
+    MultiCityFragment[] mFt;
+    MainFragment mF;
+
     public LocationClient mLocationClient;
     ArrayList<String> cityList = new ArrayList<>();
 
@@ -125,8 +128,9 @@ public class WeatherMain extends AppCompatActivity
             //如果在MultiCitiesManagerActivity中没有返回而是点击了其中一个城市进行跳转
             //就不会出发回调函数；
             mHomePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
-            MainFragment mf = new MainFragment();
-            mHomePagerAdapter.addTab(mf, SharedPreferenceUtil.getInstance().getCityName());
+//            MainFragment mf = new MainFragment();
+            mF = new MainFragment();
+            mHomePagerAdapter.addTab(mF, SharedPreferenceUtil.getInstance().getCityName());
             cityList.clear();
             DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
             final SQLiteDatabase db = DBManager.getInstance().getDatabase();
@@ -144,9 +148,12 @@ public class WeatherMain extends AppCompatActivity
 //            Log.d("WeatherMainhuang", " onStart  count " + mCityCount);
             if (mCityCount != 0) {
                 for (int i = 0; i < mCityCount; i++) {
-                    MultiCityFragment mtf = MultiCityFragment.newInstance(i, cityList.get(i));
+//                    MultiCityFragment mtf = MultiCityFragment.newInstance(i, cityList.get(i));
+                    mFt[i] = MultiCityFragment.newInstance(i, cityList.get(i));
                     Log.d("WeatherMainhuang", " onStart " + i);
-                    mHomePagerAdapter.addTab(mtf, cityList.get(i));
+//                    mHomePagerAdapter.addTab(mtf, cityList.get(i));
+                    mHomePagerAdapter.addTab(mFt[i], cityList.get(i));
+
                 }
             }
             mViewPager.setAdapter(mHomePagerAdapter);
@@ -197,21 +204,33 @@ public class WeatherMain extends AppCompatActivity
                     //通过当前Fragment决定搜索或选择城市时在哪个位置更改
                     case 0:
                         mThisPage = Tag_CITY_0;
+                        if (mF != null)
+                            mF.onAttach(WeatherMain.this);
                         break;
                     case 1:
                         mThisPage = Tag_CITY_1;
+                        if (mFt != null)
+                            mFt[0].onAttach(WeatherMain.this);
                         break;
                     case 2:
                         mThisPage = Tag_CITY_2;
+                        if (mFt != null)
+                            mFt[1].onAttach(WeatherMain.this);
                         break;
                     case 3:
                         mThisPage = Tag_CITY_3;
+                        if (mFt != null)
+                            mFt[2].onAttach(WeatherMain.this);
                         break;
                     case 4:
                         mThisPage = Tag_CITY_4;
+                        if (mFt != null)
+                            mFt[3].onAttach(WeatherMain.this);
                         break;
                     case 5:
                         mThisPage = Tag_CITY_5;
+                        if (mFt != null)
+                            mFt[4].onAttach(WeatherMain.this);
                         break;
                     default:
                 }
@@ -344,6 +363,48 @@ public class WeatherMain extends AppCompatActivity
                         mTabLayout.setupWithViewPager(mViewPager, false);
                     }
                 }
+                break;
+            case 3:
+                if (resultCode == RESULT_OK) {
+                    mHomePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
+                    MainFragment mf = new MainFragment();
+                    mHomePagerAdapter.addTab(mf, SharedPreferenceUtil.getInstance().getCityName());
+//                    mViewPager.removeAllViews();
+                    cityList.clear();
+                    DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
+                    final SQLiteDatabase db = DBManager.getInstance().getDatabase();
+                    Cursor cursor = db.rawQuery("select city from MultiCities", null);
+                    if (cursor.moveToFirst()) {
+                        do {
+                            //遍历cursor
+                            String city = cursor.getString(cursor.getColumnIndex("city"));
+                            cityList.add(city);
+                        } while (cursor.moveToNext());
+                    }
+                    cursor.close();
+                    int mCityCount = (int) DBManager.getInstance().allCaseNum("MultiCities");
+                    DBManager.getInstance().closeDatabase();
+//                    Log.d("WeatherMainhuang", " onActivityResult  count " + mCityCount);
+                    if (mCityCount != 0) {
+                        for (int i = 0; i < mCityCount; i++) {
+//            for (int i = 0; i < 2; i++) {
+                            MultiCityFragment mtf = MultiCityFragment.newInstance(i, cityList.get(i));
+//                            Log.d("WeatherMainhuang", " onActivityResult " + cityList.get(i));
+                            mHomePagerAdapter.addTab(mtf, cityList.get(i));
+//                mHomePagerAdapter.notifyDataSetChanged();
+                        }
+                    }
+        /*if (!"".equals(SharedPreferenceUtil.getInstance().getString("city_1", ""))) {
+            MultiCityFragment tf = new MultiCityFragment();
+            mHomePagerAdapter.addTab(tf, "");
+        }*/
+//                    mHomePagerAdapter.notifyDataSetChanged();
+                    mViewPager.setAdapter(mHomePagerAdapter);
+                    if (mCityCount != 0) {
+                        mTabLayout.setupWithViewPager(mViewPager, false);
+                    }
+                }
+                mViewPager.setCurrentItem(data.getIntExtra("which_page", 0));
                 break;
             default:
                 break;
@@ -513,7 +574,12 @@ public class WeatherMain extends AppCompatActivity
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.nav_city:
-                        ChoiceCityActivity.launch(WeatherMain.this);
+                        Intent intent = new Intent();
+                        intent.setClass(WeatherMain.this, ChoiceCityActivity.class);
+                        intent.putExtra("which_city", mThisPage);
+                        startActivity(intent);
+//                        startActivityForResult(intent, 3);
+//                        ChoiceCityActivity.launch(WeatherMain.this);
                         break;
                     case R.id.nav_edit_city:
                         toSearchDialog();

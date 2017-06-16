@@ -1,5 +1,6 @@
 package com.example.owen.weathergo.modules.fragment;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -228,19 +229,19 @@ public class MultiCityFragment extends Fragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         if (isVisibleToUser && isVisible()) {
 //            initData();
-            mActivity = (WeatherMain) getActivity();
-            mActivity.setHandler(mHandler);
+            /*mActivity = (WeatherMain) getActivity();
+            mActivity.setHandler(mHandler);*/
 
         }
         super.setUserVisibleHint(isVisibleToUser);
     }
 
-    /*@Override
+    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         mActivity = (WeatherMain) activity;
         mActivity.setHandler(mHandler);
-    }*/
+    }
 
     //@Nullable 表示定义的字段可以为空.
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
