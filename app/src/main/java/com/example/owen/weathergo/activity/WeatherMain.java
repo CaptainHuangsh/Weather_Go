@@ -122,9 +122,9 @@ public class WeatherMain extends AppCompatActivity
 
         //如果是从多城市管理页面回来的话，则刷新页面
         safeSetTitle(getResources().getString(R.string.app_name));
-        //防止刷新后城市顺序混乱出现title错误的额现象
+        //防止刷新后城市顺序混乱出现title错误的现象
         int cityNum = getIntent().getIntExtra("city_num", -1);
-        if (cityNum != -1) {
+//        if (cityNum != -1) {
             //如果在MultiCitiesManagerActivity中没有返回而是点击了其中一个城市进行跳转
             //就不会出发回调函数；
             mHomePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
@@ -149,13 +149,13 @@ public class WeatherMain extends AppCompatActivity
             if (mCityCount != 0) {
                 for (int i = 0; i < mCityCount; i++) {
 //                    MultiCityFragment mtf = MultiCityFragment.newInstance(i, cityList.get(i));
-                    mFt[i] = MultiCityFragment.newInstance(i, cityList.get(i));
+                    MultiCityFragment mft = MultiCityFragment.newInstance(i, cityList.get(i));
                     Log.d("WeatherMainhuang", " onStart " + i);
 //                    mHomePagerAdapter.addTab(mtf, cityList.get(i));
-                    mHomePagerAdapter.addTab(mFt[i], cityList.get(i));
+                    mHomePagerAdapter.addTab(mft, cityList.get(i));
 
                 }
-            }
+//            }
             mViewPager.setAdapter(mHomePagerAdapter);
             if (mCityCount != 0) {
                 mTabLayout.setupWithViewPager(mViewPager, false);
