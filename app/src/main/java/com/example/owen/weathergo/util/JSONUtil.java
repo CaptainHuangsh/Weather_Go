@@ -73,33 +73,35 @@ public class JSONUtil {
 
                     jsonText = "" + response.body().string();
                     SharedPreferences preferences;
-                    preferences = context.getSharedPreferences("huang", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = preferences.edit();
-                    switch (cityNumber) {
-                        case CITY_NUM_0:
-                            editor.putString("jsonText_city_0", jsonText);
-                            break;
-                        case CITY_NUM_1:
-                            editor.putString("jsonText_city_1", jsonText);
-                            break;
-                        case CITY_NUM_2:
-                            editor.putString("jsonText_city_2", jsonText);
-                            break;
-                        case CITY_NUM_3:
-                            editor.putString("jsonText_city_3", jsonText);
-                            break;
-                        case CITY_NUM_4:
-                            editor.putString("jsonText_city_4", jsonText);
-                            break;
-                        case CITY_NUM_5:
-                            editor.putString("jsonText_city_5", jsonText);
-                            break;
-                        default:
-                            editor.putString("jsonText_city_0", jsonText);
-                            break;
-                    }
+                    if (context != null) {
+                        preferences = context.getSharedPreferences("huang", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        switch (cityNumber) {
+                            case CITY_NUM_0:
+                                editor.putString("jsonText_city_0", jsonText);
+                                break;
+                            case CITY_NUM_1:
+                                editor.putString("jsonText_city_1", jsonText);
+                                break;
+                            case CITY_NUM_2:
+                                editor.putString("jsonText_city_2", jsonText);
+                                break;
+                            case CITY_NUM_3:
+                                editor.putString("jsonText_city_3", jsonText);
+                                break;
+                            case CITY_NUM_4:
+                                editor.putString("jsonText_city_4", jsonText);
+                                break;
+                            case CITY_NUM_5:
+                                editor.putString("jsonText_city_5", jsonText);
+                                break;
+                            default:
+                                editor.putString("jsonText_city_0", jsonText);
+                                break;
+                        }
 //                    editor.putString("jsonText_city_0", jsonText);
-                    editor.apply();
+                        editor.apply();
+                    }
 //                    parse(jsonText);
                 } catch (IOException e) {
                     e.printStackTrace();
