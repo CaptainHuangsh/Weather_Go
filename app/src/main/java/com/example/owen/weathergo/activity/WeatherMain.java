@@ -88,7 +88,6 @@ public class WeatherMain extends AppCompatActivity
     @BindView(R.id.tabLayout)
     TabLayout mTabLayout;
 
-    private ActionBarDrawerToggle mDrawerToggle;
     private Handler mHandler;
     private HomePagerAdapter mHomePagerAdapter;
 
@@ -308,6 +307,10 @@ public class WeatherMain extends AppCompatActivity
                     mTabLayout.setupWithViewPager(mViewPager, false);
                 }
                 mViewPager.setCurrentItem(mPageNum);
+                if (mThisPage.equals(C.Tag_CITY_0)) {
+                    //在主界面情况下，直接刷新为新城市名
+                    safeSetTitle(SharedPreferenceUtil.getInstance().getCityName());
+                }
                 dialog.dismiss();
             }
         });
@@ -547,7 +550,7 @@ public class WeatherMain extends AppCompatActivity
 
     //初始化抽屉
     public void initDrawer() {
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolBar, R.string.open, R.string.close);
+        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolBar, R.string.open, R.string.close);
         mDrawerToggle.syncState();
         //mDrawerLayout.setDrawerListener(mDrawerToggle);
         //旧版本可能会空指针
