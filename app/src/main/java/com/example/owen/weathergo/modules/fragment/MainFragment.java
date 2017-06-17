@@ -1,6 +1,5 @@
 package com.example.owen.weathergo.modules.fragment;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
@@ -15,7 +14,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +24,7 @@ import android.widget.Toast;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.activity.WeatherMain;
+import com.example.owen.weathergo.common.base.C;
 import com.example.owen.weathergo.modules.adapter.WeatherAdapter;
 import com.example.owen.weathergo.modules.domain.Weather;
 import com.example.owen.weathergo.service.AutoUpdateService;
@@ -42,7 +41,6 @@ import butterknife.ButterKnife;
 
 public class MainFragment extends Fragment {
 
-    private static final String Tag_CITY_0 = "city_0_fragment";
     private static final int UPDATE_WEATHER_DATA = 0;
     private static final int SEARCH_CITY = 1;
     private static final int SCREEN_SHOOT = 2;
@@ -88,8 +86,7 @@ public class MainFragment extends Fragment {
 
                     break;
                 case SEARCH_CITY:
-                    if (msg.getData().getString("which_page").equals(Tag_CITY_0)) {
-                        Log.d("MainFragmenthuang", " SEARCH_CITY " + msg.getData().getString("which_page"));
+                    if (msg.getData().getString("which_page").equals(C.Tag_CITY_0)) {
                         //Fragment与activity交互http://blog.csdn.net/huangyabin001/article/details/35231753
                         if (!msg.obj.toString().equals("")) {
                             mCityStr = msg.obj.toString();
@@ -141,25 +138,6 @@ public class MainFragment extends Fragment {
         mToastSuccess = 0;
     }
 
-    //此Fragment是否可见
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        if (isVisibleToUser && isVisible()) {
-//            initData();
-            /*mActivity = (WeatherMain) getActivity();
-            mActivity.setHandler(mHandler);*/
-
-        }
-        super.setUserVisibleHint(isVisibleToUser);
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mActivity = (WeatherMain) activity;
-        mActivity.setHandler(mHandler);
-    }
-
     //@Nullable 表示定义的字段可以为空.
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Nullable
@@ -175,7 +153,6 @@ public class MainFragment extends Fragment {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("MainFragmenthuang  ", " onCreateView " + mCityStr);
                     mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
                     Message message = new Message();
                     message.what = UPDATE_WEATHER_DATA;
@@ -200,13 +177,11 @@ public class MainFragment extends Fragment {
         //以节省流量和访问次数（因为每次打开app时用户的位置数据是基本不会改变的）
         super.onStart();
         String Ccity = SharedPreferenceUtil.getInstance().getCityName();
-        Log.d("MainFragmenthuang  ", " onStart " + mCityStr + "\n" + Ccity);
         if (!"".equals(Ccity) && !Ccity.equals(mCityStr)) {
             mCityStr = Ccity;
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("MainFragmenthuang  ", " onStart " + mCityStr);
                     mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
                     Message message = new Message();
                     message.what = UPDATE_WEATHER_DATA;
@@ -238,11 +213,8 @@ public class MainFragment extends Fragment {
         if (!"".equals(cCity) && cCity != null)//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值进行初始赋值
         {
             mCityStr = cCity;
-//            safeSetTitle(mCityStr);
-            Log.d("MainFragmenthuang  ", " init " + mCityStr);
         }
         mNoData.setVisibility(View.GONE);
-        Log.d("MainFragmenthuang  ", " init2 " + mCityStr);
         initRecycleView();
     }
 
@@ -325,7 +297,6 @@ public class MainFragment extends Fragment {
             mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(mWeather));
             mGCityStr = mWeather.getBasic().getCity();
             if (!mGCityStr.equals("")) {
-//                safeSetTitle(mGCityStr);
             }
             Intent intent = new Intent(getActivity(), AutoUpdateService.class);
             getActivity().startService(intent);

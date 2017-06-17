@@ -36,6 +36,7 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.DoubleClickExit;
+import com.example.owen.weathergo.common.base.C;
 import com.example.owen.weathergo.dialog.CityDialog;
 import com.example.owen.weathergo.modules.adapter.HomePagerAdapter;
 import com.example.owen.weathergo.modules.fragment.MainFragment;
@@ -50,7 +51,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-//import android.util.Log;
 
 public class WeatherMain extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -65,14 +65,7 @@ public class WeatherMain extends AppCompatActivity
     private static final int SEARCH_CITY = 1;
     private static final int SCREEN_SHOOT = 2;
 
-    private static final String Tag_CITY_0 = "city_0_fragment";
-    private static final String Tag_CITY_1 = "city_1_fragment";
-    private static final String Tag_CITY_2 = "city_2_fragment";
-    private static final String Tag_CITY_3 = "city_3_fragment";
-    private static final String Tag_CITY_4 = "city_4_fragment";
-    private static final String Tag_CITY_5 = "city_5_fragment";
-
-    private static String mThisPage = Tag_CITY_0;
+    private static String mThisPage = C.Tag_CITY_0;
     private static int mPageNum;
 
     MultiCityFragment[] mFt;
@@ -193,22 +186,22 @@ public class WeatherMain extends AppCompatActivity
                 switch (position) {
                     //通过当前Fragment决定搜索或选择城市时在哪个位置更改
                     case 0:
-                        mThisPage = Tag_CITY_0;
+                        mThisPage = C.Tag_CITY_0;
                         break;
                     case 1:
-                        mThisPage = Tag_CITY_1;
+                        mThisPage = C.Tag_CITY_1;
                         break;
                     case 2:
-                        mThisPage = Tag_CITY_2;
+                        mThisPage = C.Tag_CITY_2;
                         break;
                     case 3:
-                        mThisPage = Tag_CITY_3;
+                        mThisPage = C.Tag_CITY_3;
                         break;
                     case 4:
-                        mThisPage = Tag_CITY_4;
+                        mThisPage = C.Tag_CITY_4;
                         break;
                     case 5:
-                        mThisPage = Tag_CITY_5;
+                        mThisPage = C.Tag_CITY_5;
                         break;
                     default:
                 }
@@ -259,32 +252,32 @@ public class WeatherMain extends AppCompatActivity
                 ContentValues values = new ContentValues();
                 values.put("city", dialog.mCityEdit.getText().toString());
                 switch (mThisPage) {
-                    case Tag_CITY_0:
+                    case C.Tag_CITY_0:
                         SharedPreferenceUtil.getInstance()
                                 .setCityName(dialog.mCityEdit.getText().toString());
                         //城市0 主城市
                         break;
-                    case Tag_CITY_1:
+                    case C.Tag_CITY_1:
                         db.update("MultiCities", values, "city = ?", new String[]{
                                 cityList.get(0)
                         });
                         break;
-                    case Tag_CITY_2:
+                    case C.Tag_CITY_2:
                         db.update("MultiCities", values, "city = ?", new String[]{
                                 cityList.get(1)
                         });
                         break;
-                    case Tag_CITY_3:
+                    case C.Tag_CITY_3:
                         db.update("MultiCities", values, "city = ?", new String[]{
                                 cityList.get(2)
                         });
                         break;
-                    case Tag_CITY_4:
+                    case C.Tag_CITY_4:
                         db.update("MultiCities", values, "city = ?", new String[]{
                                 cityList.get(3)
                         });
                         break;
-                    case Tag_CITY_5:
+                    case C.Tag_CITY_5:
                         db.update("MultiCities", values, "city = ?", new String[]{
                                 cityList.get(4)
                         });
