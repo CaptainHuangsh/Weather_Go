@@ -1,6 +1,7 @@
 package com.example.owen.weathergo.modules.fragment;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.activity.WeatherMain;
+import com.example.owen.weathergo.common.base.C;
 import com.example.owen.weathergo.modules.adapter.WeatherAdapter;
 import com.example.owen.weathergo.modules.domain.Weather;
 import com.example.owen.weathergo.service.AutoUpdateService;
@@ -84,6 +86,7 @@ public class MainFragment extends Fragment {
                         mNoData.setVisibility(View.GONE);
                         refresh();
                     }
+
                     break;
                 case SEARCH_CITY:
                     //Fragment与activity交互http://blog.csdn.net/huangyabin001/article/details/35231753
@@ -130,17 +133,19 @@ public class MainFragment extends Fragment {
         }
     };
 
+
+    @Override
+    public void onAttach(Activity activity) {
+        mActivity = (WeatherMain) activity;
+        mActivity.setHandler(mHandler);
+        super.onAttach(activity);
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mToastSuccess = 0;
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        mActivity = (WeatherMain) activity;
-        mActivity.setHandler(mHandler);
+        Log.d("MainFragmenthuang"," onCreate");
     }
 
     //@Nullable 表示定义的字段可以为空.
@@ -158,7 +163,6 @@ public class MainFragment extends Fragment {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("MainFragmenthuang  ", " onCreateView " + mCityStr);
                     mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
                     Message message = new Message();
                     message.what = UPDATE_WEATHER_DATA;
@@ -183,13 +187,11 @@ public class MainFragment extends Fragment {
         //以节省流量和访问次数（因为每次打开app时用户的位置数据是基本不会改变的）
         super.onStart();
         String Ccity = SharedPreferenceUtil.getInstance().getCityName();
-        Log.d("MainFragmenthuang  ", " onStart " + mCityStr + "\n" + Ccity);
         if (!"".equals(Ccity) && !Ccity.equals(mCityStr)) {
             mCityStr = Ccity;
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("MainFragmenthuang  ", " onStart " + mCityStr);
                     mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
                     Message message = new Message();
                     message.what = UPDATE_WEATHER_DATA;
@@ -197,6 +199,11 @@ public class MainFragment extends Fragment {
                 }
             }).start();
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -216,11 +223,8 @@ public class MainFragment extends Fragment {
         if (!"".equals(cCity) && cCity != null)//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值进行初始赋值
         {
             mCityStr = cCity;
-//            safeSetTitle(mCityStr);
-            Log.d("MainFragmenthuang  ", " init " + mCityStr);
         }
         mNoData.setVisibility(View.GONE);
-        Log.d("MainFragmenthuang  ", " init2 " + mCityStr);
         initRecycleView();
     }
 
@@ -303,7 +307,6 @@ public class MainFragment extends Fragment {
             mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(mWeather));
             mGCityStr = mWeather.getBasic().getCity();
             if (!mGCityStr.equals("")) {
-//                safeSetTitle(mGCityStr);
             }
             Intent intent = new Intent(getActivity(), AutoUpdateService.class);
             getActivity().startService(intent);

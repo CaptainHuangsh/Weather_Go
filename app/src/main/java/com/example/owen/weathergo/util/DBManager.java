@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.base.BaseApplication;
@@ -87,11 +86,10 @@ public class DBManager {
                             "city text)"
                             , dbfile, null, 1);
                     dpHelper.getWritableDatabase();
-                    Toast.makeText(BaseApplication.getAppContext(), "Create DataBase Successful", Toast.LENGTH_SHORT)
-                            .show();
                 }
             }
-            this.database = SQLiteDatabase.openOrCreateDatabase(DB_PATH + "/" + dbfile, null);;
+            this.database = SQLiteDatabase.openOrCreateDatabase(DB_PATH + "/" + dbfile, null);
+            ;
             //非CITY_DB情况下赋值database
             return SQLiteDatabase.openOrCreateDatabase(DB_PATH + "/" + dbfile, null);
         } catch (FileNotFoundException e) {

@@ -12,7 +12,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.example.owen.weathergo.R;
@@ -41,7 +40,6 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
     private ArrayList<String> cityList = new ArrayList<>();
     private MultiCityAdapter mAdapter;
     private int mCityCount;
-    private String mResultCity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,7 +62,6 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
         setTitle("多城市管理");
         DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
         final SQLiteDatabase db = DBManager.getInstance().getDatabase();
-//        ToastUtil.showShort("" + db);
         Cursor cursor = db.rawQuery("select city from MultiCities", null);
         if (cursor.moveToFirst()) {
             do {
@@ -75,11 +72,7 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
         }
         cursor.close();
         mCityCount = (int) DBManager.getInstance().allCaseNum("MultiCities");
-//        DBManager.getInstance().closeDatabase();
-        /*cityList.add("洛阳");
-        cityList.add("开封");*/
         cityList.add("添加城市");
-//        initRecycleView();
         DBManager.getInstance().closeDatabase();
     }
 
@@ -98,7 +91,6 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
                         dialog.setSelectOnclickListener(new MultiCityAddDialog.onSelectOnclickListener() {
                             @Override
                             public void onSelectClick() {
-//                                ToastUtil.showShort("selectCity");
                                 Intent intent = new Intent();
                                 intent.setClass(MultiCitiesManagerActivity.this, ChoiceCityActivity.class);
                                 intent.putExtra("what_to_do", "select_multi_city");
@@ -117,7 +109,6 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
                                         if (!"".equals(dialog2.mCityEdit.getText().toString())) {
                                             for (String city : cityList) {
                                                 if (city.equals(dialog2.mCityEdit.getText().toString())) {
-//                                                    ToastUtil.showShort("城市已存在!");
                                                     AlertDialog.Builder dialog3 = new AlertDialog.Builder(
                                                             MultiCitiesManagerActivity.this);
                                                     dialog3.setMessage("城市已存在😁")
@@ -135,6 +126,7 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
                                                 addData = false;
                                             }
                                             if (addData) {
+                                                DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
                                                 values.put("city", dialog2.mCityEdit.getText().toString());
                                                 final SQLiteDatabase db = DBManager.getInstance().getDatabase();
                                                 db.insert("MultiCities", null, values);
@@ -145,6 +137,7 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
                                             }
                                         }
                                         dialog2.dismiss();
+                                        DBManager.getInstance().closeDatabase();
                                     }
                                 });
                                 dialog2.setNoOnclickListener("取消", new CityDialog.onNoOnclickListener() {
@@ -167,10 +160,7 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
                 } else {
                     Intent intent = new Intent(MultiCitiesManagerActivity.this, WeatherMain.class);
                     intent.putExtra("city_num", pos);
-                    Log.d("MultiCitiesManagerActivityhuang startActivity ", " pos " + pos);
                     startActivity(intent);
-//                    quit();
-//                    ToastUtil.showShort("dianjil" + cityList.get(pos));
                 }
 
             }
@@ -179,7 +169,6 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
             @Override
             public void onItemLongClick(View view, int pos) {
                 if (pos < mCityCount) {
-//                    ToastUtil.showShort("shanchu" + cityList.get(pos));
                     toDeleteCity(cityList.get(pos));
                 }
             }
@@ -199,31 +188,13 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
             case 1:
                 if (resultCode == RESULT_OK) {
                     Boolean addData = true;
-                    mResultCity = data.getStringExtra("select_multi_city");
-                    Log.d("MultiCitiesManagerActivityhuang", " onActivityResult "
-                            + mResultCity);
+                    String mResultCity = data.getStringExtra("select_multi_city");
                     if (!"".equals(mResultCity) && mResultCity != null) {
                         DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
                         final ContentValues values = new ContentValues();
                         final SQLiteDatabase db = DBManager.getInstance().getDatabase();
-
-                        /*Cursor cursor = db.rawQuery("select city from MultiCities", null);
-                        if (cursor.moveToFirst()) {
-                            do {
-                                //遍历cursor
-                                String city = cursor.getString(cursor.getColumnIndex("city"));
-                                if (city.equals(mResultCity)) {
-                                    ToastUtil.showShort("已经选择过这个城市啦!");
-                                    addData = false;
-                                    break;
-                                }
-                            } while (cursor.moveToNext());
-                        }
-                        cursor.close();*/
-
                         for (String city : cityList) {
                             if (city.equals(mResultCity)) {
-//                                ToastUtil.showShort("城市已存在!");
                                 AlertDialog.Builder dialog3 = new AlertDialog.Builder(
                                         MultiCitiesManagerActivity.this);
                                 dialog3.setMessage("城市已存在😁")
