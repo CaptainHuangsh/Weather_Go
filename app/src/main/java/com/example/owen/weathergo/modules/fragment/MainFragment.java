@@ -1,5 +1,7 @@
 package com.example.owen.weathergo.modules.fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
@@ -14,6 +16,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,30 +88,28 @@ public class MainFragment extends Fragment {
                     }
 
                     break;
-                /*case SEARCH_CITY:
-                    if (msg.getData().getString("which_page").equals(C.Tag_CITY_0)) {
-                        //Fragment与activity交互http://blog.csdn.net/huangyabin001/article/details/35231753
-                        if (!msg.obj.toString().equals("")) {
-                            mCityStr = msg.obj.toString();
-                            SharedPreferenceUtil.getInstance().setCityName(mCityStr);
-                            new Thread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
-                                    Message message = new Message();
-                                    message.what = UPDATE_WEATHER_DATA;
-                                    mHandler.sendMessage(message);
-                                }
-                            }).start();
-                        } else {
-                            Message message = new Message();
-                            message.what = CHANGE_TEXT;
-                            message.obj = "no_city_data";
-                            mHandler.sendMessage(message);
-                            //请手动选择城市
-                        }
+                case SEARCH_CITY:
+                    //Fragment与activity交互http://blog.csdn.net/huangyabin001/article/details/35231753
+                    if (!msg.obj.toString().equals("")) {
+                        mCityStr = msg.obj.toString();
+                        SharedPreferenceUtil.getInstance().setCityName(mCityStr);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
+                                Message message = new Message();
+                                message.what = UPDATE_WEATHER_DATA;
+                                mHandler.sendMessage(message);
+                            }
+                        }).start();
+                    } else {
+                        Message message = new Message();
+                        message.what = CHANGE_TEXT;
+                        message.obj = "no_city_data";
+                        mHandler.sendMessage(message);
+                        //请手动选择城市
                     }
-                    break;*/
+                    break;
                 case SCREEN_SHOOT:
                     /**
                      * 动态获取权限，Android 6.0 新特性，一些保护权限，除了要在AndroidManifest中声明权限，还要使用如下代码动态获取
@@ -132,10 +133,19 @@ public class MainFragment extends Fragment {
         }
     };
 
+
+    @Override
+    public void onAttach(Activity activity) {
+        mActivity = (WeatherMain) activity;
+        mActivity.setHandler(mHandler);
+        super.onAttach(activity);
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mToastSuccess = 0;
+        Log.d("MainFragmenthuang"," onCreate");
     }
 
     //@Nullable 表示定义的字段可以为空.

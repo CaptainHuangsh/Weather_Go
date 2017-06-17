@@ -23,6 +23,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -67,9 +68,6 @@ public class WeatherMain extends AppCompatActivity
 
     private static String mThisPage = C.Tag_CITY_0;
     private static int mPageNum;
-
-    MultiCityFragment[] mFt;
-    MainFragment mF;
 
     public LocationClient mLocationClient;
     ArrayList<String> cityList = new ArrayList<>();
@@ -256,8 +254,9 @@ public class WeatherMain extends AppCompatActivity
 
     private void syncCity() {
         mHomePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
-        mF = new MainFragment();
-        mHomePagerAdapter.addTab(mF, SharedPreferenceUtil.getInstance().getCityName());
+        MainFragment mf = new MainFragment();
+        Log.d("WeatherMainhuang", " syncCity "+mf);
+        mHomePagerAdapter.addTab(mf, SharedPreferenceUtil.getInstance().getCityName());
         cityList.clear();
         DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
         final SQLiteDatabase db = DBManager.getInstance().getDatabase();
@@ -277,9 +276,9 @@ public class WeatherMain extends AppCompatActivity
                 MultiCityFragment mft = MultiCityFragment.newInstance(i, cityList.get(i));
                 mHomePagerAdapter.addTab(mft, cityList.get(i));
             }
-            mViewPager.setAdapter(mHomePagerAdapter);
             mTabLayout.setupWithViewPager(mViewPager, false);
         }
+        mViewPager.setAdapter(mHomePagerAdapter);
     }
 
     private void updateCity(String city, String page) {
@@ -359,7 +358,6 @@ public class WeatherMain extends AppCompatActivity
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             //使导航栏透明getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         }
-
         setSupportActionBar(mToolBar);
         initDrawer();
         initNavigationView();
@@ -374,7 +372,6 @@ public class WeatherMain extends AppCompatActivity
     private void initLocation() {
         mLocationClient = new LocationClient(getApplicationContext());
         mLocationClient.registerLocationListener(new MyLocationListener());
-
         /*RxPermissions rxPermissions = new RxPermissions(WeatherMain.this);
         rxPermissions
                 .request(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -523,7 +520,7 @@ public class WeatherMain extends AppCompatActivity
                 Message msg = new Message();
                 msg.obj = bdLocation.getCity() + "";
                 msg.what = SEARCH_CITY;
-//                Log.d("search_weather_data", "" + bdLocation.getCity());
+                Log.d("search_weather_data", "" + bdLocation.getCity());
                 mHandler.sendMessage(msg);
             }
         }
