@@ -1,6 +1,5 @@
 package com.example.owen.weathergo.modules.fragment;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -68,7 +67,6 @@ public class MultiCityFragment extends Fragment {
     WeatherAdapter mWeatherAdapter;
     private int mCityNum;
     private String mCityStr = "";//设置的CityName
-    private String mGCityStr = "";//从和风天气查询到的城市名称CityName，理论上和设置的一样
     private View view;
     private boolean mIsCreateView = false;
     private WeatherMain mActivity;
@@ -89,7 +87,7 @@ public class MultiCityFragment extends Fragment {
                     }
                     break;
 
-                case SEARCH_CITY:
+                /*case SEARCH_CITY:
                     //Fragment与activity交互http://blog.csdn.net/huangyabin001/article/details/35231753
                     if (!msg.obj.toString().equals("")) {
                         if (mThisPage.equals(msg.getData().getString("which_page"))) {
@@ -130,7 +128,7 @@ public class MultiCityFragment extends Fragment {
                             //请手动选择城市
                         }
                     }
-                    break;
+                    break;*/
                 case SCREEN_SHOOT:
                     /**
                      * 动态获取权限，Android 6.0 新特性，一些保护权限，除了要在AndroidManifest中声明权限，还要使用如下代码动态获取
@@ -383,7 +381,7 @@ public class MultiCityFragment extends Fragment {
             mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr, mCityNum + 1);
             int i = 0;
             mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(mWeather));
-            mGCityStr = mWeather.getBasic().getCity();
+            String mGCityStr = mWeather.getBasic().getCity();
         } catch (Exception e) {
             e.printStackTrace();
             mWeatherInfo.setVisibility(View.GONE);

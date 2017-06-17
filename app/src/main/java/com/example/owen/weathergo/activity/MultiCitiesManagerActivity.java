@@ -40,7 +40,6 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
     private ArrayList<String> cityList = new ArrayList<>();
     private MultiCityAdapter mAdapter;
     private int mCityCount;
-    private String mResultCity;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -189,7 +188,7 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
             case 1:
                 if (resultCode == RESULT_OK) {
                     Boolean addData = true;
-                    mResultCity = data.getStringExtra("select_multi_city");
+                    String mResultCity = data.getStringExtra("select_multi_city");
                     if (!"".equals(mResultCity) && mResultCity != null) {
                         DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
                         final ContentValues values = new ContentValues();

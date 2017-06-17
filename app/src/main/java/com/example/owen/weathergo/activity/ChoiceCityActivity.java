@@ -11,16 +11,16 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 import com.example.owen.weathergo.R;
+import com.example.owen.weathergo.common.base.C;
+import com.example.owen.weathergo.modules.adapter.CityAdapter;
+import com.example.owen.weathergo.modules.domain.City;
+import com.example.owen.weathergo.modules.domain.Province;
 import com.example.owen.weathergo.util.DBManager;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
 import com.example.owen.weathergo.util.WeatherDB;
-import com.example.owen.weathergo.modules.domain.City;
-import com.example.owen.weathergo.modules.domain.Province;
-import com.example.owen.weathergo.modules.adapter.CityAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,14 +46,7 @@ public class ChoiceCityActivity extends AppCompatActivity {
     private String what_to_do;//从那个页面过来，多城市管理、主天气页面
     private String which_city;
     private int currentLevel;
-    private static final String Tag_CITY_0 = "city_0_fragment";
-    private static final String Tag_CITY_1 = "city_1_fragment";
-    private static final String Tag_CITY_2 = "city_2_fragment";
-    private static final String Tag_CITY_3 = "city_3_fragment";
-    private static final String Tag_CITY_4 = "city_4_fragment";
-    private static final String Tag_CITY_5 = "city_5_fragment";
 
-//    private boolean isChecked = false;
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
@@ -73,9 +66,7 @@ public class ChoiceCityActivity extends AppCompatActivity {
         what_to_do = intent.getStringExtra("what_to_do");
         which_city = ("".equals(intent.getStringExtra("which_city"))
                 || intent.getStringExtra("which_city") == null)
-                ? Tag_CITY_0 : intent.getStringExtra("which_city");
-        Log.d("ChoiceCityActivityhuang ", " onStart which_city : " + which_city);
-        Log.d("ChoiceCityActivityhuang ", " onStart what_to_do : " + what_to_do);
+                ? C.Tag_CITY_0 : intent.getStringExtra("which_city");
     }
 
     private void init() {
@@ -99,74 +90,12 @@ public class ChoiceCityActivity extends AppCompatActivity {
                 } else if (currentLevel == LEVEL_CITY) {
                     selectedCity = cityList.get(pos);
                     if ("select_multi_city".equals(what_to_do)) {
-//                        Log.d("ChoiceCityActivityhuang", " onclick " + selectedCity.getCityName());
                         Intent intent = new Intent();
                         intent.putExtra("select_multi_city", selectedCity.getCityName());
                         setResult(RESULT_OK, intent);
                     } else if (!"".equals(which_city)) {
-                        Intent intent = new Intent();
-                        intent.setClass(ChoiceCityActivity.this, WeatherMain.class);
-                        DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
-                        final SQLiteDatabase db = DBManager.getInstance().getDatabase();
-                        Cursor cursor = db.rawQuery("select city from MultiCities", null);
-                        ArrayList<String> cityList = new ArrayList<>();
-                        if (cursor.moveToFirst()) {
-                            do {
-                                //遍历cursor
-                                String city = cursor.getString(cursor.getColumnIndex("city"));
-                                cityList.add(city);
-                            } while (cursor.moveToNext());
-                        }
-                        cursor.close();
-                        ContentValues values = new ContentValues();
-                        values.put("city", selectedCity.getCityName());
-                        if (which_city != null)
-                            switch (which_city) {
-                                case Tag_CITY_0:
-                                    SharedPreferenceUtil.getInstance()
-                                            .setCityName(selectedCity.getCityName());
-                                    //城市0 主城市
-                                    intent.putExtra("which_page", 0);
-                                    break;
-                                case Tag_CITY_1:
-//                                String city = cityList.get(0);
-                                    db.update("MultiCities", values, "city = ?", new String[]{
-                                            cityList.get(0)
-                                    });
-                                    intent.putExtra("which_page", 1);
-                                    break;
-                                case Tag_CITY_2:
-                                    db.update("MultiCities", values, "city = ?", new String[]{
-                                            cityList.get(1)
-                                    });
-                                    intent.putExtra("which_page", 2);
-//                                String city = cityList.get(1);
-                                    break;
-                                case Tag_CITY_3:
-                                    db.update("MultiCities", values, "city = ?", new String[]{
-                                            cityList.get(2)
-                                    });
-                                    intent.putExtra("which_page", 3);
-                                    break;
-                                case Tag_CITY_4:
-                                    db.update("MultiCities", values, "city = ?", new String[]{
-                                            cityList.get(3)
-                                    });
-                                    intent.putExtra("which_page", 4);
-                                    break;
-                                case Tag_CITY_5:
-                                    db.update("MultiCities", values, "city = ?", new String[]{
-                                            cityList.get(4)
-                                    });
-                                    intent.putExtra("which_page", 5);
-                                    break;
-                                default:
-                            }
-//                        setResult(RESULT_OK, intent);
-                        DBManager.getInstance().closeDatabase();
-                        startActivity(intent);
+                        updateCity();
                     }
-//                    finish();
                     quit();
                 }
 
@@ -180,6 +109,66 @@ public class ChoiceCityActivity extends AppCompatActivity {
         overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
+    private void updateCity() {
+        Intent intent = new Intent();
+        intent.setClass(ChoiceCityActivity.this, WeatherMain.class);
+        DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
+        final SQLiteDatabase db = DBManager.getInstance().getDatabase();
+        Cursor cursor = db.rawQuery("select city from MultiCities", null);
+        ArrayList<String> cityList = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                //遍历cursor
+                String city = cursor.getString(cursor.getColumnIndex("city"));
+                cityList.add(city);
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        ContentValues values = new ContentValues();
+        values.put("city", selectedCity.getCityName());
+        if (which_city != null)
+            switch (which_city) {
+                case C.Tag_CITY_0:
+                    SharedPreferenceUtil.getInstance()
+                            .setCityName(selectedCity.getCityName());
+                    //城市0 主城市
+                    intent.putExtra("which_page", 0);
+                    break;
+                case C.Tag_CITY_1:
+                    db.update("MultiCities", values, "city = ?", new String[]{
+                            cityList.get(0)
+                    });
+                    intent.putExtra("which_page", 1);
+                    break;
+                case C.Tag_CITY_2:
+                    db.update("MultiCities", values, "city = ?", new String[]{
+                            cityList.get(1)
+                    });
+                    intent.putExtra("which_page", 2);
+                    break;
+                case C.Tag_CITY_3:
+                    db.update("MultiCities", values, "city = ?", new String[]{
+                            cityList.get(2)
+                    });
+                    intent.putExtra("which_page", 3);
+                    break;
+                case C.Tag_CITY_4:
+                    db.update("MultiCities", values, "city = ?", new String[]{
+                            cityList.get(3)
+                    });
+                    intent.putExtra("which_page", 4);
+                    break;
+                case C.Tag_CITY_5:
+                    db.update("MultiCities", values, "city = ?", new String[]{
+                            cityList.get(4)
+                    });
+                    intent.putExtra("which_page", 5);
+                    break;
+                default:
+            }
+        DBManager.getInstance().closeDatabase();
+        startActivity(intent);
+    }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     public void queryCities(int ProId) {
@@ -202,9 +191,7 @@ public class ChoiceCityActivity extends AppCompatActivity {
         DBManager.getInstance().openDatabase();
         provincesList.addAll(WeatherDB.loadProvinces(DBManager.getInstance().getDatabase()));
         DBManager.getInstance().closeDatabase();
-
         dataList.clear();
-
         for (Province province : provincesList) {
             dataList.add(province.getProName());
         }
@@ -219,7 +206,6 @@ public class ChoiceCityActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
         //重写onBackPressed()方法需要将super.onBackPressed()注释掉，不然无论执行什么都会默认执行这一句而退出
         if (currentLevel == LEVEL_PROVINCE) {
             finish();

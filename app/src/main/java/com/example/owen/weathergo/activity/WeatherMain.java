@@ -321,6 +321,7 @@ public class WeatherMain extends AppCompatActivity
                 break;
             default:
         }
+        DBManager.getInstance().closeDatabase();
     }
 
 

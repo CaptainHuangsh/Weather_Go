@@ -85,7 +85,7 @@ public class MainFragment extends Fragment {
                     }
 
                     break;
-                case SEARCH_CITY:
+                /*case SEARCH_CITY:
                     if (msg.getData().getString("which_page").equals(C.Tag_CITY_0)) {
                         //Fragment与activity交互http://blog.csdn.net/huangyabin001/article/details/35231753
                         if (!msg.obj.toString().equals("")) {
@@ -108,7 +108,7 @@ public class MainFragment extends Fragment {
                             //请手动选择城市
                         }
                     }
-                    break;
+                    break;*/
                 case SCREEN_SHOOT:
                     /**
                      * 动态获取权限，Android 6.0 新特性，一些保护权限，除了要在AndroidManifest中声明权限，还要使用如下代码动态获取
