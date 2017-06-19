@@ -37,7 +37,6 @@ public class JSONUtil {
     private static final int CITY_NUM_4 = 4;//多城市4
     private static final int CITY_NUM_5 = 5;//多城市5
 
-    private static WeatherAPI mWeatherAPI = new WeatherAPI();
     static List<Weather> mListWeather;
     private static Weather mWeather = new Weather();
     private int cityNum;
@@ -99,10 +98,8 @@ public class JSONUtil {
                                 editor.putString("jsonText_city_0", jsonText);
                                 break;
                         }
-//                    editor.putString("jsonText_city_0", jsonText);
                         editor.apply();
                     }
-//                    parse(jsonText);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -141,7 +138,6 @@ public class JSONUtil {
                 jsonTextCity = preferences.getString("jsonText_city_0", "");
                 break;
         }
-//        jsonTextCity = preferences.getString("jsonText_city_0", "");
         parse(jsonTextCity);
         return mWeather;
     }
@@ -152,10 +148,8 @@ public class JSONUtil {
                 new TypeToken<WeatherAPI>() {
                 }.getType());
 
-        mWeatherAPI = weatherAPI;
-
         if (weatherAPI != null)//防止无城市天气信息时出现的NullPoint异常
-            for (Weather lw : mWeatherAPI.getHeWeatherDataService30s()) {
+            for (Weather lw : weatherAPI.getHeWeatherDataService30s()) {
                 mWeather = lw;
             }
 

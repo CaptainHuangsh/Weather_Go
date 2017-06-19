@@ -127,7 +127,7 @@ public class FileUtil {
         builder.append("\n\n\n");
         builder.append(context.getString(R.string.tech_info));
         builder.append("\n\n");
-        builder.append("Lucid Dream Alarm " + mVersionName);
+        builder.append("Weather Go " + mVersionName);
         builder.append("\n");
         builder.append(Build.MODEL);
         return builder;
