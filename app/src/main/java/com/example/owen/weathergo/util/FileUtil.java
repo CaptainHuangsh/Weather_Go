@@ -115,7 +115,6 @@ public class FileUtil {
     public StringBuilder getAppInfo(Context context) {
         String mVersionName = null;
         try {
-
             PackageInfo packageInfo = context.getPackageManager().
                     getPackageInfo(context.getPackageName(), 0);
             mVersionName = packageInfo.versionName;
