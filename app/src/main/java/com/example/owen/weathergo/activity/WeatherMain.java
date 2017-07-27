@@ -27,7 +27,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
@@ -87,7 +86,6 @@ public class WeatherMain extends AppCompatActivity
     TabLayout mTabLayout;
 
     private Handler mHandler;
-    private HomePagerAdapter mHomePagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,12 +143,7 @@ public class WeatherMain extends AppCompatActivity
      * 绑定监听事件
      */
     public void setListener() {
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toSearchDialog();//发布版本暂时设为选择地址
-            }
-        });
+        fab.setOnClickListener(v -> toSearchDialog());
         mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
@@ -214,25 +207,17 @@ public class WeatherMain extends AppCompatActivity
      */
     public void toSearchDialog() {
         final CityDialog dialog = new CityDialog(WeatherMain.this);
-        dialog.setYesOnclickListener("确定", new CityDialog.onYesOnclickListener() {
-            @Override
-            public void onYesClick() {
-                updateCity(dialog.mCityEdit.getText().toString(), mThisPage);
-                syncCity();
-                mViewPager.setCurrentItem(mPageNum);
-                if (mThisPage.equals(C.Tag_CITY_0)) {
-                    //在主界面情况下，直接刷新为新城市名
-                    safeSetTitle(SharedPreferenceUtil.getInstance().getCityName());
-                }
-                dialog.dismiss();
+        dialog.setYesOnclickListener("确定", () -> {
+            updateCity(dialog.mCityEdit.getText().toString(), mThisPage);
+            syncCity();
+            mViewPager.setCurrentItem(mPageNum);
+            if (mThisPage.equals(C.Tag_CITY_0)) {
+                //在主界面情况下，直接刷新为新城市名
+                safeSetTitle(SharedPreferenceUtil.getInstance().getCityName());
             }
+            dialog.dismiss();
         });
-        dialog.setNoOnclickListener("取消", new CityDialog.onNoOnclickListener() {
-            @Override
-            public void onNoClick() {
-                dialog.dismiss();
-            }
-        });
+        dialog.setNoOnclickListener("取消", dialog::dismiss);
         dialog.show();
         mDrawerLayout.closeDrawers();
     }
@@ -253,9 +238,9 @@ public class WeatherMain extends AppCompatActivity
     }
 
     private void syncCity() {
-        mHomePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
+        HomePagerAdapter mHomePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
         MainFragment mf = new MainFragment();
-        Log.d("WeatherMainhuang", " syncCity "+mf);
+        Log.d("WeatherMainhuang", " syncCity " + mf);
         mHomePagerAdapter.addTab(mf, SharedPreferenceUtil.getInstance().getCityName());
         cityList.clear();
         DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
@@ -458,31 +443,28 @@ public class WeatherMain extends AppCompatActivity
 
     //初始化navigationView
     public void initNavigationView() {
-        mNavigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.nav_city:
-                        Intent intent = new Intent();
-                        intent.setClass(WeatherMain.this, ChoiceCityActivity.class);
-                        intent.putExtra("which_city", mThisPage);
-                        startActivity(intent);
-                        break;
-                    case R.id.nav_edit_city:
-                        toSearchDialog();
-                        break;
-                    case R.id.nav_multi_city:
-                        toAddDialog();
-                        break;
-                    case R.id.nav_setting:
-                        SettingsActivity.launch(WeatherMain.this);
-                        break;
-                    case R.id.nav_about:
-                        About.launch(WeatherMain.this);
-                        break;
-                }
-                return false;
+        mNavigationView.setNavigationItemSelectedListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.nav_city:
+                    Intent intent = new Intent();
+                    intent.setClass(WeatherMain.this, ChoiceCityActivity.class);
+                    intent.putExtra("which_city", mThisPage);
+                    startActivity(intent);
+                    break;
+                case R.id.nav_edit_city:
+                    toSearchDialog();
+                    break;
+                case R.id.nav_multi_city:
+                    toAddDialog();
+                    break;
+                case R.id.nav_setting:
+                    SettingsActivity.launch(WeatherMain.this);
+                    break;
+                case R.id.nav_about:
+                    About.launch(WeatherMain.this);
+                    break;
             }
+            return false;
         });
     }
 

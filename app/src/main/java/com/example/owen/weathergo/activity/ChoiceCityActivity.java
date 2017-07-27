@@ -11,7 +11,6 @@ import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.base.C;
@@ -75,31 +74,28 @@ public class ChoiceCityActivity extends AppCompatActivity {
         DBManager.getInstance().openDatabase();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void initRecycleView() {
         mCityRecycle.setLayoutManager(new LinearLayoutManager(this));
         mCityRecycle.setHasFixedSize(true);
         mAdapter = new CityAdapter(this, dataList);
         mCityRecycle.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new CityAdapter.OnRecyclerViewItemClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
-            @Override
-            public void onItemClick(View view, int pos) {
-                if (currentLevel == LEVEL_PROVINCE) {
-                    selectedProvince = provincesList.get(pos);
-                    queryCities(selectedProvince.getProSort());
-                } else if (currentLevel == LEVEL_CITY) {
-                    selectedCity = cityList.get(pos);
-                    if ("select_multi_city".equals(what_to_do)) {
-                        Intent intent = new Intent();
-                        intent.putExtra("select_multi_city", selectedCity.getCityName());
-                        setResult(RESULT_OK, intent);
-                    } else if (!"".equals(which_city)) {
-                        updateCity();
-                    }
-                    quit();
+        mAdapter.setOnItemClickListener((view, pos) -> {
+            if (currentLevel == LEVEL_PROVINCE) {
+                selectedProvince = provincesList.get(pos);
+                queryCities(selectedProvince.getProSort());
+            } else if (currentLevel == LEVEL_CITY) {
+                selectedCity = cityList.get(pos);
+                if ("select_multi_city".equals(what_to_do)) {
+                    Intent intent = new Intent();
+                    intent.putExtra("select_multi_city", selectedCity.getCityName());
+                    setResult(RESULT_OK, intent);
+                } else if (!"".equals(which_city)) {
+                    updateCity();
                 }
-
+                quit();
             }
+
         });
 
     }

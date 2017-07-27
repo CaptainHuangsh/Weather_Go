@@ -49,9 +49,7 @@ public class MultiCityFragment extends Fragment {
     private static final int SEARCH_CITY = 1;
     private static final int SCREEN_SHOOT = 2;
     private static final int CHANGE_TEXT = 3;
-
     private static String mThisPage;
-
 
     @BindView(R.id.no_city_data)
     TextView mNoCityData;
@@ -68,7 +66,6 @@ public class MultiCityFragment extends Fragment {
     private int mCityNum;
     private String mCityStr = "";//设置的CityName
     private View view;
-    private boolean mIsCreateView = false;
     private WeatherMain mActivity;
     private Weather mWeather;
     private int times = 0;
@@ -203,19 +200,16 @@ public class MultiCityFragment extends Fragment {
             view = inflater.inflate(R.layout.fragment_multi_cities, container, false);
             ButterKnife.bind(this, view);
         }
-        mIsCreateView = true;
+        boolean mIsCreateView = true;
         init();
         initRecycleView();
         if (!mCityStr.equals("") && mCityStr != null) {
             Log.d("MultiCityFragmenthuang", " onCreateView " + mCityStr + "  " + mCityNum);
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr, mCityNum + 1);
-                    Message message = new Message();
-                    message.what = UPDATE_WEATHER_DATA;
-                    mHandler.sendMessage(message);
-                }
+            new Thread(() -> {
+                mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr, mCityNum + 1);
+                Message message = new Message();
+                message.what = UPDATE_WEATHER_DATA;
+                mHandler.sendMessage(message);
             }).start();
         }
         setListener();
@@ -249,14 +243,11 @@ public class MultiCityFragment extends Fragment {
         String Ccity = cityList.get(mCityNum);
         if (!"".equals(Ccity) && !Ccity.equals(mCityStr)) {
             mCityStr = Ccity;
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
+            new Thread(()-> {
                     mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr, mCityNum + 1);
                     Message message = new Message();
                     message.what = UPDATE_WEATHER_DATA;
                     mHandler.sendMessage(message);
-                }
             }).start();
         }
     }
@@ -297,10 +288,9 @@ public class MultiCityFragment extends Fragment {
     /**
      * 绑定监听事件
      */
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void setListener() {
-        mNoData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        mNoData.setOnClickListener( v-> {
                 initRecycleView();
                 DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
                 final SQLiteDatabase db = DBManager.getInstance().getDatabase();
@@ -317,21 +307,18 @@ public class MultiCityFragment extends Fragment {
                 String cCity = cityList.get(mCityNum);
                 if (!cCity.equals(mCityStr)) {
                     mCityStr = cCity;
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr, mCityNum + 1);
-                            Message message = new Message();
-                            message.what = UPDATE_WEATHER_DATA;
-                            mHandler.sendMessage(message);
-                        }
+                    new Thread(() -> {
+                        mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr, mCityNum + 1);
+                        Message message = new Message();
+                        message.what = UPDATE_WEATHER_DATA;
+                        mHandler.sendMessage(message);
                     }).start();
                 }
-            }
         });
     }
 
     //初始化下拉刷新控件
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void initRecycleView() {
         //下拉刷新 http://www.jianshu.com/p/d23b42b6360b
         mRefreshLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);
@@ -339,31 +326,21 @@ public class MultiCityFragment extends Fragment {
         mRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary, R.color.colorPrimaryDark);
         mRecycleView.removeAllViews();
         // 下拉时触发SwipeRefreshLayout的下拉动画，动画完毕之后就会回调这个方法
-        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-            @Override
-            public void onRefresh() {
-                refresh();
-            }
-        });
+        mRefreshLayout.setOnRefreshListener(this::refresh);
         mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void refresh() {
         {
             // 这里是主线程
             // 一些比较耗时的操作，比如联网获取数据，需要放到子线程去执行
-            new Handler().postDelayed(new Runnable() {
-                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                @Override
-
-                public void run() {
+            new Handler().postDelayed(()-> {
                     mRecycleView.removeAllViews();
                     getWeather();
                     mWeatherAdapter.notifyDataSetChanged();
                     // 加载完数据设置为不刷新状态，将下拉进度收起来
                     mRefreshLayout.setRefreshing(false);
-                }
             }, 1200);
 
             // 这个不能写在外边，不然会直接收起来

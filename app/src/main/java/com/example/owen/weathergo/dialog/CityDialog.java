@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -19,7 +18,6 @@ import butterknife.ButterKnife;
 
 public class CityDialog extends Dialog {
 
-    Context mContext;
     @BindView(R.id.city_name)
     public EditText mCityEdit;
     @BindView(R.id.yes)
@@ -34,7 +32,7 @@ public class CityDialog extends Dialog {
 
     public CityDialog(@NonNull Context context) {
         super(context, R.style.MyDialog);
-        mContext = context;
+        Context mContext = context;
     }
 
 
@@ -50,21 +48,15 @@ public class CityDialog extends Dialog {
     }
 
     private void initEvent() {
-        yes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (yesOnclickListener != null) {
-                    yesOnclickListener.onYesClick();
-                }
+        yes.setOnClickListener(v -> {
+            if (yesOnclickListener != null) {
+                yesOnclickListener.onYesClick();
             }
         });
-        no.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(noOnclickListener!=null){
+        no.setOnClickListener(v-> {
+                if (noOnclickListener != null) {
                     noOnclickListener.onNoClick();
                 }
-            }
         });
     }
 

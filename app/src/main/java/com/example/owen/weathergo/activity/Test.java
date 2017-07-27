@@ -3,8 +3,6 @@ package com.example.owen.weathergo.activity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
-import android.view.View;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.modules.domain.Weather;
@@ -21,14 +19,7 @@ public class Test extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.test);
-        findViewById(R.id.test).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                        JSONUtil jsonUtil2 = new JSONUtil(getApplicationContext(), "luoyang");
-                        mWeather = JSONUtil.getInstance().getWeather(getApplicationContext(), "luoyang");
-                        Log.d("huangshaohuaTest", " : " + mWeather.getBasic().getCity());
-                Log.d("huangshaohuaTest", " hour : " + mWeather.getHourlyForecast().get(0).getDate());
-            }
-        });
+        findViewById(R.id.test).setOnClickListener( v-> mWeather = JSONUtil.getInstance()
+                .getWeather(getApplicationContext(), "luoyang"));
     }
 }

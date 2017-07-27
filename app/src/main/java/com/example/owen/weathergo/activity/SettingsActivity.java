@@ -3,7 +3,6 @@ package com.example.owen.weathergo.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.owen.weathergo.R;

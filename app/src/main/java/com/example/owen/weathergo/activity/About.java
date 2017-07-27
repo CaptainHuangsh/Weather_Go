@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 
 import com.example.owen.weathergo.R;
@@ -38,14 +37,9 @@ public class About extends AppCompatActivity implements NavigationView.OnNavigat
     }
 
     private void init() {
-//        mVersion = (TextView) findViewById(R.id.about_version);
         mVersion.setText(getVersion());
-        mFeedBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FileUtil.getInstance().shareMsg(About.this,getApplicationContext().getString(R.string.send_email),"WeatherGo Feedback",FileUtil.getInstance().getAppInfo(About.this).toString(),null,1);
-            }
-        });
+        mFeedBack.setOnClickListener(v->FileUtil.getInstance().shareMsg(About.this
+                ,getApplicationContext().getString(R.string.send_email),"WeatherGo Feedback",FileUtil.getInstance().getAppInfo(About.this).toString(),null,1));
 
     }
 

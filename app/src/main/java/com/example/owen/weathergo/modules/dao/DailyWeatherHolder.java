@@ -1,7 +1,6 @@
 package com.example.owen.weathergo.modules.dao;
 
 import android.content.Context;
-import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;

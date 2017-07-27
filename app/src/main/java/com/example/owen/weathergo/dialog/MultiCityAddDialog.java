@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.view.View;
 import android.widget.TextView;
 
 import com.example.owen.weathergo.R;
@@ -18,7 +17,6 @@ import butterknife.ButterKnife;
 
 public class MultiCityAddDialog extends Dialog {
 
-    Context mContext;
     @BindView(R.id.to_select_city)
     TextView mCitySelect;
     @BindView(R.id.to_input_city)
@@ -29,7 +27,7 @@ public class MultiCityAddDialog extends Dialog {
 
     public MultiCityAddDialog(@NonNull Context context) {
         super(context, R.style.MyDialog);
-        mContext = context;
+        Context mContext = context;
     }
 
 
@@ -45,20 +43,15 @@ public class MultiCityAddDialog extends Dialog {
     }
 
     private void initEvent() {
-        mCitySelect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        mCitySelect.setOnClickListener(v-> {
                 if (selectOnclickListener != null) {
                     selectOnclickListener.onSelectClick();
                 }
-            }
+
         });
-        mCityInput.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        mCityInput.setOnClickListener(v-> {
                 if (inputOnclickListener != null) {
                     inputOnclickListener.onInputClick();
-                }
             }
         });
     }

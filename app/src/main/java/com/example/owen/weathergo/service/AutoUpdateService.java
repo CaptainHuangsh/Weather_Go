@@ -66,15 +66,10 @@ public class AutoUpdateService extends Service {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                updateWeather();
-                /*Message msg = new Message();
-                msg.what = 0;
-                mHandler.sendMessage(msg);*/
-            }
-        }).start();//不要忘了start
+        /*Message msg = new Message();
+        msg.what = 0;
+        mHandler.sendMessage(msg);*/
+        new Thread(this::updateWeather).start();//不要忘了start
 
 //        createNotification(mWeather);
         PreferenceManager.setDefaultValues(this, R.xml.pref_settings, false);
@@ -94,6 +89,7 @@ public class AutoUpdateService extends Service {
             long triggerAtTime = SystemClock.elapsedRealtime() + aTime;
             Intent i = new Intent(this, AutoUpdateService.class);
             PendingIntent pi = PendingIntent.getService(this, 0, i, 0);
+            assert manager != null;
             manager.cancel(pi);
             manager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, triggerAtTime, pi);
         }
@@ -128,6 +124,7 @@ public class AutoUpdateService extends Service {
         } else {
             notification.flags = Notification.FLAG_AUTO_CANCEL;
         }
+        assert notificationManager != null;
         notificationManager.notify(1, notification);
 
     }

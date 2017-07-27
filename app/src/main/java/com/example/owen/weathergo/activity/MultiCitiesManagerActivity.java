@@ -2,7 +2,6 @@ package com.example.owen.weathergo.activity;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,7 +11,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.dialog.CityDialog;
@@ -82,73 +80,59 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
         mAdapter = new MultiCityAdapter(this, cityList);
         mCityRecycle.setAdapter(mAdapter);
         final ContentValues values = new ContentValues();
-        mAdapter.setOnItemClickListener(new MultiCityAdapter.OnRecyclerViewItemClickListener() {
-            @Override
-            public void onItemClick(View view, int pos) {
+        mAdapter.setOnItemClickListener((v,pos)-> {
                 if (pos == mCityCount) {
                     if (mCityCount < 5) {
                         final MultiCityAddDialog dialog = new MultiCityAddDialog(MultiCitiesManagerActivity.this);
-                        dialog.setSelectOnclickListener(new MultiCityAddDialog.onSelectOnclickListener() {
-                            @Override
-                            public void onSelectClick() {
+                        dialog.setSelectOnclickListener(()-> {
                                 Intent intent = new Intent();
                                 intent.setClass(MultiCitiesManagerActivity.this, ChoiceCityActivity.class);
                                 intent.putExtra("what_to_do", "select_multi_city");
                                 startActivityForResult(intent, 1);
                                 dialog.dismiss();
-                            }
+
                         });
-                        dialog.setInputOnclickListener(new MultiCityAddDialog.onInputOnclickListener() {
-                            @Override
-                            public void onInputClick() {
-                                final CityDialog dialog2 = new CityDialog(MultiCitiesManagerActivity.this);
-                                dialog2.setYesOnclickListener("确定", new CityDialog.onYesOnclickListener() {
-                                    @Override
-                                    public void onYesClick() {
-                                        Boolean addData = true;
-                                        if (!"".equals(dialog2.mCityEdit.getText().toString())) {
-                                            for (String city : cityList) {
-                                                if (city.equals(dialog2.mCityEdit.getText().toString())) {
-                                                    AlertDialog.Builder dialog3 = new AlertDialog.Builder(
-                                                            MultiCitiesManagerActivity.this);
-                                                    dialog3.setMessage("城市已存在😁")
-                                                            .show();
-                                                    addData = false;
-                                                    break;
-                                                }
-                                            }
-                                            if (SharedPreferenceUtil.getInstance().getCityName()
-                                                    .equals(dialog2.mCityEdit.getText().toString())) {//是否和主城市冲突
+                        dialog.setInputOnclickListener(() -> {
+                            final CityDialog dialog2 = new CityDialog(MultiCitiesManagerActivity.this);
+                            dialog2.setYesOnclickListener("确定", ()-> {
+                                    Boolean addData = true;
+                                    if (!"".equals(dialog2.mCityEdit.getText().toString())) {
+                                        for (String city : cityList) {
+                                            if (city.equals(dialog2.mCityEdit.getText().toString())) {
                                                 AlertDialog.Builder dialog3 = new AlertDialog.Builder(
                                                         MultiCitiesManagerActivity.this);
                                                 dialog3.setMessage("城市已存在😁")
                                                         .show();
                                                 addData = false;
-                                            }
-                                            if (addData) {
-                                                DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
-                                                values.put("city", dialog2.mCityEdit.getText().toString());
-                                                final SQLiteDatabase db = DBManager.getInstance().getDatabase();
-                                                db.insert("MultiCities", null, values);
-                                                values.clear();
-                                                cityList.clear();
-                                                init();
-                                                mAdapter.notifyDataSetChanged();
+                                                break;
                                             }
                                         }
-                                        dialog2.dismiss();
-                                        DBManager.getInstance().closeDatabase();
+                                        if (SharedPreferenceUtil.getInstance().getCityName()
+                                                .equals(dialog2.mCityEdit.getText().toString())) {//是否和主城市冲突
+                                            AlertDialog.Builder dialog3 = new AlertDialog.Builder(
+                                                    MultiCitiesManagerActivity.this);
+                                            dialog3.setMessage("城市已存在😁")
+                                                    .show();
+                                            addData = false;
+                                        }
+                                        if (addData) {
+                                            DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
+                                            values.put("city", dialog2.mCityEdit.getText().toString());
+                                            final SQLiteDatabase db = DBManager.getInstance().getDatabase();
+                                            db.insert("MultiCities", null, values);
+                                            values.clear();
+                                            cityList.clear();
+                                            init();
+                                            mAdapter.notifyDataSetChanged();
+                                        }
                                     }
-                                });
-                                dialog2.setNoOnclickListener("取消", new CityDialog.onNoOnclickListener() {
-                                    @Override
-                                    public void onNoClick() {
-                                        dialog2.dismiss();
-                                    }
-                                });
-                                dialog2.show();
-                                dialog.dismiss();
-                            }
+                                    dialog2.dismiss();
+                                    DBManager.getInstance().closeDatabase();
+
+                            });
+                            dialog2.setNoOnclickListener("取消",dialog2::dismiss);
+                            dialog2.show();
+                            dialog.dismiss();
                         });
                         dialog.show();
                     } else {
@@ -163,16 +147,14 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
 
-            }
+
         });
-        mAdapter.setOnItemLongClickListener(new MultiCityAdapter.OnRecyclerViewItemLongClickListener() {
-            @Override
-            public void onItemLongClick(View view, int pos) {
+        mAdapter.setOnItemLongClickListener((v,pos)-> {
                 if (pos < mCityCount) {
                     toDeleteCity(cityList.get(pos));
                 }
             }
-        });
+        );
     }
 
     @Override
@@ -240,9 +222,7 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
         dialog.setTitle("提示信息")
                 .setMessage("确定删除城市" + cityStr + "?")
                 .setCancelable(true)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                .setPositiveButton("确定", ( d, which)-> {
                         final SQLiteDatabase db = DBManager.getInstance().getDatabase();
                         db.delete("MultiCities", "city = ?", new String[]{
                                 cityStr
@@ -250,14 +230,9 @@ public class MultiCitiesManagerActivity extends AppCompatActivity {
                         cityList.clear();
                         init();
                         mAdapter.notifyDataSetChanged();
-                    }
+
                 })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).show();
+                .setNegativeButton("取消", (d,which)-> d.dismiss()).show();
     }
 
     private void quit() {

@@ -132,13 +132,10 @@ public class TodayWeatherHolder extends BaseViewHolder<Weather> {
                 editor.putString("bing_pic", bingPic);
                 editor.putString("date", today);
                 editor.apply();
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Message message = new Message();
-                        message.what = 0;
-                        mHandler.sendMessage(message);
-                    }
+                new Thread(() -> {
+                    Message message = new Message();
+                    message.what = 0;
+                    mHandler.sendMessage(message);
                 }).start();//又忘记start了
 //                Glide.with(mContext).load(bingPic).into(mBingPic);
             }

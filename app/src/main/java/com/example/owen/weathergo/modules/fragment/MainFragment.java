@@ -1,7 +1,6 @@
 package com.example.owen.weathergo.modules.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
@@ -27,7 +26,6 @@ import android.widget.Toast;
 
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.activity.WeatherMain;
-import com.example.owen.weathergo.common.base.C;
 import com.example.owen.weathergo.modules.adapter.WeatherAdapter;
 import com.example.owen.weathergo.modules.domain.Weather;
 import com.example.owen.weathergo.service.AutoUpdateService;
@@ -64,10 +62,7 @@ public class MainFragment extends Fragment {
 
     WeatherAdapter mWeatherAdapter;
     private String mCityStr;//设置的CityName
-    private String mGCityStr = "";//从和风天气查询到的城市名称CityName，理论上和设置的一样
     private View view;
-    private boolean mIsCreateView = false;
-    private WeatherMain mActivity;
     private Weather mWeather;
     private int mToastSuccess;
     private int times = 0;
@@ -136,7 +131,7 @@ public class MainFragment extends Fragment {
 
     @Override
     public void onAttach(Activity activity) {
-        mActivity = (WeatherMain) activity;
+        WeatherMain mActivity = (WeatherMain) activity;
         mActivity.setHandler(mHandler);
         super.onAttach(activity);
     }
@@ -145,7 +140,7 @@ public class MainFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mToastSuccess = 0;
-        Log.d("MainFragmenthuang"," onCreate");
+        Log.d("MainFragmenthuang", " onCreate");
     }
 
     //@Nullable 表示定义的字段可以为空.
@@ -157,17 +152,14 @@ public class MainFragment extends Fragment {
             view = inflater.inflate(R.layout.fragment_main, container, false);
             ButterKnife.bind(this, view);
         }
-        mIsCreateView = true;
+        boolean mIsCreateView = true;
         init();
         if (!"".equals(mCityStr) && mCityStr != null) {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
-                    Message message = new Message();
-                    message.what = UPDATE_WEATHER_DATA;
-                    mHandler.sendMessage(message);
-                }
+            new Thread(() -> {
+                mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
+                Message message = new Message();
+                message.what = UPDATE_WEATHER_DATA;
+                mHandler.sendMessage(message);
             }).start();
         }
         setListener();
@@ -189,14 +181,11 @@ public class MainFragment extends Fragment {
         String Ccity = SharedPreferenceUtil.getInstance().getCityName();
         if (!"".equals(Ccity) && !Ccity.equals(mCityStr)) {
             mCityStr = Ccity;
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
-                    Message message = new Message();
-                    message.what = UPDATE_WEATHER_DATA;
-                    mHandler.sendMessage(message);
-                }
+            new Thread(() -> {
+                mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
+                Message message = new Message();
+                message.what = UPDATE_WEATHER_DATA;
+                mHandler.sendMessage(message);
             }).start();
         }
     }
@@ -218,6 +207,7 @@ public class MainFragment extends Fragment {
         super.onDestroyView();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void init() {
         String cCity = SharedPreferenceUtil.getInstance().getCityName();
         if (!"".equals(cCity) && cCity != null)//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值进行初始赋值
@@ -231,29 +221,25 @@ public class MainFragment extends Fragment {
     /**
      * 绑定监听事件
      */
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void setListener() {
-        mNoData.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                initRecycleView();
-                String Ccity = SharedPreferenceUtil.getInstance().getCityName();
-                if (!Ccity.equals(mCityStr)) {
-                    mCityStr = Ccity;
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
-                            Message message = new Message();
-                            message.what = UPDATE_WEATHER_DATA;
-                            mHandler.sendMessage(message);
-                        }
-                    }).start();
-                }
+        mNoData.setOnClickListener(v -> {
+            initRecycleView();
+            String Ccity = SharedPreferenceUtil.getInstance().getCityName();
+            if (!Ccity.equals(mCityStr)) {
+                mCityStr = Ccity;
+                new Thread(() -> {
+                    mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
+                    Message message = new Message();
+                    message.what = UPDATE_WEATHER_DATA;
+                    mHandler.sendMessage(message);
+                }).start();
             }
         });
     }
 
     //初始化下拉刷新控件
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void initRecycleView() {
         //下拉刷新 http://www.jianshu.com/p/d23b42b6360b
         mRefreshLayout.setProgressBackgroundColorSchemeResource(android.R.color.white);
@@ -261,32 +247,24 @@ public class MainFragment extends Fragment {
         mRefreshLayout.setColorSchemeResources(R.color.colorAccent, R.color.colorPrimary, R.color.colorPrimaryDark);
         mRecycleView.removeAllViews();
         // 下拉时触发SwipeRefreshLayout的下拉动画，动画完毕之后就会回调这个方法
-        mRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-            @Override
-            public void onRefresh() {
-                mToastSuccess = 0;
-                refresh();
-            }
+        mRefreshLayout.setOnRefreshListener(() -> {
+            mToastSuccess = 0;
+            refresh();
         });
         mRecycleView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void refresh() {
         {
             // 这里是主线程
             // 一些比较耗时的操作，比如联网获取数据，需要放到子线程去执行
-            new Handler().postDelayed(new Runnable() {
-                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-                @Override
-
-                public void run() {
-                    mRecycleView.removeAllViews();
-                    getWeather();
-                    mWeatherAdapter.notifyDataSetChanged();
-                    // 加载完数据设置为不刷新状态，将下拉进度收起来
-                    mRefreshLayout.setRefreshing(false);
-                }
+            new Handler().postDelayed(() -> {
+                mRecycleView.removeAllViews();
+                getWeather();
+                mWeatherAdapter.notifyDataSetChanged();
+                // 加载完数据设置为不刷新状态，将下拉进度收起来
+                mRefreshLayout.setRefreshing(false);
             }, 1200);
 
             // 这个不能写在外边，不然会直接收起来
@@ -305,7 +283,7 @@ public class MainFragment extends Fragment {
             mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr);
             int i = 0;
             mRecycleView.setAdapter(mWeatherAdapter = new WeatherAdapter(mWeather));
-            mGCityStr = mWeather.getBasic().getCity();
+            String mGCityStr = mWeather.getBasic().getCity();
             if (!mGCityStr.equals("")) {
             }
             Intent intent = new Intent(getActivity(), AutoUpdateService.class);
