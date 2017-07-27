@@ -4,7 +4,8 @@
     android:id="@+id/dl_left"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    tools:context=".activity.WeatherMain">
 
     <android.support.design.widget.CoordinatorLayout
         android:id="@+id/coord"
@@ -23,22 +24,47 @@
 
             <include layout="@layout/part_tab_layout" />
 
-            <!--<include
-                android:id="@+id/main_weather"
-                layout="@layout/main_weather" />-->
             <android.support.v4.view.ViewPager
                 android:id="@+id/weather_viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-            <!--            <fragment
-                                        android:id="@+id/weather_fragment"
-                                        android:name="com.example.owen.weathergo.modules.fragment.MainFragment"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="match_parent"
-                                        tools:layout="@layout/fragment_main" />-->
         </LinearLayout>
 
+        <!--<View
+            android:id="@+id/dimming_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true" />
+
+        <com.tr4android.support.extension.widget.FloatingActionMenu
+            android:id="@+id/floating_action_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            app:fabMenuCloseIconAngle="135"
+            app:fabMenuCloseIconSrc="@drawable/close_menu"
+            app:fabMenuLabelStyle="@style/label_style_dark">
+            &lt;!&ndash;app:layout_behavior="com.example.owen.weathergo.modules.listener.FloatingActionsMenuBehavior"&ndash;&gt;
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/fab_margin"
+                android:src="@drawable/plus"
+                app:layout_behavior="com.example.owen.weathergo.modules.listener.FloatingActionButtonBehavior" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|end"
+                android:layout_margin="@dimen/fab_margin"
+                app:backgroundTint="@color/fab_bg"
+                app:borderWidth="@dimen/zero"
+
+                app:rippleColor="@color/fab_rip"
+                app:srcCompat="@drawable/ic_location" />
+        </com.tr4android.support.extension.widget.FloatingActionMenu>-->
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
@@ -47,9 +73,10 @@
             android:layout_margin="@dimen/fab_margin"
             app:backgroundTint="@color/fab_bg"
             app:borderWidth="@dimen/zero"
-            app:layout_behavior="com.example.owen.weathergo.modules.listener.FloatingActionButtonScrollBehavior"
+            app:layout_behavior="com.example.owen.weathergo.modules.listener.FloatingActionButtonBehavior"
             app:rippleColor="@color/fab_rip"
             app:srcCompat="@drawable/ic_location" />
+
         <!--what's the diff between app:srcCompat and android:src
         http://stackoverflow.com/questions/40624554/android-what-is-the-difference-between-appsrccompat-and-androidsrc-->
     </android.support.design.widget.CoordinatorLayout>

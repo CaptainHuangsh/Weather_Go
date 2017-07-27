@@ -115,7 +115,6 @@ public class FileUtil {
     public StringBuilder getAppInfo(Context context) {
         String mVersionName = null;
         try {
-
             PackageInfo packageInfo = context.getPackageManager().
                     getPackageInfo(context.getPackageName(), 0);
             mVersionName = packageInfo.versionName;
@@ -127,7 +126,7 @@ public class FileUtil {
         builder.append("\n\n\n");
         builder.append(context.getString(R.string.tech_info));
         builder.append("\n\n");
-        builder.append("Lucid Dream Alarm " + mVersionName);
+        builder.append("Weather Go " + mVersionName);
         builder.append("\n");
         builder.append(Build.MODEL);
         return builder;

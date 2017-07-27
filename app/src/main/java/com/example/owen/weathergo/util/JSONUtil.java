@@ -37,7 +37,6 @@ public class JSONUtil {
     private static final int CITY_NUM_4 = 4;//多城市4
     private static final int CITY_NUM_5 = 5;//多城市5
 
-    private static WeatherAPI mWeatherAPI = new WeatherAPI();
     static List<Weather> mListWeather;
     private static Weather mWeather = new Weather();
     private int cityNum;
@@ -73,34 +72,34 @@ public class JSONUtil {
 
                     jsonText = "" + response.body().string();
                     SharedPreferences preferences;
-                    preferences = context.getSharedPreferences("huang", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = preferences.edit();
-                    switch (cityNumber) {
-                        case CITY_NUM_0:
-                            editor.putString("jsonText_city_0", jsonText);
-                            break;
-                        case CITY_NUM_1:
-                            editor.putString("jsonText_city_1", jsonText);
-                            break;
-                        case CITY_NUM_2:
-                            editor.putString("jsonText_city_2", jsonText);
-                            break;
-                        case CITY_NUM_3:
-                            editor.putString("jsonText_city_3", jsonText);
-                            break;
-                        case CITY_NUM_4:
-                            editor.putString("jsonText_city_4", jsonText);
-                            break;
-                        case CITY_NUM_5:
-                            editor.putString("jsonText_city_5", jsonText);
-                            break;
-                        default:
-                            editor.putString("jsonText_city_0", jsonText);
-                            break;
+                    if (context != null) {
+                        preferences = context.getSharedPreferences("huang", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = preferences.edit();
+                        switch (cityNumber) {
+                            case CITY_NUM_0:
+                                editor.putString("jsonText_city_0", jsonText);
+                                break;
+                            case CITY_NUM_1:
+                                editor.putString("jsonText_city_1", jsonText);
+                                break;
+                            case CITY_NUM_2:
+                                editor.putString("jsonText_city_2", jsonText);
+                                break;
+                            case CITY_NUM_3:
+                                editor.putString("jsonText_city_3", jsonText);
+                                break;
+                            case CITY_NUM_4:
+                                editor.putString("jsonText_city_4", jsonText);
+                                break;
+                            case CITY_NUM_5:
+                                editor.putString("jsonText_city_5", jsonText);
+                                break;
+                            default:
+                                editor.putString("jsonText_city_0", jsonText);
+                                break;
+                        }
+                        editor.apply();
                     }
-//                    editor.putString("jsonText_city_0", jsonText);
-                    editor.apply();
-//                    parse(jsonText);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -139,7 +138,6 @@ public class JSONUtil {
                 jsonTextCity = preferences.getString("jsonText_city_0", "");
                 break;
         }
-//        jsonTextCity = preferences.getString("jsonText_city_0", "");
         parse(jsonTextCity);
         return mWeather;
     }
@@ -150,10 +148,8 @@ public class JSONUtil {
                 new TypeToken<WeatherAPI>() {
                 }.getType());
 
-        mWeatherAPI = weatherAPI;
-
         if (weatherAPI != null)//防止无城市天气信息时出现的NullPoint异常
-            for (Weather lw : mWeatherAPI.getHeWeatherDataService30s()) {
+            for (Weather lw : weatherAPI.getHeWeatherDataService30s()) {
                 mWeather = lw;
             }
 
