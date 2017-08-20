@@ -348,7 +348,7 @@ public class WeatherMain extends AppCompatActivity
         setSupportActionBar(mToolBar);
         initDrawer();
         initNavigationView();
-        mFloatingActionMenu.setupWithDimmingView(findViewById(R.id.dimming_view), Color.parseColor("#42000000"));
+//        mFloatingActionMenu.setupWithDimmingView(findViewById(R.id.dimming_view), Color.parseColor("#42000000"));
         syncCity();
         String cCity = SharedPreferenceUtil.getInstance().getCityName();
         if ("".equals(cCity) || cCity == null)//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值进行初始赋值
