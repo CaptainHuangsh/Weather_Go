@@ -58,7 +58,7 @@ public class WeatherDB {
     }
 
 
-    public static void closeQuietly(Closeable closeable) {
+    private static void closeQuietly(Closeable closeable) {
         if (null != closeable) {
             try {
                 closeable.close();

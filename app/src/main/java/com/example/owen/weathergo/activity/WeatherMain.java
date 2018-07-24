@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -45,7 +44,6 @@ import com.example.owen.weathergo.modules.fragment.MultiCityFragment;
 import com.example.owen.weathergo.util.DBManager;
 import com.example.owen.weathergo.util.SharedPreferenceUtil;
 import com.example.owen.weathergo.util.ToastUtil;
-import com.tr4android.support.extension.widget.FloatingActionMenu;
 
 import java.util.ArrayList;
 import java.util.List;
