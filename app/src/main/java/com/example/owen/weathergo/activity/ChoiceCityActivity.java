@@ -7,12 +7,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.owen.weathergo.R;
+import com.example.owen.weathergo.common.base.BaseActivity;
 import com.example.owen.weathergo.common.base.C;
 import com.example.owen.weathergo.modules.adapter.CityAdapter;
 import com.example.owen.weathergo.modules.domain.City;
@@ -27,7 +29,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ChoiceCityActivity extends AppCompatActivity {
+public class ChoiceCityActivity extends BaseActivity {
 
     @BindView(R.id.city_recycle)
     RecyclerView mCityRecycle;
@@ -50,12 +52,27 @@ public class ChoiceCityActivity extends AppCompatActivity {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choice_city);
         ButterKnife.bind(this);
-        init();
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void initView() {
         initRecycleView();
         queryProvince();
+    }
+
+    @Override
+    protected void initListener() {
+
+    }
+
+    @Override
+    protected void initData(@Nullable Bundle savedInstanceState) {
+        setTitle("选择城市");
+        currentLevel = 0;
+        DBManager.getInstance().openDatabase();
     }
 
     @Override
@@ -68,13 +85,6 @@ public class ChoiceCityActivity extends AppCompatActivity {
                 ? C.Tag_CITY_0 : intent.getStringExtra("which_city");
     }
 
-    private void init() {
-        setTitle("选择城市");
-        currentLevel = 0;
-        DBManager.getInstance().openDatabase();
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     private void initRecycleView() {
         mCityRecycle.setLayoutManager(new LinearLayoutManager(this));
         mCityRecycle.setHasFixedSize(true);
@@ -196,9 +206,9 @@ public class ChoiceCityActivity extends AppCompatActivity {
     }
 
     /*
-    * 捕获Back键，根据当前的级别来判断，此时应该返回省列表还是直接退出
-    *
-    * */
+     * 捕获Back键，根据当前的级别来判断，此时应该返回省列表还是直接退出
+     *
+     * */
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBackPressed() {

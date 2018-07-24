@@ -32,7 +32,7 @@ android {
     buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.example.owen.weathergo"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 24
         versionCode 13
         versionName '1.4.03.3349'

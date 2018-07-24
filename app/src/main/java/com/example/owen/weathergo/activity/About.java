@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.owen.weathergo.R;
+import com.example.owen.weathergo.common.base.BaseActivity;
 import com.example.owen.weathergo.util.FileUtil;
 
 import butterknife.BindView;
@@ -21,7 +22,7 @@ import butterknife.ButterKnife;
  * Created by owen on 2017/4/8.
  */
 
-public class About extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class About extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @BindView(R.id.about_version)
     TextView mVersion;
@@ -30,19 +31,24 @@ public class About extends AppCompatActivity implements NavigationView.OnNavigat
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about);
         ButterKnife.bind(this);
-        init();
+        super.onCreate(savedInstanceState);
     }
 
-    private void init() {
+    @Override
+    protected void initView() {
         mVersion.setText(getVersion());
-        mFeedBack.setOnClickListener(v->FileUtil.getInstance().shareMsg(About.this
-                ,getApplicationContext().getString(R.string.send_email),"WeatherGo Feedback",FileUtil.getInstance().getAppInfo(About.this).toString(),null,1));
-
     }
 
+    @Override
+    protected void initListener() {
+        mFeedBack.setOnClickListener(v -> FileUtil.getInstance()
+                .shareMsg(About.this
+                , getApplicationContext()
+                                .getString(R.string.send_email), "WeatherGo Feedback", FileUtil.getInstance()
+                                .getAppInfo(About.this).toString(), null, 1));
+    }
 
     public static void launch(Context context) {
         context.startActivity(new Intent(context, About.class));
