@@ -2,7 +2,7 @@ package com.example.owen.weathergo.util;
 
 import android.widget.Toast;
 
-import com.example.owen.weathergo.common.base.BaseApplication;
+import com.example.owen.weathergo.WeatherApplication;
 
 /**
  * Created by owen on 2017/4/8.
@@ -11,10 +11,10 @@ import com.example.owen.weathergo.common.base.BaseApplication;
 
 public class ToastUtil {
     public static void showShort(String msg) {
-        Toast.makeText(BaseApplication.getAppContext(), msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(WeatherApplication.getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     public static void showLong(String msg) {
-        Toast.makeText(BaseApplication.getAppContext(), msg, Toast.LENGTH_LONG).show();
+        Toast.makeText(WeatherApplication.getContext(), msg, Toast.LENGTH_LONG).show();
     }
 }

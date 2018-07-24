@@ -89,8 +89,8 @@ public class MultiCityFragment extends Fragment {
                     if (!msg.obj.toString().equals("")) {
                         if (mThisPage.equals(msg.getData().getString("which_page"))) {
                             mCityStr = msg.obj.toString();
-                            DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
-                            final SQLiteDatabase db = DBManager.getInstance().getDatabase();
+                            DBManager.getContext().openDatabase(DBManager.WEATHER_DB_NAME);
+                            final SQLiteDatabase db = DBManager.getContext().getDatabase();
                             Cursor cursor = db.rawQuery("select city from MultiCities", null);
 
                             ArrayList<String> cityList = new ArrayList<>();
@@ -111,7 +111,7 @@ public class MultiCityFragment extends Fragment {
                             new Thread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    mWeather = JSONUtil.getInstance().getWeather(getActivity(), mCityStr, mCityNum + 1);
+                                    mWeather = JSONUtil.getContext().getWeather(getActivity(), mCityStr, mCityNum + 1);
                                     Message message = new Message();
                                     message.what = UPDATE_WEATHER_DATA;
                                     mHandler.sendMessage(message);

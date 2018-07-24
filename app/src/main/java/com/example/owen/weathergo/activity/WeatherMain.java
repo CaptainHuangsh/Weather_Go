@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -36,6 +37,7 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.example.owen.weathergo.R;
 import com.example.owen.weathergo.common.DoubleClickExit;
+import com.example.owen.weathergo.common.base.BaseActivity;
 import com.example.owen.weathergo.common.base.C;
 import com.example.owen.weathergo.dialog.CityDialog;
 import com.example.owen.weathergo.modules.adapter.HomePagerAdapter;
@@ -52,7 +54,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class WeatherMain extends AppCompatActivity
+public class WeatherMain extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     /**
@@ -89,12 +91,71 @@ public class WeatherMain extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         ButterKnife.bind(this);
-        init();
-        setListener();
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void initView() {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+            //使状态栏透明
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            //使导航栏透明getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
+        setSupportActionBar(mToolBar);
+        initDrawer();
+        initNavigationView();
+    }
+
+    @Override
+    protected void initListener() {
+        fab.setOnClickListener(v -> toSearchDialog());
+        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    //通过当前Fragment决定搜索或选择城市时在哪个位置更改
+                    case 0:
+                        mThisPage = C.Tag_CITY_0;
+                        break;
+                    case 1:
+                        mThisPage = C.Tag_CITY_1;
+                        break;
+                    case 2:
+                        mThisPage = C.Tag_CITY_2;
+                        break;
+                    case 3:
+                        mThisPage = C.Tag_CITY_3;
+                        break;
+                    case 4:
+                        mThisPage = C.Tag_CITY_4;
+                        break;
+                    case 5:
+                        mThisPage = C.Tag_CITY_5;
+                        break;
+                    default:
+                }
+                String titleStr;
+                if (position == 0) {
+                    titleStr = SharedPreferenceUtil.getInstance().getCityName();
+                } else {
+                    titleStr = cityList.get(position - 1);
+                }
+                mPageNum = position;
+                safeSetTitle(titleStr);
+            }
+        });
+    }
+
+    @Override
+    protected void initData(@Nullable Bundle savedInstanceState) {
+        syncCity();
+        String cCity = SharedPreferenceUtil.getInstance().getCityName();
+        if ("".equals(cCity) || cCity == null)//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值进行初始赋值
+        {
+            initLocation();
+        }
     }
 
     @Override
@@ -137,48 +198,6 @@ public class WeatherMain extends AppCompatActivity
     protected void onPause() {
         super.onPause();
         mDrawerLayout.closeDrawers();
-    }
-
-    /**
-     * 绑定监听事件
-     */
-    public void setListener() {
-        fab.setOnClickListener(v -> toSearchDialog());
-        mViewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                switch (position) {
-                    //通过当前Fragment决定搜索或选择城市时在哪个位置更改
-                    case 0:
-                        mThisPage = C.Tag_CITY_0;
-                        break;
-                    case 1:
-                        mThisPage = C.Tag_CITY_1;
-                        break;
-                    case 2:
-                        mThisPage = C.Tag_CITY_2;
-                        break;
-                    case 3:
-                        mThisPage = C.Tag_CITY_3;
-                        break;
-                    case 4:
-                        mThisPage = C.Tag_CITY_4;
-                        break;
-                    case 5:
-                        mThisPage = C.Tag_CITY_5;
-                        break;
-                    default:
-                }
-                String titleStr;
-                if (position == 0) {
-                    titleStr = SharedPreferenceUtil.getInstance().getCityName();
-                } else {
-                    titleStr = cityList.get(position - 1);
-                }
-                mPageNum = position;
-                safeSetTitle(titleStr);
-            }
-        });
     }
 
     @Override
@@ -334,40 +353,9 @@ public class WeatherMain extends AppCompatActivity
         DBManager.getInstance().closeDatabase();
     }
 
-    /**
-     * 初始化各个变量
-     */
-    public void init() {
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
-            //使状态栏透明
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            //使导航栏透明getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        }
-        setSupportActionBar(mToolBar);
-        initDrawer();
-        initNavigationView();
-//        mFloatingActionMenu.setupWithDimmingView(findViewById(R.id.dimming_view), Color.parseColor("#42000000"));
-        syncCity();
-        String cCity = SharedPreferenceUtil.getInstance().getCityName();
-        if ("".equals(cCity) || cCity == null)//判断SharedPreference中存储的是否为空，即如果第一次执行程序不会变为空值进行初始赋值
-        {
-            initLocation();
-        }
-    }
-
     private void initLocation() {
         mLocationClient = new LocationClient(getApplicationContext());
         mLocationClient.registerLocationListener(new MyLocationListener());
-        /*RxPermissions rxPermissions = new RxPermissions(WeatherMain.this);
-        rxPermissions
-                .request(Manifest.permission.ACCESS_FINE_LOCATION)
-                .subscribe(granted -> {
-                    if (granted) { // Always true pre-M
-                        // I can control the camera now
-                    } else {
-                        // Oups permission denied
-                    }
-                });*/
         List<String> permissionList = new ArrayList<>();
         if (ContextCompat.checkSelfPermission(WeatherMain.this, android.Manifest
                 .permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {

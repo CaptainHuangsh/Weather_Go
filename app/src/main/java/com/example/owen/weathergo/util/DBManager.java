@@ -9,7 +9,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.owen.weathergo.R;
-import com.example.owen.weathergo.common.base.BaseApplication;
+import com.example.owen.weathergo.WeatherApplication;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -70,7 +70,7 @@ public class DBManager {
 
                     //如果是city.db的话，从raw中导入；否则按正常方法
                     //判断数据库文件是否存在，若不存在则执行导入，否则直接打开数据库
-                    InputStream is = BaseApplication.getAppContext().getResources().openRawResource(R.raw.china_city); //欲导入的数据库
+                    InputStream is = WeatherApplication.getContext().getResources().openRawResource(R.raw.china_city); //欲导入的数据库
                     FileOutputStream fos = new FileOutputStream(DB_PATH + "/" + dbfile);
                     int BUFFER_SIZE = 400000;
                     byte[] buffer = new byte[BUFFER_SIZE];
@@ -81,7 +81,7 @@ public class DBManager {
                     fos.close();
                     is.close();
                 } else {
-                    MyDatabaseHelper dpHelper = new MyDatabaseHelper(BaseApplication.getAppContext(), "create table MultiCities(" +
+                    MyDatabaseHelper dpHelper = new MyDatabaseHelper(WeatherApplication.getContext(), "create table MultiCities(" +
                             "id integer primary key autoincrement," +
                             "city text)"
                             , dbfile, null, 1);

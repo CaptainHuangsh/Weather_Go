@@ -4,7 +4,7 @@ import android.app.Notification;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.example.owen.weathergo.common.base.BaseApplication;
+import com.example.owen.weathergo.WeatherApplication;
 
 /**
  * Created by owen on 2017/4/8.
@@ -33,7 +33,7 @@ public class SharedPreferenceUtil {
     }
 
     private SharedPreferenceUtil() {
-        mSharedPreference = BaseApplication.getAppContext().getSharedPreferences("huang", Context.MODE_PRIVATE);
+        mSharedPreference = WeatherApplication.getContext().getSharedPreferences("huang", Context.MODE_PRIVATE);
 
     }
 
