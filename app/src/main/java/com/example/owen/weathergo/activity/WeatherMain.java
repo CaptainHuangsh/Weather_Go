@@ -22,7 +22,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -58,7 +57,7 @@ public class WeatherMain extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     /**
-     * 程序入口，主Activity类
+     * 程序入口
      */
 
     //TODO 设置推送并震动
@@ -259,7 +258,7 @@ public class WeatherMain extends BaseActivity
     private void syncCity() {
         HomePagerAdapter mHomePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
         MainFragment mf = new MainFragment();
-        Log.d("WeatherMainhuang", " syncCity " + mf);
+        Log.d(TAG, " syncCity " + mf);
         mHomePagerAdapter.addTab(mf, SharedPreferenceUtil.getInstance().getCityName());
         cityList.clear();
         DBManager.getInstance().openDatabase(DBManager.WEATHER_DB_NAME);
@@ -425,7 +424,6 @@ public class WeatherMain extends BaseActivity
     public void initDrawer() {
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolBar, R.string.open, R.string.close);
         mDrawerToggle.syncState();
-        //mDrawerLayout.setDrawerListener(mDrawerToggle);
         //旧版本可能会空指针
         mDrawerLayout.addDrawerListener(mDrawerToggle);
     }

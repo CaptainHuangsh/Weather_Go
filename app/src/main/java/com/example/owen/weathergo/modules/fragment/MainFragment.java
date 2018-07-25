@@ -65,7 +65,6 @@ public class MainFragment extends Fragment {
     private View view;
     private Weather mWeather;
     private int mToastSuccess;
-    private int times = 0;
 
     private Handler mHandler = new Handler() {
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
